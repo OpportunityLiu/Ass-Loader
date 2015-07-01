@@ -1,0 +1,26 @@
+﻿<Page x:Name="page" x:Class="StoreDemo.MainPage" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:local="using:StoreDemo" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d">
+
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="1*" />
+            <RowDefinition Height="8*" />
+        </Grid.RowDefinitions>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="10*" />
+                <ColumnDefinition Width="1*" />
+                <ColumnDefinition Width="1*" />
+            </Grid.ColumnDefinitions>
+            <TextBlock x:Name="header" Margin="20" TextWrapping="Wrap" Text="{Binding ScriptInfo.Title, TargetNullValue=Subtitle Editor, FallbackValue=Subtitle Editor}" Style="{ThemeResource HeaderTextBlockStyle}" />
+            <Button x:Name="bopen" Content="Open" Grid.Column="1" HorizontalAlignment="Center" Click="open_Click" />
+            <Button x:Name="bclose" Content="Close" Grid.Column="2" HorizontalAlignment="Center" Click="close_Click" IsEnabled="False"/>
+        </Grid>
+        <ListView x:Name="content" Margin="20" Grid.Row="1" ItemsSource="{Binding EventCollection}">
+            <ListView.ItemTemplate>
+                <DataTemplate VirtualizingStackPanel.VirtualizationMode="Recycling">
+                    <TextBlock Text="{Binding Text}"/>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+    </Grid>
+</Page>
