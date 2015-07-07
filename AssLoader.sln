@@ -7,8 +7,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test", "Test\Test.csproj", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AssLoader", "AssLoader\AssLoader.csproj", "{4E3F3026-100A-4349-A67D-E41F3EE1EFED}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StoreDemo", "StoreDemo\StoreDemo.csproj", "{E86A4A98-29C0-4DCC-B545-7AE5CD9CCA81}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PerformanceAnalyzeHelper", "PerformanceAnalyzeHelper\PerformanceAnalyzeHelper.csproj", "{CE20151A-5E8A-43DA-B892-55BA029BED3D}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UWPTest", "UWPTest\UWPTest.csproj", "{8ECF7493-CC0F-4153-B3C5-7978E9F3B318}"
@@ -47,30 +45,6 @@ Global
 		{4E3F3026-100A-4349-A67D-E41F3EE1EFED}.Release|ARM.ActiveCfg = Release|Any CPU
 		{4E3F3026-100A-4349-A67D-E41F3EE1EFED}.Release|x64.ActiveCfg = Release|Any CPU
 		{4E3F3026-100A-4349-A67D-E41F3EE1EFED}.Release|x86.ActiveCfg = Release|Any CPU
-		{E86A4A98-29C0-4DCC-B545-7AE5CD9CCA81}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{E86A4A98-29C0-4DCC-B545-7AE5CD9CCA81}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{E86A4A98-29C0-4DCC-B545-7AE5CD9CCA81}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
-		{E86A4A98-29C0-4DCC-B545-7AE5CD9CCA81}.Debug|ARM.ActiveCfg = Debug|ARM
-		{E86A4A98-29C0-4DCC-B545-7AE5CD9CCA81}.Debug|ARM.Build.0 = Debug|ARM
-		{E86A4A98-29C0-4DCC-B545-7AE5CD9CCA81}.Debug|ARM.Deploy.0 = Debug|ARM
-		{E86A4A98-29C0-4DCC-B545-7AE5CD9CCA81}.Debug|x64.ActiveCfg = Debug|x64
-		{E86A4A98-29C0-4DCC-B545-7AE5CD9CCA81}.Debug|x64.Build.0 = Debug|x64
-		{E86A4A98-29C0-4DCC-B545-7AE5CD9CCA81}.Debug|x64.Deploy.0 = Debug|x64
-		{E86A4A98-29C0-4DCC-B545-7AE5CD9CCA81}.Debug|x86.ActiveCfg = Debug|x86
-		{E86A4A98-29C0-4DCC-B545-7AE5CD9CCA81}.Debug|x86.Build.0 = Debug|x86
-		{E86A4A98-29C0-4DCC-B545-7AE5CD9CCA81}.Debug|x86.Deploy.0 = Debug|x86
-		{E86A4A98-29C0-4DCC-B545-7AE5CD9CCA81}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{E86A4A98-29C0-4DCC-B545-7AE5CD9CCA81}.Release|Any CPU.Build.0 = Release|Any CPU
-		{E86A4A98-29C0-4DCC-B545-7AE5CD9CCA81}.Release|Any CPU.Deploy.0 = Release|Any CPU
-		{E86A4A98-29C0-4DCC-B545-7AE5CD9CCA81}.Release|ARM.ActiveCfg = Release|ARM
-		{E86A4A98-29C0-4DCC-B545-7AE5CD9CCA81}.Release|ARM.Build.0 = Release|ARM
-		{E86A4A98-29C0-4DCC-B545-7AE5CD9CCA81}.Release|ARM.Deploy.0 = Release|ARM
-		{E86A4A98-29C0-4DCC-B545-7AE5CD9CCA81}.Release|x64.ActiveCfg = Release|x64
-		{E86A4A98-29C0-4DCC-B545-7AE5CD9CCA81}.Release|x64.Build.0 = Release|x64
-		{E86A4A98-29C0-4DCC-B545-7AE5CD9CCA81}.Release|x64.Deploy.0 = Release|x64
-		{E86A4A98-29C0-4DCC-B545-7AE5CD9CCA81}.Release|x86.ActiveCfg = Release|x86
-		{E86A4A98-29C0-4DCC-B545-7AE5CD9CCA81}.Release|x86.Build.0 = Release|x86
-		{E86A4A98-29C0-4DCC-B545-7AE5CD9CCA81}.Release|x86.Deploy.0 = Release|x86
 		{CE20151A-5E8A-43DA-B892-55BA029BED3D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{CE20151A-5E8A-43DA-B892-55BA029BED3D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CE20151A-5E8A-43DA-B892-55BA029BED3D}.Debug|ARM.ActiveCfg = Debug|Any CPU
@@ -126,7 +100,7 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(TeamFoundationVersionControl) = preSolution
-		SccNumberOfProjects = 7
+		SccNumberOfProjects = 6
 		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
 		SccTeamFoundationServer = https://tfs.codeplex.com/tfs/tfs40
 		SccLocalPath0 = .
@@ -139,14 +113,11 @@ Global
 		SccProjectUniqueName3 = PerformanceAnalyzeHelper\\PerformanceAnalyzeHelper.csproj
 		SccProjectName3 = PerformanceAnalyzeHelper
 		SccLocalPath3 = PerformanceAnalyzeHelper
-		SccProjectUniqueName4 = StoreDemo\\StoreDemo.csproj
-		SccProjectName4 = StoreDemo
-		SccLocalPath4 = StoreDemo
-		SccProjectUniqueName5 = Test\\Test.csproj
-		SccProjectName5 = Test
-		SccLocalPath5 = Test
-		SccProjectUniqueName6 = UWPTest\\UWPTest.csproj
-		SccProjectName6 = UWPTest
-		SccLocalPath6 = UWPTest
+		SccProjectUniqueName4 = Test\\Test.csproj
+		SccProjectName4 = Test
+		SccLocalPath4 = Test
+		SccProjectUniqueName5 = UWPTest\\UWPTest.csproj
+		SccProjectName5 = UWPTest
+		SccLocalPath5 = UWPTest
 	EndGlobalSection
 EndGlobal
