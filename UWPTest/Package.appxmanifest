@@ -1,0 +1,44 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Package
+  xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10"
+  xmlns:mp="http://schemas.microsoft.com/appx/2014/phone/manifest"
+  xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10"
+  IgnorableNamespaces="uap mp">
+
+    <Identity Name="e7fb0158-ae7c-4777-8f1d-fa99157b2b30"
+              Publisher="CN=liuzh"
+              Version="1.0.0.0" />
+
+    <mp:PhoneIdentity PhoneProductId="e7fb0158-ae7c-4777-8f1d-fa99157b2b30" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
+
+    <Properties>
+        <DisplayName>UWPTest</DisplayName>
+        <PublisherDisplayName>liuzh</PublisherDisplayName>
+        <Logo>Assets\StoreLogo.png</Logo>
+    </Properties>
+
+    <Dependencies>
+        <TargetDeviceFamily Name="Windows.Universal" MinVersion="10.0.10069.0" MaxVersionTested="10.0.10069.0" />
+    </Dependencies>
+
+    <Resources>
+        <Resource Language="x-generate" />
+    </Resources>
+    <Applications>
+        <Application Id="vstest.executionengine.universal.App"
+            Executable="vstest.executionengine.appcontainer.uap.exe"
+            EntryPoint="Microsoft.VisualStudio.TestPlatform.TestExecutor.AppContainer.App">
+            <uap:VisualElements
+              DisplayName="UWPTest"
+              Square150x150Logo="Assets\Logo.png"
+              Square44x44Logo="Assets\SmallLogo.png"
+              Description="UWPTest"
+              BackgroundColor="#464646">
+                <uap:SplashScreen Image="Assets\SplashScreen.png" />
+            </uap:VisualElements>
+        </Application>
+    </Applications>
+    <Capabilities>
+        <Capability Name="internetClientServer" />
+    </Capabilities>
+</Package>
