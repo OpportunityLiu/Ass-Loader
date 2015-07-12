@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AssLoader.Collections;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -159,7 +160,7 @@ namespace AssLoader
             }
         }
 
-        internal readonly static EntryHeader StyleFormat = new EntryHeader("Name,Fontname,Fontsize,PrimaryColour,SecondaryColour,OutlineColour,BackColour,Bold,Italic,Underline,StrikeOut,ScaleX,ScaleY,Spacing,Angle,BorderStyle,Outline,Shadow,Alignment,MarginL,MarginR,MarginV,Encoding");
+        internal readonly static EntryHeader StyleFormat = new EntryHeader("Name,Fontname,Fontsize,PrimaryColour,SecondaryColour,OutlineColour,BackColour,Bold,Italic,Underline,Strikeout,ScaleX,ScaleY,Spacing,Angle,BorderStyle,Outline,Shadow,Alignment,MarginL,MarginR,MarginV,Encoding");
 
         internal readonly static EntryHeader EventFormat = new EntryHeader("Layer,Start,End,Style,Name,MarginL,MarginR,MarginV,Effect,Text");
     }

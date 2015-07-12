@@ -10,8 +10,14 @@ using System.Threading;
 
 namespace AssLoader
 {
+    /// <summary>
+    /// Entry of ass file.
+    /// </summary>
     public abstract class Entry : INotifyPropertyChanged
     {
+        /// <summary>
+        /// Create new instance of <see cref="Entry"/>.
+        /// </summary>
         protected Entry()
         {
             var type = this.GetType();
@@ -42,11 +48,20 @@ namespace AssLoader
 
         private Dictionary<string, FieldSerializeHelper> fieldInfo;
 
+        /// <summary>
+        /// Name of this <see cref="Entry"/>.
+        /// </summary>
         protected abstract string EntryName
         {
             get;
         }
 
+        /// <summary>
+        /// Returns the ass form of this <see cref="Entry"/>, with the given <paramref name="format"/>.
+        /// </summary>
+        /// <param name="format">The <see cref="EntryHeader"/> presents its format.</param>
+        /// <returns>The <see cref="string"/> presents this <see cref="Entry"/>.</returns>
+        /// <exception cref="ArgumentNullException"><paramref name="format"/> is null.</exception>
         public string Serialize(EntryHeader format)
         {
             ThrowHelper.ThrowIfNull(format, "format");
@@ -54,8 +69,17 @@ namespace AssLoader
             return string.Format(FormatHelper.DefaultFormat, "{0}: {1}", EntryName, r.ToString());
         }
 
+        /// <summary>
+        /// Parse from <paramref name="fields"/>, deserialize and save to this <see cref="Entry"/>.
+        /// </summary>
+        /// <param name="fields">A <see cref="string"/> of fields that seperates with ','.</param>
+        /// <param name="format">The <see cref="EntryHeader"/> presents its format.</param>
+        /// <exception cref="ArgumentNullException">Parameters are null or empty.</exception>
+        /// <exception cref="FormatException">Deserialize failed for some fields.</exception>
         protected void Parse(string fields, EntryHeader format)
         {
+            ThrowHelper.ThrowIfNull(format, "format");
+            ThrowHelper.ThrowIfNullOrEmpty(fields, "fields");
             var data = new EntryData(fields, format.Count);
             for(int i = 0; i < format.Count; i++)
             {
@@ -66,13 +90,30 @@ namespace AssLoader
             }
         }
 
+        /// <summary>
+        /// Parse exactly from <paramref name="fields"/>, deserialize and save to this <see cref="Entry"/>.
+        /// </summary>
+        /// <param name="fields">A <see cref="string"/> of fields that seperates with ','.</param>
+        /// <param name="format">The <see cref="EntryHeader"/> presents its format.</param>
+        /// <exception cref="ArgumentNullException">Parameters are null or empty.</exception>
+        /// <exception cref="FormatException">Deserialize failed for some fields.</exception>
+        /// <exception cref="KeyNotFoundException">
+        /// Fields of <see cref="Entry"/> and fields of <paramref name="format"/> doesn't match
+        /// </exception>
         protected void ParseExact(string fields, EntryHeader format)
         {
+            ThrowHelper.ThrowIfNull(format, "format");
+            ThrowHelper.ThrowIfNullOrEmpty(fields, "fields");
             var data = new EntryData(fields, format.Count);
             for(int i = 0; i < format.Count; i++)
                 fieldInfo[format[i]].Deserialize(this, data[i]);
         }
 
+        /// <summary>
+        /// Make a copy of this <typeparamref name="T"/>.
+        /// </summary>
+        /// <typeparam name="T">A subclass of <see cref="Entry"/>.</typeparam>
+        /// <returns>A copy of this <typeparamref name="T"/>.</returns>
         protected T Clone<T>() where T : Entry, new()
         {
             var re = new T();

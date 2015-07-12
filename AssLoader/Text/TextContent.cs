@@ -7,6 +7,9 @@ using System.Collections.ObjectModel;
 
 namespace AssLoader
 {
+    /// <summary>
+    /// Text of <see cref="SubEvent"/>, support methods to modify the text.
+    /// </summary>
     public sealed class TextContent : IEquatable<TextContent>
     {
         private static readonly string[] sep = new[] { "\r\n", "\r", "\n" };
@@ -15,6 +18,11 @@ namespace AssLoader
         {
         }
 
+        /// <summary>
+        /// Create new instance of <see cref="TextContent"/> with <paramref name="value"/> as its content.
+        /// Line breaks in <paramref name="value"/> will be replaced by @"\N".
+        /// </summary>
+        /// <param name="value">The content of text.</param>
         public TextContent(string value)
         {
             if(string.IsNullOrEmpty(value))
@@ -62,8 +70,8 @@ namespace AssLoader
             else
                 stext.Add(Value.Substring(start));
             this.splitedTexts = stext.ToArray();
-            this.Tags = new TagsList(splitedTexts);
-            this.Texts = new TextsList(splitedTexts);
+            this.Tags = new TagList(splitedTexts);
+            this.Texts = new TextList(splitedTexts);
         }
 
         internal static TextContent Parse(string value)
@@ -86,12 +94,12 @@ namespace AssLoader
             private set;
         }
 
-        public struct TextsList : IReadOnlyList<string>
+        public struct TextList : IReadOnlyList<string>
         {
             private string[] texts;
             private int max;
 
-            internal TextsList(string[] texts)
+            internal TextList(string[] texts)
             {
                 this.texts = texts;
                 this.max = texts.Length / 2 + 1;
@@ -133,12 +141,12 @@ namespace AssLoader
             #endregion
         }
 
-        public struct TagsList : IReadOnlyList<string>
+        public struct TagList : IReadOnlyList<string>
         {
             private string[] texts;
             private int max;
 
-            internal TagsList(string[] texts)
+            internal TagList(string[] texts)
             {
                 this.texts = texts;
                 this.max = texts.Length / 2;
@@ -180,13 +188,13 @@ namespace AssLoader
             #endregion
         }
 
-        public TagsList Tags
+        public TagList Tags
         {
             get;
             private set;
         }
 
-        public TextsList Texts
+        public TextList Texts
         {
             get;
             private set;
@@ -240,7 +248,7 @@ namespace AssLoader
             }
             return builder.ToString();
         }
-
+        
         public TextContent ReplaceTag(int index, string newTag)
         {
             newTag = newTag ?? "";
@@ -263,38 +271,73 @@ namespace AssLoader
             return builder.ToString();
         }
 
-        public static implicit operator string (TextContent value) => value.Value;
+        /// <summary>
+        /// Convert a <see cref="TextContent"/> to <see cref="string"/>.
+        /// </summary>
+        /// <param name="value">The <see cref="TextContent"/> to convert.</param>
+        /// <returns><see cref="Value"/> of <paramref name="value"/>.</returns>
+        public static implicit operator string (TextContent value) => value?.Value;
 
+        /// <summary>
+        /// Convert a <see cref="string"/> to <see cref="TextContent"/>.
+        /// Line breaks in <paramref name="value"/> will be replaced by @"\N".
+        /// </summary>
+        /// <param name="value">The content of text.</param>
+        /// <returns>A new instance of <see cref="TextContent"/> made by <see cref="TextContent(string)"/>.</returns>
         public static implicit operator TextContent(string value) => new TextContent(value);
 
-        public static bool operator ==(TextContent a, TextContent b)
+        /// <summary>
+        /// Returns whatever two <see cref="TextContent"/> are equal.
+        /// </summary>
+        /// <param name="left">The first <see cref="TextContent"/> to compare.</param>
+        /// <param name="right">The second <see cref="TextContent"/> to compare.</param>
+        /// <returns>True if the two <see cref="TextContent"/> are equal.</returns>
+        public static bool operator ==(TextContent left, TextContent right)
         {
-            if(a != null)
-                return a.Equals(b);
-            else
-                return b == null;
+            return left?.Value == right?.Value;
         }
 
-        public static bool operator !=(TextContent a, TextContent b)
+        /// <summary>
+        /// Returns whatever two <see cref="TextContent"/> are not equal.
+        /// </summary>
+        /// <param name="left">The first <see cref="TextContent"/> to compare.</param>
+        /// <param name="right">The second <see cref="TextContent"/> to compare.</param>
+        /// <returns>True if the two <see cref="TextContent"/> are not equal.</returns>
+        public static bool operator !=(TextContent left, TextContent right)
         {
-            return !(a == b);
+            return left?.Value != right?.Value;
         }
 
         #region IEquatable<TextContent> 成员
 
+        /// <summary>
+        /// Returns whatever two <see cref="TextContent"/> are equal.
+        /// </summary>
+        /// <param name="other">The <see cref="TextContent"/> to compare with this <see cref="TextContent"/>.</param>
+        /// <returns>True if the two <see cref="TextContent"/> are equal.</returns>
         public bool Equals(TextContent other)
         {
-            if(other == null)
-                return false;
-            return other.Value == this.Value;
+            return other?.Value == this.Value;
         }
 
         #endregion
 
+        /// <summary>
+        /// Returns whatever two <see cref="TextContent"/> are equal.
+        /// </summary>
+        /// <param name="obj">The <see cref="object"/> to compare with this <see cref="TextContent"/>.</param>
+        /// <returns>True if the two <see cref="TextContent"/> are equal.</returns>
         public override bool Equals(object obj) => Equals(obj as TextContent);
 
+        /// <summary>
+        /// Returns the hash code of the <see cref="TextContent"/>.
+        /// </summary>
+        /// <returns>The hash code of the <see cref="TextContent"/>.</returns>
         public override int GetHashCode() => Value.GetHashCode();
 
+        /// <summary>
+        /// Empty <see cref="TextContent"/>, whose <see cref="Value"/> is <see cref="string.Empty"/>.
+        /// </summary>
         public static readonly TextContent Empty = "";
     }
 }

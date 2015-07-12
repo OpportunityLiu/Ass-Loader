@@ -4,6 +4,7 @@ using AssLoader;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Linq;
 using System.Collections.Generic;
+using AssLoader.Collections;
 
 namespace Test
 {

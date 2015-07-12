@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using AssLoader;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Diagnostics;
+using AssLoader.Collections;
 
 namespace Test
 {
