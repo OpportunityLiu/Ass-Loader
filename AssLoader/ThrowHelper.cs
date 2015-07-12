@@ -38,6 +38,8 @@ namespace AssLoader
 
         public static void ThrowIfLessThanZero(double value, string paramName)
         {
+            if(double.IsNaN(value) || double.IsInfinity(value))
+                throw new ArgumentException($"{value} is not a valid value.", paramName);
             if(value < 0)
                 throw new ArgumentOutOfRangeException(paramName, paramName + " must greater than 0.");
         }

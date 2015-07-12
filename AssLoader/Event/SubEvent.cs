@@ -116,6 +116,9 @@ namespace AssLoader
         /// <summary>
         /// Layer for this <see cref="SubEvent"/>.
         /// </summary>
+        /// <exception cref="ArgumentOutOfRangeException">
+        /// <paramref name="value"/> is less than 0.
+        /// </exception>
         /// <remarks>
         /// If you override positioning with an override tag so that two or more lines are displayed on top of each other, this field controls which one is drawn where; higher layer numbers are drawn on top of lower ones.
         /// </remarks>
@@ -140,6 +143,12 @@ namespace AssLoader
         /// <summary>
         /// Start time for this <see cref="SubEvent"/>.
         /// </summary>
+        /// <exception cref="ArgumentOutOfRangeException">
+        /// <paramref name="value"/> late than <see cref="EndTime"/>.
+        /// </exception>
+        /// <exception cref="ArgumentException">
+        /// <see cref="DateTime.Kind"/> of <paramref name="value"/> is not <see cref="DateTimeKind.Unspecified"/>.
+        /// </exception>
         public DateTime StartTime
         {
             get
@@ -150,8 +159,8 @@ namespace AssLoader
             {
                 if(value.Kind != DateTimeKind.Unspecified)
                     throw new ArgumentException("Specified datetime isn't needed.");
-                if(value >= endTime)
-                    startTime = endTime;
+                if(value > endTime)
+                    throw new ArgumentOutOfRangeException("value", "StartTime must earlier than EndTime.");
                 else
                     startTime = value;
                 PropertyChanging();
@@ -165,6 +174,12 @@ namespace AssLoader
         /// <summary>
         /// End time for this <see cref="SubEvent"/>.
         /// </summary>
+        /// <exception cref="ArgumentOutOfRangeException">
+        /// <paramref name="value"/> earlier than <see cref="StartTime"/>.
+        /// </exception>
+        /// <exception cref="ArgumentException">
+        /// <see cref="DateTime.Kind"/> of <paramref name="value"/> is not <see cref="DateTimeKind.Unspecified"/>.
+        /// </exception>
         public DateTime EndTime
         {
             get
@@ -175,8 +190,8 @@ namespace AssLoader
             {
                 if(value.Kind != DateTimeKind.Unspecified)
                     throw new ArgumentException("Specified datetime isn't needed.");
-                if(value <= startTime)
-                    endTime = startTime;
+                if(value < startTime)
+                    throw new ArgumentOutOfRangeException("value", "StartTime must earlier than EndTime.");
                 else
                     endTime = value;
                 PropertyChanging();
@@ -189,6 +204,7 @@ namespace AssLoader
         /// <summary>
         /// <see cref="Style.Name"/> of the <see cref="AssLoader.Style"/> used for this <see cref="SubEvent"/>.
         /// </summary>
+        /// <exception cref="ArgumentException"><paramref name="value"/> contains line breaks.</exception>
         public string Style
         {
             get
@@ -211,6 +227,7 @@ namespace AssLoader
         /// <summary>
         /// The actor speaking this line.
         /// </summary>
+        /// <exception cref="ArgumentException"><paramref name="value"/> contains line breaks.</exception>
         /// <remarks>
         /// Has no actual effect on subtitle display but can be useful for editing purposes.
         /// </remarks>
@@ -237,6 +254,9 @@ namespace AssLoader
         /// Left margin of the <see cref="SubEvent"/>.
         /// 0 means use the margin specified in the <see cref="Style"/>.
         /// </summary>
+        /// <exception cref="ArgumentOutOfRangeException">
+        /// <paramref name="value"/> is less than 0.
+        /// </exception>
         public int MarginL
         {
             get
@@ -258,6 +278,9 @@ namespace AssLoader
         /// Right margin of the <see cref="SubEvent"/>.
         /// 0 means use the margin specified in the <see cref="Style"/>.
         /// </summary>
+        /// <exception cref="ArgumentOutOfRangeException">
+        /// <paramref name="value"/> is less than 0.
+        /// </exception>
         public int MarginR
         {
             get
@@ -279,6 +302,9 @@ namespace AssLoader
         /// Vetical margin of the <see cref="SubEvent"/>.
         /// 0 means use the margin specified in the <see cref="Style"/>.
         /// </summary>
+        /// <exception cref="ArgumentOutOfRangeException">
+        /// <paramref name="value"/> is less than 0.
+        /// </exception>
         public int MarginV
         {
             get
@@ -299,6 +325,7 @@ namespace AssLoader
         /// <summary>
         /// Effect for this <see cref="SubEvent"/>.
         /// </summary>
+        /// <exception cref="ArgumentException"><paramref name="value"/> contains line breaks.</exception>
         /// <remarks>
         /// There are a few predefined effects which can be applied via this field,
         /// but renderer support for them is spotty and using override tags is nearly always a better idea.
