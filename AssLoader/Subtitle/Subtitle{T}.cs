@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.IO;
 using System.Reflection;
+using AssLoader.Collections;
 
 namespace AssLoader
 {
@@ -53,14 +54,14 @@ namespace AssLoader
 
         private void saveStyle(TextWriter writer)
         {
-            writer.WriteLine(Subtitle.StyleFormat);
+            writer.WriteLine(Subtitle.StyleFormat.ToString());
             foreach(var item in StyleDictionary.Values)
                 writer.WriteLine(item.Serialize(Subtitle.StyleFormat));
         }
 
         private void saveEvent(TextWriter writer)
         {
-            writer.WriteLine(Subtitle.EventFormat);
+            writer.WriteLine(Subtitle.EventFormat.ToString());
             foreach(var item in EventCollection)
                 writer.WriteLine(item.Serialize(Subtitle.EventFormat));
         }

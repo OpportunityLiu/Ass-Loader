@@ -10,10 +10,16 @@ using AssLoader.Serializer;
 using System.Collections.Specialized;
 using System.ComponentModel;
 
-namespace AssLoader
+namespace AssLoader.Collections
 {
+    /// <summary>
+    /// Container of the "script info" section.
+    /// </summary>
     public abstract class ScriptInfoCollection : IDictionary<string, string>, INotifyPropertyChanged
     {
+        /// <summary>
+        /// Create new instance of <see cref="ScriptInfoCollection"/>.
+        /// </summary>
         protected ScriptInfoCollection()
         {
             var type = this.GetType();
@@ -51,6 +57,11 @@ namespace AssLoader
             }
         }
 
+        /// <summary>
+        /// Write info of this <see cref="ScriptInfoCollection"/> to <paramref name="writer"/>.
+        /// </summary>
+        /// <param name="writer">A <see cref="TextWriter"/> to write into.</param>
+        /// <exception cref="ArgumentNullException"><paramref name="writer"/> is null.</exception>
         public void Serialize(TextWriter writer)
         {
             ThrowHelper.ThrowIfNull(writer, "writer");
@@ -73,12 +84,22 @@ namespace AssLoader
 
         private Dictionary<string, string> undefinedFields = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
 
+        /// <summary>
+        /// Fields that undifined in this <see cref="ScriptInfoCollection"/>.
+        /// </summary>
         public IReadOnlyDictionary<string, string> UndefinedFields
         {
             get;
             private set;
         }
 
+        /// <summary>
+        /// Add a key-value pair into <see cref="UndefinedFields"/>.
+        /// </summary>
+        /// <param name="key">Key to add.</param>
+        /// <param name="value">Value to add.</param>
+        /// <exception cref="ArgumentNullException"><paramref name="key"/> is null.</exception>
+        /// <exception cref="ArgumentException"><paramref name="key"/> is in the <see cref="ScriptInfoCollection"/>.</exception>
         public void Add(string key, string value)
         {
             if(this.ContainsKey(key))
@@ -86,16 +107,33 @@ namespace AssLoader
             this.undefinedFields[key] = value;
         }
 
+        /// <summary>
+        /// Make sure this <see cref="ScriptInfoCollection"/> contains <paramref name="key"/>.
+        /// </summary>
+        /// <param name="key">The key to find in <see cref="ScriptInfoCollection"/>.</param>
+        /// <returns>True if <paramref name="key"/> found in defined fields or <see cref="UndefinedFields"/>.</returns>
         public bool ContainsKey(string key)
         {
             return undefinedFields.ContainsKey(key) || scriptInfoFields.ContainsKey(key);
         }
 
+        /// <summary>
+        /// Remove the key-value pair in <see cref="UndefinedFields"/>.
+        /// </summary>
+        /// <param name="key">The key of value to remove.</param>
+        /// <exception cref="ArgumentNullException"><paramref name="key"/> is null.</exception>
+        /// <returns>True if value removed sucessfully.</returns>
         public bool Remove(string key)
         {
             return undefinedFields.Remove(key);
         }
 
+        /// <summary>
+        /// Try to get the string form of value.
+        /// </summary>
+        /// <param name="key">The key of value to get.</param>
+        /// <param name="value">The string form of value if <paramref name="key"/> found in the <see cref="ScriptInfoCollection"/>.</param>
+        /// <returns>True if <paramref name="key"/> found in the <see cref="ScriptInfoCollection"/>.</returns>
         public bool TryGetValue(string key, out string value)
         {
             string s;
@@ -114,6 +152,17 @@ namespace AssLoader
             return false;
         }
 
+        /// <summary>
+        /// Get or set value of the key.
+        /// </summary>
+        /// <param name="key">The key of value.</param>
+        /// <param name="value">The string form of value.</param>
+        /// <exception cref="KeyNotFoundException">
+        /// <paramref name="key"/> doesn't found in the <see cref="ScriptInfoCollection"/> during getting value.
+        /// </exception>
+        /// <exception cref="InvalidOperationException">
+        /// <paramref name="key"/> is found in the defined fields of this <see cref="ScriptInfoCollection"/> during setting value.
+        /// </exception>
         public string this[string key]
         {
             get
@@ -132,6 +181,9 @@ namespace AssLoader
             }
         }
 
+        /// <summary>
+        /// Remove all key-value pairs in <see cref="UndefinedFields"/>.
+        /// </summary>
         public void Clear()
         {
             undefinedFields.Clear();

@@ -2,7 +2,7 @@
 using System.Linq;
 using AssLoader.Serializer;
 
-namespace AssLoader
+namespace AssLoader.Collections
 {
     /// <summary>
     /// Container of the "script info" section which provides access to common properties of script info.

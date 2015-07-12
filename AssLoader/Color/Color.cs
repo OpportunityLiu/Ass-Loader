@@ -9,7 +9,7 @@ namespace AssLoader
     /// <summary>
     /// Presents a certain color with red, green, blue and transparency channel.
     /// </summary>
-    public struct Color : IEquatable<Color>, IEqualityComparer<Color>
+    public struct Color : IEquatable<Color>
     {
         internal static Color FromUInt32(uint color)
         {
@@ -184,60 +184,35 @@ namespace AssLoader
 
         #endregion
 
-        #region IEqualityComparer<Colour> 成员
-
-        /// <summary>
-        /// Returns whatever two <see cref="Color"/> are equal.
-        /// </summary>
-        /// <param name="x">The first <see cref="Color"/> to compare.</param>
-        /// <param name="y">The second <see cref="Color"/> to compare.</param>
-        /// <returns>True if the two <see cref="Color"/> are equal.</returns>
-        public bool Equals(Color x, Color y)
-        {
-            return x == y;
-        }
-
-        /// <summary>
-        /// Returns the hash code of <paramref name="obj"/>.
-        /// </summary>
-        /// <param name="obj">The <see cref="Color"/> to get hash code.</param>
-        /// <returns>The hash code of <paramref name="obj"/>.</returns>
-        public int GetHashCode(Color obj)
-        {
-            return data.GetHashCode();
-        }
-
-        #endregion
-
         /// <summary>
         /// Returns the hash code of this <see cref="Color"/>.
         /// </summary>
         /// <returns>The hash code of this <see cref="Color"/>.</returns>
         public override int GetHashCode()
         {
-            return GetHashCode(this);
+            return this.data.GetHashCode();
         }
 
         /// <summary>
         /// Returns whatever two <see cref="Color"/> are equal.
         /// </summary>
-        /// <param name="first">The first <see cref="Color"/> to compare.</param>
-        /// <param name="second">The second <see cref="Color"/> to compare.</param>
+        /// <param name="left">The first <see cref="Color"/> to compare.</param>
+        /// <param name="right">The second <see cref="Color"/> to compare.</param>
         /// <returns>True if the two <see cref="Color"/> are equal.</returns>
-        public static bool operator ==(Color first, Color second)
+        public static bool operator ==(Color left, Color right)
         {
-            return first.data == second.data;
+            return left.data == right.data;
         }
 
         /// <summary>
         /// Returns whatever two <see cref="Color"/> are not equal.
         /// </summary>
-        /// <param name="first">The first <see cref="Color"/> to compare.</param>
-        /// <param name="second">The second <see cref="Color"/> to compare.</param>
+        /// <param name="left">The first <see cref="Color"/> to compare.</param>
+        /// <param name="right">The second <see cref="Color"/> to compare.</param>
         /// <returns>True if the two <see cref="Color"/> are not equal.</returns>
-        public static bool operator !=(Color first, Color second)
+        public static bool operator !=(Color left, Color right)
         {
-            return first.data != second.data;
+            return left.data != right.data;
         }
 
         /// <summary>
@@ -249,7 +224,7 @@ namespace AssLoader
         {
             if(obj == null || !(obj is Color))
                 return false;
-            return (Color)obj == this;
+            return Equals((Color)obj);
         }
 
         /// <summary>

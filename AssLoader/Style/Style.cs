@@ -7,33 +7,68 @@ using AssLoader.Serializer;
 
 namespace AssLoader
 {
+    /// <summary>
+    /// Entry of "styles" section.
+    /// </summary>
     public class Style : Entry
     {
+        /// <summary>
+        /// Create new instance of <see cref="Style"/>.
+        /// </summary>
+        public Style()
+        {
+        }
+
+        /// <summary>
+        /// Parse from <paramref name="fields"/>.
+        /// </summary>
+        /// <param name="fields">A <see cref="string"/> of fields that seperates with ','.</param>
+        /// <param name="format">The <see cref="EntryHeader"/> presents its format.</param>
+        /// <returns><see cref="Style"/> presents the <paramref name="fields"/>.</returns>
+        /// <exception cref="ArgumentNullException">Parameters are null or empty.</exception>
+        /// <exception cref="FormatException">Deserialize failed for some fields.</exception>
         public static Style Parse(EntryHeader format, string fields)
         {
-            ThrowHelper.ThrowIfNull(format, "format");
-            ThrowHelper.ThrowIfNullOrEmpty(fields, "fields");
             var re = new Style();
             re.Parse(fields, format);
             return re;
         }
 
+        /// <summary>
+        /// Parse exactly from <paramref name="fields"/>.
+        /// </summary>
+        /// <param name="fields">A <see cref="string"/> of fields that seperates with ','.</param>
+        /// <param name="format">The <see cref="EntryHeader"/> presents its format.</param>
+        /// <returns><see cref="Style"/> presents the <paramref name="fields"/>.</returns>
+        /// <exception cref="ArgumentNullException">Parameters are null or empty.</exception>
+        /// <exception cref="FormatException">Deserialize failed for some fields.</exception>
+        /// <exception cref="KeyNotFoundException">
+        /// Fields of <see cref="Style"/> and fields of <paramref name="format"/> doesn't match
+        /// </exception>
         public static Style ParseExact(EntryHeader format, string fields)
         {
-            ThrowHelper.ThrowIfNull(format, "format");
-            ThrowHelper.ThrowIfNullOrEmpty(fields, "fields");
             var re = new Style();
             re.ParseExact(fields, format);
             return re;
         }
 
+        /// <summary>
+        /// Make a copy with new <see cref="Name"/> of this <see cref="Style"/>.
+        /// </summary>
+        /// <param name="newName">New <see cref="Name"/> of <see cref="Style"/></param>
+        /// <returns>A copy of this <see cref="Style"/>.</returns>
+        /// <exception cref="ArgumentNullException"><paramref name="newName"/> is not a valid <see cref="Name"/>.</exception>
         public Style Clone(string newName)
         {
-            var n = base.Clone<Style>();
+            var n = Clone<Style>();
             n.Name = newName;
             return n;
         }
 
+        /// <summary>
+        /// Return a string form of this <see cref="Style"/> with its <see cref="Name"/>.
+        /// </summary>
+        /// <returns>A string form of this <see cref="Style"/>.</returns>
         public override string ToString()
         {
             return "Style: " + name;
@@ -44,6 +79,9 @@ namespace AssLoader
         [EntryField("Name", DefaultValue = "Default")]
         private string name;
 
+        /// <summary>
+        /// The name of the Style. Case insensitive. ',' will be replaced by ';'.
+        /// </summary>
         public string Name
         {
             get
@@ -63,19 +101,22 @@ namespace AssLoader
         }
 
         [EntryField("Fontname")]
-        private string fontname;
+        private string fontName;
 
-        public string Fontname
+        /// <summary>
+        /// The font name as used by Windows. 
+        /// </summary>
+        public string FontName
         {
             get
             {
-                return fontname;
+                return fontName;
             }
             set
             {
                 if(FormatHelper.FieldStringValueValid(ref value))
                 {
-                    fontname = value;
+                    fontName = value;
                     PropertyChanging();
                 }
                 else
@@ -84,18 +125,21 @@ namespace AssLoader
         }
 
         [EntryField("Fontsize")]
-        private double fontsize = 12;
+        private double fontSize = 12;
 
-        public double Fontsize
+        /// <summary>
+        /// The font size in points.
+        /// </summary>
+        public double FontSize
         {
             get
             {
-                return fontsize;
+                return fontSize;
             }
             set
             {
                 ThrowHelper.ThrowIfLessThanZero(value, "value");
-                fontsize = value;
+                fontSize = value;
                 PropertyChanging();
             }
         }
@@ -104,6 +148,9 @@ namespace AssLoader
         [EntryField("PrimaryColour")]
         private Color primaryColor;
 
+        /// <summary>
+        /// The main fill color of the body of the text.
+        /// </summary>
         public Color PrimaryColor
         {
             get
@@ -121,6 +168,9 @@ namespace AssLoader
         [EntryField("SecondaryColour")]
         private Color secondaryColor;
 
+        /// <summary>
+        /// Secondary fill color, used for karaoke effects 
+        /// </summary>
         public Color SecondaryColor
         {
             get
@@ -138,6 +188,9 @@ namespace AssLoader
         [EntryField("OutlineColour")]
         private Color outlineColor;
 
+        /// <summary>
+        /// The border color of the text.
+        /// </summary>
         public Color OutlineColor
         {
             get
@@ -153,17 +206,20 @@ namespace AssLoader
 
         [ColorSerialize]
         [EntryField("BackColour")]
-        private Color backColor;
+        private Color shadowColor;
 
-        public Color BackColor
+        /// <summary>
+        /// The color of the shadow, which is displayed under the main text and offset by the shadow width defined to the right.
+        /// </summary>
+        public Color ShadowColor
         {
             get
             {
-                return backColor;
+                return shadowColor;
             }
             set
             {
-                backColor = value;
+                shadowColor = value;
                 PropertyChanging();
             }
         }
@@ -171,6 +227,9 @@ namespace AssLoader
         [EntryField("Bold")]
         private int bold;
 
+        /// <summary>
+        /// Defines whether text is bold (true) or not (false). 
+        /// </summary>
         public bool Bold
         {
             get
@@ -190,6 +249,9 @@ namespace AssLoader
         [EntryField("Italic")]
         private int italic;
 
+        /// <summary>
+        /// Defines whether text is italic (true) or not (false). 
+        /// </summary>
         public bool Italic
         {
             get
@@ -209,6 +271,9 @@ namespace AssLoader
         [EntryField("Underline")]
         private int underline;
 
+        /// <summary>
+        /// Defines whether text has an underline (true) or not (false). 
+        /// </summary>
         public bool Underline
         {
             get
@@ -225,21 +290,24 @@ namespace AssLoader
             }
         }
 
-        [EntryField("StrikeOut")]
-        private int strikeOut;
+        [EntryField("Strikeout")]
+        private int strikeout;
 
-        public bool StrikeOut
+        /// <summary>
+        /// Defines whether text has a strikeout (true) or not (false). 
+        /// </summary>
+        public bool Strikeout
         {
             get
             {
-                return strikeOut == -1;
+                return strikeout == -1;
             }
             set
             {
                 if(value)
-                    strikeOut = -1;
+                    strikeout = -1;
                 else
-                    strikeOut = 0;
+                    strikeout = 0;
                 PropertyChanging();
             }
         }
@@ -247,6 +315,9 @@ namespace AssLoader
         [EntryField("ScaleX")]
         private double scaleX = 100;
 
+        /// <summary>
+        /// Text stretching in the horizontal direction in percent.
+        /// </summary>
         public double ScaleX
         {
             get
@@ -264,6 +335,9 @@ namespace AssLoader
         [EntryField("ScaleY")]
         private double scaleY = 100;
 
+        /// <summary>
+        /// Text stretching in the vertical direction in percent.
+        /// </summary>
         public double ScaleY
         {
             get
@@ -281,6 +355,9 @@ namespace AssLoader
         [EntryField("Spacing")]
         private double spacing;
 
+        /// <summary>
+        /// Extra space between characters in pixels.
+        /// </summary>
         public double Spacing
         {
             get
@@ -296,28 +373,34 @@ namespace AssLoader
         }
 
         [EntryField("Angle")]
-        private double angle;
+        private double rotation;
 
-        public double Angle
+        /// <summary>
+        /// The angle of the rotation in degrees.
+        /// </summary>
+        public double Rotation
         {
             get
             {
-                return angle;
+                return rotation;
             }
             set
             {
-                angle = value % 360;
-                if(angle > 180)
-                    angle -= 360;
-                else if(angle < -180)
-                    angle += 360;
+                rotation = value % 360;
+                if(rotation > 180)
+                    rotation -= 360;
+                else if(rotation < -180)
+                    rotation += 360;
                 PropertyChanging();
             }
         }
 
         [EntryField("BorderStyle")]
-        private int borderStyle = (int)AssLoader.BorderStyle.OutlineAndDropShadow;
+        private int borderStyle = (int)BorderStyle.OutlineAndDropShadow;
 
+        /// <summary>
+        /// The style of border.
+        /// </summary>
         public BorderStyle BorderStyle
         {
             get
@@ -342,6 +425,9 @@ namespace AssLoader
         [EntryField("Outline")]
         private double outline;
 
+        /// <summary>
+        /// If <see cref="BorderStyle"/> is <see cref="BorderStyle.OutlineAndDropShadow"/>, this specifies the width of the outline around the text in pixels.
+        /// </summary>
         public double Outline
         {
             get
@@ -359,6 +445,9 @@ namespace AssLoader
         [EntryField("Shadow")]
         private double shadow;
 
+        /// <summary>
+        /// The depth of the drop shadow behind the text, in pixels.
+        /// </summary>
         public double Shadow
         {
             get
@@ -376,6 +465,9 @@ namespace AssLoader
         [EntryField("Alignment")]
         private int alignment = (int)AlignmentStyle.BottomCenter;
 
+        /// <summary>
+        /// The alignment of the text.
+        /// </summary>
         public AlignmentStyle Alignment
         {
             get
@@ -407,6 +499,9 @@ namespace AssLoader
         [EntryField("MarginL")]
         private int marginL;
 
+        /// <summary>
+        /// Left margin of the text.
+        /// </summary>
         public int MarginL
         {
             get
@@ -424,6 +519,9 @@ namespace AssLoader
         [EntryField("MarginR")]
         private int marginR;
 
+        /// <summary>
+        /// Right margin of the text.
+        /// </summary>
         public int MarginR
         {
             get
@@ -441,6 +539,9 @@ namespace AssLoader
         [EntryField("MarginV")]
         private int marginV;
 
+        /// <summary>
+        /// Vetical margin of the text.
+        /// </summary>
         public int MarginV
         {
             get
@@ -458,6 +559,15 @@ namespace AssLoader
         [EntryField("Encoding")]
         private int encoding = 1;
 
+        /// <summary>
+        /// Controls which codepage is used to map codepoints to glyphs.
+        /// </summary>
+        /// <remarks>
+        /// It has nothing to do with the actual text encoding of the script.
+        /// This is only meaningful on Windows using VSFilter, where it is used to get some old(particularly Japanese) fonts without proper Unicode mappings to render properly.
+        /// On other systems and renderers, Freetype2 provides the proper mappings.
+        /// If you didn't understand a word of the above, pretend this setting doesn't exist, as it is rarely important.
+        /// </remarks>
         public int Encoding
         {
             get
@@ -474,6 +584,9 @@ namespace AssLoader
 
         #endregion Fields
 
+        /// <summary>
+        /// Name of this <see cref="Entry"/>, will be "Style".
+        /// </summary>
         protected sealed override string EntryName
         {
             get
