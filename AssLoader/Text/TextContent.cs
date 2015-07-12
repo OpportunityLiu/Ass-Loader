@@ -112,13 +112,7 @@ namespace AssLoader
 
             #region IReadOnlyCollection<string> 成员
 
-            public int Count
-            {
-                get
-                {
-                    return max;
-                }
-            }
+            public int Count => max;
 
             #endregion
 
@@ -134,10 +128,7 @@ namespace AssLoader
 
             #region IEnumerable 成员
 
-            System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
-            {
-                return this.GetEnumerator();
-            }
+            System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator() => this.GetEnumerator();
 
             #endregion
         }
@@ -168,13 +159,7 @@ namespace AssLoader
 
             #region IReadOnlyCollection<string> 成员
 
-            public int Count
-            {
-                get
-                {
-                    return max;
-                }
-            }
+            public int Count => max;
 
             #endregion
 
@@ -190,10 +175,7 @@ namespace AssLoader
 
             #region IEnumerable 成员
 
-            System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
-            {
-                return this.GetEnumerator();
-            }
+            System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator() => this.GetEnumerator();
 
             #endregion
         }
@@ -281,15 +263,9 @@ namespace AssLoader
             return builder.ToString();
         }
 
-        public static implicit operator string(TextContent value)
-        {
-            return value.Value;
-        }
+        public static implicit operator string (TextContent value) => value.Value;
 
-        public static implicit operator TextContent(string value)
-        {
-            return new TextContent(value);
-        }
+        public static implicit operator TextContent(string value) => new TextContent(value);
 
         public static bool operator ==(TextContent a, TextContent b)
         {
@@ -315,15 +291,9 @@ namespace AssLoader
 
         #endregion
 
-        public override bool Equals(object obj)
-        {
-            return Equals(obj as TextContent);
-        }
+        public override bool Equals(object obj) => Equals(obj as TextContent);
 
-        public override int GetHashCode()
-        {
-            return Value.GetHashCode();
-        }
+        public override int GetHashCode() => Value.GetHashCode();
 
         public static readonly TextContent Empty = "";
     }

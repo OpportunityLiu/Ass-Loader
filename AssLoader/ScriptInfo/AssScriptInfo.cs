@@ -4,8 +4,14 @@ using AssLoader.Serializer;
 
 namespace AssLoader
 {
+    /// <summary>
+    /// Container of the "script info" section which provides access to common properties of script info.
+    /// </summary>
     public class AssScriptInfo : ScriptInfoCollection
     {
+        /// <summary>
+        /// Create a new instance of <see cref="AssScriptInfo"/> with default values of properties.
+        /// </summary>
         public AssScriptInfo()
         {
         }
@@ -229,7 +235,7 @@ namespace AssLoader
         }
 
 
-        [ScriptInfo("PlayResY", DefaultValue = 360)]
+        [ScriptInfo("PlayResY")]
         private int playResY = 360;
 
         /// <summary>
@@ -238,6 +244,7 @@ namespace AssLoader
         /// <exception cref="ArgumentOutOfRangeException">
         /// <paramref name="value"/> is not greater than 0.
         /// </exception>
+        /// <seealso cref="PlayResX"/>
         public int PlayResY
         {
             get
@@ -253,7 +260,7 @@ namespace AssLoader
             }
         }
 
-        [ScriptInfo("PlayResX", DefaultValue = 640)]
+        [ScriptInfo("PlayResX")]
         private int playResX = 640;
 
         /// <summary>
@@ -262,6 +269,7 @@ namespace AssLoader
         /// <exception cref="ArgumentOutOfRangeException">
         /// <paramref name="value"/> is not greater than 0.
         /// </exception>
+        /// <seealso cref="PlayResY"/>
         public int PlayResX
         {
             get
@@ -301,12 +309,19 @@ namespace AssLoader
             }
         }
 
-        [ScriptInfo("Timer", IsOptional = true, Format = "F4")]
+        [ScriptInfo("Timer", DefaultValue = 100d, IsOptional = true, Format = "F4")]
         private double? timer;
 
         /// <summary>
-        /// (optional) This is the Timer Speed for the script, as alpha percentage.
-        /// 
+        /// (optional) This is the Timer Speed for the script, as percentage.
+        /// </summary>
+        /// <example> 
+        /// "100.0000" is exactly 100%. It has four digits following the decimal point.
+        /// </example>
+        /// <exception cref="ArgumentOutOfRangeException">
+        /// <paramref name="value"/> is not greater than 0.
+        /// </exception>
+        /// <remarks> 
         /// The timer speed is alpha time multiplier applied to SSA's clock to stretch or compress the duration of alpha script.
         /// A speed greater than 100% will reduce the overall duration, and means that subtitles will progressively appear sooner and sooner.
         /// A speed less than 100% will increase the overall duration of the script means subtitles will progressively appear later and later 
@@ -316,13 +331,7 @@ namespace AssLoader
         /// 
         /// Check the SSA user guide if you want to know why "Timer Speed" is more powerful than "Ramp Time", 
         /// even though they both achieve the same result.
-        /// </summary>
-        /// <example> 
-        /// "100.0000" is exactly 100%. It has four digits following the decimal point.
-        /// </example>
-        /// <exception cref="ArgumentOutOfRangeException">
-        /// <paramref name="value"/> is not greater than 0.
-        /// </exception>
+        /// </remarks>
         public double? Timer
         {
             get
@@ -367,6 +376,9 @@ namespace AssLoader
         [ScriptInfo("ScaledBorderAndShadow")]
         private bool scaledBorderAndShadow;
 
+        /// <summary>
+        /// if true, script resolution is used for <see cref="Style.Outline"/> and <see cref="Style.Shadow"/>, if false, video resolution is used. 
+        /// </summary>
         public bool ScaledBorderAndShadow
         {
             get

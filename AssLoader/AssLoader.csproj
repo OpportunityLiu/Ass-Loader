@@ -38,6 +38,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <RunCodeAnalysis>true</RunCodeAnalysis>
+    <DocumentationFile>bin\Release\AssLoader.XML</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup>
     <SignAssembly>false</SignAssembly>
@@ -48,8 +49,8 @@
     <Compile Include="Collections\StyleDictionary.cs" />
     <Compile Include="Text\TextContent.cs" />
     <Compile Include="ThrowHelper.cs" />
-    <Compile Include="ValueType\Color.cs" />
-    <Compile Include="ValueType\Colors.cs" />
+    <Compile Include="Color\Color.cs" />
+    <Compile Include="Color\Colors.cs" />
     <Compile Include="Delegate.cs" />
     <Compile Include="Entry\Entry.cs" />
     <Compile Include="Entry\EntryData.cs" />

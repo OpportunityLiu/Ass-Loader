@@ -20,7 +20,7 @@ namespace UWPTest
             {
                 var ca = raCo();
                 var cu = ca.ToUIColor();
-                Assert.AreEqual(ca, cu.ToAssColour());
+                Assert.AreEqual(ca, cu.ToAssColor());
                 Assert.AreEqual(cu, ca.ToUIColor());
             }
         }

@@ -22,32 +22,53 @@
         Reverse
     }
 
+    /// <summary>
+    /// The border style of subtitles.
+    /// </summary>
     public enum BorderStyle
     {
+        /// <summary>
+        /// Use outline and drop shadow.
+        /// </summary>
         OutlineAndDropShadow = 1,
+        /// <summary>
+        /// Use an opaque background bounding box.
+        /// </summary>
         OpaqueBox = 3
     }
 
+    /// <summary>
+    /// Describes the alignment of subtitles.
+    /// </summary>
     public enum AlignmentStyle
     {
+        ///<summary>The subtitle or the archor point will be set at bottom left.</summary>
         BottomLeft = 1,
-        BottomCentered = 2,
+        ///<summary>The subtitle or the archor point will be set at bottom center.</summary>
+        BottomCenter = 2,
+        ///<summary>The subtitle or the archor point will be set at bottom right.</summary>
         BottomRight = 3,
+        ///<summary>The subtitle or the archor point will be set at middle left.</summary>
         MiddleLeft = 4,
-        MiddleCentered = 5,
+        ///<summary>The subtitle or the archor point will be set at middle center.</summary>
+        MiddleCenter = 5,
+        ///<summary>The subtitle or the archor point will be set at middle right.</summary>
         MiddleRight = 6,
+        ///<summary>The subtitle or the archor point will be set at top left.</summary>
         TopLeft = 7,
-        TopCentered = 8,
+        ///<summary>The subtitle or the archor point will be set at top center.</summary>
+        TopCenter = 8,
+        ///<summary>The subtitle or the archor point will be set at top right.</summary>
         TopRight = 9
     }
 
     /// <summary>
-    /// The wrapping style. 
+    /// The wrapping style of subtitles.
     /// </summary>
     public enum WrapStyle
     {
         /// <summary>
-        /// smart wrapping, lines are evenly broken, only \N breaks.
+        /// smart wrapping, lines are evenly broken, only "\N" breaks.
         /// </summary>
         Average = 0,
         /// <summary>
@@ -55,7 +76,7 @@
         /// </summary>
         Downward = 1,
         /// <summary>
-        /// no word wrapping, \n \N both breaks.
+        /// no word wrapping, "\n" and "\N" both breaks.
         /// </summary>
         None = 2,
         /// <summary>

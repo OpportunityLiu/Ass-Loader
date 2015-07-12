@@ -15,10 +15,10 @@ namespace Test
                 uint va = TestHelper.RandomReader.ReadUInt32();
                 var str = "&H" + Convert.ToString(va, 16).PadLeft(8, '0');
                 var c = Color.Parse(str);
-                Assert.AreEqual(c.ToString(), str, true);
+                Assert.AreEqual(str, c.ToString(), true);
             }
         }
-            
+
         [TestMethod]
         public void ParseRgb()
         {
@@ -26,10 +26,10 @@ namespace Test
             {
                 var va = TestHelper.Random.Next(0x1000000);
                 var c = Color.Parse("&H" + Convert.ToString(va, 16).PadLeft(6, '0'));
-                Assert.AreEqual(c.ToString(), "&H" + Convert.ToString(va, 16).PadLeft(8, '0'), true);
+                Assert.AreEqual("&H" + Convert.ToString(va, 16).PadLeft(8, '0'), c.ToString(), true);
             }
         }
-            
+
         [TestMethod]
         public void ChangeRgba()
         {
@@ -103,10 +103,10 @@ namespace Test
             {
                 var b = TestHelper.RandomReader.ReadBytes(4);
                 var c = Color.FromArgb(b[0], b[1], b[2], b[3]);
-                Assert.AreEqual(c.Red, b[1]);
-                Assert.AreEqual(c.Green, b[2]);
-                Assert.AreEqual(c.Blue, b[3]);
-                Assert.AreEqual(c.Transparency + b[0], 255);
+                Assert.AreEqual(b[1], c.Red);
+                Assert.AreEqual(b[2], c.Green);
+                Assert.AreEqual(b[3], c.Blue);
+                Assert.AreEqual(255, c.Transparency + b[0]);
             }
         }
     }

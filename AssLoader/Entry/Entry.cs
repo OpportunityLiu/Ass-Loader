@@ -82,9 +82,20 @@ namespace AssLoader
         }
 
         #region INotifyPropertyChanged 成员
-
+        /// <summary>
+        /// Occurs when the property changes.
+        /// </summary>
+        /// <remarks>
+        /// The event handler receives an argument of type
+        /// <seealso cref="PropertyChangedEventHandler" />
+        /// containing data related to this event.
+        /// </remarks>
         public event PropertyChangedEventHandler PropertyChanged;
 
+        /// <summary>
+        /// Raise the event <see cref="PropertyChanged"/>.
+        /// </summary>
+        /// <param name="propertyName">The name of the changing property.</param>
         protected virtual void PropertyChanging([System.Runtime.CompilerServices.CallerMemberName]string propertyName = "")
         {
             if(PropertyChanged == null)

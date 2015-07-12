@@ -7,6 +7,9 @@ using System.Collections.ObjectModel;
 
 namespace AssLoader.Collections
 {
+    /// <summary>
+    /// Observable collection of <see cref="SubEvent"/>.
+    /// </summary>
     public sealed class EventCollection : ObservableCollection<SubEvent>
     {
         internal EventCollection()

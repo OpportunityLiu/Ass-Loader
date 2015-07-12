@@ -374,7 +374,7 @@ namespace AssLoader
         }
 
         [EntryField("Alignment")]
-        private int alignment = (int)AlignmentStyle.BottomCentered;
+        private int alignment = (int)AlignmentStyle.BottomCenter;
 
         public AlignmentStyle Alignment
         {
@@ -387,13 +387,13 @@ namespace AssLoader
                 switch(value)
                 {
                 case AlignmentStyle.BottomLeft:
-                case AlignmentStyle.BottomCentered:
+                case AlignmentStyle.BottomCenter:
                 case AlignmentStyle.BottomRight:
                 case AlignmentStyle.MiddleLeft:
-                case AlignmentStyle.MiddleCentered:
+                case AlignmentStyle.MiddleCenter:
                 case AlignmentStyle.MiddleRight:
                 case AlignmentStyle.TopLeft:
-                case AlignmentStyle.TopCentered:
+                case AlignmentStyle.TopCenter:
                 case AlignmentStyle.TopRight:
                     alignment = (int)value;
                     PropertyChanging();

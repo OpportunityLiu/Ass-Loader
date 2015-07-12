@@ -29,15 +29,11 @@ namespace AssLoader
             return r;
         }
 
-        private static readonly IFormatProvider defaultFormat = System.Globalization.CultureInfo.InvariantCulture;
-
         public static IFormatProvider DefaultFormat
         {
-            get
-            {
-                return defaultFormat;
-            }
+            get;
         }
+        = System.Globalization.CultureInfo.InvariantCulture;
 
         private static readonly char[] split = new char[] { ':' };
 
