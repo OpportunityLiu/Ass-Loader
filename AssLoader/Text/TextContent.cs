@@ -47,22 +47,22 @@ namespace AssLoader
             {
                 switch(Value[i])
                 {
-                case '{':
-                    if(!b)
-                    {
-                        b = true;
-                        stext.Add(Value.Substring(start, i - start));
-                        start = i + 1;
-                    }
-                    break;
-                case '}':
-                    if(b)
-                    {
-                        b = false;
-                        stext.Add(Value.Substring(start, i - start));
-                        start = i + 1;
-                    }
-                    break;
+                    case '{':
+                        if(!b)
+                        {
+                            b = true;
+                            stext.Add(Value.Substring(start, i - start));
+                            start = i + 1;
+                        }
+                        break;
+                    case '}':
+                        if(b)
+                        {
+                            b = false;
+                            stext.Add(Value.Substring(start, i - start));
+                            start = i + 1;
+                        }
+                        break;
                 }
             }
             if(b)
@@ -88,12 +88,18 @@ namespace AssLoader
 
         private string[] splitedTexts;
 
+        /// <summary>
+        /// Content of this <see cref="TextContent"/>.
+        /// </summary>
         public string Value
         {
             get;
             private set;
         }
 
+        /// <summary>
+        /// The list of texts of a <see cref="TextContent"/>.
+        /// </summary>
         public struct TextList : IReadOnlyList<string>
         {
             private string[] texts;
@@ -107,6 +113,12 @@ namespace AssLoader
 
             #region IReadOnlyList<string> 成员
 
+            /// <summary>
+            /// Get the text of <paramref name="index"/> of the <see cref="TextContent"/>.
+            /// </summary>
+            /// <param name="index">The index to find.</param>
+            /// <returns>The text of <paramref name="index"/> of the <see cref="TextContent"/>.</returns>
+            /// <exception cref="ArgumentOutOfRangeException"><paramref name="index"/> is out of range.</exception>
             public string this[int index]
             {
                 get
@@ -120,15 +132,22 @@ namespace AssLoader
 
             #region IReadOnlyCollection<string> 成员
 
+            /// <summary>
+            /// Count of texts in the <see cref="TextContent"/>.
+            /// </summary>
             public int Count => max;
 
             #endregion
 
             #region IEnumerable<string> 成员
 
+            /// <summary>
+            /// Get a enumerator of texts of the <see cref="TextContent"/>.
+            /// </summary>
+            /// <returns>A enumerator of texts of the <see cref="TextContent"/>.</returns>
             public IEnumerator<string> GetEnumerator()
             {
-                for(int i = 0; i < texts.Length; i+=2)
+                for(int i = 0; i < texts.Length; i += 2)
                     yield return texts[i];
             }
 
@@ -141,6 +160,9 @@ namespace AssLoader
             #endregion
         }
 
+        /// <summary>
+        /// The list of tags of a <see cref="TextContent"/>.
+        /// </summary>
         public struct TagList : IReadOnlyList<string>
         {
             private string[] texts;
@@ -154,6 +176,12 @@ namespace AssLoader
 
             #region IReadOnlyList<string> 成员
 
+            /// <summary>
+            /// Get the tag of <paramref name="index"/> of the <see cref="TextContent"/>.
+            /// </summary>
+            /// <param name="index">The index to find.</param>
+            /// <returns>The tag of <paramref name="index"/> of the <see cref="TextContent"/>.</returns>
+            /// <exception cref="ArgumentOutOfRangeException"><paramref name="index"/> is out of range.</exception>
             public string this[int index]
             {
                 get
@@ -167,15 +195,22 @@ namespace AssLoader
 
             #region IReadOnlyCollection<string> 成员
 
+            /// <summary>
+            /// Count of tags in the <see cref="TextContent"/>.
+            /// </summary>
             public int Count => max;
 
             #endregion
 
             #region IEnumerable<string> 成员
 
+            /// <summary>
+            /// Get a enumerator of tags of the <see cref="TextContent"/>.
+            /// </summary>
+            /// <returns>A enumerator of tags of the <see cref="TextContent"/>.</returns>
             public IEnumerator<string> GetEnumerator()
             {
-                for(int i = 1; i < texts.Length; i+=2)
+                for(int i = 1; i < texts.Length; i += 2)
                     yield return texts[i];
             }
 
@@ -188,23 +223,37 @@ namespace AssLoader
             #endregion
         }
 
+        /// <summary>
+        /// Get the list of tags in this <see cref="TextContent"/>.
+        /// </summary>
         public TagList Tags
         {
             get;
             private set;
         }
 
+        /// <summary>
+        /// Get the list of texts in this <see cref="TextContent"/>.
+        /// </summary>
         public TextList Texts
         {
             get;
             private set;
         }
 
+        /// <summary>
+        /// Returns <see cref="Value"/>, which is the string form of this <see cref="TextContent"/>.
+        /// </summary>
+        /// <returns><see cref="Value"/> of this <see cref="TextContent"/>.</returns>
         public override string ToString()
         {
             return Value;
         }
 
+        /// <summary>
+        /// Returns a new <see cref="TextContent"/> that removed all tags of this <see cref="TextContent"/>.
+        /// </summary>
+        /// <returns>A new instance of <see cref="TextContent"/> that removed tags.</returns>
         public TextContent RemoveTags()
         {
             if(splitedTexts.Length == 1)
@@ -215,6 +264,10 @@ namespace AssLoader
             return builder.ToString();
         }
 
+        /// <summary>
+        /// Returns a new <see cref="TextContent"/> that removed all texts of this <see cref="TextContent"/>.
+        /// </summary>
+        /// <returns>A new instance of <see cref="TextContent"/> that removed texts.</returns>
         public TextContent RemoveTexts()
         {
             if(splitedTexts.Length == 1)
@@ -227,6 +280,13 @@ namespace AssLoader
             return builder.ToString();
         }
 
+        /// <summary>
+        /// Returns a new <see cref="TextContent"/> that replaced the text of <paramref name="index"/> of this <see cref="TextContent"/>.
+        /// </summary>
+        /// <returns>A new instance of <see cref="TextContent"/> that replaced text.</returns>
+        /// <param name="index">The index of text to replace.</param>
+        /// <param name="newText">The text to replace the old text.</param>
+        /// <returns>A new instance of <see cref="TextContent"/> that replaced text.</returns>
         public TextContent ReplaceText(int index, string newText)
         {
             newText = newText ?? "";
@@ -248,7 +308,15 @@ namespace AssLoader
             }
             return builder.ToString();
         }
-        
+
+
+        /// <summary>
+        /// Returns a new <see cref="TextContent"/> that replaced the text of <paramref name="index"/> of this <see cref="TextContent"/>.
+        /// </summary>
+        /// <returns>A new instance of <see cref="TextContent"/> that replaced text.</returns>
+        /// <param name="index">The index of text to replace.</param>
+        /// <param name="newTag">The text to replace the old text.</param>
+        /// <returns>A new instance of <see cref="TextContent"/> that replaced text.</returns>
         public TextContent ReplaceTag(int index, string newTag)
         {
             newTag = newTag ?? "";

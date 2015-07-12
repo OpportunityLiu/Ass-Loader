@@ -37,6 +37,7 @@ namespace AssLoader.Collections
         /// This is alpha description of the script.
         /// If the original author(s) did not provide this information then "untitled" is automatically substituted.
         /// </summary>
+        /// <exception cref="ArgumentException"><paramref name="value"/> contains line breaks.</exception>
         public string Title
         {
             get
@@ -60,6 +61,7 @@ namespace AssLoader.Collections
         /// The original author(s) of the script.
         /// If the original author(s) did not provide this information then "unknown" is automatically substituted.
         /// </summary>
+        /// <exception cref="ArgumentException"><paramref name="value"/> contains line breaks.</exception>
         public string OriginalScript
         {
             get
@@ -83,6 +85,7 @@ namespace AssLoader.Collections
         /// (optional) The original translator of the dialogue. 
         /// This entry does not appear if no information was entered by the author.
         /// </summary>
+        /// <exception cref="ArgumentException"><paramref name="value"/> contains line breaks.</exception>
         public string OriginalTranslation
         {
             get
@@ -107,6 +110,7 @@ namespace AssLoader.Collections
         /// typically whoever took the raw translation and turned it into idiomatic english and reworded for readability. 
         /// This entry does not appear if no information was entered by the author.
         /// </summary>
+        /// <exception cref="ArgumentException"><paramref name="value"/> contains line breaks.</exception>
         public string OriginalEditing
         {
             get
@@ -130,6 +134,7 @@ namespace AssLoader.Collections
         /// (optional) Whoever timed the original script.
         /// This entry does not appear if no information was entered by the author.
         /// </summary>
+        /// <exception cref="ArgumentException"><paramref name="value"/> contains line breaks.</exception>
         public string OriginalTiming
         {
             get
@@ -153,6 +158,7 @@ namespace AssLoader.Collections
         /// (optional) Description of where in the video the script should begin playback.
         /// This entry does not appear if no information was entered by the author.
         /// </summary>
+        /// <exception cref="ArgumentException"><paramref name="value"/> contains line breaks.</exception>
         public string SynchPoint
         {
             get
@@ -176,6 +182,7 @@ namespace AssLoader.Collections
         /// (optional) Names of any other subtitling groups who edited the original script.
         /// This entry does not appear if subsequent editors did not enter the information.
         /// </summary>
+        /// <exception cref="ArgumentException"><paramref name="value"/> contains line breaks.</exception>
         public string ScriptUpdatedBy
         {
             get
@@ -199,6 +206,7 @@ namespace AssLoader.Collections
         /// The details of any updates to the original script - made by other subtitling groups.
         /// This entry does not appear if subsequent editors did not enter any information.
         /// </summary>
+        /// <exception cref="ArgumentException"><paramref name="value"/> contains line breaks.</exception>
         public string UpdateDetails
         {
             get
@@ -244,6 +252,9 @@ namespace AssLoader.Collections
         /// <exception cref="ArgumentOutOfRangeException">
         /// <paramref name="value"/> is not greater than 0.
         /// </exception>
+        /// <exception cref="ArgumentException">
+        /// <paramref name="value"/> is <see cref="double.IsNaN(double)"/> or <see cref="double.IsInfinity(double)"/>
+        /// </exception>
         /// <seealso cref="PlayResX"/>
         public int PlayResY
         {
@@ -253,6 +264,8 @@ namespace AssLoader.Collections
             }
             set
             {
+                if(double.IsNaN(value) || double.IsInfinity(value))
+                    throw new ArgumentException("value");
                 if(value <= 0)
                     throw new ArgumentOutOfRangeException("value", "value must be greater than 0.");
                 playResY = value;
@@ -269,6 +282,9 @@ namespace AssLoader.Collections
         /// <exception cref="ArgumentOutOfRangeException">
         /// <paramref name="value"/> is not greater than 0.
         /// </exception>
+        /// <exception cref="ArgumentException">
+        /// <paramref name="value"/> is <see cref="double.IsNaN(double)"/> or <see cref="double.IsInfinity(double)"/>
+        /// </exception>
         /// <seealso cref="PlayResY"/>
         public int PlayResX
         {
@@ -278,6 +294,8 @@ namespace AssLoader.Collections
             }
             set
             {
+                if(double.IsNaN(value) || double.IsInfinity(value))
+                    throw new ArgumentException("value");
                 if(value <= 0)
                     throw new ArgumentOutOfRangeException("value", "value must be greater than 0.");
                 playResX = value;
@@ -294,6 +312,9 @@ namespace AssLoader.Collections
         /// <exception cref="ArgumentOutOfRangeException">
         /// <paramref name="value"/> is not greater than 0.
         /// </exception>
+        /// <exception cref="ArgumentException">
+        /// <paramref name="value"/> is <see cref="double.IsNaN(double)"/> or <see cref="double.IsInfinity(double)"/>
+        /// </exception>
         public int? PlayDepth
         {
             get
@@ -302,8 +323,13 @@ namespace AssLoader.Collections
             }
             set
             {
-                if(value.HasValue && value.Value <= 0)
-                    throw new ArgumentOutOfRangeException("value", "value must be greater than 0.");
+                if(value.HasValue)
+                {
+                    if(double.IsNaN(value.Value) || double.IsInfinity(value.Value))
+                        throw new ArgumentException("value");
+                    if(value.Value <= 0)
+                        throw new ArgumentOutOfRangeException("value", "value must be greater than 0.");
+                }
                 playDepth = value;
                 PropertyChanging();
             }
@@ -320,6 +346,9 @@ namespace AssLoader.Collections
         /// </example>
         /// <exception cref="ArgumentOutOfRangeException">
         /// <paramref name="value"/> is not greater than 0.
+        /// </exception>
+        /// <exception cref="ArgumentException">
+        /// <paramref name="value"/> is <see cref="double.IsNaN(double)"/> or <see cref="double.IsInfinity(double)"/>
         /// </exception>
         /// <remarks> 
         /// The timer speed is alpha time multiplier applied to SSA's clock to stretch or compress the duration of alpha script.
@@ -340,8 +369,13 @@ namespace AssLoader.Collections
             }
             set
             {
-                if(value.HasValue && value.Value <= 0)
-                    throw new ArgumentOutOfRangeException("value", "value must be greater than 0.");
+                if(value.HasValue)
+                {
+                    if(double.IsNaN(value.Value) || double.IsInfinity(value.Value))
+                        throw new ArgumentException("value");
+                    if(value.Value <= 0)
+                        throw new ArgumentOutOfRangeException("value", "value must be greater than 0.");
+                }
                 timer = value;
                 PropertyChanging();
             }
@@ -365,8 +399,7 @@ namespace AssLoader.Collections
             set
             {
                 var num = (int)value;
-                if(num > 3 || num < 0)
-                    throw new ArgumentOutOfRangeException("value");
+                ThrowHelper.ThrowIfLessThanZeroOrOutOfRange(4, num, "value");
                 warpStyle = num;
                 PropertyChanging();
             }

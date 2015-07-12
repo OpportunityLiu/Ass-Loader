@@ -82,6 +82,8 @@ namespace AssLoader
         /// <summary>
         /// The name of the Style. Case insensitive. ',' will be replaced by ';'.
         /// </summary>
+        /// <exception cref="ArgumentNullException"><paramref name="value"/> is null or white space.</exception>
+        /// <exception cref="ArgumentException"><paramref name="value"/> contains line breaks.</exception>
         public string Name
         {
             get
@@ -106,6 +108,8 @@ namespace AssLoader
         /// <summary>
         /// The font name as used by Windows. 
         /// </summary>
+        /// <exception cref="ArgumentNullException"><paramref name="value"/> is null or white space.</exception>
+        /// <exception cref="ArgumentException"><paramref name="value"/> contains line breaks.</exception>
         public string FontName
         {
             get
@@ -130,6 +134,12 @@ namespace AssLoader
         /// <summary>
         /// The font size in points.
         /// </summary>
+        /// <exception cref="ArgumentOutOfRangeException">
+        /// <paramref name="value"/> is less than 0.
+        /// </exception>
+        /// <exception cref="ArgumentException">
+        /// <paramref name="value"/> is <see cref="double.IsNaN(double)"/> or <see cref="double.IsInfinity(double)"/>
+        /// </exception>
         public double FontSize
         {
             get
@@ -318,6 +328,12 @@ namespace AssLoader
         /// <summary>
         /// Text stretching in the horizontal direction in percent.
         /// </summary>
+        /// <exception cref="ArgumentOutOfRangeException">
+        /// <paramref name="value"/> is less than 0.
+        /// </exception>
+        /// <exception cref="ArgumentException">
+        /// <paramref name="value"/> is <see cref="double.IsNaN(double)"/> or <see cref="double.IsInfinity(double)"/>
+        /// </exception>
         public double ScaleX
         {
             get
@@ -338,6 +354,12 @@ namespace AssLoader
         /// <summary>
         /// Text stretching in the vertical direction in percent.
         /// </summary>
+        /// <exception cref="ArgumentOutOfRangeException">
+        /// <paramref name="value"/> is less than 0.
+        /// </exception>
+        /// <exception cref="ArgumentException">
+        /// <paramref name="value"/> is <see cref="double.IsNaN(double)"/> or <see cref="double.IsInfinity(double)"/>
+        /// </exception>
         public double ScaleY
         {
             get
@@ -358,6 +380,7 @@ namespace AssLoader
         /// <summary>
         /// Extra space between characters in pixels.
         /// </summary>
+        /// <exception cref="ArgumentException"><paramref name="value"/> is <see cref="double.IsNaN(double)"/> or <see cref="double.IsInfinity(double)"/></exception>
         public double Spacing
         {
             get
@@ -366,7 +389,8 @@ namespace AssLoader
             }
             set
             {
-                ThrowHelper.ThrowIfLessThanZero(value, "value");
+                if(double.IsNaN(value) || double.IsInfinity(value))
+                    throw new ArgumentException("value");
                 spacing = value;
                 PropertyChanging();
             }
@@ -378,6 +402,7 @@ namespace AssLoader
         /// <summary>
         /// The angle of the rotation in degrees.
         /// </summary>
+        /// <exception cref="ArgumentException"><paramref name="value"/> is <see cref="double.IsNaN(double)"/> or <see cref="double.IsInfinity(double)"/></exception>
         public double Rotation
         {
             get
@@ -386,6 +411,8 @@ namespace AssLoader
             }
             set
             {
+                if(double.IsNaN(value) || double.IsInfinity(value))
+                    throw new ArgumentException("value");
                 rotation = value % 360;
                 if(rotation > 180)
                     rotation -= 360;
@@ -401,6 +428,9 @@ namespace AssLoader
         /// <summary>
         /// The style of border.
         /// </summary>
+        /// <exception cref="ArgumentOutOfRangeException">
+        /// <paramref name="value"/> is not one of the valid value.
+        /// </exception>
         public BorderStyle BorderStyle
         {
             get
@@ -428,6 +458,12 @@ namespace AssLoader
         /// <summary>
         /// If <see cref="BorderStyle"/> is <see cref="BorderStyle.OutlineAndDropShadow"/>, this specifies the width of the outline around the text in pixels.
         /// </summary>
+        /// <exception cref="ArgumentOutOfRangeException">
+        /// <paramref name="value"/> is less than 0.
+        /// </exception>
+        /// <exception cref="ArgumentException">
+        /// <paramref name="value"/> is <see cref="double.IsNaN(double)"/> or <see cref="double.IsInfinity(double)"/>
+        /// </exception>
         public double Outline
         {
             get
@@ -448,6 +484,12 @@ namespace AssLoader
         /// <summary>
         /// The depth of the drop shadow behind the text, in pixels.
         /// </summary>
+        /// <exception cref="ArgumentOutOfRangeException">
+        /// <paramref name="value"/> is less than 0.
+        /// </exception>
+        /// <exception cref="ArgumentException">
+        /// <paramref name="value"/> is <see cref="double.IsNaN(double)"/> or <see cref="double.IsInfinity(double)"/>
+        /// </exception>
         public double Shadow
         {
             get
@@ -468,6 +510,9 @@ namespace AssLoader
         /// <summary>
         /// The alignment of the text.
         /// </summary>
+        /// <exception cref="ArgumentOutOfRangeException">
+        /// <paramref name="value"/> is not one of the valid value.
+        /// </exception>
         public AlignmentStyle Alignment
         {
             get
@@ -502,6 +547,7 @@ namespace AssLoader
         /// <summary>
         /// Left margin of the text.
         /// </summary>
+        /// <exception cref="ArgumentOutOfRangeException"><paramref name="value"/> is less than 0.</exception>
         public int MarginL
         {
             get
@@ -522,6 +568,7 @@ namespace AssLoader
         /// <summary>
         /// Right margin of the text.
         /// </summary>
+        /// <exception cref="ArgumentOutOfRangeException"><paramref name="value"/> is less than 0.</exception>
         public int MarginR
         {
             get
@@ -542,6 +589,7 @@ namespace AssLoader
         /// <summary>
         /// Vetical margin of the text.
         /// </summary>
+        /// <exception cref="ArgumentOutOfRangeException"><paramref name="value"/> is less than 0.</exception>
         public int MarginV
         {
             get
@@ -562,6 +610,7 @@ namespace AssLoader
         /// <summary>
         /// Controls which codepage is used to map codepoints to glyphs.
         /// </summary>
+        /// <exception cref="ArgumentOutOfRangeException"><paramref name="value"/> is less than 0.</exception>
         /// <remarks>
         /// It has nothing to do with the actual text encoding of the script.
         /// This is only meaningful on Windows using VSFilter, where it is used to get some old(particularly Japanese) fonts without proper Unicode mappings to render properly.
