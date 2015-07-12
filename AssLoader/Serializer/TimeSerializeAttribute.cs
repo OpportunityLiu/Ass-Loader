@@ -7,15 +7,29 @@ using System.Globalization;
 
 namespace AssLoader.Serializer
 {
+    /// <summary>
+    /// Custom serializer for <see cref="DateTime"/>.
+    /// </summary>
     [AttributeUsage(AttributeTargets.Field, AllowMultiple = false, Inherited = true)]
     public sealed class TimeSerializeAttribute : SerializeAttribute
     {
+        /// <summary>
+        /// Convert <see cref="DateTime"/> to <see cref="string"/>.
+        /// </summary>
+        /// <param name="value">The value to convert.</param>
+        /// <returns>The result of convertion.</returns>
         public override string Serialize(object value)
         {
             var va = (DateTime)value;
             return (va.Ticks / 36000000000).ToString(FormatHelper.DefaultFormat) + va.ToString(":mm:ss.ff", FormatHelper.DefaultFormat);
         }
 
+        /// <summary>
+        /// Convert <see cref="string"/> to <see cref="DateTime"/>.
+        /// </summary>
+        /// <param name="value">The value to convert.</param>
+        /// <returns>The result of convertion.</returns>   
+        /// <exception cref="FormatException"><paramref name="value"/> is not a valid time string which is of an "h:mm:ss.ff" format.</exception>
         public override object Deserialize(string value)
         {
             var num = value.Split(':');

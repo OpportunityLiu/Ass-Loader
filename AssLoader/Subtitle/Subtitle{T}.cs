@@ -7,8 +7,15 @@ using System.Reflection;
 
 namespace AssLoader
 {
+    /// <summary>
+    /// Subtitle file.
+    /// </summary>
+    /// <typeparam name="TScriptInfo">Type of the container of the "script info" section of the ass file.</typeparam>
     public class Subtitle<TScriptInfo> where TScriptInfo : ScriptInfoCollection, new()
     {
+        /// <summary>
+        /// Create a new instance of <see cref="Subtitle{TScriptInfo}"/>.
+        /// </summary>
         public Subtitle()
         {
             EventCollection = new Collections.EventCollection();
@@ -16,6 +23,11 @@ namespace AssLoader
             this.ScriptInfo = new TScriptInfo();
         }
 
+        /// <summary>
+        /// Write the ass file to <paramref name="writer"/>.
+        /// </summary>
+        /// <param name="writer">A <see cref="TextWriter"/> to write into.</param>
+        /// <exception cref="ArgumentNullException"><paramref name="writer"/> is null.</exception>
         public void Serialize(TextWriter writer)
         {
             ThrowHelper.ThrowIfNull(writer, "writer");
@@ -25,7 +37,7 @@ namespace AssLoader
             {
                 writer.WriteLine(line);
             }
-            this.ScriptInfo.ToString(writer);
+            this.ScriptInfo.Serialize(writer);
             writer.WriteLine();
 
             writer.WriteLine("[V4+ Styles]");
@@ -53,6 +65,10 @@ namespace AssLoader
                 writer.WriteLine(item.Serialize(Subtitle.EventFormat));
         }
 
+        /// <summary>
+        /// Write the ass file to <see cref="string"/>.
+        /// </summary>
+        /// <returns>A <see cref="string"/> presents the ass file.</returns>
         public string Serialize()
         {
             using(var writer = new StringWriter(FormatHelper.DefaultFormat))
@@ -62,18 +78,27 @@ namespace AssLoader
             }
         }
 
+        /// <summary>
+        /// Container of information of the "script info" section.
+        /// </summary>
         public TScriptInfo ScriptInfo
         {
             get;
             private set;
         }
 
+        /// <summary>
+        /// Container of information of the "style" section.
+        /// </summary>
         public Collections.StyleDictionary StyleDictionary
         {
             get;
             private set;
         }
 
+        /// <summary>
+        /// Container of information of the "event" section.
+        /// </summary>
         public Collections.EventCollection EventCollection
         {
             get;

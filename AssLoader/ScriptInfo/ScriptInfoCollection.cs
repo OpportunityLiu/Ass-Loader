@@ -30,7 +30,7 @@ namespace AssLoader
                         if(att == null)
                             continue;
                         var ser = (SerializeAttribute)fInfo.GetCustomAttribute<SerializeAttribute>();
-                        scriptInfoFields.Add(att.InfoName, new ScriptInfoSerializeHelper(fInfo, att, ser));
+                        scriptInfoFields.Add(att.FieldName, new ScriptInfoSerializeHelper(fInfo, att, ser));
                     }
                 } while((type = type.GetTypeInfo().BaseType) != typeof(ScriptInfoCollection));
                 scriptInfoCache.Add(this.GetType(), scriptInfoFields);
@@ -51,7 +51,7 @@ namespace AssLoader
             }
         }
 
-        public void ToString(TextWriter writer)
+        public void Serialize(TextWriter writer)
         {
             ThrowHelper.ThrowIfNull(writer, "writer");
             foreach(var item in scriptInfoFields.Values)
@@ -322,8 +322,20 @@ namespace AssLoader
 
         #region INotifyPropertyChanged 成员
 
+        /// <summary>
+        /// Occurs when the property changes.
+        /// </summary>
+        /// <remarks>
+        /// The event handler receives an argument of type
+        /// <seealso cref="PropertyChangedEventHandler" />
+        /// containing data related to this event.
+        /// </remarks>
         public event PropertyChangedEventHandler PropertyChanged;
 
+        /// <summary>
+        /// Raise the event <see cref="PropertyChanged"/>.
+        /// </summary>
+        /// <param name="propertyName">The name of the changing property.</param>
         protected virtual void PropertyChanging([System.Runtime.CompilerServices.CallerMemberName]string propertyName = "")
         {
             if(PropertyChanged != null)

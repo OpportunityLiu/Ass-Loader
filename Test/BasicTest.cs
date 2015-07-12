@@ -131,5 +131,28 @@ namespace Test
                 CollectionAssert.DoesNotContain(c.ToList(), true);
             }
         }
+
+        [TestMethod]
+        public void MyTestMethod()
+        {
+            var limit = 2000000;
+            var lst = new System.Collections.BitArray(limit + 1, true);
+            lst[0] = false;
+            lst[1] = false;
+            for(long i = 0; i < limit + 1; i++)
+            {
+                if(lst[(int)i])
+                    for(long j = i * i; j < limit + 1; j += i)
+                    {
+                        lst[(int)j] = false;
+                    }
+            }
+            var s = 0;
+            foreach(bool item in lst)
+            {
+                if(item)
+                    s++;
+            }
+        }
     }
 }

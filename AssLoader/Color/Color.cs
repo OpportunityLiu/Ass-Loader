@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace AssLoader
 {
+    /// <summary>
+    /// Presents a certain color with red, green, blue and transparency channel.
+    /// </summary>
     public struct Color : IEquatable<Color>, IEqualityComparer<Color>
     {
         internal static Color FromUInt32(uint color)
@@ -16,6 +19,9 @@ namespace AssLoader
             };
         }
 
+        /// <summary>
+        /// Red channel of the <see cref="Color"/>.
+        /// </summary>
         public byte Red
         {
             get
@@ -35,6 +41,9 @@ namespace AssLoader
             }
         }
 
+        /// <summary>
+        /// Green channel of the <see cref="Color"/>.
+        /// </summary>
         public byte Green
         {
             get
@@ -54,6 +63,9 @@ namespace AssLoader
             }
         }
 
+        /// <summary>
+        /// Blue channel of the <see cref="Color"/>.
+        /// </summary>
         public byte Blue
         {
             get
@@ -73,6 +85,9 @@ namespace AssLoader
             }
         }
 
+        /// <summary>
+        /// Transparency channel of the <see cref="Color"/>, 255 for fully-transparent and 0 for non-transparent.
+        /// </summary>
         public byte Transparency
         {
             get
@@ -92,6 +107,9 @@ namespace AssLoader
             }
         }
 
+        /// <summary>
+        /// Alpha channel of the <see cref="Color"/>, 0 for fully-transparent and 255 for non-transparent.
+        /// </summary>
         public byte Alpha
         {
             get
@@ -121,11 +139,22 @@ namespace AssLoader
 
         private uint data;
 
+        /// <summary>
+        /// Returns the string form of the <see cref="Color"/> in the ass file.
+        /// </summary>
+        /// <returns>The string form of the <see cref="Color"/> in the ass file, which is a <see cref="string"/> started with "&amp;H" and followed an 8-digit hex number.</returns>
         public override string ToString()
         {
             return string.Format(FormatHelper.DefaultFormat, "&H{0:X8}", data);
         }
 
+        /// <summary>
+        /// Returns the <see cref="Color"/> of the string form.
+        /// </summary>
+        /// <param name="value">A <see cref="string"/> presents a <see cref="Color"/>.</param>
+        /// <returns>The <see cref="Color"/> of the string form.</returns>
+        /// <exception cref="ArgumentNullException"><paramref name="value"/> is null or <see cref="string.Empty"/>.</exception>
+        /// <exception cref="FormatException"><paramref name="value"/> is not a valid color string.</exception>
         public static Color Parse(string value)
         {
             ThrowHelper.ThrowIfNullOrEmpty(value, "value");
@@ -143,6 +172,11 @@ namespace AssLoader
 
         #region IEquatable<Colour> 成员
 
+        /// <summary>
+        /// Returns whatever two <see cref="Color"/> are equal.
+        /// </summary>
+        /// <param name="other">The <see cref="Color"/> to compare with this <see cref="Color"/>.</param>
+        /// <returns>True if the two <see cref="Color"/> are equal.</returns>
         public bool Equals(Color other)
         {
             return this == other;
@@ -152,11 +186,22 @@ namespace AssLoader
 
         #region IEqualityComparer<Colour> 成员
 
+        /// <summary>
+        /// Returns whatever two <see cref="Color"/> are equal.
+        /// </summary>
+        /// <param name="x">The first <see cref="Color"/> to compare.</param>
+        /// <param name="y">The second <see cref="Color"/> to compare.</param>
+        /// <returns>True if the two <see cref="Color"/> are equal.</returns>
         public bool Equals(Color x, Color y)
         {
             return x == y;
         }
 
+        /// <summary>
+        /// Returns the hash code of <paramref name="obj"/>.
+        /// </summary>
+        /// <param name="obj">The <see cref="Color"/> to get hash code.</param>
+        /// <returns>The hash code of <paramref name="obj"/>.</returns>
         public int GetHashCode(Color obj)
         {
             return data.GetHashCode();
@@ -164,21 +209,42 @@ namespace AssLoader
 
         #endregion
 
+        /// <summary>
+        /// Returns the hash code of this <see cref="Color"/>.
+        /// </summary>
+        /// <returns>The hash code of this <see cref="Color"/>.</returns>
         public override int GetHashCode()
         {
             return GetHashCode(this);
         }
 
+        /// <summary>
+        /// Returns whatever two <see cref="Color"/> are equal.
+        /// </summary>
+        /// <param name="first">The first <see cref="Color"/> to compare.</param>
+        /// <param name="second">The second <see cref="Color"/> to compare.</param>
+        /// <returns>True if the two <see cref="Color"/> are equal.</returns>
         public static bool operator ==(Color first, Color second)
         {
             return first.data == second.data;
         }
 
+        /// <summary>
+        /// Returns whatever two <see cref="Color"/> are not equal.
+        /// </summary>
+        /// <param name="first">The first <see cref="Color"/> to compare.</param>
+        /// <param name="second">The second <see cref="Color"/> to compare.</param>
+        /// <returns>True if the two <see cref="Color"/> are not equal.</returns>
         public static bool operator !=(Color first, Color second)
         {
             return first.data != second.data;
         }
 
+        /// <summary>
+        /// Returns whatever two <see cref="Color"/> are equal.
+        /// </summary>
+        /// <param name="obj">The <see cref="object"/> to compare with this <see cref="Color"/>.</param>
+        /// <returns>True if the two <see cref="Color"/> are equal.</returns>
         public override bool Equals(object obj)
         {
             if(obj == null || !(obj is Color))
@@ -186,6 +252,14 @@ namespace AssLoader
             return (Color)obj == this;
         }
 
+        /// <summary>
+        /// Get a <see cref="Color"/> with given values of channels.
+        /// </summary>
+        /// <param name="alpha"><see cref="Alpha"/> of the <see cref="Color"/>.</param>
+        /// <param name="red"><see cref="Red"/> of the <see cref="Color"/>.</param>
+        /// <param name="green"><see cref="Green"/> of the <see cref="Color"/>.</param>
+        /// <param name="blue"><see cref="Blue"/> of the <see cref="Color"/>.</param>
+        /// <returns>The <see cref="Color"/> with given values of channels.</returns>
         public static Color FromArgb(byte alpha, byte red, byte green, byte blue)
         {
             unchecked

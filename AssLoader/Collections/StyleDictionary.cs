@@ -1,14 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Collections.Specialized;
-using System.Collections.ObjectModel;
 using System.ComponentModel;
 
 namespace AssLoader.Collections
 {
+    /// <summary>
+    /// Observable dictionary of <see cref="Style"/>.
+    /// </summary>
     public sealed class StyleDictionary : IDictionary<string, Style>, ICollection<Style>, INotifyCollectionChanged, INotifyPropertyChanged
     {
         internal StyleDictionary()
@@ -34,12 +34,20 @@ namespace AssLoader.Collections
 
         #region ICollection<Style> 成员
 
+        /// <summary>
+        /// Add an item to the <see cref="StyleDictionary"/>.
+        /// </summary>
+        /// <param name="item">The item to add to the <see cref="StyleDictionary"/>.</param>
+        /// <exception cref="ArgumentNullException"><paramref name="item"/> is <c>null</c>.</exception>
         public void Add(Style item)
         {
             ThrowHelper.ThrowIfNull(item, "item");
             add(item);
         }
 
+        /// <summary>
+        /// Clear all the items in the <see cref="StyleDictionary"/>.
+        /// </summary>
         public void Clear()
         {
             inner.Clear();
@@ -53,11 +61,14 @@ namespace AssLoader.Collections
             return inner.Values.Contains(item);
         }
 
-        public void CopyTo(Style[] array, int arrayIndex)
+        void  ICollection<Style>.CopyTo(Style[] array, int arrayIndex)
         {
             inner.Values.CopyTo(array, arrayIndex);
         }
 
+        /// <summary>
+        /// Number of items in the <see cref="StyleDictionary"/>.
+        /// </summary>
         public int Count
         {
             get
@@ -74,6 +85,11 @@ namespace AssLoader.Collections
             }
         }
 
+        /// <summary>
+        /// Removes a particular item from the <see cref="StyleDictionary"/>.
+        /// </summary>
+        /// <param name="item">The item to remove.</param>
+        /// <returns>True if the item removed successfully.</returns>
         public bool Remove(Style item)
         {
             ThrowHelper.ThrowIfNull(item, "item");
@@ -86,6 +102,10 @@ namespace AssLoader.Collections
 
         #region IEnumerable<Style> 成员
 
+        /// <summary>
+        /// Returns an <see cref="IEnumerator{Style}"/> for this <see cref="StyleDictionary"/>.
+        /// </summary>
+        /// <returns>An <see cref="IEnumerator{Style}"/> for this <see cref="StyleDictionary"/>.</returns>
         public Dictionary<string, Style>.ValueCollection.Enumerator GetEnumerator()
         {
             return inner.Values.GetEnumerator();
@@ -109,6 +129,14 @@ namespace AssLoader.Collections
 
         #region IDictionary<string,Style> 成员
 
+        /// <summary>
+        /// Add an item to the <see cref="StyleDictionary"/>.
+        /// </summary>
+        /// <param name="key">The key of the <paramref name="value"/> to add, 
+        /// if not equals to <see cref="Style.Name"/> of <paramref name="value"/>, 
+        /// a renamed clone of <paramref name="value"/> will be added.</param>
+        /// <param name="value">The item to add to the <see cref="StyleDictionary"/>.</param>
+        /// <exception cref="ArgumentNullException"><paramref name="key"/> or <paramref name="value"/> is <c>null</c>.</exception>
         public void Add(string key, Style value)
         {
             ThrowHelper.ThrowIfNullOrEmpty(key, "key");
@@ -116,11 +144,20 @@ namespace AssLoader.Collections
             add(key, value);
         }
 
+        /// <summary>
+        /// Returns whatever a <see cref="Style"/> of a particular <see cref="Style.Name"/> is in this <see cref="StyleDictionary"/>.
+        /// </summary>
+        /// <param name="key">The name to test.</param>
+        /// <returns>True if <paramref name="key"/> founded in the <see cref="StyleDictionary"/>.</returns>
+        /// <exception cref="ArgumentNullException"><paramref name="key"/> is <c>null</c>.</exception>
         public bool ContainsKey(string key)
         {
             return inner.ContainsKey(key);
         }
 
+        /// <summary>
+        /// The collection of <see cref="Style.Name"/> in the <see cref="StyleDictionary"/>.
+        /// </summary>
         public Dictionary<string, Style>.KeyCollection Keys
         {
             get
@@ -137,6 +174,11 @@ namespace AssLoader.Collections
             }
         }
 
+        /// <summary>
+        /// Removes a particular key from the <see cref="StyleDictionary"/>.
+        /// </summary>
+        /// <param name="key">The key to remove.</param>
+        /// <returns>True if the key removed successfully.</returns>
         public bool Remove(string key)
         {
             Style toRemove;
@@ -149,11 +191,21 @@ namespace AssLoader.Collections
             return true;
         }
 
+        /// <summary>
+        /// Get the <see cref="Style"/> with the <see cref="Style.Name"/>.
+        /// </summary>
+        /// <param name="key">The <see cref="Style.Name"/> of the <see cref="Style"/>.</param>
+        /// <param name="value">Returns the <see cref="Style"/> with the <see cref="Style.Name"/> if founded, 
+        /// otherwise <c>null</c> will be returned.</param>
+        /// <returns>Whatever the <see cref="Style"/> with the <see cref="Style.Name"/> is founded in the <see cref="StyleDictionary"/>.</returns>
         public bool TryGetValue(string key, out Style value)
         {
             return inner.TryGetValue(key, out value);
         }
 
+        /// <summary>
+        /// The collection of <see cref="Style"/> in the <see cref="StyleDictionary"/>.
+        /// </summary>
         public Dictionary<string, Style>.ValueCollection Values
         {
             get
@@ -170,6 +222,12 @@ namespace AssLoader.Collections
             }
         }
 
+        /// <summary>
+        /// Get or set the <see cref="Style"/> with the <see cref="Style.Name"/> of <paramref name="key"/>.
+        /// </summary>
+        /// <param name="key">The <see cref="Style.Name"/> of <see cref="Style"/>.</param>
+        /// <returns>The <see cref="Style"/> with the <see cref="Style.Name"/> of <paramref name="key"/> in the <see cref="StyleDictionary"/>.</returns>
+        /// <exception cref="ArgumentNullException"><paramref name="value"/> or <paramref name="key"/> is null.</exception>
         public Style this[string key]
         {
             get
@@ -242,12 +300,28 @@ namespace AssLoader.Collections
 
         #region INotifyCollectionChanged 成员
 
+        /// <summary>
+        /// Occurs when the collection changes, either by adding or removing an item.
+        /// </summary>
+        /// <remarks>
+        /// The event handler receives an argument of type
+        /// <seealso cref="NotifyCollectionChangedEventArgs" />
+        /// containing data related to this event.
+        /// </remarks>
         public event NotifyCollectionChangedEventHandler CollectionChanged;
 
         #endregion
 
         #region INotifyPropertyChanged 成员
 
+        /// <summary>
+        /// Occurs when the property changes.
+        /// </summary>
+        /// <remarks>
+        /// The event handler receives an argument of type
+        /// <seealso cref="PropertyChangedEventHandler" />
+        /// containing data related to this event.
+        /// </remarks>
         public event PropertyChangedEventHandler PropertyChanged;
 
         private void countChanging()

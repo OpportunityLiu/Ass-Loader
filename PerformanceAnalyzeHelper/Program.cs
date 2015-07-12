@@ -13,17 +13,17 @@ namespace PerformanceAnalyzeHelper
     {
         static void Main(string[] args)
         {
-            var f = System.IO.File.OpenText(@"C:\Users\Opportunity\Desktop\Upotte[02].ass");
-            var t = AssLoader.Subtitle.Parse<AssLoader.AssScriptInfo>(f);
-            f.Dispose();
-            foreach(var item in t.StyleDictionary)
-            {
-                item.Underline = false;
-            }
+            //var f = System.IO.File.OpenText(@"C:\Users\Opportunity\Desktop\Upotte[02].ass");
+            //var t = AssLoader.Subtitle.Parse<AssLoader.AssScriptInfo>(f);
+            //f.Dispose();
+            //foreach(var item in t.StyleDictionary)
+            //{
+            //    item.Underline = false;
+            //}
             //var test = (from m in testc.GetType().GetMethods()
             //            where m.GetCustomAttribute(typeof(TestMethodAttribute)) != null
             //            select m.Invoke(testc, null)).ToArray();
-            //Read(10);
+            Read(10);
         }
 
         static void Read(int times)

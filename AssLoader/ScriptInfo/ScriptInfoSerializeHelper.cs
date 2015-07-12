@@ -51,7 +51,7 @@ namespace AssLoader
                     this.Serialize = serializeOptional(this, serializer.Serialize);
                 else
                     this.Serialize = serialize(this, serializer.Serialize);
-                this.format = fieldInfo.InfoName + ": {0}";
+                this.format = fieldInfo.FieldName + ": {0}";
                 return;
             }
             //enum, nullable and others
@@ -60,7 +60,7 @@ namespace AssLoader
             else
                 this.Serialize = serialize(this);
             var fieldType = info.FieldType;
-            this.format = fieldInfo.InfoName + ": {0:" + fieldInfo.Format + "}";
+            this.format = fieldInfo.FieldName + ": {0:" + fieldInfo.Format + "}";
             Type nullableInner;
             if((nullableInner = Nullable.GetUnderlyingType(fieldType)) != null)
             {
