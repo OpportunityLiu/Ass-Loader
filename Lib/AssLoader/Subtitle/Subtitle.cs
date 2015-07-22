@@ -39,7 +39,8 @@ namespace AssLoader
         public static Subtitle<TScriptInfo> Parse<TScriptInfo>(string subtitle) 
             where TScriptInfo : ScriptInfoCollection, new()
         {
-            ThrowHelper.ThrowIfNull(subtitle, "subtitle");
+            if(subtitle == null)
+                throw new ArgumentNullException("subtitle");
             using(var reader = new StringReader(subtitle))
                 return Parse<TScriptInfo>(reader);
         }
@@ -55,7 +56,8 @@ namespace AssLoader
         public static Subtitle<TScriptInfo> Parse<TScriptInfo>(TextReader reader) 
             where TScriptInfo : ScriptInfoCollection, new()
         {
-            ThrowHelper.ThrowIfNull(reader, "reader");
+            if(reader == null)
+                throw new ArgumentNullException("reader");
             try
             {
                 var re = new Subtitle<TScriptInfo>();

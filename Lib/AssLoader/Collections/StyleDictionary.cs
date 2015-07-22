@@ -41,7 +41,8 @@ namespace AssLoader.Collections
         /// <exception cref="ArgumentNullException"><paramref name="item"/> is <c>null</c>.</exception>
         public void Add(Style item)
         {
-            ThrowHelper.ThrowIfNull(item, "item");
+            if(item == null)
+                throw new ArgumentNullException("item");
             add(item);
         }
 
@@ -92,7 +93,8 @@ namespace AssLoader.Collections
         /// <returns>True if the item removed successfully.</returns>
         public bool Remove(Style item)
         {
-            ThrowHelper.ThrowIfNull(item, "item");
+            if(item == null)
+                throw new ArgumentNullException("item");
             if(inner.Values.Contains(item))
                 return Remove(item.Name);
             return false;
@@ -139,8 +141,10 @@ namespace AssLoader.Collections
         /// <exception cref="ArgumentNullException"><paramref name="key"/> or <paramref name="value"/> is <c>null</c>.</exception>
         public void Add(string key, Style value)
         {
-            ThrowHelper.ThrowIfNullOrEmpty(key, "key");
-            ThrowHelper.ThrowIfNull(value, "value");
+            if(string.IsNullOrWhiteSpace(key))
+                throw new ArgumentNullException("key");
+            if(value == null)
+                throw new ArgumentNullException("value");
             add(key, value);
         }
 
@@ -236,8 +240,10 @@ namespace AssLoader.Collections
             }
             set
             {
-                ThrowHelper.ThrowIfNull(value, "value");
-                ThrowHelper.ThrowIfNullOrEmpty(key, "key");
+                if(string.IsNullOrWhiteSpace(key))
+                    throw new ArgumentNullException("key");
+                if(value == null)
+                    throw new ArgumentNullException("value");
                 if(!string.Equals(key, value.Name, StringComparison.OrdinalIgnoreCase))
                     value = value.Clone(key);
                 Style old;
@@ -258,14 +264,17 @@ namespace AssLoader.Collections
 
         void ICollection<KeyValuePair<string, Style>>.Add(KeyValuePair<string, Style> item)
         {
-            ThrowHelper.ThrowIfNull(item.Value, "item.Value");
-            ThrowHelper.ThrowIfNullOrEmpty(item.Key, "item.Key");
+            if(string.IsNullOrWhiteSpace(item.Key))
+                throw new ArgumentException("item.Key should not be null or whitespace.");
+            if(item.Value == null)
+                throw new ArgumentException("item.Value should not be null.");
             add(item.Key, item.Value);
         }
 
         bool ICollection<KeyValuePair<string, Style>>.Contains(KeyValuePair<string, Style> item)
         {
-            ThrowHelper.ThrowIfNull(item.Value, "item.Value");
+            if(item.Value == null)
+                throw new ArgumentException("item.Value should not be null.");
             return ContainsKey(item.Value.Name);
         }
 

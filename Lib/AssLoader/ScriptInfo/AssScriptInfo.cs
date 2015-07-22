@@ -399,7 +399,8 @@ namespace AssLoader.Collections
             set
             {
                 var num = (int)value;
-                ThrowHelper.ThrowIfLessThanZeroOrOutOfRange(4, num, "value");
+                if(ThrowHelper.IsLessThanZeroOrOutOfRange(4, num))
+                    throw new ArgumentOutOfRangeException("value");
                 warpStyle = num;
                 PropertyChanging();
             }

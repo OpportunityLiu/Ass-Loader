@@ -123,7 +123,8 @@ namespace AssLoader
             {
                 get
                 {
-                    ThrowHelper.ThrowIfLessThanZeroOrOutOfRange(max, index, "index");
+                    if(ThrowHelper.IsLessThanZeroOrOutOfRange(max, index))
+                        throw new ArgumentOutOfRangeException("index");
                     return texts[index * 2];
                 }
             }
@@ -186,7 +187,8 @@ namespace AssLoader
             {
                 get
                 {
-                    ThrowHelper.ThrowIfLessThanZeroOrOutOfRange(max, index, "index");
+                    if(ThrowHelper.IsLessThanZeroOrOutOfRange(max, index))
+                        throw new ArgumentOutOfRangeException("index");
                     return texts[index * 2 + 1];
                 }
             }
@@ -352,7 +354,7 @@ namespace AssLoader
         /// </summary>
         /// <param name="value">The content of text.</param>
         /// <returns>A new instance of <see cref="TextContent"/> made by <see cref="TextContent(string)"/>.</returns>
-        public static implicit operator TextContent(string value) => new TextContent(value);
+        public static implicit operator TextContent(string value) => value == null ? null : new TextContent(value);
 
         /// <summary>
         /// Returns whatever two <see cref="TextContent"/> are equal.

@@ -148,7 +148,10 @@ namespace AssLoader
             }
             set
             {
-                ThrowHelper.ThrowIfLessThanZero(value, "value");
+                if(double.IsNaN(value) || double.IsInfinity(value))
+                    throw new ArgumentException("value should be a valid number", "value");
+                if(value < 0)
+                    throw new ArgumentOutOfRangeException("value");
                 fontSize = value;
                 PropertyChanging();
             }
@@ -342,7 +345,10 @@ namespace AssLoader
             }
             set
             {
-                ThrowHelper.ThrowIfLessThanZero(value, "value");
+                if(double.IsNaN(value) || double.IsInfinity(value))
+                    throw new ArgumentException("value should be a valid number", "value");
+                if(value < 0)
+                    throw new ArgumentOutOfRangeException("value");
                 scaleX = value;
                 PropertyChanging();
             }
@@ -368,7 +374,10 @@ namespace AssLoader
             }
             set
             {
-                ThrowHelper.ThrowIfLessThanZero(value, "value");
+                if(double.IsNaN(value) || double.IsInfinity(value))
+                    throw new ArgumentException("value should be a valid number", "value");
+                if(value < 0)
+                    throw new ArgumentOutOfRangeException("value");
                 scaleY = value;
                 PropertyChanging();
             }
@@ -472,7 +481,10 @@ namespace AssLoader
             }
             set
             {
-                ThrowHelper.ThrowIfLessThanZero(value, "value");
+                if(double.IsNaN(value) || double.IsInfinity(value))
+                    throw new ArgumentException("value should be a valid number", "value");
+                if(value < 0)
+                    throw new ArgumentOutOfRangeException("value");
                 outline = value;
                 PropertyChanging();
             }
@@ -498,7 +510,10 @@ namespace AssLoader
             }
             set
             {
-                ThrowHelper.ThrowIfLessThanZero(value, "value");
+                if(double.IsNaN(value) || double.IsInfinity(value))
+                    throw new ArgumentException("value should be a valid number", "value");
+                if(value < 0)
+                    throw new ArgumentOutOfRangeException("value");
                 shadow = value;
                 PropertyChanging();
             }
@@ -556,7 +571,8 @@ namespace AssLoader
             }
             set
             {
-                ThrowHelper.ThrowIfLessThanZero(value, "value");
+                if(value < 0)
+                    throw new ArgumentOutOfRangeException("value");
                 marginL = value;
                 PropertyChanging();
             }
@@ -577,7 +593,8 @@ namespace AssLoader
             }
             set
             {
-                ThrowHelper.ThrowIfLessThanZero(value, "value");
+                if(value < 0)
+                    throw new ArgumentOutOfRangeException("value");
                 marginR = value;
                 PropertyChanging();
             }
@@ -598,7 +615,8 @@ namespace AssLoader
             }
             set
             {
-                ThrowHelper.ThrowIfLessThanZero(value, "value");
+                if(value < 0)
+                    throw new ArgumentOutOfRangeException("value");
                 marginV = value;
                 PropertyChanging();
             }
@@ -625,7 +643,8 @@ namespace AssLoader
             }
             set
             {
-                ThrowHelper.ThrowIfLessThanZero(value, "value");
+                if(value < 0)
+                    throw new ArgumentOutOfRangeException("value");
                 encoding = value;
                 PropertyChanging();
             }
