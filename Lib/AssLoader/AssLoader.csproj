@@ -48,7 +48,6 @@
     <Compile Include="Serializer\TextSerializeAttribute.cs" />
     <Compile Include="Collections\StyleDictionary.cs" />
     <Compile Include="Text\TextContent.cs" />
-    <Compile Include="ThrowHelper.cs" />
     <Compile Include="Color\Color.cs" />
     <Compile Include="Color\Colors.cs" />
     <Compile Include="Delegate.cs" />
@@ -72,6 +71,7 @@
     <Compile Include="Subtitle\Subtitle{T}.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Subtitle\Subtitle.cs" />
+    <Compile Include="ThrowHelper.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

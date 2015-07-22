@@ -64,7 +64,8 @@ namespace AssLoader
         /// <exception cref="ArgumentNullException"><paramref name="format"/> is null.</exception>
         public string Serialize(EntryHeader format)
         {
-            ThrowHelper.ThrowIfNull(format, "format");
+            if(format == null)
+                throw new ArgumentNullException("format");
             var r = new EntryData(format.Select(key => fieldInfo[key].Serialize(this)).ToArray());
             return string.Format(FormatHelper.DefaultFormat, "{0}: {1}", EntryName, r.ToString());
         }
@@ -78,8 +79,10 @@ namespace AssLoader
         /// <exception cref="FormatException">Deserialize failed for some fields.</exception>
         protected void Parse(string fields, EntryHeader format)
         {
-            ThrowHelper.ThrowIfNull(format, "format");
-            ThrowHelper.ThrowIfNullOrEmpty(fields, "fields");
+            if(format == null)
+                throw new ArgumentNullException("format");
+            if(string.IsNullOrEmpty(fields))
+                throw new ArgumentNullException("fields");
             var data = new EntryData(fields, format.Count);
             for(int i = 0; i < format.Count; i++)
             {
@@ -102,8 +105,10 @@ namespace AssLoader
         /// </exception>
         protected void ParseExact(string fields, EntryHeader format)
         {
-            ThrowHelper.ThrowIfNull(format, "format");
-            ThrowHelper.ThrowIfNullOrEmpty(fields, "fields");
+            if(format == null)
+                throw new ArgumentNullException("format");
+            if(string.IsNullOrEmpty(fields))
+                throw new ArgumentNullException("fields");
             var data = new EntryData(fields, format.Count);
             for(int i = 0; i < format.Count; i++)
                 fieldInfo[format[i]].Deserialize(this, data[i]);

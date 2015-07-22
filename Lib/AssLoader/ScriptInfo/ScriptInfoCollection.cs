@@ -64,7 +64,8 @@ namespace AssLoader.Collections
         /// <exception cref="ArgumentNullException"><paramref name="writer"/> is null.</exception>
         public void Serialize(TextWriter writer)
         {
-            ThrowHelper.ThrowIfNull(writer, "writer");
+            if(writer == null)
+                throw new ArgumentNullException("writer");
             foreach(var item in scriptInfoFields.Values)
             {
                 var toWrite = item.Serialize(this);

@@ -20,7 +20,8 @@ namespace AssLoader
         /// <exception cref="FormatException"><paramref name="format"/> contains repeated entry names.</exception>
         public EntryHeader(string format)
         {
-            ThrowHelper.ThrowIfNullOrEmpty(format, "format");
+            if(string.IsNullOrEmpty(format))
+                throw new ArgumentNullException("format");
             data = new EntryData(format, int.MaxValue);
             if(data.Contains(string.Empty))
                 throw new ArgumentException("Header can't contains string.Empty.", "format");
@@ -35,7 +36,8 @@ namespace AssLoader
         /// <exception cref="ArgumentNullException"><paramref name="format"/> is null.</exception>
         public EntryHeader(IEnumerable<string> format)
         {
-            ThrowHelper.ThrowIfNull(format, "format");
+            if(format == null)
+                throw new ArgumentNullException("format");
             data = format.Distinct(StringComparer.OrdinalIgnoreCase).Select(s => s.Trim()).ToList();
         }
 

@@ -157,7 +157,8 @@ namespace AssLoader
         /// <exception cref="FormatException"><paramref name="value"/> is not a valid color string.</exception>
         public static Color Parse(string value)
         {
-            ThrowHelper.ThrowIfNullOrEmpty(value, "value");
+            if(string.IsNullOrEmpty(value))
+                throw new ArgumentNullException("value");
             try
             {
                 if(value.StartsWith("&H", StringComparison.OrdinalIgnoreCase))

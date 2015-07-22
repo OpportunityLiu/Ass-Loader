@@ -130,7 +130,8 @@ namespace AssLoader
             }
             set
             {
-                ThrowHelper.ThrowIfLessThanZero(value, "value");
+                if(value < 0)
+                    throw new ArgumentOutOfRangeException("value");
                 layer = value;
                 PropertyChanging();
             }
@@ -265,7 +266,8 @@ namespace AssLoader
             }
             set
             {
-                ThrowHelper.ThrowIfLessThanZero(value, "value");
+                if(value < 0)
+                    throw new ArgumentOutOfRangeException("value");
                 marginL = value;
                 PropertyChanging();
             }
@@ -289,7 +291,8 @@ namespace AssLoader
             }
             set
             {
-                ThrowHelper.ThrowIfLessThanZero(value, "value");
+                if(value < 0)
+                    throw new ArgumentOutOfRangeException("value");
                 marginR = value;
                 PropertyChanging();
             }
@@ -313,7 +316,8 @@ namespace AssLoader
             }
             set
             {
-                ThrowHelper.ThrowIfLessThanZero(value, "value");
+                if(value < 0)
+                    throw new ArgumentOutOfRangeException("value");
                 marginV = value;
                 PropertyChanging();
             }

@@ -31,7 +31,8 @@ namespace AssLoader
         /// <exception cref="ArgumentNullException"><paramref name="writer"/> is null.</exception>
         public void Serialize(TextWriter writer)
         {
-            ThrowHelper.ThrowIfNull(writer, "writer");
+            if(writer == null)
+                throw new ArgumentNullException("writer");
 
             writer.WriteLine("[Script Info]");
             foreach(var line in Subtitle.EditorInfo)
