@@ -47,6 +47,7 @@
     <Compile Include="Collections\EventCollection.cs" />
     <Compile Include="Serializer\TextSerializeAttribute.cs" />
     <Compile Include="Collections\StyleDictionary.cs" />
+    <Compile Include="Text\List.cs" />
     <Compile Include="Text\TextContent.cs" />
     <Compile Include="Color\Color.cs" />
     <Compile Include="Color\Colors.cs" />

@@ -10,7 +10,7 @@ namespace AssLoader
     /// <summary>
     /// Text of <see cref="SubEvent"/>, support methods to modify the text.
     /// </summary>
-    public sealed class TextContent : IEquatable<TextContent>
+    public sealed partial class TextContent : IEquatable<TextContent>
     {
         private static readonly string[] sep = new[] { "\r\n", "\r", "\n" };
 
@@ -95,134 +95,6 @@ namespace AssLoader
         {
             get;
             private set;
-        }
-
-        /// <summary>
-        /// The list of texts of a <see cref="TextContent"/>.
-        /// </summary>
-        public struct TextList : IReadOnlyList<string>
-        {
-            private string[] texts;
-            private int max;
-
-            internal TextList(string[] texts)
-            {
-                this.texts = texts;
-                this.max = texts.Length / 2 + 1;
-            }
-
-            #region IReadOnlyList<string> 成员
-
-            /// <summary>
-            /// Get the text of <paramref name="index"/> of the <see cref="TextContent"/>.
-            /// </summary>
-            /// <param name="index">The index to find.</param>
-            /// <returns>The text of <paramref name="index"/> of the <see cref="TextContent"/>.</returns>
-            /// <exception cref="ArgumentOutOfRangeException"><paramref name="index"/> is out of range.</exception>
-            public string this[int index]
-            {
-                get
-                {
-                    if(ThrowHelper.IsLessThanZeroOrOutOfRange(max, index))
-                        throw new ArgumentOutOfRangeException("index");
-                    return texts[index * 2];
-                }
-            }
-
-            #endregion
-
-            #region IReadOnlyCollection<string> 成员
-
-            /// <summary>
-            /// Count of texts in the <see cref="TextContent"/>.
-            /// </summary>
-            public int Count => max;
-
-            #endregion
-
-            #region IEnumerable<string> 成员
-
-            /// <summary>
-            /// Get a enumerator of texts of the <see cref="TextContent"/>.
-            /// </summary>
-            /// <returns>A enumerator of texts of the <see cref="TextContent"/>.</returns>
-            public IEnumerator<string> GetEnumerator()
-            {
-                for(int i = 0; i < texts.Length; i += 2)
-                    yield return texts[i];
-            }
-
-            #endregion
-
-            #region IEnumerable 成员
-
-            System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator() => this.GetEnumerator();
-
-            #endregion
-        }
-
-        /// <summary>
-        /// The list of tags of a <see cref="TextContent"/>.
-        /// </summary>
-        public struct TagList : IReadOnlyList<string>
-        {
-            private string[] texts;
-            private int max;
-
-            internal TagList(string[] texts)
-            {
-                this.texts = texts;
-                this.max = texts.Length / 2;
-            }
-
-            #region IReadOnlyList<string> 成员
-
-            /// <summary>
-            /// Get the tag of <paramref name="index"/> of the <see cref="TextContent"/>.
-            /// </summary>
-            /// <param name="index">The index to find.</param>
-            /// <returns>The tag of <paramref name="index"/> of the <see cref="TextContent"/>.</returns>
-            /// <exception cref="ArgumentOutOfRangeException"><paramref name="index"/> is out of range.</exception>
-            public string this[int index]
-            {
-                get
-                {
-                    if(ThrowHelper.IsLessThanZeroOrOutOfRange(max, index))
-                        throw new ArgumentOutOfRangeException("index");
-                    return texts[index * 2 + 1];
-                }
-            }
-
-            #endregion
-
-            #region IReadOnlyCollection<string> 成员
-
-            /// <summary>
-            /// Count of tags in the <see cref="TextContent"/>.
-            /// </summary>
-            public int Count => max;
-
-            #endregion
-
-            #region IEnumerable<string> 成员
-
-            /// <summary>
-            /// Get a enumerator of tags of the <see cref="TextContent"/>.
-            /// </summary>
-            /// <returns>A enumerator of tags of the <see cref="TextContent"/>.</returns>
-            public IEnumerator<string> GetEnumerator()
-            {
-                for(int i = 1; i < texts.Length; i += 2)
-                    yield return texts[i];
-            }
-
-            #endregion
-
-            #region IEnumerable 成员
-
-            System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator() => this.GetEnumerator();
-
-            #endregion
         }
 
         /// <summary>
