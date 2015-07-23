@@ -132,5 +132,11 @@ namespace Test
                 CollectionAssert.DoesNotContain(c.ToList(), true);
             }
         }
+
+        [TestMethod]
+        public void Parse()
+        {
+            var t = Subtitle.Parse<AssScriptInfo>("");
+        }
     }
 }

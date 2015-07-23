@@ -13,13 +13,135 @@ namespace AssLoader
     /// </summary>
     public static class Subtitle
     {
-        private enum section
+        private class parseHelper<T> where T:ScriptInfoCollection,new()
         {
-            Unknown = 0,
-            ScriptInfo,
-            Styles,
-            Events
+            public parseHelper(TextReader reader,bool isExact)
+            {
+                this.reader = reader;
+                this.isExact = isExact;
+            }
+
+            public Subtitle<T> getResult()
+            {
+                try
+                {
+                    var sec = section.Unknown;
+                    while(true)
+                    {
+                        var temp = reader.ReadLine();
+                        if(temp == null)
+                            return subtitle;
+                        temp = temp.Trim(null);
+                        if(string.IsNullOrEmpty(temp) || temp[0] == ';')
+                            continue;
+                        if(temp[0] == '[' && temp[temp.Length - 1] == ']')
+                            switch(temp.ToLower())
+                            {
+                                case "[script info]":
+                                case "[scriptinfo]":
+                                    sec = section.ScriptInfo;
+                                    break;
+                                case "[v4+ styles]":
+                                case "[v4 styles+]":
+                                case "[v4+styles]":
+                                case "[v4styles+]":
+                                    sec = section.Styles;
+                                    break;
+                                case "[events]":
+                                    sec = section.Events;
+                                    break;
+                                default:
+                                    sec = section.Unknown;
+                                    break;
+                            }
+                        else
+                            switch(sec)
+                            {
+                                case section.ScriptInfo:
+                                    subtitle.ScriptInfo.ParseLine(temp);
+                                    break;
+                                case section.Styles:
+                                    initStyle(temp);
+                                    break;
+                                case section.Events:
+                                    initEvent(temp);
+                                    break;
+                                default:
+                                    break;
+                            }
+                    }
+                }
+                catch(Exception ex) when (ex is ArgumentException || ex is FormatException)
+                {
+                    throw new ArgumentException("Error occurs during parsing.", ex);
+                }
+            }
+
+            private enum section
+            {
+                Unknown = 0,
+                ScriptInfo,
+                Styles,
+                Events
+            }
+
+            private TextReader reader;
+
+            private Subtitle<T> subtitle = new Subtitle<T>();
+
+            private bool isExact;
+
+            private EntryHeader styleFormat, eventFormat;
+
+            private void initStyle(string styleLine)
+            {
+                string key, value;
+                if(FormatHelper.TryPraseLine(out key, out value, styleLine))
+                {
+                    switch(key.ToLower())
+                    {
+                        case "format":
+                            styleFormat = new EntryHeader(value);
+                            return;
+                        case "style":
+                            if(styleFormat == null)
+                                styleFormat = StyleFormat;
+                            var s = isExact ? Style.ParseExact(styleFormat, value) : Style.Parse(styleFormat, value);
+                            try
+                            {
+                                subtitle.StyleDictionary.Add(s);
+                            }
+                            catch(ArgumentException) when (!isExact)
+                            {
+                            }
+                            return;
+                        default:
+                            return;
+                    }
+                }
+            }
+
+            private void initEvent(string eventLine)
+            {
+                string key, value;
+                if(FormatHelper.TryPraseLine(out key, out value, eventLine))
+                {
+                    if(string.Equals(key, "format", StringComparison.OrdinalIgnoreCase))
+                    {
+                        eventFormat = new EntryHeader(value);
+                    }
+                    else
+                    {
+                        if(eventFormat == null)
+                            eventFormat = EventFormat;
+                        var sub = isExact ? SubEvent.ParseExact(eventFormat, string.Equals(key, "comment", StringComparison.OrdinalIgnoreCase), value) : SubEvent.Parse(eventFormat, string.Equals(key, "comment", StringComparison.OrdinalIgnoreCase), value);
+                        subtitle.EventCollection.Add(sub);
+                    }
+                }
+            }
+
         }
+
 
         internal static readonly string[] EditorInfo =
         {
@@ -53,113 +175,30 @@ namespace AssLoader
         /// <returns>A <see cref="Subtitle{TScriptInfo}"/> presents the ass file.</returns>
         /// <exception cref="ArgumentNullException"><paramref name="reader"/> is null.</exception>
         /// <exception cref="ArgumentException"><paramref name="reader"/> contains an ass file of wrong format.</exception>
-        public static Subtitle<TScriptInfo> Parse<TScriptInfo>(TextReader reader) 
+        public static Subtitle<TScriptInfo> Parse<TScriptInfo>(TextReader reader)
             where TScriptInfo : ScriptInfoCollection, new()
         {
             if(reader == null)
                 throw new ArgumentNullException("reader");
-            try
-            {
-                var re = new Subtitle<TScriptInfo>();
-                var sec = section.Unknown;
-                EntryHeader sf = null, ef = null;
-                while(true)
-                {
-                    var temp = reader.ReadLine();
-                    if(temp == null)
-                        return re;
-                    temp = temp.Trim(null);
-                    if(string.IsNullOrEmpty(temp) || temp[0] == ';')
-                        continue;
-                    if(temp[0] == '[' && temp[temp.Length - 1] == ']')
-                        switch(temp.ToLower())
-                        {
-                            case "[script info]":
-                            case "[scriptinfo]":
-                                sec = section.ScriptInfo;
-                                break;
-                            case "[v4+ styles]":
-                            case "[v4 styles+]":
-                            case "[v4+styles]":
-                            case "[v4styles+]":
-                                sec = section.Styles;
-                                break;
-                            case "[events]":
-                                sec = section.Events;
-                                break;
-                            default:
-                                sec = section.Unknown;
-                                break;
-                        }
-                    else
-                        switch(sec)
-                        {
-                            case section.ScriptInfo:
-                                re.ScriptInfo.ParseLine(temp);
-                                break;
-                            case section.Styles:
-                                initStyle(re, temp, ref sf);
-                                break;
-                            case section.Events:
-                                initEvent(re, temp, ref ef);
-                                break;
-                            default:
-                                break;
-                        }
-                }
-            }
-            catch(Exception ex) when (ex is ArgumentException || ex is FormatException)
-            {
-                throw new ArgumentException("Error occurs during parsing.", ex);
-            }
+            var helper = new parseHelper<TScriptInfo>(reader, false);
+            return helper.getResult();
         }
 
-        private static void initStyle<T>(Subtitle<T> subtitle, string styleLine, ref EntryHeader format) 
-            where T : ScriptInfoCollection, new()
+        /// <summary>
+        /// Parse the <see cref="TextReader"/> of ass file.
+        /// </summary>
+        /// <typeparam name="TScriptInfo">Type of the container of the "script info" section of the ass file.</typeparam>
+        /// <param name="reader">A <see cref="TextReader"/> of ass file.</param>
+        /// <returns>A <see cref="Subtitle{TScriptInfo}"/> presents the ass file.</returns>
+        /// <exception cref="ArgumentNullException"><paramref name="reader"/> is null.</exception>
+        /// <exception cref="ArgumentException"><paramref name="reader"/> contains an ass file of wrong format.</exception>
+        public static Subtitle<TScriptInfo> ParseExact<TScriptInfo>(TextReader reader)
+            where TScriptInfo : ScriptInfoCollection, new()
         {
-            string key, value;
-            if(FormatHelper.TryPraseLine(out key, out value, styleLine))
-            {
-                switch(key.ToLower())
-                {
-                    case "format":
-                        format = new EntryHeader(value);
-                        return;
-                    case "style":
-                        if(format == null)
-                            format = StyleFormat;
-                        var s = Style.Parse(format, value);
-                        try
-                        {
-                            subtitle.StyleDictionary.Add(s);
-                        }
-                        catch(ArgumentException)
-                        {
-                        }
-                        return;
-                    default:
-                        return;
-                }
-            }
-        }
-
-        private static void initEvent<T>(Subtitle<T> subtitle, string eventLine, ref EntryHeader format)
-            where T : ScriptInfoCollection, new()
-        {
-            string key, value;
-            if(FormatHelper.TryPraseLine(out key, out value, eventLine))
-            {
-                if(string.Equals(key, "format", StringComparison.OrdinalIgnoreCase))
-                {
-                    format = new EntryHeader(value);
-                }
-                else
-                {
-                    if(format == null)
-                        format = EventFormat;
-                    subtitle.EventCollection.Add(SubEvent.Parse(format, string.Equals(key, "comment", StringComparison.OrdinalIgnoreCase), value));
-                }
-            }
+            if(reader == null)
+                throw new ArgumentNullException("reader");
+            var helper = new parseHelper<TScriptInfo>(reader, true);
+            return helper.getResult();
         }
 
         internal readonly static EntryHeader StyleFormat = new EntryHeader("Name,Fontname,Fontsize,PrimaryColour,SecondaryColour,OutlineColour,BackColour,Bold,Italic,Underline,Strikeout,ScaleX,ScaleY,Spacing,Angle,BorderStyle,Outline,Shadow,Alignment,MarginL,MarginR,MarginV,Encoding");
