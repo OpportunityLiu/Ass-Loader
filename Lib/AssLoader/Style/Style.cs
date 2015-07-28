@@ -95,10 +95,10 @@ namespace AssLoader
                 if(FormatHelper.FieldStringValueValid(ref value))
                 {
                     name = value;
-                    PropertyChanging();
+                    RaisePropertyChanged();
                 }
                 else
-                    throw new ArgumentNullException("value");
+                    throw new ArgumentNullException(nameof(value));
             }
         }
 
@@ -121,10 +121,10 @@ namespace AssLoader
                 if(FormatHelper.FieldStringValueValid(ref value))
                 {
                     fontName = value;
-                    PropertyChanging();
+                    RaisePropertyChanged();
                 }
                 else
-                    throw new ArgumentNullException("value");
+                    throw new ArgumentNullException(nameof(value));
             }
         }
 
@@ -149,11 +149,11 @@ namespace AssLoader
             set
             {
                 if(double.IsNaN(value) || double.IsInfinity(value))
-                    throw new ArgumentException("value should be a valid number", "value");
+                    throw new ArgumentException("value should be a valid number", nameof(value));
                 if(value < 0)
-                    throw new ArgumentOutOfRangeException("value");
+                    throw new ArgumentOutOfRangeException(nameof(value));
                 fontSize = value;
-                PropertyChanging();
+                RaisePropertyChanged();
             }
         }
 
@@ -173,7 +173,7 @@ namespace AssLoader
             set
             {
                 primaryColor = value;
-                PropertyChanging();
+                RaisePropertyChanged();
             }
         }
 
@@ -193,7 +193,7 @@ namespace AssLoader
             set
             {
                 secondaryColor = value;
-                PropertyChanging();
+                RaisePropertyChanged();
             }
         }
 
@@ -213,7 +213,7 @@ namespace AssLoader
             set
             {
                 outlineColor = value;
-                PropertyChanging();
+                RaisePropertyChanged();
             }
         }
 
@@ -233,7 +233,7 @@ namespace AssLoader
             set
             {
                 shadowColor = value;
-                PropertyChanging();
+                RaisePropertyChanged();
             }
         }
 
@@ -255,7 +255,7 @@ namespace AssLoader
                     bold = -1;
                 else
                     bold = 0;
-                PropertyChanging();
+                RaisePropertyChanged();
             }
         }
 
@@ -277,7 +277,7 @@ namespace AssLoader
                     italic = -1;
                 else
                     italic = 0;
-                PropertyChanging();
+                RaisePropertyChanged();
             }
         }
 
@@ -299,7 +299,7 @@ namespace AssLoader
                     underline = -1;
                 else
                     underline = 0;
-                PropertyChanging();
+                RaisePropertyChanged();
             }
         }
 
@@ -321,7 +321,7 @@ namespace AssLoader
                     strikeout = -1;
                 else
                     strikeout = 0;
-                PropertyChanging();
+                RaisePropertyChanged();
             }
         }
 
@@ -346,11 +346,11 @@ namespace AssLoader
             set
             {
                 if(double.IsNaN(value) || double.IsInfinity(value))
-                    throw new ArgumentException("value should be a valid number", "value");
+                    throw new ArgumentException("value should be a valid number", nameof(value));
                 if(value < 0)
-                    throw new ArgumentOutOfRangeException("value");
+                    throw new ArgumentOutOfRangeException(nameof(value));
                 scaleX = value;
-                PropertyChanging();
+                RaisePropertyChanged();
             }
         }
 
@@ -375,11 +375,11 @@ namespace AssLoader
             set
             {
                 if(double.IsNaN(value) || double.IsInfinity(value))
-                    throw new ArgumentException("value should be a valid number", "value");
+                    throw new ArgumentException("value should be a valid number", nameof(value));
                 if(value < 0)
-                    throw new ArgumentOutOfRangeException("value");
+                    throw new ArgumentOutOfRangeException(nameof(value));
                 scaleY = value;
-                PropertyChanging();
+                RaisePropertyChanged();
             }
         }
 
@@ -399,9 +399,9 @@ namespace AssLoader
             set
             {
                 if(double.IsNaN(value) || double.IsInfinity(value))
-                    throw new ArgumentException("value");
+                    throw new ArgumentException("value should be a valid number", nameof(value));
                 spacing = value;
-                PropertyChanging();
+                RaisePropertyChanged();
             }
         }
 
@@ -421,13 +421,13 @@ namespace AssLoader
             set
             {
                 if(double.IsNaN(value) || double.IsInfinity(value))
-                    throw new ArgumentException("value");
+                    throw new ArgumentException("value should be a valid number", nameof(value));
                 rotation = value % 360;
                 if(rotation > 180)
                     rotation -= 360;
                 else if(rotation < -180)
                     rotation += 360;
-                PropertyChanging();
+                RaisePropertyChanged();
             }
         }
 
@@ -453,10 +453,10 @@ namespace AssLoader
                 case BorderStyle.OutlineAndDropShadow:
                 case BorderStyle.OpaqueBox:
                     borderStyle = (int)value;
-                    PropertyChanging();
+                    RaisePropertyChanged();
                     break;
                 default:
-                    throw new ArgumentOutOfRangeException("value");
+                    throw new ArgumentOutOfRangeException(nameof(value));
                 }
             }
         }
@@ -482,11 +482,11 @@ namespace AssLoader
             set
             {
                 if(double.IsNaN(value) || double.IsInfinity(value))
-                    throw new ArgumentException("value should be a valid number", "value");
+                    throw new ArgumentException("value should be a valid number", nameof(value));
                 if(value < 0)
-                    throw new ArgumentOutOfRangeException("value");
+                    throw new ArgumentOutOfRangeException(nameof(value));
                 outline = value;
-                PropertyChanging();
+                RaisePropertyChanged();
             }
         }
 
@@ -511,11 +511,11 @@ namespace AssLoader
             set
             {
                 if(double.IsNaN(value) || double.IsInfinity(value))
-                    throw new ArgumentException("value should be a valid number", "value");
+                    throw new ArgumentException("value should be a valid number", nameof(value));
                 if(value < 0)
-                    throw new ArgumentOutOfRangeException("value");
+                    throw new ArgumentOutOfRangeException(nameof(value));
                 shadow = value;
-                PropertyChanging();
+                RaisePropertyChanged();
             }
         }
 
@@ -548,10 +548,10 @@ namespace AssLoader
                 case AlignmentStyle.TopCenter:
                 case AlignmentStyle.TopRight:
                     alignment = (int)value;
-                    PropertyChanging();
+                    RaisePropertyChanged();
                     break;
                 default:
-                    throw new ArgumentOutOfRangeException("value");
+                    throw new ArgumentOutOfRangeException(nameof(value));
                 }
             }
         }
@@ -572,9 +572,9 @@ namespace AssLoader
             set
             {
                 if(value < 0)
-                    throw new ArgumentOutOfRangeException("value");
+                    throw new ArgumentOutOfRangeException(nameof(value));
                 marginL = value;
-                PropertyChanging();
+                RaisePropertyChanged();
             }
         }
 
@@ -594,9 +594,9 @@ namespace AssLoader
             set
             {
                 if(value < 0)
-                    throw new ArgumentOutOfRangeException("value");
+                    throw new ArgumentOutOfRangeException(nameof(value));
                 marginR = value;
-                PropertyChanging();
+                RaisePropertyChanged();
             }
         }
 
@@ -616,9 +616,9 @@ namespace AssLoader
             set
             {
                 if(value < 0)
-                    throw new ArgumentOutOfRangeException("value");
+                    throw new ArgumentOutOfRangeException(nameof(value));
                 marginV = value;
-                PropertyChanging();
+                RaisePropertyChanged();
             }
         }
 
@@ -644,9 +644,9 @@ namespace AssLoader
             set
             {
                 if(value < 0)
-                    throw new ArgumentOutOfRangeException("value");
+                    throw new ArgumentOutOfRangeException(nameof(value));
                 encoding = value;
-                PropertyChanging();
+                RaisePropertyChanged();
             }
         }
 

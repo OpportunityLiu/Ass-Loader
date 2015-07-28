@@ -29,9 +29,6 @@ namespace AssLoader.Serializer
         /// </summary>
         /// <param name="value">The value to convert.</param>
         /// <returns>The result of convertion.</returns>   
-        public override object Deserialize(string value)
-        {
-            return TextContent.Parse(value);
-        }
+        public override object Deserialize(string value) => TextContent.Parse(value);
     }
 }

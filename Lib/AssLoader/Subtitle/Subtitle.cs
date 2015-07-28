@@ -21,14 +21,16 @@ namespace AssLoader
                 this.isExact = isExact;
             }
 
-            public Subtitle<T> getResult()
+            public Subtitle<T> GetResult()
             {
+                int lineNumber = 0;
                 try
                 {
                     var sec = section.Unknown;
                     while(true)
                     {
                         var temp = reader.ReadLine();
+                        lineNumber++;
                         if(temp == null)
                             return subtitle;
                         temp = temp.Trim(null);
@@ -71,10 +73,15 @@ namespace AssLoader
                             }
                     }
                 }
-                catch(Exception ex) when (ex is ArgumentException || ex is FormatException)
+                catch(Exception ex)
                 {
-                    throw new ArgumentException("Error occurs during parsing.", ex);
+                    throw new ArgumentException($"Error occurs during parsing.\nLine number: {lineNumber}", ex);
                 }
+            }
+
+            public Task<Subtitle<T>> GetResultAsync()
+            {
+                return Task.Run(()=>GetResult());
             }
 
             private enum section
@@ -105,7 +112,7 @@ namespace AssLoader
                             return;
                         case "style":
                             if(styleFormat == null)
-                                styleFormat = StyleFormat;
+                                styleFormat = DefaultStyleFormat;
                             var s = isExact ? Style.ParseExact(styleFormat, value) : Style.Parse(styleFormat, value);
                             try
                             {
@@ -133,7 +140,7 @@ namespace AssLoader
                     else
                     {
                         if(eventFormat == null)
-                            eventFormat = EventFormat;
+                            eventFormat = DefaultEventFormat;
                         var sub = isExact ? SubEvent.ParseExact(eventFormat, string.Equals(key, "comment", StringComparison.OrdinalIgnoreCase), value) : SubEvent.Parse(eventFormat, string.Equals(key, "comment", StringComparison.OrdinalIgnoreCase), value);
                         subtitle.EventCollection.Add(sub);
                     }
@@ -141,7 +148,6 @@ namespace AssLoader
             }
 
         }
-
 
         internal static readonly string[] EditorInfo =
         {
@@ -158,11 +164,11 @@ namespace AssLoader
         /// <returns>A <see cref="Subtitle{TScriptInfo}"/> presents the ass file.</returns>
         /// <exception cref="ArgumentNullException"><paramref name="subtitle"/> is null.</exception>
         /// <exception cref="ArgumentException"><paramref name="subtitle"/> contains an ass file of wrong format.</exception>
-        public static Subtitle<TScriptInfo> Parse<TScriptInfo>(string subtitle) 
+        public static Subtitle<TScriptInfo> Parse<TScriptInfo>(string subtitle)
             where TScriptInfo : ScriptInfoCollection, new()
         {
             if(subtitle == null)
-                throw new ArgumentNullException("subtitle");
+                throw new ArgumentNullException(nameof(subtitle));
             using(var reader = new StringReader(subtitle))
                 return Parse<TScriptInfo>(reader);
         }
@@ -179,9 +185,8 @@ namespace AssLoader
             where TScriptInfo : ScriptInfoCollection, new()
         {
             if(reader == null)
-                throw new ArgumentNullException("reader");
-            var helper = new parseHelper<TScriptInfo>(reader, false);
-            return helper.getResult();
+                throw new ArgumentNullException(nameof(reader));
+            return new parseHelper<TScriptInfo>(reader, false).GetResult();
         }
 
         /// <summary>
@@ -196,13 +201,61 @@ namespace AssLoader
             where TScriptInfo : ScriptInfoCollection, new()
         {
             if(reader == null)
-                throw new ArgumentNullException("reader");
-            var helper = new parseHelper<TScriptInfo>(reader, true);
-            return helper.getResult();
+                throw new ArgumentNullException(nameof(reader));
+            return new parseHelper<TScriptInfo>(reader, true).GetResult();
         }
 
-        internal readonly static EntryHeader StyleFormat = new EntryHeader("Name,Fontname,Fontsize,PrimaryColour,SecondaryColour,OutlineColour,BackColour,Bold,Italic,Underline,Strikeout,ScaleX,ScaleY,Spacing,Angle,BorderStyle,Outline,Shadow,Alignment,MarginL,MarginR,MarginV,Encoding");
+        /// <summary>
+        /// Parse the <see cref="string"/> of ass file.
+        /// </summary>
+        /// <typeparam name="TScriptInfo">Type of the container of the "script info" section of the ass file.</typeparam>
+        /// <param name="subtitle">A <see cref="string"/> of ass file.</param>
+        /// <returns>A <see cref="Subtitle{TScriptInfo}"/> presents the ass file.</returns>
+        /// <exception cref="ArgumentNullException"><paramref name="subtitle"/> is null.</exception>
+        /// <exception cref="ArgumentException"><paramref name="subtitle"/> contains an ass file of wrong format.</exception>
+        public static async Task<Subtitle<TScriptInfo>> ParseAsync<TScriptInfo>(string subtitle)
+            where TScriptInfo : ScriptInfoCollection, new()
+        {
+            if(subtitle == null)
+                throw new ArgumentNullException(nameof(subtitle));
+            using(var reader = new StringReader(subtitle))
+                return await ParseAsync<TScriptInfo>(reader);
+        }
 
-        internal readonly static EntryHeader EventFormat = new EntryHeader("Layer,Start,End,Style,Name,MarginL,MarginR,MarginV,Effect,Text");
+        /// <summary>
+        /// Parse the <see cref="TextReader"/> of ass file.
+        /// </summary>
+        /// <typeparam name="TScriptInfo">Type of the container of the "script info" section of the ass file.</typeparam>
+        /// <param name="reader">A <see cref="TextReader"/> of ass file.</param>
+        /// <returns>A <see cref="Subtitle{TScriptInfo}"/> presents the ass file.</returns>
+        /// <exception cref="ArgumentNullException"><paramref name="reader"/> is null.</exception>
+        /// <exception cref="ArgumentException"><paramref name="reader"/> contains an ass file of wrong format.</exception>
+        public static async Task<Subtitle<TScriptInfo>> ParseAsync<TScriptInfo>(TextReader reader)
+            where TScriptInfo : ScriptInfoCollection, new()
+        {
+            if(reader == null)
+                throw new ArgumentNullException(nameof(reader));
+            return await new parseHelper<TScriptInfo>(reader, false).GetResultAsync();
+        }
+
+        /// <summary>
+        /// Parse the <see cref="TextReader"/> of ass file.
+        /// </summary>
+        /// <typeparam name="TScriptInfo">Type of the container of the "script info" section of the ass file.</typeparam>
+        /// <param name="reader">A <see cref="TextReader"/> of ass file.</param>
+        /// <returns>A <see cref="Subtitle{TScriptInfo}"/> presents the ass file.</returns>
+        /// <exception cref="ArgumentNullException"><paramref name="reader"/> is null.</exception>
+        /// <exception cref="ArgumentException"><paramref name="reader"/> contains an ass file of wrong format.</exception>
+        public static async Task<Subtitle<TScriptInfo>> ParseExactAsync<TScriptInfo>(TextReader reader)
+            where TScriptInfo : ScriptInfoCollection, new()
+        {
+            if(reader == null)
+                throw new ArgumentNullException(nameof(reader));
+            return await new parseHelper<TScriptInfo>(reader, true).GetResultAsync();
+        }
+
+        internal readonly static EntryHeader DefaultStyleFormat = new EntryHeader("Name,Fontname,Fontsize,PrimaryColour,SecondaryColour,OutlineColour,BackColour,Bold,Italic,Underline,Strikeout,ScaleX,ScaleY,Spacing,Angle,BorderStyle,Outline,Shadow,Alignment,MarginL,MarginR,MarginV,Encoding");
+
+        internal readonly static EntryHeader DefaultEventFormat = new EntryHeader("Layer,Start,End,Style,Name,MarginL,MarginR,MarginV,Effect,Text");
     }
 }

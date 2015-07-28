@@ -18,15 +18,21 @@ namespace AssLoader
             if(value.Length == 0)
                 return false;
             if(value.IndexOfAny(retChar) != -1)
-                throw new ArgumentException("value must be single line.", "value");
+                throw new ArgumentException("value must be single line.", nameof(value));
             return true;
         }
 
         public static bool FieldStringValueValid(ref string value)
         {
-            var r = SingleLineStringValueValid(ref value);
-            value = value.Replace(',', ';');
-            return r;
+            if(SingleLineStringValueValid(ref value))
+            {
+                value = value.Replace(',', ';');
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
 
         public static IFormatProvider DefaultFormat

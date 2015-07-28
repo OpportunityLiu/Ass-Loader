@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace AssLoader
 {
-        [Pure]
+    [Pure]
     static class ThrowHelper
     {
         public static bool IsLessThanZeroOrOutOfRange(int max, int value)

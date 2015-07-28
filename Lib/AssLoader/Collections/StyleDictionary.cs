@@ -20,8 +20,7 @@ namespace AssLoader.Collections
         private void add(Style item)
         {
             inner.Add(item.Name, item);
-            if(CollectionChanged != null)
-                CollectionChanged(this, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, item));
+            CollectionChanged?.Invoke(this, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, item));
             countChanging();
         }
 
@@ -42,7 +41,7 @@ namespace AssLoader.Collections
         public void Add(Style item)
         {
             if(item == null)
-                throw new ArgumentNullException("item");
+                throw new ArgumentNullException(nameof(item));
             add(item);
         }
 
@@ -52,8 +51,7 @@ namespace AssLoader.Collections
         public void Clear()
         {
             inner.Clear();
-            if(CollectionChanged != null)
-                CollectionChanged(this, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
+            CollectionChanged?.Invoke(this, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
             countChanging();
         }
 
@@ -62,7 +60,7 @@ namespace AssLoader.Collections
             return inner.Values.Contains(item);
         }
 
-        void  ICollection<Style>.CopyTo(Style[] array, int arrayIndex)
+        void ICollection<Style>.CopyTo(Style[] array, int arrayIndex)
         {
             inner.Values.CopyTo(array, arrayIndex);
         }
@@ -94,7 +92,7 @@ namespace AssLoader.Collections
         public bool Remove(Style item)
         {
             if(item == null)
-                throw new ArgumentNullException("item");
+                throw new ArgumentNullException(nameof(item));
             if(inner.Values.Contains(item))
                 return Remove(item.Name);
             return false;
@@ -142,9 +140,9 @@ namespace AssLoader.Collections
         public void Add(string key, Style value)
         {
             if(string.IsNullOrWhiteSpace(key))
-                throw new ArgumentNullException("key");
+                throw new ArgumentNullException(nameof(key));
             if(value == null)
-                throw new ArgumentNullException("value");
+                throw new ArgumentNullException(nameof(value));
             add(key, value);
         }
 
@@ -189,8 +187,7 @@ namespace AssLoader.Collections
             if(!inner.TryGetValue(key, out toRemove))
                 return false;
             inner.Remove(key);
-            if(CollectionChanged != null)
-                CollectionChanged(this, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, toRemove));
+            CollectionChanged?.Invoke(this, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, toRemove));
             countChanging();
             return true;
         }
@@ -241,17 +238,16 @@ namespace AssLoader.Collections
             set
             {
                 if(string.IsNullOrWhiteSpace(key))
-                    throw new ArgumentNullException("key");
+                    throw new ArgumentNullException(nameof(key));
                 if(value == null)
-                    throw new ArgumentNullException("value");
+                    throw new ArgumentNullException(nameof(value));
                 if(!string.Equals(key, value.Name, StringComparison.OrdinalIgnoreCase))
                     value = value.Clone(key);
                 Style old;
                 if(TryGetValue(key, out old))
                 {
                     inner[key] = value;
-                    if(CollectionChanged != null)
-                        CollectionChanged(this, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Replace, value, old));
+                    CollectionChanged?.Invoke(this, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Replace, value, old));
                 }
                 else
                     add(key, value);
@@ -335,8 +331,7 @@ namespace AssLoader.Collections
 
         private void countChanging()
         {
-            if(PropertyChanged != null)
-                PropertyChanged(this, countChanged);
+            PropertyChanged?.Invoke(this, countChanged);
         }
 
         private static readonly PropertyChangedEventArgs countChanged = new PropertyChangedEventArgs("Count");

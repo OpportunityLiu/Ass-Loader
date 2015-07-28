@@ -1,0 +1,535 @@
+﻿[Script Info]
+; // 此字幕由PopSub生成  2012-08-12 13:04:01
+; // 版本: 0.77
+; // popgo_fansub@yahoo.co.jp
+; // 歡迎訪問漫遊天下 http://bbs.popgo.net
+Title:漫遊字幕
+Original Script:漫遊字幕組
+Synch Point:0
+ScriptType:v4.00+
+Collisions:Normal
+PlayResX:640
+PlayResY:480
+Timer:100.0000
+
+[V4+ Styles]
+Format: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, BackColour, Bold, Italic, Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV, Encoding
+Style: Default,Times New Roman,25,&H00FFFFFF,&HF0000000,&H00000000,&HF0000000,-1,0,0,0,100,100,0,0.00,1,1,0,2,30,30,10,134
+Style: Top,Verdana,22,&H00FFFFFF,&H0000FFFF,&H000000FF,&H00040416,0,0,0,0,100,100,0,0.00,1,2,1,8,10,10,10,0
+Style: Top2,Verdana,18,&H00FFFFFF,&H0000FFFF,&H00A32607,&H00040416,0,0,0,0,100,100,0,0.00,1,2,1,8,10,10,30,0
+
+[Events]
+Format: Layer, Start, End, Style, Actor, MarginL, MarginR, MarginV, Effect, Text
+Dialogue: 0,0:00:00.00,0:01:24.09,Top2,NTP,0000,0000,0000,,{\fad(1500,1600)}This is for language exchange,please delete in 24 hours, I will not be responsible for any unlawful actions.
+Dialogue: 0,0:00:00.00,0:01:00.15,Top,NTP,0000,0000,0000,,{\fad(1500,1600)}English Translation: IssacTang  QC: Franeux Provider:Peter
+Dialogue: 0,0:00:01.91,0:00:05.98,*Default,NTP,0000,0000,0000,,Do you know there are rules when flying ?
+Dialogue: 0,0:00:08.28,0:00:11.84,*Default,NTP,0000,0000,0000,,Where every you go in the world, there must be a "high way"
+Dialogue: 0,0:00:12.34,0:00:16.48,*Default,NTP,0000,0000,0000,,In aviation, we call them airways, analogous to highways in lamen terms
+Dialogue: 0,0:00:16.61,0:00:24.16,*Default,NTP,0000,0000,0000,,All aircraft in japan fly from and to this predefined route- airways to ensure safety
+Dialogue: 0,0:00:25.00,0:00:29.85,*Default,NTP,0000,0000,0000,,TO maintain proper separation during takeoff, landing and enroute,
+Dialogue: 0,0:00:29.93,0:00:39.81,*Default,NTP,0000,0000,0000,,Air traffic controllers are there to instruct pilots on hdg, speed and alt to ensure safety.
+Dialogue: 0,0:00:41.41,0:00:44.83,*Default,NTP,0000,0000,0000,,for example a plane flying from fukoka to haneda
+Dialogue: 0,0:00:45.50,0:00:53.35,*Default,NTP,0000,0000,0000,,First the pilot contacts the atc and the aerodrome controller give clerance from ground movements to airborne
+Dialogue: 0,0:01:12.96,0:01:20.71,*Default,NTP,0000,0000,0000,,From aerdrome control, the a/c is pass to terminal control
+Dialogue: 0,0:01:23.51,0:01:29.89,*Default,NTP,0000,0000,0000,,then from terminal control is passed to the 4 major Area Control Centre
+Dialogue: 0,0:01:30.29,0:01:37.52,*Default,NTP,0000,0000,0000,,ACC uses radar facility to track the flight and guide them to their destination 
+Dialogue: 0,0:01:37.52,0:01:42.87,*Default,NTP,0000,0000,0000,,The green is Fukoka Control and blue is Tokyo control area
+Dialogue: 0,0:01:44.14,0:01:50.96,*Default,NTP,0000,0000,0000,,The plane flies with the predefined route and contact fukuoka control then tokyo control
+Dialogue: 0,0:01:50.96,0:02:02.05,*Default,NTP,0000,0000,0000,,The plane is then transfer to the terminal control of haneda for landing
+Dialogue: 0,0:02:25.90,0:02:29.36,*Default,NTP,0000,0000,0000,,The ATC uses radar to maitain separation is called Air Traffic Control
+Dialogue: 0,0:02:37.95,0:02:43.25,*Default,NTP,0000,0000,0000,,In the world, Air traffic Control has a variety of complex rules and system
+Dialogue: 0,0:02:46.08,0:02:54.80,*Default,NTP,0000,0000,0000,,Because of These sets of rules and Air traffic controllers strive to separate traffic made flying in the air safe
+Dialogue: 0,0:03:02.24,0:03:05.85,*Default,NTP,0000,0000,0000,,Do you know what is the relationship between aircraft and weather ?
+Dialogue: 0,0:03:08.81,0:03:15.34,*Default,NTP,0000,0000,0000,,Air traffic flow management center is located in fukuoka, Gannosu prefecture
+Dialogue: 0,0:03:17.50,0:03:20.95,*Default,NTP,0000,0000,0000,,They also manage different weather stations over the country
+Dialogue: 0,0:03:21.23,0:03:25.70,*Default,NTP,0000,0000,0000,,This is a doppler weather radar, a device to forcast wind direction and speed
+Dialogue: 0,0:03:25.89,0:03:30.57,*Default,NTP,0000,0000,0000,,This allows ATC to see how the movements of winds and prevent flying in severe weather conditions
+Dialogue: 0,0:03:31.29,0:03:36.74,*Default,NTP,0000,0000,0000,,If there is an adverse weather, They shall be assigned to nearest alternative airport, but
+Dialogue: 0,0:03:36.97,0:03:44.74,*Default,NTP,0000,0000,0000,,There may be not enough gates at the very moment.
+Dialogue: 0,0:03:44.89,0:03:48.60,*Default,NTP,0000,0000,0000,,which the aircraft have to divert to airports aside from their defined alternate airport
+Dialogue: 0,0:03:48.76,0:03:53.11,*Default,NTP,0000,0000,0000,,The coordination on diverting aircraft would be done in ATM
+Dialogue: 0,0:04:01.71,0:04:03.70,*Default,NTP,0000,0000,0000,,You are always strong
+Dialogue: 0,0:04:07.11,0:04:07.99,*Default,NTP,0000,0000,0000,,dangerous
+Dialogue: 0,0:04:08.07,0:04:09.32,*Default,NTP,0000,0000,0000,,This is very expensive
+Dialogue: 0,0:04:09.66,0:04:10.83,*Default,NTP,0000,0000,0000,,Is that really expensive ?
+Dialogue: 0,0:04:11.08,0:04:12.42,*Default,NTP,0000,0000,0000,,Its 33,000 yen
+Dialogue: 0,0:04:12.56,0:04:13.84,*Default,NTP,0000,0000,0000,,Everyone, let's return
+Dialogue: 0,0:04:14.91,0:04:16.73,*Default,NTP,0000,0000,0000,,The Goverment plane has disappeared
+Dialogue: 0,0:04:18.73,0:04:19.69,*Default,NTP,0000,0000,0000,,There someone on the radar screen
+Dialogue: 0,0:04:19.96,0:04:20.70,*Default,NTP,0000,0000,0000,,Collision
+Dialogue: 0,0:04:23.36,0:04:25.21,*Default,NTP,0000,0000,0000,,It is the first time to have a such trouble in radar
+Dialogue: 0,0:04:25.35,0:04:27.66,*Default,NTP,0000,0000,0000,,The boards have sent agents to investigate on this case
+Dialogue: 0,0:04:28.56,0:04:29.44,*Default,NTP,0000,0000,0000,,Shimuro
+Dialogue: 0,0:04:29.55,0:04:30.68,*Default,NTP,0000,0000,0000,,Do they knew before ?
+Dialogue: 0,0:04:31.10,0:04:32.56,*Default,NTP,0000,0000,0000,,It doesn't seem Yuki is in a good mood.
+Dialogue: 0,0:04:32.69,0:04:35.78,*Default,NTP,0000,0000,0000,,We have just experienced black out and we are on auxiliary power
+Dialogue: 0,0:04:35.93,0:04:37.13,*Default,NTP,0000,0000,0000,,Do you know what happened ?
+Dialogue: 0,0:04:37.24,0:04:38.40,*Default,NTP,0000,0000,0000,,I don't know either
+Dialogue: 0,0:04:38.47,0:04:41.08,*Default,NTP,0000,0000,0000,,EH ? what is happening ?
+Dialogue: 0,0:04:41.15,0:04:43.09,*Default,NTP,0000,0000,0000,,Why are you moving...
+Dialogue: 0,0:04:43.19,0:04:44.84,*Default,NTP,0000,0000,0000,,Why is the server in operating mode ?
+Dialogue: 0,0:04:45.02,0:04:47.42,*Default,NTP,0000,0000,0000,,I don't have time but i will try
+Dialogue: 0,0:04:48.90,0:04:50.29,*Default,NTP,0000,0000,0000,,The data modification has started
+Dialogue: 0,0:04:50.43,0:04:51.20,*Default,NTP,0000,0000,0000,,What is that ?
+Dialogue: 0,0:04:51.28,0:04:53.01,*Default,NTP,0000,0000,0000,,Somone has accessed the system and change the data
+Dialogue: 0,0:04:53.16,0:04:54.12,*Default,NTP,0000,0000,0000,,what is wrong ?
+Dialogue: 0,0:04:57.26,0:04:58.98,*Default,NTP,0000,0000,0000,,Everyone stop, do not give instruction
+Dialogue: 0,0:04:59.22,0:05:01.09,*Default,NTP,0000,0000,0000,,Don't look at your radar screen
+Dialogue: 0,0:05:01.29,0:05:03.72,*Default,NTP,0000,0000,0000,,forget the callsign and re-identify all your traffic
+Dialogue: 0,0:05:04.13,0:05:05.81,*Default,NTP,0000,0000,0000,,We have investigated the ip of access to the radar system
+Dialogue: 0,0:05:08.32,0:05:12.00,*Default,NTP,0000,0000,0000,,We have confirmed that it was accessed from tokyo control room
+Dialogue: 0,0:05:12.14,0:05:13.43,*Default,NTP,0000,0000,0000,,What ?
+Dialogue: 0,0:05:15.32,0:05:17.68,*Default,NTP,0000,0000,0000,,The criminal is within us
+Dialogue: 0,0:05:27.35,0:05:39.40,*Default,NTP,0000,0000,0000,,EP03
+Dialogue: 0,0:05:43.14,0:05:44.29,*Default,NTP,0000,0000,0000,,Really?
+Dialogue: 0,0:05:44.52,0:05:46.17,*Default,NTP,0000,0000,0000,,Please give me some time
+Dialogue: 0,0:05:46.40,0:05:49.07,*Default,NTP,0000,0000,0000,,Yuki, we shall try to recover the data
+Dialogue: 0,0:05:50.81,0:05:52.41,*Default,NTP,0000,0000,0000,,I will contact the headquarters and think of a way
+Dialogue: 0,0:05:53.85,0:05:55.67,*Default,NTP,0000,0000,0000,,Can you come with me ?
+Dialogue: 0,0:05:55.86,0:05:57.36,*Default,NTP,0000,0000,0000,,I have something to ask you
+Dialogue: 0,0:05:58.61,0:05:59.61,*Default,NTP,0000,0000,0000,,Hi, boss
+Dialogue: 0,0:05:59.86,0:06:00.74,*Default,NTP,0000,0000,0000,,What happened ?
+Dialogue: 0,0:06:02.70,0:06:04.08,*Default,NTP,0000,0000,0000,,What should we do ?
+Dialogue: 0,0:06:05.64,0:06:06.87,*Default,NTP,0000,0000,0000,,It about the callsign
+Dialogue: 0,0:06:07.07,0:06:09.18,*Default,NTP,0000,0000,0000,,The callsign are incorrect and interchanged with another a/c
+Dialogue: 0,0:06:09.51,0:06:11.47,*Default,NTP,0000,0000,0000,,If this continues, we can't handle this
+Dialogue: 0,0:06:14.70,0:06:18.58,*Default,NTP,0000,0000,0000,,Please follow up the case in Kantou East to South sector
+Dialogue: 0,0:06:20.05,0:06:21.58,*Default,NTP,0000,0000,0000,,Really ?
+Dialogue: 0,0:06:21.74,0:06:22.42,*Default,NTP,0000,0000,0000,,is it alright ?
+Dialogue: 0,0:06:22.51,0:06:23.37,*Default,NTP,0000,0000,0000,,Don't worry
+Dialogue: 0,0:06:23.57,0:06:24.98,*Default,NTP,0000,0000,0000,,Yuki, I'll count on you.
+Dialogue: 0,0:06:38.82,0:06:40.12,*Default,NTP,0000,0000,0000,,I will go to the security office
+Dialogue: 0,0:06:40.22,0:06:42.76,*Default,NTP,0000,0000,0000,,I will give you the survelliance camera video recording
+Dialogue: 0,0:06:43.53,0:06:48.26,*Default,NTP,0000,0000,0000,,Can I look at the radar system administrator list ?
+Dialogue: 0,0:06:49.19,0:06:51.09,*Default,NTP,0000,0000,0000,,Ok.
+Dialogue: 0,0:07:05.41,0:07:06.52,*Default,NTP,0000,0000,0000,,Shall we have a drink after this ?
+Dialogue: 0,0:07:06.67,0:07:07.82,*Default,NTP,0000,0000,0000,,Great
+Dialogue: 0,0:07:07.91,0:07:09.76,*Default,NTP,0000,0000,0000,,Which shop shall we go ?
+Dialogue: 0,0:07:09.84,0:07:10.83,*Default,NTP,0000,0000,0000,,Yamasan, we you join us ?
+Dialogue: 0,0:07:10.88,0:07:12.87,*Default,NTP,0000,0000,0000,,Not today
+Dialogue: 0,0:07:13.38,0:07:15.19,*Default,NTP,0000,0000,0000,,I would like to go baseball with you sometime
+Dialogue: 0,0:07:15.89,0:07:17.25,*Default,NTP,0000,0000,0000,,Your name is Yamashita?
+Dialogue: 0,0:07:17.37,0:07:18.44,*Default,NTP,0000,0000,0000,,You did not know ?
+Dialogue: 0,0:07:19.25,0:07:24.44,*Default,NTP,0000,0000,0000,,I ate the oniki made by Yamashita
+Dialogue: 0,0:07:25.00,0:07:26.54,*Default,NTP,0000,0000,0000,,He escape from the oniki ? (playing on japanese syllables)
+Dialogue: 0,0:07:27.49,0:07:29.09,*Default,NTP,0000,0000,0000,,By looking at the outlook its seems to be delicious
+Dialogue: 0,0:07:29.23,0:07:31.23,*Default,NTP,0000,0000,0000,,It was great
+Dialogue: 0,0:07:32.08,0:07:34.57,*Default,NTP,0000,0000,0000,,I got the tickets to the Baseball team this season
+Dialogue: 0,0:07:34.73,0:07:35.46,*Default,NTP,0000,0000,0000,,Thank you
+Dialogue: 0,0:07:35.58,0:07:36.40,*Default,NTP,0000,0000,0000,,How much ?
+Dialogue: 0,0:07:36.47,0:07:37.45,*Default,NTP,0000,0000,0000,,300,000 yen
+Dialogue: 0,0:07:37.57,0:07:39.11,*Default,NTP,0000,0000,0000,,You bet it
+Dialogue: 0,0:07:40.97,0:07:41.95,*Default,NTP,0000,0000,0000,,Are you busy ?
+Dialogue: 0,0:07:42.05,0:07:43.00,*Default,NTP,0000,0000,0000,,Let's work shift
+Dialogue: 0,0:07:45.42,0:07:46.81,*Default,NTP,0000,0000,0000,,It should be tiring yesterday, right ?
+Dialogue: 0,0:07:46.89,0:07:49.02,*Default,NTP,0000,0000,0000,,yes
+Dialogue: 0,0:07:56.08,0:07:59.53,*Default,NTP,0000,0000,0000,,Umi, The runways in haneda is closed due to snow. 
+Dialogue: 0,0:08:03.44,0:08:04.29,*Default,NTP,0000,0000,0000,,Roger
+Dialogue: 0,0:08:05.99,0:08:07.33,*Default,NTP,0000,0000,0000,,Are you ok ?
+Dialogue: 0,0:08:07.41,0:08:08.21,*Default,NTP,0000,0000,0000,,Do you want someone to change shifts with you ?
+Dialogue: 0,0:08:08.27,0:08:10.89,*Default,NTP,0000,0000,0000,,I'm ok, others might be tired, also
+Dialogue: 0,0:08:11.03,0:08:12.75,*Default,NTP,0000,0000,0000,,I can't take rest for the sake of my selfishness
+Dialogue: 0,0:08:14.05,0:08:15.68,*Default,NTP,0000,0000,0000,,The runways in haneda is closed, right ?
+Dialogue: 0,0:08:15.93,0:08:18.38,*Default,NTP,0000,0000,0000,,Yes, due to snow
+Dialogue: 0,0:08:20.09,0:08:22.81,*Default,NTP,0000,0000,0000,,America 25, turn right heading 110 for spacing
+Dialogue: 0,0:08:23.09,0:08:25.51,*Default,NTP,0000,0000,0000,,America 25, turn right heading 110 for spacing
+Dialogue: 0,0:08:28.92,0:08:32.71,*Default,NTP,0000,0000,0000,,Sky japan 157,Right engine has stoped, reason is not yet known
+Dialogue: 0,0:08:32.81,0:08:34.25,*Default,NTP,0000,0000,0000,,We would like to divert to haizan
+Dialogue: 0,0:08:34.87,0:08:35.55,*Default,NTP,0000,0000,0000,,Kimira san
+Dialogue: 0,0:08:36.56,0:08:37.82,*Default,NTP,0000,0000,0000,,This is Kantou South sector
+Dialogue: 0,0:08:37.97,0:08:40.05,*Default,NTP,0000,0000,0000,,We have one a/c have right engine failure
+Dialogue: 0,0:08:40.23,0:08:42.68,*Default,NTP,0000,0000,0000,,Which would want to use the runway
+Dialogue: 0,0:08:43.02,0:08:44.01,*Default,NTP,0000,0000,0000,,after 10 mins
+Dialogue: 0,0:08:44.84,0:08:48.35,*Default,NTP,0000,0000,0000,,Skyjapan 157, tokyo airport is closed due to snow
+Dialogue: 0,0:08:48.55,0:08:51.17,*Default,NTP,0000,0000,0000,,Removal operation is in progress and will reopen within 10- mins standby
+Dialogue: 0,0:08:53.54,0:08:54.87,*Default,NTP,0000,0000,0000,,why 
+Dialogue: 0,0:08:55.02,0:08:56.17,*Default,NTP,0000,0000,0000,,vector the a/c away
+Dialogue: 0,0:08:56.94,0:09:02.53,*Default,NTP,0000,0000,0000,,Orienwings 667, tokyo control, c/m FL 210,  turn right heading 290
+Dialogue: 0,0:09:03.02,0:09:05.77,*Default,NTP,0000,0000,0000,,There is a jetaero, there,
+Dialogue: 0,0:09:05.88,0:09:06.74,*Default,NTP,0000,0000,0000,,look carefully
+Dialogue: 0,0:09:08.22,0:09:08.90,*Default,NTP,0000,0000,0000,,What are you doing ?
+Dialogue: 0,0:09:09.01,0:09:09.58,*Default,NTP,0000,0000,0000,,Change
+Dialogue: 0,0:09:10.64,0:09:14.23,*Default,NTP,0000,0000,0000,,orienwings 667, turn left heading 270 immediately
+Dialogue: 0,0:09:32.19,0:09:33.36,*Default,NTP,0000,0000,0000,,Go home
+Dialogue: 0,0:09:33.87,0:09:34.50,*Default,NTP,0000,0000,0000,,Yukisan
+Dialogue: 0,0:09:34.60,0:09:35.59,*Default,NTP,0000,0000,0000,,You are not suitable for the job 
+Dialogue: 0,0:09:35.65,0:09:36.46,*Default,NTP,0000,0000,0000,,I call that an end today
+Dialogue: 0,0:09:47.24,0:09:48.70,*Default,NTP,0000,0000,0000,,Yuki san was right
+Dialogue: 0,0:09:48.96,0:09:52.69,*Default,NTP,0000,0000,0000,,I am a useless person
+Dialogue: 0,0:09:52.81,0:09:54.38,*Default,NTP,0000,0000,0000,,No, you are not.
+Dialogue: 0,0:09:57.96,0:09:59.57,*Default,NTP,0000,0000,0000,,I heard its holiday for Umi ?
+Dialogue: 0,0:10:00.74,0:10:03.54,*Default,NTP,0000,0000,0000,,Well its better that being fired after that incident
+Dialogue: 0,0:10:03.76,0:10:05.33,*Default,NTP,0000,0000,0000,,most likely she will be fired
+Dialogue: 0,0:10:05.75,0:10:10.22,*Default,NTP,0000,0000,0000,,I wonder what did yui said to the board
+Dialogue: 0,0:10:10.22,0:10:14.26,*Default,NTP,0000,0000,0000,,I heard that he said to the borads that she is a useless and should be fired
+Dialogue: 0,0:10:15.00,0:10:17.31,*Default,NTP,0000,0000,0000,,That quite mean of Yuki
+Dialogue: 0,0:10:24.78,0:10:26.74,*Default,NTP,0000,0000,0000,,Why did you not protect Umi from being fired ?
+Dialogue: 0,0:10:28.96,0:10:32.08,*Default,NTP,0000,0000,0000,,Did you tell the boards to fire her ?
+Dialogue: 0,0:10:33.73,0:10:34.99,*Default,NTP,0000,0000,0000,,Who told you I said that?
+Dialogue: 0,0:10:35.11,0:10:36.09,*Default,NTP,0000,0000,0000,,Everyone is talking about it
+Dialogue: 0,0:10:37.83,0:10:39.56,*Default,NTP,0000,0000,0000,,You believe those rumors ?
+Dialogue: 0,0:10:42.91,0:10:44.67,*Default,NTP,0000,0000,0000,,So believe it , if you like
+Dialogue: 0,0:10:46.59,0:10:48.09,*Default,NTP,0000,0000,0000,,Why did not you deny it ?
+Dialogue: 0,0:10:48.25,0:10:49.33,*Default,NTP,0000,0000,0000,,She is not suitable for the job.
+Dialogue: 0,0:10:50.16,0:10:52.48,*Default,NTP,0000,0000,0000,,Evenso, she is my girlfriend and she is suffering
+Dialogue: 0,0:10:52.60,0:10:53.77,*Default,NTP,0000,0000,0000,,Why did not you protect her ?
+Dialogue: 0,0:10:53.86,0:10:54.91,*Default,NTP,0000,0000,0000,,You are friends, in a team right ?
+Dialogue: 0,0:10:55.03,0:10:55.94,*Default,NTP,0000,0000,0000,,Let go
+Dialogue: 0,0:10:56.05,0:10:56.92,*Default,NTP,0000,0000,0000,,Yuki, san
+Dialogue: 0,0:10:57.78,0:11:01.53,*Default,NTP,0000,0000,0000,,You asked the board to fire her ?
+Dialogue: 0,0:11:03.42,0:11:04.46,*Default,NTP,0000,0000,0000,,Whatever.
+Dialogue: 0,0:11:04.79,0:11:06.03,*Default,NTP,0000,0000,0000,,Say something..
+Dialogue: 0,0:11:16.93,0:11:17.84,*Default,NTP,0000,0000,0000,,Here I am 
+Dialogue: 0,0:11:20.16,0:11:23.57,*Default,NTP,0000,0000,0000,,This is the survelliance camera video from this morning until now
+Dialogue: 0,0:11:25.05,0:11:28.27,*Default,NTP,0000,0000,0000,,This is the data system's administrator list
+Dialogue: 0,0:11:29.50,0:11:30.33,*Default,NTP,0000,0000,0000,,This is everything ?
+Dialogue: 0,0:11:31.42,0:11:32.60,*Default,NTP,0000,0000,0000,,Thank you
+Dialogue: 0,0:11:32.86,0:11:35.71,*Default,NTP,0000,0000,0000,,What ever I have in hand, I shall report to the boards and start an investigation.
+Dialogue: 0,0:11:40.22,0:11:40.86,*Default,NTP,0000,0000,0000,,yes
+Dialogue: 0,0:11:42.67,0:11:46.25,*Default,NTP,0000,0000,0000,,Don't tell anyone about the investigation
+Dialogue: 0,0:11:46.52,0:11:49.45,*Default,NTP,0000,0000,0000,,When you find something contact me at once
+Dialogue: 0,0:11:50.39,0:11:53.30,*Default,NTP,0000,0000,0000,,If we found out who is it, will that person be fired ?
+Dialogue: 0,0:11:53.73,0:11:56.60,*Default,NTP,0000,0000,0000,,If you are right, this would be a terrorist attack
+Dialogue: 0,0:11:56.68,0:11:58.98,*Default,NTP,0000,0000,0000,,This means that terrorist is having an eye on the air traffic controller
+Dialogue: 0,0:11:59.12,0:12:01.45,*Default,NTP,0000,0000,0000,,We can't just let this happen again
+Dialogue: 0,0:12:01.82,0:12:02.68,*Default,NTP,0000,0000,0000,,roger
+Dialogue: 0,0:12:02.95,0:12:08.12,*Default,NTP,0000,0000,0000,,Tokyo control will cease operation and all traffic should handoff to fukuoka ATM for coordination
+Dialogue: 0,0:12:09.94,0:12:11.22,*Default,NTP,0000,0000,0000,,Ok.
+Dialogue: 0,0:12:15.33,0:12:17.41,*Default,NTP,0000,0000,0000,,What is the decision of the boards ?
+Dialogue: 0,0:12:24.25,0:12:25.18,*Default,NTP,0000,0000,0000,,Closed ?
+Dialogue: 0,0:12:25.32,0:12:26.31,*Default,NTP,0000,0000,0000,,Is that possible ?
+Dialogue: 0,0:12:26.48,0:12:28.01,*Default,NTP,0000,0000,0000,,It is the safest way 
+Dialogue: 0,0:12:28.66,0:12:34.49,*Default,NTP,0000,0000,0000,,Don't worry about the handoff, Fukuoka ATM will take over the control of all a/c 
+Dialogue: 0,0:12:34.67,0:12:36.05,*Default,NTP,0000,0000,0000,,Don't decide everything
+Dialogue: 0,0:12:36.24,0:12:39.32,*Default,NTP,0000,0000,0000,,The decision is made by me in here
+Dialogue: 0,0:12:39.60,0:12:41.81,*Default,NTP,0000,0000,0000,,It is about the safety of the japanese airspace
+Dialogue: 0,0:12:42.53,0:12:48.22,*Default,NTP,0000,0000,0000,,As the criminal is within us, I can't let tokyo control to operate
+Dialogue: 0,0:12:49.33,0:12:52.70,*Default,NTP,0000,0000,0000,,This is a terrorist  aiming at air traffic controller
+Dialogue: 0,0:12:52.78,0:12:53.91,*Default,NTP,0000,0000,0000,,Please think carefully
+Dialogue: 0,0:12:55.32,0:12:57.44,*Default,NTP,0000,0000,0000,,ATM shall contact you momentarily
+Dialogue: 0,0:13:02.92,0:13:05.01,*Default,NTP,0000,0000,0000,,It is not good
+Dialogue: 0,0:13:05.40,0:13:10.70,*Default,NTP,0000,0000,0000,,Prolonged use of non-radar procedure is not going work for long
+Dialogue: 0,0:13:16.03,0:13:17.53,*Default,NTP,0000,0000,0000,,Yuki
+Dialogue: 0,0:13:17.82,0:13:20.28,*Default,NTP,0000,0000,0000,,Sorry, can you please calm down
+Dialogue: 0,0:13:22.38,0:13:23.73,*Default,NTP,0000,0000,0000,,The radar scope...
+Dialogue: 0,0:13:23.96,0:13:25.38,*Default,NTP,0000,0000,0000,,We have taken undercontrol
+Dialogue: 0,0:13:26.05,0:13:27.20,*Default,NTP,0000,0000,0000,,This way
+Dialogue: 0,0:13:28.27,0:13:32.12,*Default,NTP,0000,0000,0000,,Yuki
+Dialogue: 0,0:13:32.54,0:13:34.61,*Default,NTP,0000,0000,0000,,Please make your decision
+Dialogue: 0,0:13:48.70,0:13:50.38,*Default,NTP,0000,0000,0000,,Hello, this is ATM
+Dialogue: 0,0:13:53.72,0:13:56.53,*Default,NTP,0000,0000,0000,,The radar has problem
+Dialogue: 0,0:13:57.06,0:14:00.18,*Default,NTP,0000,0000,0000,,We would like to mass handoff all traffic 
+Dialogue: 0,0:14:00.26,0:14:01.42,*Default,NTP,0000,0000,0000,,We working on with it,
+Dialogue: 0,0:14:01.50,0:14:02.67,*Default,NTP,0000,0000,0000,,It would be difficult to do it all at once
+Dialogue: 0,0:14:03.18,0:14:07.96,*Default,NTP,0000,0000,0000,,please give us 30 mins for the preparation
+Dialogue: 0,0:14:08.30,0:14:10.39,*Default,NTP,0000,0000,0000,,When we are ready, we will contact you at once
+Dialogue: 0,0:14:11.23,0:14:12.24,*Default,NTP,0000,0000,0000,,Roger
+Dialogue: 0,0:14:13.47,0:14:16.07,*Default,NTP,0000,0000,0000,,The handoff preparation requires 30 mins
+Dialogue: 0,0:14:16.56,0:14:17.84,*Default,NTP,0000,0000,0000,,Yuki kun
+Dialogue: 0,0:14:18.65,0:14:20.59,*Default,NTP,0000,0000,0000,,What should we say to others ?
+Dialogue: 0,0:14:31.80,0:14:34.70,*Default,NTP,0000,0000,0000,,Please listen 
+Dialogue: 0,0:14:35.84,0:14:41.84,*Default,NTP,0000,0000,0000,,ATM will takeover all a/c in here after 30 mins
+Dialogue: 0,0:14:46.97,0:14:50.31,*Default,NTP,0000,0000,0000,,It may be difficult, but we shall try our best to identify the traffic
+Dialogue: 0,0:14:50.63,0:14:52.85,*Default,NTP,0000,0000,0000,,Please give us a reasonable explanation
+Dialogue: 0,0:14:53.13,0:14:54.59,*Default,NTP,0000,0000,0000,,Is this the decision of Yuki ?
+Dialogue: 0,0:14:54.99,0:14:56.41,*Default,NTP,0000,0000,0000,,It is not a personal problem
+Dialogue: 0,0:14:56.61,0:14:57.33,*Default,NTP,0000,0000,0000,,I am asking the current elected manager
+Dialogue: 0,0:14:57.44,0:14:58.77,*Default,NTP,0000,0000,0000,,I am asking Yuki
+Dialogue: 0,0:14:59.87,0:15:03.80,*Default,NTP,0000,0000,0000,,There is someone who have hacked access the radar system
+Dialogue: 0,0:15:03.98,0:15:07.60,*Default,NTP,0000,0000,0000,,and changed the data in the system which made a chaos here
+Dialogue: 0,0:15:07.86,0:15:12.96,*Default,NTP,0000,0000,0000,,I think that before the investigation is made, its better to let ATM to take control 
+Dialogue: 0,0:15:15.09,0:15:17.63,*Default,NTP,0000,0000,0000,,Let's stick to it before it recovers
+Dialogue: 0,0:15:19.10,0:15:20.75,*Default,NTP,0000,0000,0000,,Its not that
+Dialogue: 0,0:15:21.31,0:15:24.20,*Default,NTP,0000,0000,0000,,The operation in here must be ceased
+Dialogue: 0,0:15:24.46,0:15:25.91,*Default,NTP,0000,0000,0000,,And who's has that permission?
+Dialogue: 0,0:15:27.16,0:15:29.67,*Default,NTP,0000,0000,0000,,It is the direct orders from the boards of air safety
+Dialogue: 0,0:15:30.45,0:15:31.19,*Default,NTP,0000,0000,0000,,Kimuro
+Dialogue: 0,0:15:31.96,0:15:35.44,*Default,NTP,0000,0000,0000,,We have found that the radar system has been hacked from this room
+Dialogue: 0,0:15:35.53,0:15:38.02,*Default,NTP,0000,0000,0000,,thus there is a high possibility that the criminal is within us
+Dialogue: 0,0:15:38.16,0:15:40.07,*Default,NTP,0000,0000,0000,,This is the reason of ceased operation
+Dialogue: 0,0:15:41.12,0:15:43.72,*Default,NTP,0000,0000,0000,,We need time to coordinate with ATM, don't mess up the things
+Dialogue: 0,0:15:44.79,0:15:50.66,*Default,NTP,0000,0000,0000,,You should let them know the truth, these people can't just continue on
+Dialogue: 0,0:15:50.90,0:15:53.07,*Default,NTP,0000,0000,0000,,you will just make things worse and adding pressure to them
+Dialogue: 0,0:15:53.19,0:15:54.41,*Default,NTP,0000,0000,0000,,please stop arguing
+Dialogue: 0,0:15:55.57,0:15:57.02,*Default,NTP,0000,0000,0000,,It is not the time to argue
+Dialogue: 0,0:16:02.73,0:16:05.94,*Default,NTP,0000,0000,0000,,My radar disappeared
+Dialogue: 0,0:16:20.76,0:16:23.21,*Default,NTP,0000,0000,0000,,I will try to search for the Ip again
+Dialogue: 0,0:16:23.40,0:16:24.74,*Default,NTP,0000,0000,0000,,I may be again to make a trap
+Dialogue: 0,0:16:26.07,0:16:28.49,*Default,NTP,0000,0000,0000,,I did not search for it, as there was not enough time just while ago
+Dialogue: 0,0:16:28.69,0:16:33.14,*Default,NTP,0000,0000,0000,,It's strange that a person from outside can just breakthrough the security system
+Dialogue: 0,0:16:33.54,0:16:37.40,*Default,NTP,0000,0000,0000,,I am trying to connect via another server and locate the hacker
+Dialogue: 0,0:16:37.50,0:16:38.77,*Default,NTP,0000,0000,0000,,What are you ?
+Dialogue: 0,0:16:40.34,0:16:42.82,*Default,NTP,0000,0000,0000,,anyway, I shall try to recover the server
+Dialogue: 0,0:16:48.04,0:16:48.95,*Default,NTP,0000,0000,0000,,What happened ?
+Dialogue: 0,0:16:49.03,0:16:50.35,*Default,NTP,0000,0000,0000,,I don't know
+Dialogue: 0,0:16:50.44,0:16:52.15,*Default,NTP,0000,0000,0000,,May be some sort of trap ?
+Dialogue: 0,0:17:03.46,0:17:04.80,*Default,NTP,0000,0000,0000,,Yuki, what happened ?
+Dialogue: 0,0:17:05.02,0:17:07.68,*Default,NTP,0000,0000,0000,,We do not know, the computer just shutdown here
+Dialogue: 0,0:17:07.96,0:17:09.43,*Default,NTP,0000,0000,0000,,The display has just disappeared herew
+Dialogue: 0,0:17:09.62,0:17:11.22,*Default,NTP,0000,0000,0000,,It should be the problem from here
+Dialogue: 0,0:17:11.25,0:17:13.94,*Default,NTP,0000,0000,0000,,Takashi is trying his best to recover it, please wait for a while.
+Dialogue: 0,0:17:14.02,0:17:15.03,*Default,NTP,0000,0000,0000,,understood
+Dialogue: 0,0:17:20.35,0:17:22.13,*Default,NTP,0000,0000,0000,,The radar scope has nothing, is that ok ?
+Dialogue: 0,0:17:22.35,0:17:24.17,*Default,NTP,0000,0000,0000,,We are coping with non-radar procedure, its ok
+Dialogue: 0,0:17:25.26,0:17:26.91,*Default,NTP,0000,0000,0000,,I can't see anything, I'm worried
+Dialogue: 0,0:17:29.27,0:17:31.47,*Default,NTP,0000,0000,0000,,The manager really don't know anything ?
+Dialogue: 0,0:17:31.61,0:17:32.41,*Default,NTP,0000,0000,0000,,may be.
+Dialogue: 0,0:17:33.30,0:17:36.35,*Default,NTP,0000,0000,0000,,We have to wait for at least 30 mins
+Dialogue: 0,0:17:37.86,0:17:41.91,*Default,NTP,0000,0000,0000,,stress will accumulate when non-radar procedures are prolonged
+Dialogue: 0,0:17:45.49,0:17:47.37,*Default,NTP,0000,0000,0000,,Do you have any good suggestion ?
+Dialogue: 0,0:17:47.62,0:17:49.92,*Default,NTP,0000,0000,0000,,The only way is to follow up and give support as required
+Dialogue: 0,0:17:50.83,0:17:54.81,*Default,NTP,0000,0000,0000,,Its great to have a way to share information together
+Dialogue: 0,0:17:58.27,0:17:59.94,*Default,NTP,0000,0000,0000,,Yama san,  please take care of here
+Dialogue: 0,0:18:03.22,0:18:05.26,*Default,NTP,0000,0000,0000,,kinoshita, Can you do me a favour ?
+Dialogue: 0,0:18:09.40,0:18:10.81,*Default,NTP,0000,0000,0000,,Pacific area is at 10000ft
+Dialogue: 0,0:18:11.31,0:18:12.91,*Default,NTP,0000,0000,0000,,this will arrived in 11 mins
+Dialogue: 0,0:18:14.57,0:18:16.48,*Default,NTP,0000,0000,0000,,Yamada, its not your place here
+Dialogue: 0,0:18:16.80,0:18:18.04,*Default,NTP,0000,0000,0000,,help in other place
+Dialogue: 0,0:18:18.25,0:18:19.60,*Default,NTP,0000,0000,0000,,Its critical time here
+Dialogue: 0,0:18:21.76,0:18:22.68,*Default,NTP,0000,0000,0000,,Yes sir
+Dialogue: 0,0:18:30.67,0:18:32.03,*Default,NTP,0000,0000,0000,,What are you doing ?
+Dialogue: 0,0:18:37.39,0:18:39.68,*Default,NTP,0000,0000,0000,,Shimura san, please let Yamada san to continue
+Dialogue: 0,0:18:39.87,0:18:40.57,*Default,NTP,0000,0000,0000,,It is not the appropriate situation
+Dialogue: 0,0:18:40.65,0:18:42.10,*Default,NTP,0000,0000,0000,,Please..
+Dialogue: 0,0:18:43.96,0:18:44.62,*Default,NTP,0000,0000,0000,,What ?
+Dialogue: 0,0:18:44.74,0:18:46.60,*Default,NTP,0000,0000,0000,,I am saying to believe your partners
+Dialogue: 0,0:18:47.74,0:18:49.92,*Default,NTP,0000,0000,0000,,We are controlling as a team, and not alone
+Dialogue: 0,0:18:51.06,0:18:53.78,*Default,NTP,0000,0000,0000,,Because of this radar touble, it is important to work as a team, right ?
+Dialogue: 0,0:19:04.39,0:19:07.82,*Default,NTP,0000,0000,0000,,Yamada, follow up the rest there
+Dialogue: 0,0:19:08.92,0:19:10.63,*Default,NTP,0000,0000,0000,,Yes
+Dialogue: 0,0:19:12.86,0:19:14.88,*Default,NTP,0000,0000,0000,,The red highlighted are data that has been modified
+Dialogue: 0,0:19:15.01,0:19:15.85,*Default,NTP,0000,0000,0000,,Yes
+Dialogue: 0,0:19:16.76,0:19:21.50,*Default,NTP,0000,0000,0000,,If I can find the key to unlock the password, I can recover the data
+Dialogue: 0,0:19:21.98,0:19:25.18,*Default,NTP,0000,0000,0000,,Let me do I , I can find it.
+Dialogue: 0,0:19:28.17,0:19:30.14,*Default,NTP,0000,0000,0000,,What are you doing with these
+Dialogue: 0,0:19:30.27,0:19:31.03,*Default,NTP,0000,0000,0000,,please come with me
+Dialogue: 0,0:19:35.31,0:19:37.10,*Default,NTP,0000,0000,0000,,Kabuto, please come and help
+Dialogue: 0,0:19:40.97,0:19:42.19,*Default,NTP,0000,0000,0000,,Everyone, listen,
+Dialogue: 0,0:19:42.30,0:19:45.35,*Default,NTP,0000,0000,0000,,we will based on the information on the strip and arrange information on this enroute map
+Dialogue: 0,0:19:45.43,0:19:47.41,*Default,NTP,0000,0000,0000,,by position and altitude 
+Dialogue: 0,0:19:48.19,0:19:52.10,*Default,NTP,0000,0000,0000,,If you need to handoff from one sector to another, report kinoshita and  karumoto
+Dialogue: 0,0:19:52.30,0:19:54.58,*Default,NTP,0000,0000,0000,,we will be the platform to share information to others
+Dialogue: 0,0:20:14.19,0:20:15.73,*Default,NTP,0000,0000,0000,,I will help
+Dialogue: 0,0:20:16.02,0:20:18.62,*Default,NTP,0000,0000,0000,,But do we have something to write on?
+Dialogue: 0,0:20:20.35,0:20:21.29,*Default,NTP,0000,0000,0000,,Let me borrow these
+Dialogue: 0,0:20:21.56,0:20:22.24,*Default,NTP,0000,0000,0000,,These are mine
+Dialogue: 0,0:20:22.37,0:20:23.01,*Default,NTP,0000,0000,0000,,I know
+Dialogue: 0,0:20:23.88,0:20:25.79,*Default,NTP,0000,0000,0000,,Let's use those to represent the traffic
+Dialogue: 0,0:20:27.13,0:20:29.23,*Default,NTP,0000,0000,0000,,Its quite expensive
+Dialogue: 0,0:20:29.56,0:20:31.08,*Default,NTP,0000,0000,0000,,Its time to use them
+Dialogue: 0,0:20:34.95,0:20:36.40,*Default,NTP,0000,0000,0000,,Should we write on something, like a note?
+Dialogue: 0,0:20:38.91,0:20:41.97,*Default,NTP,0000,0000,0000,,22 and ANA776 are quite near how was their separation ?
+Dialogue: 0,0:20:42.22,0:20:46.49,*Default,NTP,0000,0000,0000,,wait
+Dialogue: 0,0:21:07.79,0:21:11.09,*Default,NTP,0000,0000,0000,,wingsair22, reduce speed and  set as FL370
+Dialogue: 0,0:21:11.19,0:21:15.06,*Default,NTP,0000,0000,0000,,ANA776, increase speed, d/m FL 340
+Dialogue: 0,0:21:15.17,0:21:18.97,*Default,NTP,0000,0000,0000,,Pacific air , maintain current speed and c/m 270
+Dialogue: 0,0:21:19.11,0:21:20.04,*Default,NTP,0000,0000,0000,,Roger
+Dialogue: 0,0:21:20.33,0:21:23.69,*Default,NTP,0000,0000,0000,,Rainbow airways 587, request estimate prada
+Dialogue: 0,0:21:23.84,0:21:26.63,*Default,NTP,0000,0000,0000,,Report mach number and estimate arrival
+Dialogue: 0,0:21:26.74,0:21:27.83,*Default,NTP,0000,0000,0000,,Report present position
+Dialogue: 0,0:21:30.65,0:21:32.23,*Default,NTP,0000,0000,0000,,These is quite cool
+Dialogue: 0,0:21:50.47,0:21:54.60,*Default,NTP,0000,0000,0000,,Its a long time we use this method.
+Dialogue: 0,0:21:56.28,0:21:57.59,*Default,NTP,0000,0000,0000,,Can you help ?
+Dialogue: 0,0:21:58.03,0:21:59.15,*Default,NTP,0000,0000,0000,,Please write the callsign
+Dialogue: 0,0:22:08.17,0:22:10.60,*Default,NTP,0000,0000,0000,,Please use this
+Dialogue: 0,0:22:10.73,0:22:11.64,*Default,NTP,0000,0000,0000,,That is troublesome
+Dialogue: 0,0:22:11.90,0:22:13.12,*Default,NTP,0000,0000,0000,,This is much faster
+Dialogue: 0,0:22:20.98,0:22:22.58,*Default,NTP,0000,0000,0000,,They are coping with non-radar
+Dialogue: 0,0:22:22.88,0:22:24.06,*Default,NTP,0000,0000,0000,,I will try my best to solve it as soon as possible
+Dialogue: 0,0:22:30.79,0:22:31.82,*Default,NTP,0000,0000,0000,,This is tokyo control area center
+Dialogue: 0,0:22:32.08,0:22:33.81,*Default,NTP,0000,0000,0000,,How many mintues does it take ?
+Dialogue: 0,0:22:35.11,0:22:38.86,*Default,NTP,0000,0000,0000,,Please take the strips here
+Dialogue: 0,0:22:39.41,0:22:42.21,*Default,NTP,0000,0000,0000,,NWA31 and skyone jet 270 are near ,right ?
+Dialogue: 0,0:22:43.64,0:22:45.53,*Default,NTP,0000,0000,0000,,They are going to haneda
+Dialogue: 0,0:22:55.94,0:22:56.86,*Default,NTP,0000,0000,0000,,did you moved the planes ?
+Dialogue: 0,0:22:57.01,0:22:57.78,*Default,NTP,0000,0000,0000,,no.
+Dialogue: 0,0:23:01.31,0:23:02.70,*Default,NTP,0000,0000,0000,,That's amazing
+Dialogue: 0,0:23:07.22,0:23:08.68,*Default,NTP,0000,0000,0000,,maki, its quite tough, are you ok ?
+Dialogue: 0,0:23:09.03,0:23:10.82,*Default,NTP,0000,0000,0000,,I have to do it anyway
+Dialogue: 0,0:23:12.23,0:23:13.49,*Default,NTP,0000,0000,0000,,Kinoshita, can you come?
+Dialogue: 0,0:23:14.27,0:23:17.06,*Default,NTP,0000,0000,0000,,this flight to FL 280 and speed 280
+Dialogue: 0,0:23:18.66,0:23:19.64,*Default,NTP,0000,0000,0000,,Its dangerous here
+Dialogue: 0,0:23:21.34,0:23:24.72,*Default,NTP,0000,0000,0000,,Japan air and american should change altitude
+Dialogue: 0,0:23:25.07,0:23:26.09,*Default,NTP,0000,0000,0000,,Change
+Dialogue: 0,0:23:27.60,0:23:29.16,*Default,NTP,0000,0000,0000,,I shall tell them
+Dialogue: 0,0:23:29.40,0:23:34.63,*Default,NTP,0000,0000,0000,,c/m FL310 for delta,  airhong at FL 220
+Dialogue: 0,0:23:36.15,0:23:37.33,*Default,NTP,0000,0000,0000,,Count on you
+Dialogue: 0,0:23:37.73,0:23:39.03,*Default,NTP,0000,0000,0000,,Please be calm
+Dialogue: 0,0:23:41.15,0:23:43.68,*Default,NTP,0000,0000,0000,,janex635, request emergency landing 
+Dialogue: 0,0:23:44.10,0:23:45.64,*Default,NTP,0000,0000,0000,,At this time ?
+Dialogue: 0,0:23:52.34,0:23:54.46,*Default,NTP,0000,0000,0000,,635, roger, standby
+Dialogue: 0,0:23:55.90,0:23:58.47,*Default,NTP,0000,0000,0000,,635 has engine trouble
+Dialogue: 0,0:23:58.81,0:23:59.91,*Default,NTP,0000,0000,0000,,Please adivse aiport for divert
+Dialogue: 0,0:24:00.07,0:24:01.88,*Default,NTP,0000,0000,0000,,I will contact ATM
+Dialogue: 0,0:24:02.28,0:24:03.56,*Default,NTP,0000,0000,0000,,Please take it carefully
+Dialogue: 0,0:24:05.99,0:24:07.57,*Default,NTP,0000,0000,0000,,should we tell this to other sector?
+Dialogue: 0,0:24:07.88,0:24:08.64,*Default,NTP,0000,0000,0000,,I shall
+Dialogue: 0,0:24:09.11,0:24:17.65,*Default,NTP,0000,0000,0000,,635 is in emerengecy, would land to land , can you give us a direct route for that ?
+Dialogue: 0,0:24:17.88,0:24:20.89,*Default,NTP,0000,0000,0000,,Let the a/c c/m FL 170
+Dialogue: 0,0:24:21.31,0:24:24.85,*Default,NTP,0000,0000,0000,,Jsky is at Fl360
+Dialogue: 0,0:24:25.11,0:24:28.46,*Default,NTP,0000,0000,0000,,Jsky did not contact us in 10 mins
+Dialogue: 0,0:24:28.59,0:24:31.91,*Default,NTP,0000,0000,0000,,so let's Airnippon 170, c/ mFL 290
+Dialogue: 0,0:24:32.21,0:24:34.50,*Default,NTP,0000,0000,0000,,We can give departing a/c with direct route
+Dialogue: 0,0:24:34.81,0:24:35.65,*Default,NTP,0000,0000,0000,,Thank you
+Dialogue: 0,0:24:48.12,0:24:50.56,*Default,NTP,0000,0000,0000,,Let me try to retrive the security
+Dialogue: 0,0:00:00.00,0:00:00.00,*Default,NTP,0000,0000,0000,,
+Dialogue: 0,0:25:04.17,0:25:05.23,*Default,NTP,0000,0000,0000,,you did it ?
+Dialogue: 0,0:25:05.48,0:25:07.36,*Default,NTP,0000,0000,0000,,if I am not wrong
+Dialogue: 0,0:25:24.61,0:25:29.26,*Default,NTP,0000,0000,0000,,AAL025 turn right heading 110 for spacing
+Dialogue: 0,0:25:34.60,0:25:35.62,*Default,NTP,0000,0000,0000,,No problem now
+Dialogue: 0,0:25:37.59,0:25:39.51,*Default,NTP,0000,0000,0000,,Yuki
+Dialogue: 0,0:25:40.83,0:25:42.18,*Default,NTP,0000,0000,0000,,understood
+Dialogue: 0,0:25:44.80,0:25:48.39,*Default,NTP,0000,0000,0000,,The system have recoverd, all station please verify your targets
+Dialogue: 0,0:25:54.89,0:25:59.93,*Default,NTP,0000,0000,0000,,PLease re-identify your a/c before givng  instruction
+Dialogue: 0,0:26:00.45,0:26:01.49,*Default,NTP,0000,0000,0000,,Yes
+Dialogue: 0,0:26:03.19,0:26:06.03,*Default,NTP,0000,0000,0000,,You did it
+Dialogue: 0,0:26:10.49,0:26:13.20,*Default,NTP,0000,0000,0000,,I have change the login policy and password
+Dialogue: 0,0:26:13.35,0:26:14.46,*Default,NTP,0000,0000,0000,,it should be fine
+Dialogue: 0,0:26:14.59,0:26:18.68,*Default,NTP,0000,0000,0000,,You are really cool to have  such a skill
+Dialogue: 0,0:26:25.11,0:26:26.18,*Default,NTP,0000,0000,0000,,What is it ?
+Dialogue: 0,0:26:26.41,0:26:31.30,*Default,NTP,0000,0000,0000,,What are you doing ?
+Dialogue: 0,0:26:35.08,0:26:38.30,*Default,NTP,0000,0000,0000,,I am trying to confirm whether my deicsion is right 
+Dialogue: 0,0:26:44.85,0:26:47.64,*Default,NTP,0000,0000,0000,,yuki,  ATM is prepared for the handoff
+Dialogue: 0,0:26:53.28,0:26:55.60,*Default,NTP,0000,0000,0000,,Everyone, stop your work now
+Dialogue: 0,0:26:56.98,0:26:59.70,*Default,NTP,0000,0000,0000,, We will handoff all traffic to ATM
+Dialogue: 0,0:27:24.33,0:27:26.27,*Default,NTP,0000,0000,0000,,Cheer for your hardwork
+Dialogue: 0,0:27:27.21,0:27:29.71,*Default,NTP,0000,0000,0000,,Now I announce the tokyo control area center to be shutdown
+Dialogue: 0,0:27:30.93,0:27:39.44,*Default,NTP,0000,0000,0000,,Due to the indicent, please rest for a while until further advice
+Dialogue: 0,0:27:40.15,0:27:43.66,*Default,NTP,0000,0000,0000,,I would conduct a individual interview later on
+Dialogue: 0,0:28:14.60,0:28:16.40,*Default,NTP,0000,0000,0000,,Have you found it ?
+Dialogue: 0,0:28:21.62,0:28:23.27,*Default,NTP,0000,0000,0000,,Manager, shall we return ?
+Dialogue: 0,0:28:25.69,0:28:26.95,*Default,NTP,0000,0000,0000,,yuki, count on you..
+Dialogue: 0,0:28:36.96,0:28:39.44,*Default,NTP,0000,0000,0000,,Yamada, you have my piece on your hand
+Dialogue: 0,0:28:39.60,0:28:40.91,*Default,NTP,0000,0000,0000,,sorry
+Dialogue: 0,0:28:43.42,0:28:44.61,*Default,NTP,0000,0000,0000,,thank you
+Dialogue: 0,0:28:48.49,0:28:51.75,*Default,NTP,0000,0000,0000,,cheer for hardwork
+Dialogue: 0,0:29:07.38,0:29:08.17,*Default,NTP,0000,0000,0000,,yes ?
+Dialogue: 0,0:29:08.23,0:29:11.07,*Default,NTP,0000,0000,0000,,Yuki, please come with kimuro kun
+Dialogue: 0,0:29:15.11,0:29:16.08,*Default,NTP,0000,0000,0000,,I will come back soon
+Dialogue: 0,0:29:19.38,0:29:25.79,*Default,NTP,0000,0000,0000,,Thank you
+Dialogue: 0,0:30:11.19,0:30:12.99,*Default,NTP,0000,0000,0000,,there is a little touble here
+Dialogue: 0,0:30:13.74,0:30:15.32,*Default,NTP,0000,0000,0000,,I will try my best to return
+Dialogue: 0,0:30:15.44,0:30:16.66,*Default,NTP,0000,0000,0000,,Please wait for a while
+Dialogue: 0,0:30:17.00,0:30:18.78,*Default,NTP,0000,0000,0000,,Is sister there ?
+Dialogue: 0,0:30:21.10,0:30:22.31,*Default,NTP,0000,0000,0000,,I am sorry
+Dialogue: 0,0:30:22.62,0:30:24.51,*Default,NTP,0000,0000,0000,,There is an incident here
+Dialogue: 0,0:30:25.13,0:30:26.82,*Default,NTP,0000,0000,0000,,I will be returning home late.
+Dialogue: 0,0:30:27.13,0:30:28.62,*Default,NTP,0000,0000,0000,,Is it ok ?
+Dialogue: 0,0:30:30.27,0:30:32.16,*Default,NTP,0000,0000,0000,,I want to talk to Umi,
+Dialogue: 0,0:30:32.68,0:30:35.88,*Default,NTP,0000,0000,0000,,Can i have dinner with umi sometime ?
+Dialogue: 0,0:30:37.07,0:30:38.47,*Default,NTP,0000,0000,0000,,sorry
+Dialogue: 0,0:30:43.55,0:30:44.43,*Default,NTP,0000,0000,0000,,What is it ?
+Dialogue: 0,0:30:47.97,0:30:51.29,*Default,NTP,0000,0000,0000,,The system seems to have some problem, i would like you to come with me
+Dialogue: 0,0:30:55.57,0:30:56.54,*Default,NTP,0000,0000,0000,,What do you have ?
+Dialogue: 0,0:30:57.07,0:31:00.11,*Default,NTP,0000,0000,0000,,I have found the hacker
+Dialogue: 0,0:31:03.90,0:31:10.38,*Default,NTP,0000,0000,0000,,The hacker used overseas server to bypass its original location
+Dialogue: 0,0:31:11.17,0:31:13.20,*Default,NTP,0000,0000,0000,,It is using tokyo control room as the bypass server
+Dialogue: 0,0:31:14.20,0:31:18.38,*Default,NTP,0000,0000,0000,,I think they made the control room to look choas
+Dialogue: 0,0:31:20.05,0:31:21.63,*Default,NTP,0000,0000,0000,,Do you mean that the criminal is someone else ?
+Dialogue: 0,0:31:23.02,0:31:24.02,*Default,NTP,0000,0000,0000,,Yes.
+Dialogue: 0,0:31:29.11,0:31:30.37,*Default,NTP,0000,0000,0000,,were you able to tracked it ?
+Dialogue: 0,0:31:31.26,0:31:32.42,*Default,NTP,0000,0000,0000,,I can track anything
+Dialogue: 0,0:31:54.42,0:31:56.03,*Default,NTP,0000,0000,0000,,Here
+Dialogue: 0,0:32:19.14,0:32:24.05,*Default,NTP,0000,0000,0000,,We have just found it the hacker located is not from here
+Dialogue: 0,0:32:24.35,0:32:26.41,*Default,NTP,0000,0000,0000,,where is it from ?
+Dialogue: 0,0:32:26.74,0:32:28.47,*Default,NTP,0000,0000,0000,,We do not know yet
+Dialogue: 0,0:32:28.64,0:32:30.50,*Default,NTP,0000,0000,0000,,it is confidently to be confirm its not from here
+Dialogue: 0,0:32:32.27,0:32:33.48,*Default,NTP,0000,0000,0000,,are we going to continue service ?
+Dialogue: 0,0:32:34.01,0:32:35.18,*Default,NTP,0000,0000,0000,,yes
+Dialogue: 0,0:32:35.98,0:32:38.82,*Default,NTP,0000,0000,0000,,Please return to your sector
+Dialogue: 0,0:32:40.56,0:32:41.56,*Default,NTP,0000,0000,0000,,Understood
+Dialogue: 0,0:32:43.41,0:32:46.92,*Default,NTP,0000,0000,0000,,What were you trying to say to the board ?
+Dialogue: 0,0:32:47.19,0:32:47.95,*Default,NTP,0000,0000,0000,,nothing
+Dialogue: 0,0:32:48.27,0:32:49.97,*Default,NTP,0000,0000,0000,,You were cool
+Dialogue: 0,0:32:50.40,0:32:51.84,*Default,NTP,0000,0000,0000,,That does not matter
+Dialogue: 0,0:32:51.97,0:32:52.90,*Default,NTP,0000,0000,0000,,just return to your place
+Dialogue: 0,0:32:53.06,0:32:54.07,*Default,NTP,0000,0000,0000,,sorry
+Dialogue: 0,0:33:09.60,0:33:12.94,*Default,NTP,0000,0000,0000,,Takashi, don't tell what you found to others
+Dialogue: 0,0:33:13.99,0:33:16.46,*Default,NTP,0000,0000,0000,,It may be the problem of your notebook
+Dialogue: 0,0:33:17.14,0:33:20.84,*Default,NTP,0000,0000,0000,,Its great that there was no tragic incident occured
+Dialogue: 0,0:33:22.64,0:33:24.88,*Default,NTP,0000,0000,0000,,Who are you really are ?
+Dialogue: 0,0:33:26.06,0:33:30.30,*Default,NTP,0000,0000,0000,,I am hacker that fights with the cracker
+Dialogue: 0,0:33:33.11,0:33:34.93,*Default,NTP,0000,0000,0000,,I lose
+Dialogue: 0,0:33:43.13,0:33:44.82,*Default,NTP,0000,0000,0000,,Cheers for hardwork
+Dialogue: 0,0:33:48.86,0:33:55.82,*Default,NTP,0000,0000,0000,,I just remembered we went on hiking before
+Dialogue: 0,0:33:58.42,0:33:59.90,*Default,NTP,0000,0000,0000,,kimura kun
+Dialogue: 0,0:34:00.01,0:34:00.96,*Default,NTP,0000,0000,0000,,yes ?
+Dialogue: 0,0:34:02.61,0:34:04.46,*Default,NTP,0000,0000,0000,,Its about yuki kun
+Dialogue: 0,0:34:06.43,0:34:12.83,*Default,NTP,0000,0000,0000,,8 years ago about umi being expelled from aviation department
+Dialogue: 0,0:34:17.61,0:34:19.67,*Default,NTP,0000,0000,0000,,I think there is a misunderstanding
+Dialogue: 0,0:34:21.89,0:34:25.70,*Default,NTP,0000,0000,0000,,Yuki did not suggest to the board to fire Umi
+Dialogue: 0,0:34:27.06,0:34:40.04,*Default,NTP,0000,0000,0000,,The board gave harsh punishment to umi but yuki tried to protected her
+Dialogue: 0,0:34:41.39,0:34:44.54,*Default,NTP,0000,0000,0000,,Umi is at her limits as an Air traffic controller
+Dialogue: 0,0:34:45.39,0:34:47.51,*Default,NTP,0000,0000,0000,,She might be in a poor health condition
+Dialogue: 0,0:34:48.01,0:34:50.78,*Default,NTP,0000,0000,0000,,But this should be our responsibility
+Dialogue: 0,0:34:51.52,0:34:56.85,*Default,NTP,0000,0000,0000,,She is still young and yet to be a great ATC
+Dialogue: 0,0:34:57.97,0:35:06.12,*Default,NTP,0000,0000,0000,,Please don't punish her, at least let her rest for a while
+Dialogue: 0,0:35:06.23,0:35:07.97,*Default,NTP,0000,0000,0000,,Please
+Dialogue: 0,0:35:10.66,0:35:12.34,*Default,NTP,0000,0000,0000,,Its a lie
+Dialogue: 0,0:35:12.89,0:35:16.61,*Default,NTP,0000,0000,0000,,I heard that he said to the board to fire umi
+Dialogue: 0,0:35:18.56,0:35:20.54,*Default,NTP,0000,0000,0000,,It was true to give umi a long break
+Dialogue: 0,0:35:21.42,0:35:27.54,*Default,NTP,0000,0000,0000,,Yuki kun noticed that umi is not suitable to work as an ATC for a while
+Dialogue: 0,0:35:28.83,0:35:34.25,*Default,NTP,0000,0000,0000,,that long holiday may grow rumours that she is fired
+Dialogue: 0,0:35:35.45,0:35:39.76,*Default,NTP,0000,0000,0000,,As I know Yuki, he did not said such things
+Dialogue: 0,0:35:41.58,0:35:47.80,*Default,NTP,0000,0000,0000,,Yuki is a person that won't save people that isn't worth
+Dialogue: 0,0:35:53.98,0:35:56.37,*Default,NTP,0000,0000,0000,,I do not fully understands him 
+Dialogue: 0,0:35:58.21,0:35:59.48,*Default,NTP,0000,0000,0000,,why does he need to protect her ?
+Dialogue: 0,0:36:00.43,0:36:02.43,*Default,NTP,0000,0000,0000,,He did not thought of protecting her
+Dialogue: 0,0:36:03.30,0:36:07.45,*Default,NTP,0000,0000,0000,,if there is misunderstanding, i suggest you ask him in person
+Dialogue: 0,0:36:19.72,0:36:25.30,*Default,NTP,0000,0000,0000,,Kimura, shall we hike on mountain again
+Dialogue: 0,0:36:27.99,0:36:30.00,*Default,NTP,0000,0000,0000,,just joking
+Dialogue: 0,0:36:30.37,0:36:34.72,*Default,NTP,0000,0000,0000,,its was great...
+Dialogue: 0,0:36:38.24,0:36:39.72,*Default,NTP,0000,0000,0000,,sorry
+Dialogue: 0,0:36:39.99,0:36:41.36,*Default,NTP,0000,0000,0000,,see you
+Dialogue: 0,0:37:05.22,0:37:06.30,*Default,NTP,0000,0000,0000,,Returning ?
+Dialogue: 0,0:37:08.07,0:37:14.85,*Default,NTP,0000,0000,0000,,Are you still angry about me because of Umi's incident ?
+Dialogue: 0,0:37:16.88,0:37:18.36,*Default,NTP,0000,0000,0000,,yes
+Dialogue: 0,0:37:20.58,0:37:24.01,*Default,NTP,0000,0000,0000,,I am sorry for her
+Dialogue: 0,0:37:25.73,0:37:29.02,*Default,NTP,0000,0000,0000,,Sorry that I did not protect your girlfriend
+Dialogue: 0,0:37:34.36,0:37:35.98,*Default,NTP,0000,0000,0000,,I am sorry
+Dialogue: 0,0:37:50.99,0:37:56.32,*Default,NTP,0000,0000,0000,,I did not want to see you bowing to me like this
+Dialogue: 0,0:37:59.22,0:38:05.98,*Default,NTP,0000,0000,0000,,please stop it
+Dialogue: 0,0:38:07.76,0:38:09.89,*Default,NTP,0000,0000,0000,,I don't want to see this
+Dialogue: 0,0:38:12.56,0:38:15.41,*Default,NTP,0000,0000,0000,,I was there also
+Dialogue: 0,0:38:16.16,0:38:20.20,*Default,NTP,0000,0000,0000,,I shall have repsonsiblity 
+Dialogue: 0,0:38:24.14,0:38:26.15,*Default,NTP,0000,0000,0000,,You have the responsibility
+Dialogue: 0,0:38:34.26,0:38:38.01,*Default,NTP,0000,0000,0000,,I was fortune.
+Dialogue: 0,0:38:39.51,0:38:41.42,*Default,NTP,0000,0000,0000,,As she is with me
+Dialogue: 0,0:38:43.64,0:38:53.38,*Default,NTP,0000,0000,0000,,I will take care of her
+Dialogue: 0,0:38:55.81,0:38:58.35,*Default,NTP,0000,0000,0000,,Kimuro
+Dialogue: 0,0:39:00.59,0:39:02.09,*Default,NTP,0000,0000,0000,,I am leaving
+Dialogue: 0,0:39:09.76,0:39:12.34,*Default,NTP,0000,0000,0000,,Can you tell me something
+Dialogue: 0,0:39:13.94,0:39:15.86,*Default,NTP,0000,0000,0000,,why did you lie at that time ?
+Dialogue: 0,0:39:19.50,0:39:28.16,*Default,NTP,0000,0000,0000,,I thought you would believe in me..
+Dialogue: 0,0:39:42.63,0:39:46.49,*Default,NTP,0000,0000,0000,,I am sorry, it should be me apologising
+Dialogue: 0,0:39:50.21,0:39:52.50,*Default,NTP,0000,0000,0000,,Its must be painful
+Dialogue: 0,0:39:58.61,0:40:05.26,*Default,NTP,0000,0000,0000,,She is on rehabiliation, it may be time consuming
+Dialogue: 0,0:40:06.48,0:40:15.09,*Default,NTP,0000,0000,0000,,she hope to return
+Dialogue: 0,0:40:16.71,0:40:24.43,*Default,NTP,0000,0000,0000,,she is working hard to stive for that dream
+Dialogue: 0,0:40:24.68,0:40:26.33,*Default,NTP,0000,0000,0000,,can you help ?
+Dialogue: 0,0:40:26.95,0:40:28.46,*Default,NTP,0000,0000,0000,,yes
+Dialogue: 0,0:40:32.02,0:40:35.27,*Default,NTP,0000,0000,0000,,It was great to return here
+Dialogue: 0,0:40:37.16,0:40:40.29,*Default,NTP,0000,0000,0000,,I shall visit  again at another time
+Dialogue: 0,0:40:43.47,0:40:49.19,*Default,NTP,0000,0000,0000,,shall we play basetime sometime ?
+Dialogue: 0,0:44:02.35,0:44:05.12,*Default,NTP,0000,0000,0000,,Do you know what is Air traffic controller technicians are all about ?
+Dialogue: 0,0:44:08.93,0:44:16.05,*Default,NTP,0000,0000,0000,,In air traffic ontroller, technicians are the supporting staff
+Dialogue: 0,0:44:26.30,0:44:31.07,*Default,NTP,0000,0000,0000,,Their mission is to ensure the system is working for the sake of safety
+Dialogue: 0,0:44:33.07,0:44:36.77,*Default,NTP,0000,0000,0000,,It is a job to keep constant monitor and ensure the system are of high reliability
+Dialogue: 0,0:44:36.91,0:44:45.46,*Default,NTP,0000,0000,0000,,It is important to make sure system are always on, and we should make small corrections immediately if error is found
+Dialogue: 0,0:44:49.46,0:44:58.16,*Default,NTP,0000,0000,0000,,The information are required to be done immediately for the safe of air safety
+Dialogue: 0,0:44:58.29,0:45:06.75,*Default,NTP,0000,0000,0000,,The information are also shared in a real time manner
+Dialogue: 0,0:45:09.62,0:45:15.95,*Default,NTP,0000,0000,0000,,One of the important job is to maintain the radar screen ATC are using
+Dialogue: 0,0:45:16.59,0:45:19.42,*Default,NTP,0000,0000,0000,,This is the computer room
+Dialogue: 0,0:45:20.21,0:45:32.14,*Default,NTP,0000,0000,0000,,This is the Controller radar screen interface that ATC  are using.
+Dialogue: 0,0:45:34.03,0:45:42.85,*Default,NTP,0000,0000,0000,,This screen reflects what the ATC see, so, when there is trouble reported by ATC,
+Dialogue: 0,0:45:42.99,0:45:51.55,*Default,NTP,0000,0000,0000,,we can see the changes immediately and take appropriate actions
+Dialogue: 0,0:45:52.81,0:45:57.98,*Default,NTP,0000,0000,0000,,We would try to fix the problem here and if not we go to their room to do it instead
+Dialogue: 0,0:45:58.09,0:46:01.33,*Default,NTP,0000,0000,0000,,We have a commitment that we have to make sure the ATC service should
+Dialogue: 0,0:46:01.45,0:46:03.82,*Default,NTP,0000,0000,0000,,be able to be continued even of system failure
+Dialogue: 0,0:46:04.08,0:46:08.20,*Default,NTP,0000,0000,0000,,Our job nature is.
+Dialogue: 0,0:46:08.34,0:46:17.88,*Default,NTP,0000,0000,0000,,from maintainence to management
+Dialogue: 0,0:46:18.49,0:46:25.30,*Default,NTP,0000,0000,0000,,When there is error reported from ATC, we would go to the scene and fix the problem
+Dialogue: 0,0:46:25.93,0:46:29.79,*Default,NTP,0000,0000,0000,,It is also a must to make sure the maintaining process will not affect the flight safety
+Dialogue: 0,0:46:30.33,0:46:41.81,*Default,NTP,0000,0000,0000,,We have to ensure we understand their worries and take appropriate actions to fix the problem
+Dialogue: 0,0:46:42.11,0:46:48.11,*Default,NTP,0000,0000,0000,,Despite the highly dedicated system we use, they are not perfect
+Dialogue: 0,0:46:49.76,0:46:55.99,*Default,NTP,0000,0000,0000,,It is ofcourse, human wo take final decisions

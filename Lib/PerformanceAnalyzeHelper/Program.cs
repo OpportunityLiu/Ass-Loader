@@ -23,7 +23,12 @@ namespace PerformanceAnalyzeHelper
             //var test = (from m in testc.GetType().GetMethods()
             //            where m.GetCustomAttribute(typeof(TestMethodAttribute)) != null
             //            select m.Invoke(testc, null)).ToArray();
-            Read(10);
+            var c = new SubtitleParseTest() { TestContext = null };
+            for(int i = 0; i < 0xff; i++)
+            {
+                c.Parse();
+                c.ParseExact();
+            }
         }
 
         static void Read(int times)
