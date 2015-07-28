@@ -7,18 +7,22 @@
     {       
         /// <summary>
         /// SSA will attempt to position subtitles in the position specified by the "margins". 
+        /// </summary>
+        /// <remarks>
         /// However, subtitles can be shifted vertically to prevent onscreen collisions. 
         /// With "normal" collision prevention, the subtitles will "stack up" one above the other,
         /// but they will always be positioned as close the vertical (bottom) margin as possible
         /// - filling in "gaps" in other subtitles if one large enough is available.
-        /// </summary>
+        /// </remarks>
         Normal = 0,
         /// <summary>
         /// Subtitles will be shifted upwards to make room for subsequent overlapping subtitles.
+        /// </summary>
+        /// <remarks>
         /// This means the subtitles can nearly always be read top-down,
         /// but it also means that the first subtitle can appear half way up the screen before the subsequent overlapping subtitles appear. 
         /// It can use alpha lot of screen area.
-        /// </summary>
+        /// </remarks>
         Reverse
     }
 
@@ -68,7 +72,7 @@
     public enum WrapStyle
     {
         /// <summary>
-        /// smart wrapping, lines are evenly broken, only "\N" breaks.
+        /// smart wrapping, lines are evenly broken, only @"\N" breaks.
         /// </summary>
         Average = 0,
         /// <summary>
@@ -76,7 +80,7 @@
         /// </summary>
         Downward = 1,
         /// <summary>
-        /// no word wrapping, "\n" and "\N" both breaks.
+        /// no word wrapping, @"\n" and @"\N" both breaks.
         /// </summary>
         None = 2,
         /// <summary>

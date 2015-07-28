@@ -1,0 +1,409 @@
+[Script Info]
+; // ????PopSub??  2012-08-31 13:20:12
+; // ??: 0.77
+; // popgo_fansub@yahoo.co.jp
+; // ???????? http://bbs.popgo.net
+Title:????
+Original Script:?????
+Synch Point:0
+ScriptType:v4.00+
+Collisions:Normal
+PlayResX:640
+PlayResY:480
+Timer:100.0000
+
+[V4+ Styles]
+Format: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, BackColour, Bold, Italic, Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV, Encoding
+Style: Default,Times New Roman,25,&H00FFFFFF,&HF0000000,&H00000000,&HF0000000,-1,0,0,0,100,100,0,0.00,1,1,0,2,30,30,10,134
+Style: Top,Verdana,22,&H00FFFFFF,&H0000FFFF,&H000000FF,&H00040416,0,0,0,0,100,100,0,0.00,1,2,1,8,10,10,10,0
+Style: Top2,Verdana,18,&H00FFFFFF,&H0000FFFF,&H00A32607,&H00040416,0,0,0,0,100,100,0,0.00,1,2,1,8,10,10,30,0
+
+[Events]
+Format: Layer, Start, End, Style, Actor, MarginL, MarginR, MarginV, Effect, Text
+Dialogue: 0,0:00:00.00,0:01:24.09,Top2,NTP,0000,0000,0000,,{\fad(1500,1600)}This is for language exchange,please delete in 24 hours, I will not be responsible for any unlawful actions.
+Dialogue: 0,0:00:00.00,0:01:00.15,Top,NTP,0000,0000,0000,,{\fad(1500,1600)}English Translation: IssacTang  QC: Franeux Provider:Peter
+Dialogue: 0,0:00:01.94,0:00:05.21,Default,,0000,0000,0000,,Do you know there are rules when flying ?
+Dialogue: 0,0:00:08.11,0:00:16.10,Default,,0000,0000,0000,,Where every you go in the world, there must be a "high way"
+Dialogue: 0,0:00:16.51,0:00:23.68,Default,,0000,0000,0000,,In aviation, we call them airways, analogous to highways in lamen terms
+Dialogue: 0,0:00:25.04,0:00:28.78,Default,,0000,0000,0000,,All aircraft in japan fly from and to this predefined route- airways to ensure safety
+Dialogue: 0,0:00:28.95,0:00:33.61,Default,,0000,0000,0000,,TO maintain proper separation during takeoff, landing and enroute,
+Dialogue: 0,0:00:33.75,0:00:40.09,Default,,0000,0000,0000,,Air traffic controllers are there to instruct pilots on hdg, speed and alt to ensure safety.
+Dialogue: 0,0:00:41.56,0:00:44.93,Default,,0000,0000,0000,,for example a plane flying from fukoka to haneda
+Dialogue: 0,0:00:45.49,0:00:53.55,Default,,0000,0000,0000,,First the pilot contacts the atc and the aerodrome controller give clerance from ground movements to airborne
+Dialogue: 0,0:01:14.79,0:01:20.24,Default,,0000,0000,0000,,From aerdrome control, the a/c is pass to terminal control
+Dialogue: 0,0:01:23.52,0:01:34.33,Default,,0000,0000,0000,,then from terminal control is passed to the 4 major Area Control Centre
+Dialogue: 0,0:01:34.46,0:01:37.84,Default,,0000,0000,0000,,ACC uses radar facility to track the flight and guide them to their destination
+Dialogue: 0,0:01:38.37,0:01:43.30,Default,,0000,0000,0000,,The green is Fukoka Control and blue is Tokyo control area
+Dialogue: 0,0:01:44.20,0:01:50.78,Default,,0000,0000,0000,,The plane flies with the predefined route and contact fukuoka control then tokyo control
+Dialogue: 0,0:01:50.88,0:02:02.94,Default,,0000,0000,0000,,The plane is then transfer to the terminal control of haneda for landing
+Dialogue: 0,0:02:26.27,0:02:30.95,Default,,0000,0000,0000,,The ATC uses radar to maitain separation is called Air Traffic Control
+Dialogue: 0,0:02:38.17,0:02:45.16,Default,,0000,0000,0000,,In the world, Air traffic Control has a variety of complex rules and system
+Dialogue: 0,0:02:45.64,0:02:54.76,Default,,0000,0000,0000,,Because of These sets of rules and Air traffic controllers strive to separate traffic made flying in the air safe
+Dialogue: 0,0:03:02.80,0:03:06.35,Default,,0000,0000,0000,,Do you know there is a school specialied for Air traffic controller ?
+Dialogue: 0,0:03:09.85,0:03:15.85,Default,,0000,0000,0000,,it is located in Oosakim isumi city, the aeronautical safety college
+Dialogue: 0,0:03:16.70,0:03:21.20,Default,,0000,0000,0000,,it is different from other college, because  it is directly under provision of tokyo control.
+Dialogue: 0,0:03:21.44,0:03:27.73,Default,,0000,0000,0000,,There are students who wanted to be an air traffic controller, aviation technician.
+Dialogue: 0,0:03:27.88,0:03:35.30,Default,,0000,0000,0000,,here is where they have theorectical and practical lessons
+Dialogue: 0,0:03:37.11,0:03:38.78,Default,,0000,0000,0000,,Koreanair721
+Dialogue: 0,0:03:41.21,0:03:46.58,Default,,0000,0000,0000,,The system they used in simulation are the system that also used in the real world.
+Dialogue: 0,0:03:51.80,0:03:57.00,Default,,0000,0000,0000,,After few years of training, they will be the one who protect the sky of japan.
+Dialogue: 0,0:04:01.78,0:04:14.34,Default,,0000,0000,0000,,In the enroute, charts, we have approved Fl280-Fl410, and deviation may also occur due to weather
+Dialogue: 0,0:04:19.69,0:04:23.65,Default,,0000,0000,0000,,Please not of our normal operating procedure and training is enforced as usual.
+Dialogue: 0,0:04:23.81,0:04:26.66,Default,,0000,0000,0000,,My report is done , anyone have something to add ?
+Dialogue: 0,0:04:30.65,0:04:35.50,Default,,0000,0000,0000,,I have returned from the investigation, please to work with you guys again.
+Dialogue: 0,0:04:36.02,0:04:37.11,Default,,0000,0000,0000,,Let's go.
+Dialogue: 0,0:04:39.53,0:04:40.49,Default,,0000,0000,0000,,Cheers for the hardwork
+Dialogue: 0,0:04:40.66,0:04:43.48,Default,,0000,0000,0000,,anything you have in hand ?
+Dialogue: 0,0:04:43.94,0:04:45.80,Default,,0000,0000,0000,,no, not quite.
+Dialogue: 0,0:04:46.13,0:04:51.11,Default,,0000,0000,0000,,I really have the case is solved as soon as possible.
+Dialogue: 0,0:04:51.11,0:05:00.83,Default,,0000,0000,0000,,I was thinking if  out technician can keep track of the hacker's location.
+Dialogue: 0,0:05:07.11,0:05:09.42,Default,,0000,0000,0000,,Have you heard of Saito san..
+Dialogue: 0,0:05:09.64,0:05:10.60,Default,,0000,0000,0000,,Yes.
+Dialogue: 0,0:05:10.70,0:05:11.86,Default,,0000,0000,0000,,She requested for change of position.
+Dialogue: 0,0:05:11.97,0:05:16.14,Default,,0000,0000,0000,,She finally got what she wnat to transfer in Fukuoka.
+Dialogue: 0,0:05:16.30,0:05:17.52,Default,,0000,0000,0000,,Oh i see.
+Dialogue: 0,0:05:17.99,0:05:19.22,Default,,0000,0000,0000,,That would be lonely for us.
+Dialogue: 0,0:05:19.33,0:05:20.17,Default,,0000,0000,0000,,Yes.
+Dialogue: 0,0:05:23.92,0:05:27.10,Default,,0000,0000,0000,,How are you , are you a bit tired ?
+Dialogue: 0,0:05:27.21,0:05:27.96,Default,,0000,0000,0000,,No.
+Dialogue: 0,0:05:35.50,0:05:37.02,Default,,0000,0000,0000,,Maki.
+Dialogue: 0,0:05:38.94,0:05:40.12,Default,,0000,0000,0000,,Are you okay ?
+Dialogue: 0,0:05:40.23,0:05:41.65,Default,,0000,0000,0000,,What is it about ?
+Dialogue: 0,0:05:42.86,0:05:47.05,Default,,0000,0000,0000,,Just asking.
+Dialogue: 0,0:05:52.94,0:05:56.94,Default,,0000,0000,0000,,ANA232, 124
+Dialogue: 0,0:05:57.95,0:06:02.73,Default,,0000,0000,0000,,ANA215, tokyo control roger, maintain FL 280
+Dialogue: 0,0:06:04.33,0:06:07.02,Default,,0000,0000,0000,,maki san , ANA215,
+Dialogue: 0,0:06:09.54,0:06:10.56,Default,,0000,0000,0000,,Maki san.
+Dialogue: 0,0:06:10.72,0:06:11.54,Default,,0000,0000,0000,,Yes ?
+Dialogue: 0,0:06:11.66,0:06:13.22,Default,,0000,0000,0000,,ANA215 ..
+Dialogue: 0,0:06:13.46,0:06:14.41,Default,,0000,0000,0000,,where?
+Dialogue: 0,0:06:14.57,0:06:15.48,Default,,0000,0000,0000,,here .
+Dialogue: 0,0:06:16.59,0:06:18.75,Default,,0000,0000,0000,,Should we vector him to here for spacing ?
+Dialogue: 0,0:06:19.14,0:06:20.44,Default,,0000,0000,0000,,Yes.
+Dialogue: 0,0:06:21.66,0:06:25.62,Default,,0000,0000,0000,,ANA215, turn right heading 090 for spacing.
+Dialogue: 0,0:06:30.72,0:06:31.51,Default,,0000,0000,0000,,That's good.
+Dialogue: 0,0:06:36.18,0:06:37.97,Default,,0000,0000,0000,,Saito san will not be coming today ?
+Dialogue: 0,0:06:38.54,0:06:43.03,Default,,0000,0000,0000,,I think she is in the ceremony for changing position to fukuoka.
+Dialogue: 0,0:06:43.19,0:06:46.57,Default,,0000,0000,0000,,its quite boring without that "harsh" women around.
+Dialogue: 0,0:06:48.70,0:06:51.72,Default,,0000,0000,0000,,I thought you do not like her around.
+Dialogue: 0,0:06:51.97,0:06:53.55,Default,,0000,0000,0000,,Am I that bad ?
+Dialogue: 0,0:06:53.91,0:06:54.88,Default,,0000,0000,0000,,I do not know.
+Dialogue: 0,0:06:55.53,0:07:00.93,Default,,0000,0000,0000,,Have you watched the the latest start shriek ?
+Dialogue: 0,0:07:01.16,0:07:01.94,Default,,0000,0000,0000,,no.
+Dialogue: 0,0:07:02.07,0:07:03.18,Default,,0000,0000,0000,,that's why
+Dialogue: 0,0:07:03.97,0:07:05.20,Default,,0000,0000,0000,,why are you that angry.
+Dialogue: 0,0:07:06.10,0:07:07.43,Default,,0000,0000,0000,,I am sorry.
+Dialogue: 0,0:07:07.86,0:07:16.56,Default,,0000,0000,0000,,The enteprise commerical video is something like this.
+Dialogue: 0,0:07:21.61,0:07:23.10,Default,,0000,0000,0000,,Do you understand ?
+Dialogue: 0,0:07:33.41,0:07:34.72,Default,,0000,0000,0000,,Here you are.
+Dialogue: 0,0:07:37.23,0:07:38.65,Default,,0000,0000,0000,,Too hot.
+Dialogue: 0,0:07:40.38,0:07:41.35,Default,,0000,0000,0000,,delicious..
+Dialogue: 0,0:07:43.70,0:07:47.97,Default,,0000,0000,0000,,I know everyone must be tired, i added some more beans to make it smell good.
+Dialogue: 0,0:07:48.07,0:07:49.35,Default,,0000,0000,0000,,The good smell can let you relax.
+Dialogue: 0,0:07:49.72,0:07:50.93,Default,,0000,0000,0000,,You are right.
+Dialogue: 0,0:07:51.28,0:07:52.15,Default,,0000,0000,0000,,There is nothing special here.
+Dialogue: 0,0:07:53.38,0:07:56.09,Default,,0000,0000,0000,,shikishima...
+Dialogue: 0,0:07:59.61,0:08:00.64,Default,,0000,0000,0000,,I do not know.
+Dialogue: 0,0:08:06.83,0:08:07.74,Default,,0000,0000,0000,,Yes ?
+Dialogue: 0,0:08:07.86,0:08:10.55,Default,,0000,0000,0000,,Would you like some coffee ?
+Dialogue: 0,0:08:10.59,0:08:13.98,Default,,0000,0000,0000,,I just came to get my cell phone.
+Dialogue: 0,0:08:28.23,0:08:33.15,Default,,0000,0000,0000,,The 8 years old girl who was inANL flight emergency landed in hachijyojima, is still in coma
+Dialogue: 0,0:08:33.51,0:08:37.12,Default,,0000,0000,0000,,If the incident was coped ealier , this would have saved the child from coma.
+Dialogue: 0,0:08:39.83,0:08:42.33,Default,,0000,0000,0000,,There is hospital in hachijyojima, but its not fully functional
+Dialogue: 0,0:08:42.66,0:08:45.77,Default,,0000,0000,0000,,If the instruments are faulty, the fuel should not be remaining that much also.
+Dialogue: 0,0:08:46.16,0:08:54.66,Default,,0000,0000,0000,,taking the worse condition, landing at hachijyojima would be the best choice.
+Dialogue: 0,0:08:55.54,0:08:57.74,Default,,0000,0000,0000,,ANL167 has landed safety
+Dialogue: 0,0:08:59.29,0:09:04.68,Default,,0000,0000,0000,,But the hopstial have told us the child is unconscious
+Dialogue: 0,0:09:17.63,0:09:20.64,Default,,0000,0000,0000,,Tokyo control roger, maintain FL 370
+Dialogue: 0,0:09:25.41,0:09:30.53,Default,,0000,0000,0000,,That is great, it must be the good training of Maki.
+Dialogue: 0,0:09:31.45,0:09:35.13,Default,,0000,0000,0000,,Let's get rest, please ask for shift from another.
+Dialogue: 0,0:09:43.35,0:09:45.70,Default,,0000,0000,0000,,What do you want to tell me ?
+Dialogue: 0,0:09:48.05,0:09:50.51,Default,,0000,0000,0000,,Actually nothing, I am sorry.
+Dialogue: 0,0:09:51.99,0:09:53.99,Default,,0000,0000,0000,,maki, where are you going ?
+Dialogue: 0,0:09:54.09,0:09:55.44,Default,,0000,0000,0000,,I want some fresh air outside.
+Dialogue: 0,0:10:03.82,0:10:04.92,Default,,0000,0000,0000,,Yuki San,
+Dialogue: 0,0:10:05.06,0:10:08.94,Default,,0000,0000,0000,,is maki still worrying about the incident of ANL ?
+Dialogue: 0,0:10:09.07,0:10:10.13,Default,,0000,0000,0000,,Why do you ask ?
+Dialogue: 0,0:10:10.29,0:10:12.40,Default,,0000,0000,0000,,She did not control today.
+Dialogue: 0,0:10:12.98,0:10:16.05,Default,,0000,0000,0000,,It was the first time when OJT, she lost her attention.
+Dialogue: 0,0:10:16.18,0:10:18.85,Default,,0000,0000,0000,,isn't because you are okay to be on solo, thus she let go, right ?
+Dialogue: 0,0:10:19.47,0:10:22.64,Default,,0000,0000,0000,,I always felt the same was as Yamada.
+Dialogue: 0,0:10:23.04,0:10:25.70,Default,,0000,0000,0000,,Well, women has lots in their mind, including worries of men.
+Dialogue: 0,0:10:25.86,0:10:27.05,Default,,0000,0000,0000,,I did not ask for that.
+Dialogue: 0,0:10:27.37,0:10:30.94,Default,,0000,0000,0000,,Well, let you 2 handsome guys follow up the case then.
+Dialogue: 0,0:10:31.20,0:10:34.28,Default,,0000,0000,0000,,Handsome ?
+Dialogue: 0,0:10:37.00,0:10:38.41,Default,,0000,0000,0000,,What should I do if Maki has a boyfriend ?
+Dialogue: 0,0:10:38.53,0:10:39.61,Default,,0000,0000,0000,,You really can imagine things.
+Dialogue: 0,0:10:39.74,0:10:41.26,Default,,0000,0000,0000,,Please stop mocking me.
+Dialogue: 0,0:10:42.14,0:10:43.70,Default,,0000,0000,0000,,It is hard to graps the heart of a girl.
+Dialogue: 0,0:10:43.92,0:10:46.16,Default,,0000,0000,0000,,right, yamada ? shall we go together?
+Dialogue: 0,0:10:46.52,0:10:47.52,Default,,0000,0000,0000,,ok.
+Dialogue: 0,0:10:47.73,0:10:49.29,Default,,0000,0000,0000,,Cheers for hardwork.
+Dialogue: 0,0:10:58.08,0:11:00.96,Default,,0000,0000,0000,,Have you watch the news ?
+Dialogue: 0,0:11:02.76,0:11:03.99,Default,,0000,0000,0000,,What happened ?
+Dialogue: 0,0:11:04.11,0:11:14.27,Default,,0000,0000,0000,,There was a divertion traffic this morning.
+Dialogue: 0,0:11:14.37,0:11:22.95,Default,,0000,0000,0000,,But she did not did well, she must be worried about that incident.
+Dialogue: 0,0:11:24.56,0:11:26.76,Default,,0000,0000,0000,,I hope she is fine but.
+Dialogue: 0,0:11:28.68,0:11:31.09,Default,,0000,0000,0000,,You will be the last one, here, right ?
+Dialogue: 0,0:11:31.29,0:11:35.52,Default,,0000,0000,0000,,so i will leave first.
+Dialogue: 0,0:12:08.26,0:12:17.12,Default,,0000,0000,0000,,Ep08
+Dialogue: 0,0:12:19.95,0:12:25.57,Default,,0000,0000,0000,,let's invite saito to say the last words before she leave.
+Dialogue: 0,0:12:30.36,0:12:37.83,Default,,0000,0000,0000,,Although it will be lonely to leave tokyo control.
+Dialogue: 0,0:12:37.98,0:12:42.11,Default,,0000,0000,0000,,To work in ATM is my dream for a long time.
+Dialogue: 0,0:12:43.23,0:12:47.58,Default,,0000,0000,0000,,Its really a relive for me to have my dream come true
+Dialogue: 0,0:12:49.01,0:12:53.97,Default,,0000,0000,0000,,I know i may have problems or fights between you
+Dialogue: 0,0:12:54.60,0:12:56.33,Default,,0000,0000,0000,,please forgive my bad acts.
+Dialogue: 0,0:12:58.45,0:13:02.25,Default,,0000,0000,0000,,But this does not mean to say goodbye forever,
+Dialogue: 0,0:13:02.38,0:13:06.50,Default,,0000,0000,0000,,I can still hear your voices when you contact ATM
+Dialogue: 0,0:13:08.45,0:13:18.32,Default,,0000,0000,0000,,Let's work hard to ensure air safety of japan as an Air traffic controller.
+Dialogue: 0,0:13:29.54,0:13:33.36,Default,,0000,0000,0000,,Saito.. I will be lonely.
+Dialogue: 0,0:13:34.10,0:13:37.51,Default,,0000,0000,0000,,No..
+Dialogue: 0,0:13:47.14,0:13:53.11,Default,,0000,0000,0000,,Thank you for words during OJt.
+Dialogue: 0,0:13:53.30,0:13:57.44,Default,,0000,0000,0000,,Please be a great ATC
+Dialogue: 0,0:14:00.46,0:14:02.50,Default,,0000,0000,0000,,Thank you.
+Dialogue: 0,0:14:02.87,0:14:04.07,Default,,0000,0000,0000,,Add oil.
+Dialogue: 0,0:14:18.69,0:14:21.70,Default,,0000,0000,0000,,Cheers for hardword,
+Dialogue: 0,0:14:22.76,0:14:30.02,Default,,0000,0000,0000,,You can handle it,
+Dialogue: 0,0:14:32.18,0:14:33.79,Default,,0000,0000,0000,,please come and play in fukuoka sometime.
+Dialogue: 0,0:14:42.00,0:14:44.00,Default,,0000,0000,0000,,Why did you not say goodbye to me ?
+Dialogue: 0,0:14:47.97,0:14:50.28,Default,,0000,0000,0000,,Cheers for hardwork.
+Dialogue: 0,0:14:52.06,0:14:52.95,Default,,0000,0000,0000,,Thank you.
+Dialogue: 0,0:14:56.98,0:14:57.73,Default,,0000,0000,0000,,Saito san.
+Dialogue: 0,0:15:02.31,0:15:03.92,Default,,0000,0000,0000,,No., That is too much.
+Dialogue: 0,0:15:35.47,0:15:37.27,Default,,0000,0000,0000,,Thank you.
+Dialogue: 0,0:15:39.08,0:15:40.71,Default,,0000,0000,0000,,Please come and visit us sometime.
+Dialogue: 0,0:15:40.84,0:15:42.10,Default,,0000,0000,0000,,With you daugter ?
+Dialogue: 0,0:15:43.31,0:15:55.12,Default,,0000,0000,0000,,I will be returning to work.
+Dialogue: 0,0:15:55.50,0:15:56.56,Default,,0000,0000,0000,,Please take care.
+Dialogue: 0,0:15:57.19,0:15:59.07,Default,,0000,0000,0000,,I will return after clearing my locker
+Dialogue: 0,0:16:00.10,0:16:02.46,Default,,0000,0000,0000,,I will give you a call after I have arrived Fukuoka.
+Dialogue: 0,0:16:33.19,0:16:34.78,Default,,0000,0000,0000,,Its still lonely afterall.
+Dialogue: 0,0:17:01.37,0:17:02.40,Default,,0000,0000,0000,,Thank you.
+Dialogue: 0,0:17:02.84,0:17:04.75,Default,,0000,0000,0000,,You can change shifts.
+Dialogue: 0,0:17:05.37,0:17:13.79,Default,,0000,0000,0000,,Isn't because of bad health..
+Dialogue: 0,0:17:18.83,0:17:21.33,Default,,0000,0000,0000,,How is yokohama san ?
+Dialogue: 0,0:17:24.98,0:17:26.70,Default,,0000,0000,0000,,he seems to be famous in the village.
+Dialogue: 0,0:17:26.80,0:17:28.16,Default,,0000,0000,0000,,People say his coffee is delicious.
+Dialogue: 0,0:17:28.26,0:17:31.12,Default,,0000,0000,0000,,He thank shikijima for the techniques also.
+Dialogue: 0,0:17:31.69,0:17:32.78,Default,,0000,0000,0000,,That's great.
+Dialogue: 0,0:17:35.33,0:17:41.19,Default,,0000,0000,0000,,Yuki san, please look this after work.
+Dialogue: 0,0:17:42.69,0:17:44.14,Default,,0000,0000,0000,,I will be returning.
+Dialogue: 0,0:17:56.83,0:17:58.00,Default,,0000,0000,0000,,What would it be.
+Dialogue: 0,0:17:58.19,0:18:01.73,Default,,0000,0000,0000,,yes ?
+Dialogue: 0,0:18:07.49,0:18:13.35,Default,,0000,0000,0000,,you don't know ?
+Dialogue: 0,0:18:19.67,0:18:20.67,Default,,0000,0000,0000,,Crush ban ?
+Dialogue: 0,0:18:20.80,0:18:25.05,Default,,0000,0000,0000,,JAL73 d/m FL 250
+Dialogue: 0,0:18:34.40,0:18:36.46,Default,,0000,0000,0000,,Maki san, can you change shift with me.
+Dialogue: 0,0:18:38.83,0:18:41.28,Default,,0000,0000,0000,,The departure from handea are retricted.
+Dialogue: 0,0:18:41.69,0:18:43.68,Default,,0000,0000,0000,,There should be reduced traffic.
+Dialogue: 0,0:18:50.62,0:18:52.09,Default,,0000,0000,0000,,Are you ok ?
+Dialogue: 0,0:18:52.42,0:18:54.05,Default,,0000,0000,0000,,understood
+Dialogue: 0,0:19:01.09,0:19:07.07,Default,,0000,0000,0000,,Tokyo control, DAL554,  we delcare medical emergency ,  request divert to haneda airport.
+Dialogue: 0,0:19:07.88,0:19:10.25,Default,,0000,0000,0000,,DAL554,
+Dialogue: 0,0:19:25.09,0:19:27.49,Default,,0000,0000,0000,,Tokyo control, DAL554, request descent.
+Dialogue: 0,0:19:55.31,0:19:58.13,Default,,0000,0000,0000,,AMU886, request FL360
+Dialogue: 0,0:20:00.07,0:20:01.56,Default,,0000,0000,0000,,Aircraft are calling you.
+Dialogue: 0,0:20:02.53,0:20:03.95,Default,,0000,0000,0000,,I know.
+Dialogue: 0,0:20:09.04,0:20:10.66,Default,,0000,0000,0000,,Maki.
+Dialogue: 0,0:20:14.15,0:20:15.96,Default,,0000,0000,0000,,the aicraft are calling you.
+Dialogue: 0,0:20:16.07,0:20:17.24,Default,,0000,0000,0000,,I am ok.
+Dialogue: 0,0:20:17.54,0:20:18.57,Default,,0000,0000,0000,,Give instructions now.
+Dialogue: 0,0:20:18.69,0:20:20.12,Default,,0000,0000,0000,,I know
+Dialogue: 0,0:20:20.38,0:20:25.34,Default,,0000,0000,0000,,AMU886, c/m FL360
+Dialogue: 0,0:20:25.46,0:20:31.31,Default,,0000,0000,0000,,ANA308, c/m  FL 260, turn right heading 270
+Dialogue: 0,0:20:36.95,0:20:41.17,Default,,0000,0000,0000,,DAL554, d/m FL 230
+Dialogue: 0,0:20:41.44,0:20:43.37,Default,,0000,0000,0000,,Don't do extra things for me.
+Dialogue: 0,0:20:43.50,0:20:46.10,Default,,0000,0000,0000,,if I don't do extra thing, why would you not give instructions ?
+Dialogue: 0,0:20:46.61,0:20:48.29,Default,,0000,0000,0000,,If you cannot do it, just go home and rest.
+Dialogue: 0,0:21:06.88,0:21:07.52,Default,,0000,0000,0000,,I am fine.
+Dialogue: 0,0:21:07.68,0:21:10.54,Default,,0000,0000,0000,,I did not sleept well, I should be fine.
+Dialogue: 0,0:21:10.72,0:21:11.88,Default,,0000,0000,0000,,You can go home and rest today,
+Dialogue: 0,0:21:12.05,0:21:12.89,Default,,0000,0000,0000,,What are you talking about ?
+Dialogue: 0,0:21:13.01,0:21:14.10,Default,,0000,0000,0000,,I said you can return home.
+Dialogue: 0,0:21:14.17,0:21:14.67,Default,,0000,0000,0000,,I am ok
+Dialogue: 0,0:21:14.74,0:21:16.34,Default,,0000,0000,0000,,no..
+Dialogue: 0,0:21:16.43,0:21:18.20,Default,,0000,0000,0000,,You should know yourself,
+Dialogue: 0,0:21:20.34,0:21:22.13,Default,,0000,0000,0000,,i will give you a day off today.
+Dialogue: 0,0:21:43.26,0:21:47.35,Default,,0000,0000,0000,,I heard Maki just returned, is there anything happened ?
+Dialogue: 0,0:21:47.60,0:21:48.77,Default,,0000,0000,0000,,she is not feeling well.
+Dialogue: 0,0:21:48.87,0:21:50.19,Default,,0000,0000,0000,,I let her off
+Dialogue: 0,0:21:50.88,0:21:52.44,Default,,0000,0000,0000,,Is it related to that incident ?
+Dialogue: 0,0:21:52.61,0:21:54.51,Default,,0000,0000,0000,,May be.
+Dialogue: 0,0:21:55.16,0:21:57.32,Default,,0000,0000,0000,,I have suggest her to return home for some rest
+Dialogue: 0,0:21:57.41,0:22:00.83,Default,,0000,0000,0000,,if she returned, please take her off radar control.
+Dialogue: 0,0:22:04.15,0:22:07.77,Default,,0000,0000,0000,,Ok.
+Dialogue: 0,0:22:11.30,0:22:13.29,Default,,0000,0000,0000,,Maki is a human being afterall.
+Dialogue: 0,0:22:13.85,0:22:15.65,Default,,0000,0000,0000,,I don't think that is a nice way of saying her like that
+Dialogue: 0,0:22:15.71,0:22:17.13,Default,,0000,0000,0000,,I am not bad mouthing her.
+Dialogue: 0,0:22:17.25,0:22:20.05,Default,,0000,0000,0000,,I was surprised.
+Dialogue: 0,0:22:20.71,0:22:23.27,Default,,0000,0000,0000,,She must be still worried about the incident happened recently.
+Dialogue: 0,0:22:23.40,0:22:24.53,Default,,0000,0000,0000,,I am not sure.
+Dialogue: 0,0:22:24.92,0:22:28.91,Default,,0000,0000,0000,,If it is the wish of herself. we should respect it.
+Dialogue: 0,0:22:29.57,0:22:30.90,Default,,0000,0000,0000,,The new has reported ...
+Dialogue: 0,0:22:31.10,0:22:32.80,Default,,0000,0000,0000,,It would be good if she did not saw the news report.
+Dialogue: 0,0:22:33.55,0:22:43.02,Default,,0000,0000,0000,,If she is really worried about that incident, should be clean up this room?
+Dialogue: 0,0:22:44.05,0:22:47.22,Default,,0000,0000,0000,,Let's remove all the newpaper.
+Dialogue: 0,0:22:47.37,0:22:48.19,Default,,0000,0000,0000,,Yes.
+Dialogue: 0,0:22:48.34,0:22:50.41,Default,,0000,0000,0000,,Let's make the TV inoperative.
+Dialogue: 0,0:22:51.65,0:22:57.57,Default,,0000,0000,0000,,shikijima, please coordinate with other team.
+Dialogue: 0,0:23:05.40,0:23:08.10,Default,,0000,0000,0000,,Cheers for hardwork,
+Dialogue: 0,0:23:08.80,0:23:09.97,Default,,0000,0000,0000,,what are you doing ?
+Dialogue: 0,0:23:10.26,0:23:13.50,Default,,0000,0000,0000,,before maki returns, we hope to clean up this room.
+Dialogue: 0,0:23:13.72,0:23:17.11,Default,,0000,0000,0000,,Hope that no information about the incident can come to her mind.
+Dialogue: 0,0:23:17.35,0:23:19.77,Default,,0000,0000,0000,,We are trying to inhibit her to switch to the news channel.
+Dialogue: 0,0:23:20.26,0:23:24.22,Default,,0000,0000,0000,,Its really difficult to move this thing.
+Dialogue: 0,0:23:26.95,0:23:28.28,Default,,0000,0000,0000,,How about removing the batteries ?
+Dialogue: 0,0:23:30.92,0:23:38.35,Default,,0000,0000,0000,,See, if you remove the battery, you can still operate the tv by pressing buttons here
+Dialogue: 0,0:23:40.01,0:23:41.79,Default,,0000,0000,0000,,We did not ask suggestions from a trainnee
+Dialogue: 0,0:23:42.29,0:23:44.30,Default,,0000,0000,0000,,Are you trying to say I am just wasting my time ?
+Dialogue: 0,0:23:44.45,0:23:45.48,Default,,0000,0000,0000,,No.
+Dialogue: 0,0:23:45.60,0:23:49.15,Default,,0000,0000,0000,,How about I bring home this TV ?
+Dialogue: 0,0:23:49.43,0:23:51.42,Default,,0000,0000,0000,,Please stop that.
+Dialogue: 0,0:23:51.70,0:23:55.27,Default,,0000,0000,0000,,Let's just use the TV at the least.
+Dialogue: 0,0:23:58.78,0:24:00.14,Default,,0000,0000,0000,,Yamada, please help.
+Dialogue: 0,0:24:00.56,0:24:04.42,Default,,0000,0000,0000,,hey, go and help.
+Dialogue: 0,0:24:16.42,0:24:17.48,Default,,0000,0000,0000,,Good morning,
+Dialogue: 0,0:24:17.61,0:24:18.17,Default,,0000,0000,0000,,you look energetic
+Dialogue: 0,0:24:18.23,0:24:24.92,Default,,0000,0000,0000,,can you be at my pose,  i will be busy in meetings.
+Dialogue: 0,0:24:25.10,0:24:27.60,Default,,0000,0000,0000,,Ok.
+Dialogue: 0,0:24:41.96,0:24:45.16,Default,,0000,0000,0000,,We have a new member uwekisa
+Dialogue: 0,0:24:46.59,0:24:53.00,Default,,0000,0000,0000,,I have been on a rest for something and now assigned to work in tokyo control
+Dialogue: 0,0:24:53.86,0:25:00.92,Default,,0000,0000,0000,,I have a long time no working but pleased to work with you.
+Dialogue: 0,0:25:03.69,0:25:04.98,Default,,0000,0000,0000,,The mentor will be oota.
+Dialogue: 0,0:25:06.06,0:25:10.58,Default,,0000,0000,0000,,Let's go.
+Dialogue: 0,0:25:20.43,0:25:30.03,Default,,0000,0000,0000,,Yuki, I am sorry that my husband had caused you troubles.
+Dialogue: 0,0:25:30.15,0:25:31.48,Default,,0000,0000,0000,,No,..
+Dialogue: 0,0:25:32.29,0:25:37.61,Default,,0000,0000,0000,,It is really great to work with you again in tokyo control ever since that incident.
+Dialogue: 0,0:25:38.87,0:25:40.23,Default,,0000,0000,0000,,Yea.
+Dialogue: 0,0:25:41.73,0:25:43.94,Default,,0000,0000,0000,,I'll go back to work.
+Dialogue: 0,0:25:50.42,0:25:51.97,Default,,0000,0000,0000,,Excuse me, can you come over please ?
+Dialogue: 0,0:25:53.26,0:25:54.96,Default,,0000,0000,0000,,I will go there.
+Dialogue: 0,0:26:01.92,0:26:04.47,Default,,0000,0000,0000,,Can I go for rest ?
+Dialogue: 0,0:26:04.64,0:26:05.89,Default,,0000,0000,0000,,Sure.
+Dialogue: 0,0:26:14.50,0:26:19.89,Default,,0000,0000,0000,,JAL148, c/m FL260, turn right heading 290
+Dialogue: 0,0:26:24.69,0:26:25.83,Default,,0000,0000,0000,,Yuki,
+Dialogue: 0,0:26:26.13,0:26:28.28,Default,,0000,0000,0000,,Its great to have eweki back with us.
+Dialogue: 0,0:26:28.85,0:26:30.50,Default,,0000,0000,0000,,That is great.
+Dialogue: 0,0:26:30.99,0:26:31.83,Default,,0000,0000,0000,,Yuki san,
+Dialogue: 0,0:26:31.94,0:26:33.98,Default,,0000,0000,0000,,I have the informaiton for the vistion of our center from pilot.
+Dialogue: 0,0:26:34.10,0:26:37.84,Default,,0000,0000,0000,,I am sorry, after saito left, I have been asking you to help.
+Dialogue: 0,0:26:37.94,0:26:41.04,Default,,0000,0000,0000,,I am strong men and can work as you command.
+Dialogue: 0,0:26:41.13,0:26:41.79,Default,,0000,0000,0000,,Great.
+Dialogue: 0,0:26:41.91,0:26:43.32,Default,,0000,0000,0000,,Is Maki fine ?
+Dialogue: 0,0:26:43.52,0:26:46.22,Default,,0000,0000,0000,,are you worried as a boyfriend ?
+Dialogue: 0,0:26:46.35,0:26:47.77,Default,,0000,0000,0000,,Please don't mocking me.
+Dialogue: 0,0:26:49.91,0:26:53.40,Default,,0000,0000,0000,,is she on rest , I did not see her outside
+Dialogue: 0,0:27:01.25,0:27:02.44,Default,,0000,0000,0000,,Cheers for hardwork.
+Dialogue: 0,0:27:04.23,0:27:06.30,Default,,0000,0000,0000,,its  a long time ever since my last control.
+Dialogue: 0,0:27:06.51,0:27:09.98,Default,,0000,0000,0000,,There are a lot of deviation.
+Dialogue: 0,0:27:10.40,0:27:11.76,Default,,0000,0000,0000,,I hope that everything is fine.
+Dialogue: 0,0:27:11.94,0:27:15.04,Default,,0000,0000,0000,,Its sure to be fine.
+Dialogue: 0,0:27:15.32,0:27:17.01,Default,,0000,0000,0000,,You have done a great job.
+Dialogue: 0,0:27:19.59,0:27:24.36,Default,,0000,0000,0000,,Maki san,  We are planning to visting yokohama's cafe shop,
+Dialogue: 0,0:27:24.48,0:27:25.23,Default,,0000,0000,0000,,no thanks.
+Dialogue: 0,0:27:25.28,0:27:27.65,Default,,0000,0000,0000,,Hey, lets go..
+Dialogue: 0,0:27:27.76,0:27:28.95,Default,,0000,0000,0000,,It may be great to change your mood.
+Dialogue: 0,0:27:30.21,0:27:32.13,Default,,0000,0000,0000,,Mood ?
+Dialogue: 0,0:27:32.86,0:27:35.25,Default,,0000,0000,0000,,I am the one who need to change my mood ?
+Dialogue: 0,0:27:35.95,0:27:36.99,Default,,0000,0000,0000,,No,
+Dialogue: 0,0:27:37.08,0:27:38.35,Default,,0000,0000,0000,,HOw many years have you been working ?
+Dialogue: 0,0:27:38.47,0:27:39.44,Default,,0000,0000,0000,,2 years,
+Dialogue: 0,0:27:39.57,0:27:43.47,Default,,0000,0000,0000,,that's is why always make mistake and being scould all the times.
+Dialogue: 0,0:27:44.11,0:27:45.15,Default,,0000,0000,0000,,maki san.
+Dialogue: 0,0:27:47.81,0:27:49.31,Default,,0000,0000,0000,,Are you okay,
+Dialogue: 0,0:27:50.54,0:27:52.55,Default,,0000,0000,0000,,I thought that she would come .
+Dialogue: 0,0:27:53.37,0:27:57.25,Default,,0000,0000,0000,,Forget about it.
+Dialogue: 0,0:27:57.52,0:27:59.00,Default,,0000,0000,0000,,Let's go together.
+Dialogue: 0,0:28:05.53,0:28:06.72,Default,,0000,0000,0000,,Cheers for hardwork.
+Dialogue: 0,0:28:08.23,0:28:14.70,Default,,0000,0000,0000,,Suzuki San, yokohama san is wanted to see you, can you come and join us this time ?
+Dialogue: 0,0:28:20.39,0:28:21.46,Default,,0000,0000,0000,,Thank you.
+Dialogue: 0,0:28:28.62,0:28:32.45,Default,,0000,0000,0000,,Yuki, please, I want to help..
+Dialogue: 0,0:28:38.54,0:28:40.11,Default,,0000,0000,0000,,Thank you.
+Dialogue: 0,0:28:49.19,0:28:52.91,Default,,0000,0000,0000,,I would like to discuss about the pilot vistation of tokyo control, today and next week.
+Dialogue: 0,0:28:54.52,0:28:59.75,Default,,0000,0000,0000,,We have arranged people to bring them around during the visit.
+Dialogue: 0,0:29:00.94,0:29:04.11,Default,,0000,0000,0000,,Hara, you would wear suit, during their visitation, right ?
+Dialogue: 0,0:29:04.24,0:29:06.23,Default,,0000,0000,0000,,I don't think that is a good idea, he will make something weird again.
+Dialogue: 0,0:29:07.46,0:29:08.88,Default,,0000,0000,0000,,I will prepare it.
+Dialogue: 0,0:29:09.07,0:29:10.14,Default,,0000,0000,0000,,But, why did you not wear it today ?
+Dialogue: 0,0:29:10.26,0:29:11.43,Default,,0000,0000,0000,,I have allergy to suits.
+Dialogue: 0,0:29:11.75,0:29:14.26,Default,,0000,0000,0000,,I think its better to work at the outfit.
+Dialogue: 0,0:29:14.39,0:29:21.75,Default,,0000,0000,0000,,So, there will be 2 pilots visting our control center this afternoon.
+Dialogue: 0,0:29:22.56,0:29:27.51,Default,,0000,0000,0000,,There will be also simulation training for our new atc training.
+Dialogue: 0,0:29:27.72,0:29:29.75,Default,,0000,0000,0000,,Nakajima san, don't think its a date .
+Dialogue: 0,0:29:30.02,0:29:30.82,Default,,0000,0000,0000,,Its not ?
+Dialogue: 0,0:29:31.01,0:29:38.30,Default,,0000,0000,0000,,The OJT for the new ATC will be conducted next week, please be prepared, thank you.
+Dialogue: 0,0:29:38.76,0:29:40.32,Default,,0000,0000,0000,,This is the briefing room.
+Dialogue: 0,0:29:40.56,0:29:42.10,Default,,0000,0000,0000,,The control room is this way.
+Dialogue: 0,0:29:42.88,0:29:47.50,Default,,0000,0000,0000,,You are scheduled to visit there next week, do you want to see it today ?
+Dialogue: 0,0:29:47.72,0:29:50.93,Default,,0000,0000,0000,,Yes, please
+Dialogue: 0,0:29:51.49,0:29:58.03,Default,,0000,0000,0000,,The briefing room is quite old, it started 8 yesr ago.
+Dialogue: 0,0:29:58.27,0:30:01.19,Default,,0000,0000,0000,,The machines we have been using are of the latest technology.
+Dialogue: 0,0:30:01.90,0:30:02.74,Default,,0000,0000,0000,,Really
+Dialogue: 0,0:30:05.75,0:30:10.14,Default,,0000,0000,0000,,Haha..
+Dialogue: 0,0:30:14.15,0:30:16.61,Default,,0000,0000,0000,,The attire seems to be..
+Dialogue: 0,0:30:17.73,0:30:23.05,Default,,0000,0000,0000,,He is special, he does things freely
+Dialogue: 0,0:30:28.92,0:30:30.60,Default,,0000,0000,0000,,What is the position in there ?
+Dialogue: 0,0:30:30.95,0:30:32.16,Default,,0000,0000,0000,,It is the manager of the Area center
+Dialogue: 0,0:30:32.34,0:30:39.89,Default,,0000,0000,0000,,All the communication between ATM and coordinate with other sectors
+Dialogue: 0,0:30:40.26,0:30:42.27,Default,,0000,0000,0000,,She is like in the heart of the control
+Dialogue: 0,0:30:43.40,0:30:45.34,Default,,0000,0000,0000,,She quite cool.
+Dialogue: 0,0:30:46.69,0:30:49.01,Default,,0000,0000,0000,,Let's go to the simulation room.
+Dialogue: 0,0:30:49.77,0:30:52.03,Default,,0000,0000,0000,,I have a request.
+Dialogue: 0,0:30:54.27,0:30:57.78,Default,,0000,0000,0000,,Maki san, there is a handsome pilot looking for you.
+Dialogue: 0,0:30:57.98,0:30:58.62,Default,,0000,0000,0000,,Its not it..
+Dialogue: 0,0:30:58.73,0:31:00.31,Default,,0000,0000,0000,,Go back to your position
+Dialogue: 0,0:31:00.39,0:31:01.23,Default,,0000,0000,0000,,I will go for toilet
+Dialogue: 0,0:31:03.16,0:31:04.64,Default,,0000,0000,0000,,Can you do something with Hara's attire ?
+Dialogue: 0,0:31:04.82,0:31:05.80,Default,,0000,0000,0000,,That is too much.
+Dialogue: 0,0:31:11.97,0:31:14.03,Default,,0000,0000,0000,,Sorry, he wanted to visit here
+Dialogue: 0,0:31:14.45,0:31:15.38,Default,,0000,0000,0000,,Its ok.
+Dialogue: 0,0:31:15.59,0:31:16.62,Default,,0000,0000,0000,,Please.
+Dialogue: 0,0:31:20.34,0:31:21.43,Default,,0000,0000,0000,,You know her ?
+Dialogue: 0,0:31:21.65,0:31:26.36,Default,,0000,0000,0000,,I am the pilot in charge when she visit the cockpit training.
+Dialogue: 0,0:31:27.02,0:31:29.01,Default,,0000,0000,0000,,Aren't you controlling today ?
+Dialogue: 0,0:31:29.79,0:31:32.80,Default,,0000,0000,0000,,She is now working as the manager today.
+Dialogue: 0,0:31:33.70,0:31:34.89,Default,,0000,0000,0000,,That is a pity,
+Dialogue: 0,0:31:35.08,0:31:36.88,Default,,0000,0000,0000,,I wanted to  see how you control
+Dialogue: 0,0:31:37.42,0:31:43.99,Default,,0000,0000,0000,,I wanted to see how strong were you , when you said come and visit us in the control centre
+Dialogue: 0,0:31:44.65,0:31:45.62,Default,,0000,0000,0000,,I am sorry.
+Dialogue: 0,0:31:48.21,0:31:52.42,Default,,0000,0000,0000,,The simulation demonstration will be starting, we should be going.
+Dialogue: 0,0:31:53.82,0:31:54.92,Default,,0000,0000,0000,,Sorry for bothering you.
+Dialogue: 0,0:32:19.34,0:32:20.44,Default,,0000,0000,0000,,Excuse me.
+Dialogue: 0,0:32:38.51,0:32:45.86,Default,,0000,0000,0000,,I have similar expeirence like you
+Dialogue: 0,0:32:47.20,0:32:56.37,Default,,0000,0000,0000,,The a/c was identifiable, how could they run on Conflict.
+Dialogue: 0,0:32:56.50,0:32:57.54,Default,,0000,0000,0000,,Sorry, please stop it.
+Dialogue: 0,0:32:57.65,0:32:58.77,Default,,0000,0000,0000,,I am fine.
+Dialogue: 0,0:33:00.93,0:33:10.76,Default,,0000,0000,0000,,But I think the one who suffer is you.
+Dialogue: 0,0:33:11.68,0:33:22.79,Default,,0000,0000,0000,,although I could not protect you but at least I understand you, as an ATC
+Dialogue: 0,0:33:23.75,0:33:26.69,Default,,0000,0000,0000,,If you need me, just let me know
+Dialogue: 0,0:33:29.96,0:33:38.70,Default,,0000,0000,0000,,How did you get over with it ?
+Dialogue: 0,0:33:42.31,0:33:46.26,Default,,0000,0000,0000,,I have someone that support me wholeheartedly.
+Dialogue: 0,0:33:46.99,0:33:55.40,Default,,0000,0000,0000,,Whatever I do or whoever say o me, he supported me and be with me.
+Dialogue: 0,0:33:57.66,0:33:58.58,Default,,0000,0000,0000,,I..
+Dialogue: 0,0:33:58.74,0:34:00.18,Default,,0000,0000,0000,,You must have.
+Dialogue: 0,0:34:01.58,0:34:06.78,Default,,0000,0000,0000,,Friends here, care a lot for you.
+Dialogue: 0,0:34:09.31,0:34:12.09,Default,,0000,0000,0000,,You must know the answer.
+Dialogue: 0,0:34:43.21,0:34:44.60,Default,,0000,0000,0000,,Can I sit next to you ?
+Dialogue: 0,0:34:47.95,0:34:51.42,Default,,0000,0000,0000,,I was surprise when I came here.
+Dialogue: 0,0:34:51.91,0:35:02.29,Default,,0000,0000,0000,,I am ashamed of myself when I say ATC don't know about aeroplanes.
+Dialogue: 0,0:35:08.05,0:35:13.03,Default,,0000,0000,0000,,After your cockpit training, I have change my way of thinking
+Dialogue: 0,0:35:14.13,0:35:19.23,Default,,0000,0000,0000,,I really respect ATC
+Dialogue: 0,0:35:25.54,0:35:27.64,Default,,0000,0000,0000,,Suzuki San,
+Dialogue: 0,0:35:28.83,0:35:30.12,Default,,0000,0000,0000,,Work hard,
+Dialogue: 0,0:35:31.75,0:35:35.18,Default,,0000,0000,0000,,I hope to hear your voice in the sky again.
+Dialogue: 0,0:35:39.70,0:35:41.56,Default,,0000,0000,0000,,I shall leave now.
+Dialogue: 0,0:35:49.40,0:35:51.58,Default,,0000,0000,0000,,Maki san, The child have recover from coma.
+Dialogue: 0,0:36:21.35,0:36:22.37,Default,,0000,0000,0000,,Maksi san,
+Dialogue: 0,0:36:22.64,0:36:26.65,Default,,0000,0000,0000,,Thanks for the words during training, which now , I could control  calmly
+Dialogue: 0,0:36:27.56,0:36:29.83,Default,,0000,0000,0000,,We are all waiting for the energetic Maki.
+Dialogue: 0,0:36:30.50,0:36:31.98,Default,,0000,0000,0000,,I am sorry for doing this for you.
+Dialogue: 0,0:36:32.40,0:36:34.02,Default,,0000,0000,0000,,Please scould me again!!
+Dialogue: 0,0:36:34.46,0:36:35.33,Default,,0000,0000,0000,,From Yamada.
+Dialogue: 0,0:37:20.17,0:37:23.96,Default,,0000,0000,0000,,That is really childish
+Dialogue: 0,0:38:18.99,0:38:20.39,Default,,0000,0000,0000,,Maki
+Dialogue: 0,0:38:20.68,0:38:21.74,Default,,0000,0000,0000,,Please be on the Kanto South sector
+Dialogue: 0,0:38:22.00,0:38:23.40,Default,,0000,0000,0000,,Yes
+Dialogue: 0,0:38:29.59,0:38:31.15,Default,,0000,0000,0000,,Let's change shift
+Dialogue: 0,0:38:39.76,0:38:41.55,Default,,0000,0000,0000,,Thank you.
+Dialogue: 0,0:38:43.74,0:38:48.06,Default,,0000,0000,0000,,Pacific 433, tokyo control, maintain FL 370
+Dialogue: 0,0:38:54.81,0:38:58.12,Default,,0000,0000,0000,,020, c/m FL 130

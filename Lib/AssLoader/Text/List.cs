@@ -36,7 +36,7 @@ namespace AssLoader
                 get
                 {
                     if(ThrowHelper.IsLessThanZeroOrOutOfRange(max, index))
-                        throw new ArgumentOutOfRangeException("index");
+                        throw new ArgumentOutOfRangeException(nameof(index));
                     return texts[index * 2];
                 }
             }
@@ -100,7 +100,7 @@ namespace AssLoader
                 get
                 {
                     if(ThrowHelper.IsLessThanZeroOrOutOfRange(max, index))
-                        throw new ArgumentOutOfRangeException("index");
+                        throw new ArgumentOutOfRangeException(nameof(index));
                     return texts[index * 2 + 1];
                 }
             }

@@ -1,0 +1,635 @@
+﻿[Script Info]
+; // 此字幕由PopSub生成  2012-08-02 01:48:45
+; // 版本: 0.77
+; // popgo_fansub@yahoo.co.jp
+; // 歡迎訪問漫遊天下 http://bbs.popgo.net
+Title:漫遊字幕
+Original Script:漫遊字幕組
+Synch Point:0
+ScriptType:v4.00+
+Collisions:Normal
+PlayResX:640
+PlayResY:480
+Timer:100.0000
+
+[V4+ Styles]
+Format: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, BackColour, Bold, Italic, Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV, Encoding
+Style: Default,Times New Roman,25,&H00FFFFFF,&HF0000000,&H00000000,&HF0000000,-1,0,0,0,100,100,0,0.00,1,1,0,2,30,30,10,134
+Style: Top,Verdana,22,&H00FFFFFF,&H0000FFFF,&H000000FF,&H00040416,0,0,0,0,100,100,0,0.00,1,2,1,8,10,10,10,0
+Style: Top2,Verdana,18,&H00FFFFFF,&H0000FFFF,&H00A32607,&H00040416,0,0,0,0,100,100,0,0.00,1,2,1,8,10,10,30,0
+
+[Events]
+Format: Layer, Start, End, Style, Actor, MarginL, MarginR, MarginV, Effect, Text
+Dialogue: 0,0:00:00.00,0:01:24.09,Top2,NTP,0000,0000,0000,,{\fad(1500,1600)}This is for language exchange,please delete in 24 hours, I will not be responsible for any unlawful actions.
+Dialogue: 0,0:00:00.00,0:01:00.15,Top,NTP,0000,0000,0000,,{\fad(1500,1600)}English Translation: IssacTang  QC: Franeux Provider:Peter
+Dialogue: 0,0:00:01.91,0:00:05.98,*Default,NTP,0000,0000,0000,,Do you know there are rules when flying ?
+Dialogue: 0,0:00:08.28,0:00:11.84,*Default,NTP,0000,0000,0000,,Where every you go in the world, there must be a "high way"
+Dialogue: 0,0:00:12.34,0:00:16.48,*Default,NTP,0000,0000,0000,,In aviation, we call them airways, analogous to highways in lamen terms
+Dialogue: 0,0:00:16.61,0:00:24.16,*Default,NTP,0000,0000,0000,,All aircraft in japan fly from and to this predefined route- airways to ensure safety
+Dialogue: 0,0:00:25.00,0:00:29.85,*Default,NTP,0000,0000,0000,,TO maintain proper separation during takeoff, landing and enroute,
+Dialogue: 0,0:00:29.93,0:00:39.81,*Default,NTP,0000,0000,0000,,Air traffic controllers are there to instruct pilots on hdg, speed and alt to ensure safety.
+Dialogue: 0,0:00:41.41,0:00:44.83,*Default,NTP,0000,0000,0000,,for example a plane flying from fukoka to haneda
+Dialogue: 0,0:00:45.50,0:00:53.35,*Default,NTP,0000,0000,0000,,First the pilot contacts the atc and the aerodrome controller give clerance from ground movements to airborne
+Dialogue: 0,0:01:12.96,0:01:20.71,*Default,NTP,0000,0000,0000,,From aerdrome control, the a/c is pass to terminal control
+Dialogue: 0,0:01:23.51,0:01:29.89,*Default,NTP,0000,0000,0000,,then from terminal control is passed to the 4 major Area Control Centre
+Dialogue: 0,0:01:30.29,0:01:37.52,*Default,NTP,0000,0000,0000,,ACC uses radar facility to track the flight and guide them to their destination 
+Dialogue: 0,0:01:37.52,0:01:42.87,*Default,NTP,0000,0000,0000,,The green is Fukoka Control and blue is Tokyo control area
+Dialogue: 0,0:01:44.14,0:01:50.96,*Default,NTP,0000,0000,0000,,The plane flies with the predefined route and contact fukuoka control then tokyo control
+Dialogue: 0,0:01:50.96,0:02:02.05,*Default,NTP,0000,0000,0000,,The plane is then transfer to the terminal control of haneda for landing
+Dialogue: 0,0:02:25.90,0:02:29.36,*Default,NTP,0000,0000,0000,,The ATC uses radar to maitain separation is called Air Traffic Control
+Dialogue: 0,0:02:37.95,0:02:43.25,*Default,NTP,0000,0000,0000,,In the world, Air traffic Control has a variety of complex rules and system
+Dialogue: 0,0:02:46.08,0:02:54.80,*Default,NTP,0000,0000,0000,,Because of These sets of rules and Air traffic controllers strive to separate traffic made flying in the air safe
+Dialogue: 0,0:03:02.24,0:03:05.85,*Default,NTP,0000,0000,0000,,Do you know that ATC will sit at the cockpit to observe as a training ?
+Dialogue: 0,0:03:09.37,0:03:15.00,*Default,NTP,0000,0000,0000,,ATC are the one who give precise instruction to pilot and to make sure safety of the sky
+Dialogue: 0,0:03:16.69,0:03:21.82,*Default,NTP,0000,0000,0000,,It is important to build a trustworty relationship between the pilot and ATC
+Dialogue: 0,0:03:24.94,0:03:29.36,*Default,NTP,0000,0000,0000,,There are 4 times of cockpit observation training in a year
+Dialogue: 0,0:03:29.62,0:03:33.47,*Default,NTP,0000,0000,0000,,The ATC will join a flight and observe in the cockpit
+Dialogue: 0,0:03:37.01,0:03:40.56,*Default,NTP,0000,0000,0000,,This enhance their understanding on pilots difficulties during controlling
+Dialogue: 0,0:03:40.63,0:03:43.88,*Default,NTP,0000,0000,0000,,thus to imrove the quality of ATC  services
+Dialogue: 0,0:04:02.09,0:04:04.21,*Default,NTP,0000,0000,0000,,How many time do I have to repeat myself ?
+Dialogue: 0,0:04:04.21,0:04:05.86,*Default,NTP,0000,0000,0000,,I am busy
+Dialogue: 0,0:04:05.86,0:04:08.86,*Default,NTP,0000,0000,0000,,I will come back at 2000 ( 8pm)
+Dialogue: 0,0:04:09.35,0:04:10.91,*Default,NTP,0000,0000,0000,,how about dinner ?
+Dialogue: 0,0:04:10.91,0:04:11.84,*Default,NTP,0000,0000,0000,,I will have it outside
+Dialogue: 0,0:04:12.63,0:04:14.22,*Default,NTP,0000,0000,0000,,Its ok.
+Dialogue: 0,0:04:14.35,0:04:16.34,*Default,NTP,0000,0000,0000,,If you have time, at least let me see you, in person
+Dialogue: 0,0:04:18.25,0:04:20.51,*Default,NTP,0000,0000,0000,,You have do the washing and chores.
+Dialogue: 0,0:04:20.59,0:04:22.46,*Default,NTP,0000,0000,0000,,Ok.
+Dialogue: 0,0:04:23.40,0:04:24.75,*Default,NTP,0000,0000,0000,,Your daughter
+Dialogue: 0,0:04:24.83,0:04:30.07,*Default,NTP,0000,0000,0000,,She is growing
+Dialogue: 0,0:04:31.45,0:04:34.24,*Default,NTP,0000,0000,0000,,For girls, its better to have a mother to be taken care of
+Dialogue: 0,0:04:34.95,0:04:36.37,*Default,NTP,0000,0000,0000,,Women are always a troublemaker
+Dialogue: 0,0:04:36.71,0:04:38.30,*Default,NTP,0000,0000,0000,,when you grow older, you will think in that way
+Dialogue: 0,0:04:38.70,0:04:40.47,*Default,NTP,0000,0000,0000,,I think men are also troublesome
+Dialogue: 0,0:04:40.99,0:04:43.83,*Default,NTP,0000,0000,0000,,Just talk about Shikijima, don't generalise to all men
+Dialogue: 0,0:04:43.98,0:04:45.75,*Default,NTP,0000,0000,0000,,It is really troublesome for him
+Dialogue: 0,0:04:45.80,0:04:47.92,*Default,NTP,0000,0000,0000,,I said to him to help me fix something, but he said no.
+Dialogue: 0,0:04:48.34,0:04:50.54,*Default,NTP,0000,0000,0000,,If i ask you, you won't be like that ,right ?
+Dialogue: 0,0:04:50.61,0:04:51.14,*Default,NTP,0000,0000,0000,,may be..
+Dialogue: 0,0:04:51.36,0:04:53.09,*Default,NTP,0000,0000,0000,,I know you are a great men
+Dialogue: 0,0:04:53.16,0:04:56.18,*Default,NTP,0000,0000,0000,,No, you can't like this men, its not moral
+Dialogue: 0,0:04:56.33,0:04:58.96,*Default,NTP,0000,0000,0000,,That is really hurting.
+Dialogue: 0,0:04:59.40,0:05:01.47,*Default,NTP,0000,0000,0000,,I just wanted to said he is my cup of tea
+Dialogue: 0,0:05:02.48,0:05:03.50,*Default,NTP,0000,0000,0000,,You are lying
+Dialogue: 0,0:05:03.60,0:05:04.79,*Default,NTP,0000,0000,0000,,ofcourse.
+Dialogue: 0,0:05:07.20,0:05:09.47,*Default,NTP,0000,0000,0000,,You are really a silly type.
+Dialogue: 0,0:05:09.65,0:05:11.38,*Default,NTP,0000,0000,0000,,Women are really scary
+Dialogue: 0,0:05:13.12,0:05:17.32,*Default,NTP,0000,0000,0000,,Tokyo ground, ANA241,spot 65,  request push back
+Dialogue: 0,0:05:20.91,0:05:23.06,*Default,NTP,0000,0000,0000,,We seems to have a pretty vistor to take the cockpit observation training
+Dialogue: 0,0:05:23.06,0:05:26.16,*Default,NTP,0000,0000,0000,,its not my concern
+Dialogue: 0,0:05:26.80,0:05:27.56,*Default,NTP,0000,0000,0000,,Is she married ?
+Dialogue: 0,0:05:27.56,0:05:28.54,*Default,NTP,0000,0000,0000,,Whatever
+Dialogue: 0,0:05:29.63,0:05:31.24,*Default,NTP,0000,0000,0000,,You are really  special
+Dialogue: 0,0:05:32.54,0:05:33.60,*Default,NTP,0000,0000,0000,,Excuse me
+Dialogue: 0,0:05:33.97,0:05:36.21,*Default,NTP,0000,0000,0000,,The ATC who is coming for the training has arrived
+Dialogue: 0,0:05:36.31,0:05:37.42,*Default,NTP,0000,0000,0000,,Ok
+Dialogue: 0,0:05:38.83,0:05:40.35,*Default,NTP,0000,0000,0000,,please come up
+Dialogue: 0,0:05:41.27,0:05:42.62,*Default,NTP,0000,0000,0000,,Hi sakino Cyan
+Dialogue: 0,0:05:42.71,0:05:43.98,*Default,NTP,0000,0000,0000,,Shall we have meal after this flight ?
+Dialogue: 0,0:05:44.09,0:05:46.83,*Default,NTP,0000,0000,0000,,Sorry, I have a date
+Dialogue: 0,0:05:47.02,0:05:48.12,*Default,NTP,0000,0000,0000,,Is the opponent you ?
+Dialogue: 0,0:05:48.19,0:05:51.05,*Default,NTP,0000,0000,0000,,Its with a New CA
+Dialogue: 0,0:05:51.88,0:05:53.52,*Default,NTP,0000,0000,0000,,Really, are you going to eat Ramen ?
+Dialogue: 0,0:05:53.78,0:05:57.40,*Default,NTP,0000,0000,0000,,Its really a good idea, but I will be eating with them.
+Dialogue: 0,0:05:58.45,0:05:59.21,*Default,NTP,0000,0000,0000,,ok, forget it.
+Dialogue: 0,0:05:59.32,0:05:59.90,*Default,NTP,0000,0000,0000,,Don't keep the ATC waiting.
+Dialogue: 0,0:06:00.02,0:06:00.68,*Default,NTP,0000,0000,0000,,Let her in.
+Dialogue: 0,0:06:00.68,0:06:01.52,*Default,NTP,0000,0000,0000,,Yes
+Dialogue: 0,0:06:02.64,0:06:05.34,*Default,NTP,0000,0000,0000,,Its really good to get marry with a Cabin Attendant(CA)
+Dialogue: 0,0:06:06.00,0:06:07.02,*Default,NTP,0000,0000,0000,,Excuse me
+Dialogue: 0,0:06:07.10,0:06:09.91,*Default,NTP,0000,0000,0000,,I am Suzuki, ATC from Toyko Control Area Centre
+Dialogue: 0,0:06:10.03,0:06:11.94,*Default,NTP,0000,0000,0000,,pleased to meet you.
+Dialogue: 0,0:06:13.70,0:06:15.36,*Default,NTP,0000,0000,0000,,she is quite old-fashioned
+Dialogue: 0,0:06:16.60,0:06:18.79,*Default,NTP,0000,0000,0000,,I am Kimura, the captain, pleased to meet you
+Dialogue: 0,0:06:18.79,0:06:22.30,*Default,NTP,0000,0000,0000,,Ainichi ,the co-pilot, please seat now, we are in a hurry.
+Dialogue: 0,0:06:23.79,0:06:25.82,*Default,NTP,0000,0000,0000,,Sorry for the rudeness, he is a workaholic
+Dialogue: 0,0:06:28.44,0:06:29.40,*Default,NTP,0000,0000,0000,,Let's start
+Dialogue: 0,0:06:32.17,0:06:33.81,*Default,NTP,0000,0000,0000,,cockpit  checklist
+Dialogue: 0,0:06:34.63,0:06:35.63,*Default,NTP,0000,0000,0000,,gallery power on
+Dialogue: 0,0:06:36.30,0:06:37.69,*Default,NTP,0000,0000,0000,,Emergency exit lights on
+Dialogue: 0,0:06:39.05,0:06:40.78,*Default,NTP,0000,0000,0000,,cabin signs auto and ON
+Dialogue: 0,0:06:41.34,0:06:42.61,*Default,NTP,0000,0000,0000,,In tokyo control ?
+Dialogue: 0,0:06:43.22,0:06:49.29,*Default,NTP,0000,0000,0000,,After some research , we have found that Yamada's dad was an ATC 
+Dialogue: 0,0:06:50.58,0:06:54.41,*Default,NTP,0000,0000,0000,,Yamada seems to follow the footpaths of his day to be an ATC
+Dialogue: 0,0:06:54.91,0:06:59.78,*Default,NTP,0000,0000,0000,,But , shouldn't we know it at the first place ?
+Dialogue: 0,0:06:59.94,0:07:02.35,*Default,NTP,0000,0000,0000,,The surname changed, and used the mother instead, 
+Dialogue: 0,0:07:02.43,0:07:03.46,*Default,NTP,0000,0000,0000,,that's why we don't know
+Dialogue: 0,0:07:03.68,0:07:04.91,*Default,NTP,0000,0000,0000,,That's strange
+Dialogue: 0,0:07:06.16,0:07:12.55,*Default,NTP,0000,0000,0000,,Yoshimura said its better to keep this in low profile.
+Dialogue: 0,0:07:12.81,0:07:14.45,*Default,NTP,0000,0000,0000,,But we have to take an eye on it.
+Dialogue: 0,0:07:20.20,0:07:21.79,*Default,NTP,0000,0000,0000,,Cheers for hardwork
+Dialogue: 0,0:07:30.86,0:07:32.09,*Default,NTP,0000,0000,0000,,Do you like aeroplanes ?
+Dialogue: 0,0:07:32.13,0:07:33.22,*Default,NTP,0000,0000,0000,,Yes.
+Dialogue: 0,0:07:33.34,0:07:34.51,*Default,NTP,0000,0000,0000,,Do you often go abroad for trips ?
+Dialogue: 0,0:07:34.59,0:07:35.55,*Default,NTP,0000,0000,0000,,Sometimes
+Dialogue: 0,0:07:35.62,0:07:37.37,*Default,NTP,0000,0000,0000,,Where do you often go ?
+Dialogue: 0,0:07:37.44,0:07:39.20,*Default,NTP,0000,0000,0000,,Kimura San
+Dialogue: 0,0:07:40.87,0:07:46.45,*Default,NTP,0000,0000,0000,,ANA241, wind 160@9 rwy 16L cleared for take off
+Dialogue: 0,0:07:46.87,0:07:50.60,*Default,NTP,0000,0000,0000,,rwy16L, cleared for take off, ANA241
+Dialogue: 0,0:07:51.74,0:07:53.42,*Default,NTP,0000,0000,0000,,wish of luck
+Dialogue: 0,0:07:53.55,0:07:55.93,*Default,NTP,0000,0000,0000,,Let's go
+Dialogue: 0,0:08:00.80,0:08:26.25,Top2,NTP,0000,0000,0000,banner;15;0;200,{\fad(1500,1600)}This is for language exchange,please delete in 24 hours, I will not be responsible for any unlawful actions.
+Dialogue: 0,0:08:17.80,0:08:26.25,*Default,NTP,0000,0000,0000,,EP03
+Dialogue: 0,0:08:32.62,0:08:34.23,*Default,NTP,0000,0000,0000,,Thank you
+Dialogue: 0,0:08:35.01,0:00:00.00,*Default,NTP,0000,0000,0000,,You really making your own coffee shop
+Dialogue: 0,0:08:37.54,0:08:39.44,*Default,NTP,0000,0000,0000,,Remove that when the visitors are coming
+Dialogue: 0,0:08:40.87,0:08:42.28,*Default,NTP,0000,0000,0000,,Maki San is so late.
+Dialogue: 0,0:08:42.38,0:08:44.20,*Default,NTP,0000,0000,0000,,She is on the flight for cockpit obervation training
+Dialogue: 0,0:08:44.29,0:08:47.89,*Default,NTP,0000,0000,0000,,She should be meeting us later.
+Dialogue: 0,0:08:48.79,0:08:50.20,*Default,NTP,0000,0000,0000,,Do you know which flight she is on ?
+Dialogue: 0,0:08:50.88,0:08:54.78,*Default,NTP,0000,0000,0000,,She will be monitoring our conversation, so we would be more alert if we know
+Dialogue: 0,0:08:55.26,0:08:57.72,*Default,NTP,0000,0000,0000,,I will not tell you for the sake of fairness
+Dialogue: 0,0:08:59.29,0:09:01.65,*Default,NTP,0000,0000,0000,,Because my pronunciation is strange, please tell me
+Dialogue: 0,0:09:01.89,0:09:07.68,*Default,NTP,0000,0000,0000,,childish, I will use my beatles's songs to annoy her
+Dialogue: 0,0:09:07.93,0:09:09.42,*Default,NTP,0000,0000,0000,,She likes to scould us , you know ?
+Dialogue: 0,0:09:09.75,0:09:11.72,*Default,NTP,0000,0000,0000,,Would you cut it out, it won't help
+Dialogue: 0,0:09:12.06,0:09:12.59,*Default,NTP,0000,0000,0000,,Please tell us which flight ?
+Dialogue: 0,0:09:12.72,0:09:14.94,*Default,NTP,0000,0000,0000,,I say again, we are not going to tell you.
+Dialogue: 0,0:09:15.06,0:09:16.23,*Default,NTP,0000,0000,0000,,Let's start the meeting
+Dialogue: 0,0:09:16.37,0:09:18.86,*Default,NTP,0000,0000,0000,,There will be visitors visiting the Area centre
+Dialogue: 0,0:09:22.01,0:09:25.33,*Default,NTP,0000,0000,0000,,First , Hara,
+Dialogue: 0,0:09:25.46,0:09:28.06,*Default,NTP,0000,0000,0000,,I said to wear formal dressing 
+Dialogue: 0,0:09:29.43,0:09:31.81,*Default,NTP,0000,0000,0000,,formal dressing ?
+Dialogue: 0,0:09:32.78,0:09:35.73,*Default,NTP,0000,0000,0000,,Are you discriminating the brand ?
+Dialogue: 0,0:09:36.82,0:09:38.49,*Default,NTP,0000,0000,0000,,what ?
+Dialogue: 0,0:09:39.11,0:09:41.53,*Default,NTP,0000,0000,0000,,Enough, anyone have extra suits ?
+Dialogue: 0,0:09:42.75,0:09:48.49,*Default,NTP,0000,0000,0000,,I have another meeting later and have an extra suit
+Dialogue: 0,0:09:48.70,0:09:49.68,*Default,NTP,0000,0000,0000,,great, we will use that
+Dialogue: 0,0:09:49.86,0:09:51.06,*Default,NTP,0000,0000,0000,,But the size...
+Dialogue: 0,0:09:51.35,0:09:52.70,*Default,NTP,0000,0000,0000,,It may be a little small for him
+Dialogue: 0,0:09:53.35,0:09:54.45,*Default,NTP,0000,0000,0000,,but its not a famous brand
+Dialogue: 0,0:09:54.56,0:09:56.18,*Default,NTP,0000,0000,0000,,its doesn't matter
+Dialogue: 0,0:09:57.34,0:09:58.77,*Default,NTP,0000,0000,0000,,I don't want to lend
+Dialogue: 0,0:09:59.48,0:10:02.36,*Default,NTP,0000,0000,0000,,Even so, its seems not enough time to buy a new one
+Dialogue: 0,0:10:02.80,0:10:05.51,*Default,NTP,0000,0000,0000,,We have an old locker with an old suit, is that ok ?
+Dialogue: 0,0:10:06.91,0:10:08.23,*Default,NTP,0000,0000,0000,,Let's use it
+Dialogue: 0,0:10:08.39,0:10:10.09,*Default,NTP,0000,0000,0000,,But does the size fit ?
+Dialogue: 0,0:10:10.55,0:10:11.60,*Default,NTP,0000,0000,0000,,And is it a good idea to use without permission ?
+Dialogue: 0,0:10:11.71,0:10:13.04,*Default,NTP,0000,0000,0000,,He is on a medical treatment, so he won't notice, right ?
+Dialogue: 0,0:10:13.17,0:10:15.53,*Default,NTP,0000,0000,0000,,Or else, we just force Yamada to say ok.
+Dialogue: 0,0:10:16.60,0:10:18.51,*Default,NTP,0000,0000,0000,,Ok I will lend you mind later.
+Dialogue: 0,0:10:22.22,0:10:26.41,*Default,NTP,0000,0000,0000,,Before noon, there will be visitors coming to observe us
+Dialogue: 0,0:10:26.61,0:10:29.21,*Default,NTP,0000,0000,0000,,There should be about 10 people will be coming
+Dialogue: 0,0:10:29.60,0:10:33.99,*Default,NTP,0000,0000,0000,,Although we have warn them not to run or talk loudly
+Dialogue: 0,0:10:34.09,0:10:35.17,*Default,NTP,0000,0000,0000,,if they are distrubring the normal operation of ATC
+Dialogue: 0,0:10:35.43,0:10:37.10,*Default,NTP,0000,0000,0000,,We will kindly ask them to leave
+Dialogue: 0,0:10:37.41,0:10:40.17,*Default,NTP,0000,0000,0000,,We hope you can give some patience during the visit
+Dialogue: 0,0:10:40.85,0:10:47.70,*Default,NTP,0000,0000,0000,,The visit will last for 50 mins, if there is a need to warn / scould them is acceptable.
+Dialogue: 0,0:10:47.70,0:10:50.84,*Default,NTP,0000,0000,0000,,Hara, please don't do something weird
+Dialogue: 0,0:10:52.15,0:10:54.22,*Default,NTP,0000,0000,0000,,Don't talk dirty things
+Dialogue: 0,0:10:55.60,0:10:58.08,*Default,NTP,0000,0000,0000,,Do something before the vistors come
+Dialogue: 0,0:10:58.32,0:10:59.60,*Default,NTP,0000,0000,0000,,Yes
+Dialogue: 0,0:11:15.52,0:11:18.50,*Default,NTP,0000,0000,0000,,I like aeroplanes , that's why I became a pilot
+Dialogue: 0,0:11:18.72,0:11:21.00,*Default,NTP,0000,0000,0000,,There must be a lot of people who like planes as an ATC, right ?
+Dialogue: 0,0:11:21.19,0:11:25.48,*Default,NTP,0000,0000,0000,,Ofcourse, there are amatuer that likes to take photo of airplanes
+Dialogue: 0,0:11:25.60,0:11:29.68,*Default,NTP,0000,0000,0000,,listen to airband and think being an ATC is cool
+Dialogue: 0,0:11:30.37,0:11:32.24,*Default,NTP,0000,0000,0000,,They must know a lot of planes, right ?
+Dialogue: 0,0:11:32.41,0:11:34.10,*Default,NTP,0000,0000,0000,,I don't think so.
+Dialogue: 0,0:11:34.76,0:11:38.97,*Default,NTP,0000,0000,0000,,A lot of ATC taking this training keep asking a lot of questions, like a fool
+Dialogue: 0,0:11:39.11,0:11:41.23,*Default,NTP,0000,0000,0000,,Comapred to pilots, this might be
+Dialogue: 0,0:11:41.34,0:11:42.97,*Default,NTP,0000,0000,0000,,But We as ATC have fundamental knowledge of aircraft
+Dialogue: 0,0:11:43.08,0:11:46.56,*Default,NTP,0000,0000,0000,,But, there are a lot of ATC do not know
+Dialogue: 0,0:11:46.85,0:11:48.79,*Default,NTP,0000,0000,0000,,Its not very good to answer all of their questions
+Dialogue: 0,0:11:49.25,0:11:52.95,*Default,NTP,0000,0000,0000,,I would like to suggest ATC to study more about aircraft performance
+Dialogue: 0,0:11:53.25,0:11:56.38,*Default,NTP,0000,0000,0000,,Indeed, it is a job that both parties must understand their work 
+Dialogue: 0,0:11:56.80,0:12:00.36,*Default,NTP,0000,0000,0000,,Last time, when pilots visit tokyo control area centre
+Dialogue: 0,0:12:00.47,0:12:03.72,*Default,NTP,0000,0000,0000,,a lot of pilots were shock to see "that" is the work of ATC
+Dialogue: 0,0:12:04.29,0:12:06.14,*Default,NTP,0000,0000,0000,,Have you visited tokyo control area centre ?
+Dialogue: 0,0:12:06.33,0:12:08.15,*Default,NTP,0000,0000,0000,,Not yet
+Dialogue: 0,0:12:08.84,0:12:12.21,*Default,NTP,0000,0000,0000,,If you think we are useless, please come and visit us
+Dialogue: 0,0:12:12.53,0:12:17.07,*Default,NTP,0000,0000,0000,,You would know better on how do we work down there.
+Dialogue: 0,0:12:17.81,0:12:19.09,*Default,NTP,0000,0000,0000,,Is that a sarcasm ?
+Dialogue: 0,0:12:21.44,0:12:23.38,*Default,NTP,0000,0000,0000,,What is this atmosphere ?
+Dialogue: 0,0:12:23.55,0:12:25.67,*Default,NTP,0000,0000,0000,,Let's enjoy this flight, please !
+Dialogue: 0,0:12:25.81,0:12:27.19,*Default,NTP,0000,0000,0000,,Contact Tokyo Control
+Dialogue: 0,0:12:28.29,0:12:32.51,*Default,NTP,0000,0000,0000,,Tokyo Control, ANA241, Maintain FL 280
+Dialogue: 0,0:12:33.10,0:12:38.38,*Default,NTP,0000,0000,0000,,ANA241, Tokyo Control, rgr, Maintain FL 280
+Dialogue: 0,0:12:38.51,0:12:40.84,*Default,NTP,0000,0000,0000,,ANA241, Tokyo Control , say again.
+Dialogue: 0,0:12:41.67,0:12:47.02,*Default,NTP,0000,0000,0000,,ANA241, Tokyo Control, rgr, Maintain FL 280
+Dialogue: 0,0:12:47.94,0:12:49.16,*Default,NTP,0000,0000,0000,,Do you know this person ?
+Dialogue: 0,0:12:49.25,0:12:50.66,*Default,NTP,0000,0000,0000,,Yes, by guess from the accent
+Dialogue: 0,0:12:51.11,0:12:53.67,*Default,NTP,0000,0000,0000,,He seemed to have a low english proficiency level
+Dialogue: 0,0:12:54.16,0:12:56.59,*Default,NTP,0000,0000,0000,,esepcially in pronunciation
+Dialogue: 0,0:12:56.82,0:12:57.60,*Default,NTP,0000,0000,0000,,Can you do something about that ?
+Dialogue: 0,0:12:57.72,0:12:58.72,*Default,NTP,0000,0000,0000,,what about ?
+Dialogue: 0,0:12:58.79,0:13:01.01,*Default,NTP,0000,0000,0000,,Teach ATC to speak clearly , especially in ATC phrase
+Dialogue: 0,0:13:01.30,0:13:03.12,*Default,NTP,0000,0000,0000,,You should have english proficiency test, right ?
+Dialogue: 0,0:13:03.23,0:13:05.05,*Default,NTP,0000,0000,0000,,Like they should have at least level 4 or above ?
+Dialogue: 0,0:13:05.14,0:13:07.95,*Default,NTP,0000,0000,0000,,They must have pass, if not they will not be at the position as ATC
+Dialogue: 0,0:13:08.15,0:13:09.01,*Default,NTP,0000,0000,0000,,I know
+Dialogue: 0,0:13:09.28,0:13:11.01,*Default,NTP,0000,0000,0000,,There are rules like callsign
+Dialogue: 0,0:13:11.07,0:13:15.28,*Default,NTP,0000,0000,0000,,We also access the speaker's speak, accent
+Dialogue: 0,0:13:16.59,0:13:18.04,*Default,NTP,0000,0000,0000,,You really know them by heart
+Dialogue: 0,0:13:18.08,0:13:19.77,*Default,NTP,0000,0000,0000,,You know what ?
+Dialogue: 0,0:13:19.96,0:13:24.61,*Default,NTP,0000,0000,0000,,You as pilots also should pass an examination in order to fly in duty
+Dialogue: 0,0:13:30.62,0:13:31.86,*Default,NTP,0000,0000,0000,,Yes ?
+Dialogue: 0,0:13:33.22,0:13:35.00,*Default,NTP,0000,0000,0000,,Nothing.
+Dialogue: 0,0:13:37.13,0:13:41.02,*Default,NTP,0000,0000,0000,,Hey, Let's relax and make it an enjoyable flight !
+Dialogue: 0,0:13:42.63,0:13:45.63,*Default,NTP,0000,0000,0000,,Which flight is Maki san on ?
+Dialogue: 0,0:13:46.22,0:13:48.78,*Default,NTP,0000,0000,0000,,Japanair 1622, request descend.
+Dialogue: 0,0:13:49.34,0:13:54.51,*Default,NTP,0000,0000,0000,,JAL1622, d/m FL 230
+Dialogue: 0,0:13:56.54,0:13:57.49,*Default,NTP,0000,0000,0000,,What ?
+Dialogue: 0,0:13:57.62,0:14:01.32,*Default,NTP,0000,0000,0000,,I noticed my accent is getting better after being warned by Maki everyday
+Dialogue: 0,0:14:04.53,0:14:07.03,*Default,NTP,0000,0000,0000,,Btw, look at your back
+Dialogue: 0,0:14:09.90,0:14:11.39,*Default,NTP,0000,0000,0000,,That is a weird outfit
+Dialogue: 0,0:14:11.46,0:14:13.22,*Default,NTP,0000,0000,0000,,People around should laugh with that outfit.
+Dialogue: 0,0:14:17.41,0:14:18.88,*Default,NTP,0000,0000,0000,,Why is that person  wearing a mask ?
+Dialogue: 0,0:14:21.08,0:14:26.60,*Default,NTP,0000,0000,0000,,Yuki kun, He is on Japanese suit
+Dialogue: 0,0:14:27.30,0:14:28.62,*Default,NTP,0000,0000,0000,,What should we do ?
+Dialogue: 0,0:14:30.21,0:14:32.12,*Default,NTP,0000,0000,0000,,Leave it alone
+Dialogue: 0,0:14:34.22,0:14:35.94,*Default,NTP,0000,0000,0000,,Change  (work shift)
+Dialogue: 0,0:14:36.10,0:14:38.68,*Default,NTP,0000,0000,0000,,Ok
+Dialogue: 0,0:14:49.49,0:14:50.48,*Default,NTP,0000,0000,0000,,Are you having colds ?
+Dialogue: 0,0:14:50.58,0:14:51.21,*Default,NTP,0000,0000,0000,,No
+Dialogue: 0,0:14:51.28,0:14:54.33,*Default,NTP,0000,0000,0000,,I heard children will be coming, so I wore this 
+Dialogue: 0,0:14:54.41,0:14:56.18,*Default,NTP,0000,0000,0000,,Its an additional service for them
+Dialogue: 0,0:14:56.41,0:14:58.52,*Default,NTP,0000,0000,0000,,I don't quite get it, please  be presentable.
+Dialogue: 0,0:14:58.65,0:15:03.33,*Default,NTP,0000,0000,0000,,Hara San, the sepration is getting close, better take an eye onto it.
+Dialogue: 0,0:15:03.49,0:15:04.70,*Default,NTP,0000,0000,0000,,Hara San
+Dialogue: 0,0:15:05.52,0:15:06.48,*Default,NTP,0000,0000,0000,,What is it ?
+Dialogue: 0,0:15:07.96,0:15:10.98,*Default,NTP,0000,0000,0000,,ANA241, haha.ha...
+Dialogue: 0,0:15:16.01,0:15:17.12,*Default,NTP,0000,0000,0000,,Fool
+Dialogue: 0,0:15:17.25,0:15:18.86,*Default,NTP,0000,0000,0000,,I will kill you when I return
+Dialogue: 0,0:15:19.63,0:15:21.87,*Default,NTP,0000,0000,0000,,We all make mistakes, its ok
+Dialogue: 0,0:15:21.95,0:15:23.94,*Default,NTP,0000,0000,0000,,I am sorry for having a silly ATC
+Dialogue: 0,0:15:24.07,0:15:26.16,*Default,NTP,0000,0000,0000,,Don't worry its just a loud noise from the radio
+Dialogue: 0,0:15:26.55,0:15:29.73,*Default,NTP,0000,0000,0000,,what about telling them that you on board, 
+Dialogue: 0,0:15:30.00,0:15:32.23,*Default,NTP,0000,0000,0000,,I don't think so.
+Dialogue: 0,0:15:33.12,0:15:34.09,*Default,NTP,0000,0000,0000,,Really
+Dialogue: 0,0:15:34.34,0:15:38.72,*Default,NTP,0000,0000,0000,,ANA241, contact toyko control 125.7
+Dialogue: 0,0:15:39.27,0:15:45.55,*Default,NTP,0000,0000,0000,,ANA241, Tokyo control, Suzuki San is onboard this flight. Please becareful.
+Dialogue: 0,0:15:50.20,0:15:53.26,*Default,NTP,0000,0000,0000,,No.
+Dialogue: 0,0:15:55.76,0:15:57.64,*Default,NTP,0000,0000,0000,,You don't have to report that
+Dialogue: 0,0:15:57.91,0:16:01.38,*Default,NTP,0000,0000,0000,,That should give them a warning sign that Suzuki San is angry
+Dialogue: 0,0:16:01.47,0:16:03.09,*Default,NTP,0000,0000,0000,,Please don't making uneccessary actions
+Dialogue: 0,0:16:03.23,0:16:05.63,*Default,NTP,0000,0000,0000,,If i reported, everyone should be more aware, right ?
+Dialogue: 0,0:16:05.71,0:16:07.12,*Default,NTP,0000,0000,0000,,I would be happy though.
+Dialogue: 0,0:16:07.19,0:16:09.05,*Default,NTP,0000,0000,0000,,We see all traffic  (planes ) as equal 
+Dialogue: 0,0:16:09.73,0:16:12.22,*Default,NTP,0000,0000,0000,,Please, make it a more enjoyable flight!!
+Dialogue: 0,0:16:16.67,0:16:20.90,*Default,NTP,0000,0000,0000,,Japancentra 35,c/n Fl 290
+Dialogue: 0,0:16:21.69,0:16:28.72,*Default,NTP,0000,0000,0000,,Asianx655, descend to FL 300 by 20 miles east of CUE ( otsu)
+Dialogue: 0,0:16:34.77,0:16:36.01,*Default,NTP,0000,0000,0000,,Let's shift
+Dialogue: 0,0:16:36.19,0:16:37.44,*Default,NTP,0000,0000,0000,,Please
+Dialogue: 0,0:16:38.34,0:16:39.26,*Default,NTP,0000,0000,0000,,Is it ok for 5 mins
+Dialogue: 0,0:16:39.37,0:16:39.99,*Default,NTP,0000,0000,0000,,Ok.
+Dialogue: 0,0:16:49.78,0:16:51.24,*Default,NTP,0000,0000,0000,,Have you get used to the working place ?
+Dialogue: 0,0:16:51.51,0:16:53.67,*Default,NTP,0000,0000,0000,,Not yet
+Dialogue: 0,0:16:54.56,0:16:56.04,*Default,NTP,0000,0000,0000,,how old are you ?
+Dialogue: 0,0:16:56.24,0:16:57.94,*Default,NTP,0000,0000,0000,,24
+Dialogue: 0,0:17:03.77,0:17:05.01,*Default,NTP,0000,0000,0000,,How is it ?
+Dialogue: 0,0:17:07.01,0:17:08.83,*Default,NTP,0000,0000,0000,,I will ask it later
+Dialogue: 0,0:17:09.04,0:17:10.00,*Default,NTP,0000,0000,0000,,What is it ?
+Dialogue: 0,0:17:10.20,0:17:11.81,*Default,NTP,0000,0000,0000,,Its is not something very important
+Dialogue: 0,0:17:16.37,0:17:18.86,*Default,NTP,0000,0000,0000,,Is the observation visting amusing ?
+Dialogue: 0,0:17:18.96,0:17:21.02,*Default,NTP,0000,0000,0000,,Its something I hate each year.
+Dialogue: 0,0:17:24.99,0:17:26.68,*Default,NTP,0000,0000,0000,,Ota san, do you have anything ?
+Dialogue: 0,0:17:26.97,0:17:30.16,*Default,NTP,0000,0000,0000,,There will be a turbulance near Oosaka
+Dialogue: 0,0:17:30.66,0:17:31.88,*Default,NTP,0000,0000,0000,,Really.
+Dialogue: 0,0:17:32.57,0:17:35.12,*Default,NTP,0000,0000,0000,,Please be prepared
+Dialogue: 0,0:17:35.29,0:17:36.29,*Default,NTP,0000,0000,0000,,Ok
+Dialogue: 0,0:17:37.46,0:17:39.00,*Default,NTP,0000,0000,0000,,That sign is not good
+Dialogue: 0,0:17:39.26,0:17:41.29,*Default,NTP,0000,0000,0000,,oh no ,remove it
+Dialogue: 0,0:17:46.30,0:17:48.73,*Default,NTP,0000,0000,0000,,No one saw this, right ?
+Dialogue: 0,0:17:52.65,0:17:53.89,*Default,NTP,0000,0000,0000,,Thanks for waiting,
+Dialogue: 0,0:17:54.00,0:17:55.27,*Default,NTP,0000,0000,0000,,Please come this way
+Dialogue: 0,0:17:58.42,0:17:59.62,*Default,NTP,0000,0000,0000,,cool
+Dialogue: 0,0:17:59.77,0:18:01.52,*Default,NTP,0000,0000,0000,,Don't go that way
+Dialogue: 0,0:18:01.78,0:18:05.33,*Default,NTP,0000,0000,0000,,Please keep quite
+Dialogue: 0,0:18:08.57,0:18:09.72,*Default,NTP,0000,0000,0000,,Yuki
+Dialogue: 0,0:18:11.32,0:18:13.55,*Default,NTP,0000,0000,0000,,Don't scould in from of the observers
+Dialogue: 0,0:18:13.70,0:18:15.09,*Default,NTP,0000,0000,0000,,The boards are also here
+Dialogue: 0,0:18:15.31,0:18:16.02,*Default,NTP,0000,0000,0000,,Ok
+Dialogue: 0,0:18:16.84,0:18:17.85,*Default,NTP,0000,0000,0000,,Excuse me
+Dialogue: 0,0:18:22.35,0:18:24.60,*Default,NTP,0000,0000,0000,,This is the enroute control and
+Dialogue: 0,0:18:24.75,0:18:27.33,*Default,NTP,0000,0000,0000,,oversees all the Japan's sky
+Dialogue: 0,0:18:27.61,0:18:31.71,*Default,NTP,0000,0000,0000,,You may have know there are different duties at the aerodrome level 
+Dialogue: 0,0:18:31.87,0:18:34.59,*Default,NTP,0000,0000,0000,,There are separated into different section
+Dialogue: 0,0:18:34.87,0:18:40.95,*Default,NTP,0000,0000,0000,,TWR, DEP, APP, GND, DEL and CTR( ENROUTE)
+Dialogue: 0,0:18:41.10,0:18:43.25,*Default,NTP,0000,0000,0000,,and you are now in the enroute
+Dialogue: 0,0:18:43.88,0:18:48.78,*Default,NTP,0000,0000,0000,,We observe and maintain air safety here
+Dialogue: 0,0:18:49.34,0:18:50.49,*Default,NTP,0000,0000,0000,,Please look there
+Dialogue: 0,0:18:50.98,0:18:55.09,*Default,NTP,0000,0000,0000,,We are controlling more than 3700 of flights everyday
+Dialogue: 0,0:18:55.27,0:18:57.27,*Default,NTP,0000,0000,0000,,Cool
+Dialogue: 0,0:18:58.55,0:19:00.45,*Default,NTP,0000,0000,0000,,Mother, there is a strange uncle
+Dialogue: 0,0:19:05.96,0:19:08.37,*Default,NTP,0000,0000,0000,,Regarding to the communication between ATC and pilot...
+Dialogue: 0,0:19:08.48,0:19:10.57,*Default,NTP,0000,0000,0000,,We use headsets.
+Dialogue: 0,0:19:10.70,0:19:12.78,*Default,NTP,0000,0000,0000,,Please come here
+Dialogue: 0,0:19:14.07,0:19:19.54,*Default,NTP,0000,0000,0000,,There are very fine instruments here and please don't get near to prevent damage of them
+Dialogue: 0,0:19:20.08,0:19:21.28,*Default,NTP,0000,0000,0000,,Here
+Dialogue: 0,0:19:21.37,0:19:23.79,*Default,NTP,0000,0000,0000,,Ota san, should i vector them to the south
+Dialogue: 0,0:19:27.97,0:19:30.81,*Default,NTP,0000,0000,0000,,If we vector to the south, it would lost a lot of fuel.
+Dialogue: 0,0:19:31.55,0:19:38.18,*Default,NTP,0000,0000,0000,,JAL3531, d/m FL 250 deviation 080 heading is approved
+Dialogue: 0,0:19:39.51,0:19:40.63,*Default,NTP,0000,0000,0000,,what is it ?
+Dialogue: 0,0:19:43.40,0:19:44.97,*Default,NTP,0000,0000,0000,,What is your name
+Dialogue: 0,0:19:45.04,0:19:46.31,*Default,NTP,0000,0000,0000,,hana, 5 years old.
+Dialogue: 0,0:19:49.68,0:19:51.14,*Default,NTP,0000,0000,0000,,Now he is at working,
+Dialogue: 0,0:19:51.26,0:19:52.47,*Default,NTP,0000,0000,0000,,you cannot be here
+Dialogue: 0,0:19:52.60,0:19:54.36,*Default,NTP,0000,0000,0000,,please go back to your mother and father
+Dialogue: 0,0:19:54.20,0:19:55.29,*Default,NTP,0000,0000,0000,,Who's kid is this,
+Dialogue: 0,0:19:55.56,0:19:57.23,*Default,NTP,0000,0000,0000,,Don't say that in front of a kid.
+Dialogue: 0,0:19:57.46,0:20:00.02,*Default,NTP,0000,0000,0000,,Byun air 109, turn right ?
+Dialogue: 0,0:20:00.13,0:20:01.52,*Default,NTP,0000,0000,0000,,No, uncle...
+Dialogue: 0,0:20:04.94,0:20:04.33,*Default,NTP,0000,0000,0000,,Who are you ?
+Dialogue: 0,0:20:06.24,0:20:07.87,*Default,NTP,0000,0000,0000,,Yamada, can you please take care of this girl?
+Dialogue: 0,0:20:07.98,0:20:08.86,*Default,NTP,0000,0000,0000,,Yes
+Dialogue: 0,0:20:09.50,0:20:11.44,*Default,NTP,0000,0000,0000,,Where is your mother ?
+Dialogue: 0,0:20:12.07,0:20:13.06,*Default,NTP,0000,0000,0000,,Please go and find her
+Dialogue: 0,0:20:16.59,0:20:17.70,*Default,NTP,0000,0000,0000,,Hana
+Dialogue: 0,0:20:18.51,0:20:20.10,*Default,NTP,0000,0000,0000,,I said you cannot leave my vincity, right ?
+Dialogue: 0,0:20:20.39,0:20:21.20,*Default,NTP,0000,0000,0000,,I am sorry
+Dialogue: 0,0:20:21.31,0:20:22.37,*Default,NTP,0000,0000,0000,,Its ok.
+Dialogue: 0,0:20:37.50,0:20:39.22,*Default,NTP,0000,0000,0000,,Are we flying over that cloud ?
+Dialogue: 0,0:20:39.37,0:20:41.73,*Default,NTP,0000,0000,0000,,ofcourse, we will
+Dialogue: 0,0:20:42.04,0:20:43.71,*Default,NTP,0000,0000,0000,,But we have an angel watching for us
+Dialogue: 0,0:20:45.20,0:20:46.90,*Default,NTP,0000,0000,0000,,Its about outa's the Air traffic controller
+Dialogue: 0,0:20:50.29,0:20:52.17,*Default,NTP,0000,0000,0000,,Isn't it dark in there ?
+Dialogue: 0,0:20:52.93,0:20:54.33,*Default,NTP,0000,0000,0000,,Its always like that
+Dialogue: 0,0:20:55.11,0:20:57.15,*Default,NTP,0000,0000,0000,,are you worried ?
+Dialogue: 0,0:20:57.36,0:20:58.28,*Default,NTP,0000,0000,0000,,A little
+Dialogue: 0,0:20:58.79,0:21:03.54,*Default,NTP,0000,0000,0000,,Follow me
+Dialogue: 0,0:21:03.68,0:21:04.82,*Default,NTP,0000,0000,0000,,I give up
+Dialogue: 0,0:21:05.36,0:21:06.57,*Default,NTP,0000,0000,0000,,I think its better
+Dialogue: 0,0:21:06.70,0:21:09.61,*Default,NTP,0000,0000,0000,,Once i do that, I feel better
+Dialogue: 0,0:21:11.94,0:21:13.18,*Default,NTP,0000,0000,0000,,I will request deviation
+Dialogue: 0,0:21:13.01,0:21:14.24,*Default,NTP,0000,0000,0000,,Roger
+Dialogue: 0,0:21:14.67,0:21:18.78,*Default,NTP,0000,0000,0000,,TOkyo control ANA241, request heading 250
+Dialogue: 0,0:21:21.39,0:21:24.99,*Default,NTP,0000,0000,0000,,TOkyo control ANA241, request heading 250
+Dialogue: 0,0:21:27.43,0:21:31.17,*Default,NTP,0000,0000,0000,,TOkyo control ANA241, request heading 250
+Dialogue: 0,0:21:32.39,0:21:35.96,*Default,NTP,0000,0000,0000,,ANA241, heading 250 is approved.
+Dialogue: 0,0:21:39.18,0:21:41.12,*Default,NTP,0000,0000,0000,,You are interfering my work, get out!
+Dialogue: 0,0:21:43.17,0:21:46.70,*Default,NTP,0000,0000,0000,,You may be disturbing the work, please come over here
+Dialogue: 0,0:21:48.25,0:21:51.28,*Default,NTP,0000,0000,0000,,ANA241, heading 330 is approved.
+Dialogue: 0,0:21:56.42,0:21:57.70,*Default,NTP,0000,0000,0000,,What is the red mark ?
+Dialogue: 0,0:21:57.90,0:21:59.11,*Default,NTP,0000,0000,0000,,It is turbulance
+Dialogue: 0,0:21:59.32,0:22:05.57,*Default,NTP,0000,0000,0000,,Now ,there is  a/c being deviated to avoid the turbulance
+Dialogue: 0,0:22:06.65,0:22:08.37,*Default,NTP,0000,0000,0000,,The a/c is going through that narrow place ?
+Dialogue: 0,0:22:08.56,0:22:09.47,*Default,NTP,0000,0000,0000,,yes.
+Dialogue: 0,0:22:09.60,0:22:14.11,*Default,NTP,0000,0000,0000,,ANA241, turn left heading 230 for spacing.
+Dialogue: 0,0:22:18.72,0:22:23.01,*Default,NTP,0000,0000,0000,,ANA241, turn right heading 290 for spacing.
+Dialogue: 0,0:22:56.93,0:23:00.82,*Default,NTP,0000,0000,0000,,ANA 241, turn left heading 240 for spacing.
+Dialogue: 0,0:23:21.74,0:23:24.40,*Default,NTP,0000,0000,0000,,Please be quite
+Dialogue: 0,0:23:25.34,0:23:28.20,*Default,NTP,0000,0000,0000,,That is the work of uncle ?
+Dialogue: 0,0:24:08.24,0:24:10.52,*Default,NTP,0000,0000,0000,,Sorry for the little shake during flight
+Dialogue: 0,0:24:10.68,0:24:12.87,*Default,NTP,0000,0000,0000,,its's ok, I have learnt a lot from that turbulance
+Dialogue: 0,0:24:13.36,0:24:15.81,*Default,NTP,0000,0000,0000,,Did you do the facial exercise ?
+Dialogue: 0,0:24:17.56,0:24:21.34,*Default,NTP,0000,0000,0000,,If the ATC respond to our request earlier, we won't even feel the shake
+Dialogue: 0,0:24:22.22,0:24:24.02,*Default,NTP,0000,0000,0000,,Can't you stop complaining ?
+Dialogue: 0,0:24:24.09,0:24:25.44,*Default,NTP,0000,0000,0000,,I am just telling the truth
+Dialogue: 0,0:24:26.18,0:24:27.09,*Default,NTP,0000,0000,0000,,I will go first.
+Dialogue: 0,0:24:29.57,0:24:31.10,*Default,NTP,0000,0000,0000,,Please don't make a fight here
+Dialogue: 0,0:24:31.10,0:24:32.28,*Default,NTP,0000,0000,0000,,No I won't.
+Dialogue: 0,0:24:40.96,0:24:44.45,*Default,NTP,0000,0000,0000,,Because of you guys ( ATC) , we can be relived during flight
+Dialogue: 0,0:24:45.14,0:24:49.09,*Default,NTP,0000,0000,0000,,Pilots flying alone can't be totally safe in the sky
+Dialogue: 0,0:24:50.53,0:24:51.59,*Default,NTP,0000,0000,0000,,I not good at expressing this
+Dialogue: 0,0:24:51.79,0:24:52.97,*Default,NTP,0000,0000,0000,,but what I am trying to say is that
+Dialogue: 0,0:24:53.15,0:24:55.30,*Default,NTP,0000,0000,0000,,ATC and pilots have an interdepent role.
+Dialogue: 0,0:24:56.67,0:24:59.78,*Default,NTP,0000,0000,0000,,It is not often we see you ATCs in person, come and join us some time
+Dialogue: 0,0:25:00.69,0:25:03.47,*Default,NTP,0000,0000,0000,,Thank you for your cooperation, good day
+Dialogue: 0,0:25:04.68,0:25:05.77,*Default,NTP,0000,0000,0000,,good day
+Dialogue: 0,0:25:07.62,0:25:10.69,*Default,NTP,0000,0000,0000,,don't screw things up
+Dialogue: 0,0:25:24.72,0:25:25.86,*Default,NTP,0000,0000,0000,,aren't you leaving ?
+Dialogue: 0,0:25:26.30,0:25:28.39,*Default,NTP,0000,0000,0000,,I will observe until the end
+Dialogue: 0,0:25:28.80,0:25:30.28,*Default,NTP,0000,0000,0000,, There is nothing more to observe here
+Dialogue: 0,0:25:30.63,0:25:31.72,*Default,NTP,0000,0000,0000,,I am leaving now
+Dialogue: 0,0:25:31.98,0:25:32.81,*Default,NTP,0000,0000,0000,,What you are going to do after this
+Dialogue: 0,0:25:32.93,0:25:35.57,*Default,NTP,0000,0000,0000,,I will be returning to Haneda right now and write up my reports
+Dialogue: 0,0:25:36.94,0:25:39.34,*Default,NTP,0000,0000,0000,,I said that you ATC are no good
+Dialogue: 0,0:25:40.44,0:25:41.62,*Default,NTP,0000,0000,0000,,I was wrong
+Dialogue: 0,0:25:43.07,0:25:44.52,*Default,NTP,0000,0000,0000,,It was a lie
+Dialogue: 0,0:25:45.36,0:25:48.22,*Default,NTP,0000,0000,0000,,I also did poorly when I was a new pilot
+Dialogue: 0,0:25:48.54,0:25:50.05,*Default,NTP,0000,0000,0000,,I was nervous and make myself like a fool
+Dialogue: 0,0:25:50.15,0:25:51.60,*Default,NTP,0000,0000,0000,,Really
+Dialogue: 0,0:25:51.85,0:25:53.47,*Default,NTP,0000,0000,0000,,I didn't take it too personal.
+Dialogue: 0,0:25:54.43,0:25:58.64,*Default,NTP,0000,0000,0000,,I found that I may have misunderstand you ATCs
+Dialogue: 0,0:25:59.16,0:26:00.12,*Default,NTP,0000,0000,0000,,No, I don't think so.
+Dialogue: 0,0:26:00.24,0:26:01.18,*Default,NTP,0000,0000,0000,,Excuse me , I am leaving
+Dialogue: 0,0:26:06.14,0:26:08.69,*Default,NTP,0000,0000,0000,,Thank you very much today
+Dialogue: 0,0:26:10.73,0:26:13.63,*Default,NTP,0000,0000,0000,,I will certainly come to visit Tokyo control centre
+Dialogue: 0,0:26:14.46,0:26:16.20,*Default,NTP,0000,0000,0000,,I want to see you anyway 
+Dialogue: 0,0:26:17.48,0:26:19.43,*Default,NTP,0000,0000,0000,,Please guide me when I come
+Dialogue: 0,0:26:20.10,0:26:22.18,*Default,NTP,0000,0000,0000,,Do not hesitate to let me guide you at that time 
+Dialogue: 0,0:26:22.36,0:26:22.98,*Default,NTP,0000,0000,0000,,See you
+Dialogue: 0,0:26:30.05,0:26:32.49,*Default,NTP,0000,0000,0000,,Yuki
+Dialogue: 0,0:26:33.47,0:26:36.10,*Default,NTP,0000,0000,0000,,You did a great job
+Dialogue: 0,0:26:36.15,0:26:38.11,*Default,NTP,0000,0000,0000,,People are happy and contented
+Dialogue: 0,0:26:38.23,0:26:40.97,*Default,NTP,0000,0000,0000,,Whatever happends I just be myself, its nothing special.
+Dialogue: 0,0:26:41.30,0:26:42.75,*Default,NTP,0000,0000,0000,,Great that there is no complaints
+Dialogue: 0,0:26:42.88,0:26:45.31,*Default,NTP,0000,0000,0000,,That better than I thought.
+Dialogue: 0,0:26:50.71,0:26:51.56,*Default,NTP,0000,0000,0000,,What should i do,
+Dialogue: 0,0:26:51.64,0:26:52.98,*Default,NTP,0000,0000,0000,,Maki san will be returning here, right ?
+Dialogue: 0,0:26:53.19,0:26:54.74,*Default,NTP,0000,0000,0000,,Maybe
+Dialogue: 0,0:26:54.91,0:26:56.51,*Default,NTP,0000,0000,0000,,She is returning from Fukuoka
+Dialogue: 0,0:26:56.60,0:26:59.38,*Default,NTP,0000,0000,0000,,If she leaves now, she should be here before 3 pm
+Dialogue: 0,0:27:00.30,0:27:02.26,*Default,NTP,0000,0000,0000,,Really
+Dialogue: 0,0:27:02.37,0:27:03.82,*Default,NTP,0000,0000,0000,,Break Time
+Dialogue: 0,0:27:04.18,0:27:05.90,*Default,NTP,0000,0000,0000,,You screwed up today
+Dialogue: 0,0:27:19.11,0:27:20.33,*Default,NTP,0000,0000,0000,,Let's go to the simulator Centre
+Dialogue: 0,0:27:20.61,0:27:21.79,*Default,NTP,0000,0000,0000,,Kinoshita kun
+Dialogue: 0,0:27:22.06,0:27:21.91,*Default,NTP,0000,0000,0000,,yes
+Dialogue: 0,0:27:22.22,0:27:23.42,*Default,NTP,0000,0000,0000,,Please follow me
+Dialogue: 0,0:27:24.59,0:27:26.42,*Default,NTP,0000,0000,0000,,its a dancer out there
+Dialogue: 0,0:27:26.72,0:27:28.56,*Default,NTP,0000,0000,0000,,Its seems to be free to enter here
+Dialogue: 0,0:27:29.04,0:27:30.56,*Default,NTP,0000,0000,0000,,What a strange person
+Dialogue: 0,0:27:40.39,0:27:42.37,*Default,NTP,0000,0000,0000,,This way
+Dialogue: 0,0:27:45.14,0:27:48.56,*Default,NTP,0000,0000,0000,,Ask him to come to my office later
+Dialogue: 0,0:27:57.97,0:28:02.68,*Default,NTP,0000,0000,0000,,Oota san ,you did a great job in the deviation
+Dialogue: 0,0:28:02.86,0:28:04.02,*Default,NTP,0000,0000,0000,,Its not very hard
+Dialogue: 0,0:28:07.04,0:28:08.16,*Default,NTP,0000,0000,0000,,Dad
+Dialogue: 0,0:28:11.58,0:28:13.40,*Default,NTP,0000,0000,0000,,I do not have a daughter
+Dialogue: 0,0:28:13.94,0:28:15.63,*Default,NTP,0000,0000,0000,,I come to apologise
+Dialogue: 0,0:28:18.01,0:28:19.60,*Default,NTP,0000,0000,0000,,Because you don't listen to me
+Dialogue: 0,0:28:19.80,0:28:20.69,*Default,NTP,0000,0000,0000,,You are wrong
+Dialogue: 0,0:28:20.87,0:28:23.21,*Default,NTP,0000,0000,0000,,I am working now, can you please walk out ?
+Dialogue: 0,0:28:37.87,0:28:39.83,*Default,NTP,0000,0000,0000,,Is that a good idea ?
+Dialogue: 0,0:28:44.74,0:28:48.71,*Default,NTP,0000,0000,0000,,Why do you have to treat your family members that cool ?
+Dialogue: 0,0:28:59.52,0:29:00.79,*Default,NTP,0000,0000,0000,,Excuse me
+Dialogue: 0,0:29:02.08,0:29:03.63,*Default,NTP,0000,0000,0000,,Yes ?
+Dialogue: 0,0:29:08.60,0:29:11.01,*Default,NTP,0000,0000,0000,,Please take care
+Dialogue: 0,0:29:13.71,0:29:20.14,*Default,NTP,0000,0000,0000,,Yuki San, Maki San said to detain Shikijima San
+Dialogue: 0,0:29:20.68,0:29:21.94,*Default,NTP,0000,0000,0000,,I think I can just let him go
+Dialogue: 0,0:29:23.25,0:29:24.73,*Default,NTP,0000,0000,0000,,Will I be scould ?
+Dialogue: 0,0:29:24.81,0:29:26.19,*Default,NTP,0000,0000,0000,,You should also escape
+Dialogue: 0,0:29:26.74,0:29:27.89,*Default,NTP,0000,0000,0000,,Ok.
+Dialogue: 0,0:29:29.36,0:29:31.45,*Default,NTP,0000,0000,0000,,Cheers for hardwork
+Dialogue: 0,0:00:00.00,0:00:00.00,*Default,NTP,0000,0000,0000,,xx
+Dialogue: 0,0:29:35.63,0:29:38.62,*Default,NTP,0000,0000,0000,,I went to the briefing room but was told to go to the resting room
+Dialogue: 0,0:29:39.25,0:29:40.93,*Default,NTP,0000,0000,0000,,I just know that we still have a meeting
+Dialogue: 0,0:29:41.31,0:29:42.85,*Default,NTP,0000,0000,0000,,Let's go.
+Dialogue: 0,0:29:44.66,0:29:45.70,*Default,NTP,0000,0000,0000,,Cheers for hardwork
+Dialogue: 0,0:29:56.00,0:29:57.78,*Default,NTP,0000,0000,0000,,Thanks, I'm returning it
+Dialogue: 0,0:29:58.63,0:30:00.48,*Default,NTP,0000,0000,0000,,Its ok. I don't want it anymore.
+Dialogue: 0,0:30:02.53,0:30:04.43,*Default,NTP,0000,0000,0000,,You see its quite dirty
+Dialogue: 0,0:30:09.35,0:30:11.18,*Default,NTP,0000,0000,0000,,I will return after cleaning
+Dialogue: 0,0:30:11.18,0:30:11.70,*Default,NTP,0000,0000,0000,,Please
+Dialogue: 0,0:30:12.21,0:30:13.56,*Default,NTP,0000,0000,0000,,cheers for hardwork
+Dialogue: 0,0:30:17.33,0:30:20.78,*Default,NTP,0000,0000,0000,,I really don't like wearing suits.
+Dialogue: 0,0:30:22.79,0:30:25.78,*Default,NTP,0000,0000,0000,,Hara San, I think you should escape.
+Dialogue: 0,0:30:28.33,0:30:30.21,*Default,NTP,0000,0000,0000,,Hara
+Dialogue: 0,0:30:39.15,0:30:41.01,*Default,NTP,0000,0000,0000,,Come with me.
+Dialogue: 0,0:30:46.02,0:30:48.30,*Default,NTP,0000,0000,0000,,Are you leaving now?
+Dialogue: 0,0:30:54.14,0:30:55.57,*Default,NTP,0000,0000,0000,,You are really a bossy men
+Dialogue: 0,0:30:56.22,0:30:57.43,*Default,NTP,0000,0000,0000,,Mind your own business
+Dialogue: 0,0:30:58.19,0:31:00.66,*Default,NTP,0000,0000,0000,,That girl was called Nanami ?
+Dialogue: 0,0:31:01.88,0:31:03.28,*Default,NTP,0000,0000,0000,,She was a pity  girl being scolded by you.
+Dialogue: 0,0:31:03.33,0:31:04.77,*Default,NTP,0000,0000,0000,,I don't have a daughter.
+Dialogue: 0,0:31:07.42,0:31:10.28,*Default,NTP,0000,0000,0000,,cheers for hardwork, take care
+Dialogue: 0,0:31:27.72,0:31:28.90,*Default,NTP,0000,0000,0000,,Impressed ?
+Dialogue: 0,0:31:30.25,0:31:31.89,*Default,NTP,0000,0000,0000,,Why ?
+Dialogue: 0,0:31:34.31,0:31:37.67,*Default,NTP,0000,0000,0000,,I give birth to this child when i was 19 years old
+Dialogue: 0,0:31:38.91,0:31:42.54,*Default,NTP,0000,0000,0000,,I was still having money from parents and just entered university
+Dialogue: 0,0:31:44.03,0:31:46.86,*Default,NTP,0000,0000,0000,,Ofcouese, I would be scolded
+Dialogue: 0,0:31:47.33,0:31:49.96,*Default,NTP,0000,0000,0000,,My husband did not enough introduce his parents to mine
+Dialogue: 0,0:31:51.56,0:31:59.75,*Default,NTP,0000,0000,0000,,I have a long argument with my dad, and said to get out if I am going to give birth
+Dialogue: 0,0:32:03.27,0:32:06.97,*Default,NTP,0000,0000,0000,,Please take some tea, if you don't mind
+Dialogue: 0,0:32:06.97,0:32:08.29,*Default,NTP,0000,0000,0000,,Thank you.
+Dialogue: 0,0:32:13.41,0:32:17.00,*Default,NTP,0000,0000,0000,, he never came back ever since this situation happened.
+Dialogue: 0,0:32:17.10,0:32:19.90,*Default,NTP,0000,0000,0000,,I wanted to come and apologise to him , but
+Dialogue: 0,0:32:20.28,0:32:21.93,*Default,NTP,0000,0000,0000,,But he refused
+Dialogue: 0,0:32:26.84,0:32:32.54,*Default,NTP,0000,0000,0000,,I come here to look for him because he left home 3 years ago
+Dialogue: 0,0:32:33.68,0:32:36.72,*Default,NTP,0000,0000,0000,,I came apologise now and them and seems to be a burden to him.
+Dialogue: 0,0:32:37.29,0:32:39.94,*Default,NTP,0000,0000,0000,,After that, he moved and I don't know where he was
+Dialogue: 0,0:32:40.81,0:32:43.60,*Default,NTP,0000,0000,0000,,So , you use this ATC visting as a chance to find your dad ?
+Dialogue: 0,0:32:43.77,0:32:45.36,*Default,NTP,0000,0000,0000,,I thought he would be in his working place.
+Dialogue: 0,0:32:46.38,0:32:47.60,*Default,NTP,0000,0000,0000,,I see.
+Dialogue: 0,0:32:50.23,0:32:53.28,*Default,NTP,0000,0000,0000,,How is the relationship between Ootasan and his wife ?
+Dialogue: 0,0:32:53.42,0:32:55.24,*Default,NTP,0000,0000,0000,,He get in touched for sometime
+Dialogue: 0,0:32:55.95,0:32:58.97,*Default,NTP,0000,0000,0000,,but , dad seems to have some arguments with her
+Dialogue: 0,0:32:59.58,0:33:01.58,*Default,NTP,0000,0000,0000,,My mom has saw my daughter
+Dialogue: 0,0:33:03.13,0:33:09.90,*Default,NTP,0000,0000,0000,,And she wanted to take the chance of see me, my daughter as a family reunion with my dad
+Dialogue: 0,0:33:10.07,0:33:13.16,*Default,NTP,0000,0000,0000,,But why she called oota san as "uncle" , instead of Dad ?
+Dialogue: 0,0:33:13.26,0:33:15.78,*Default,NTP,0000,0000,0000,,I gave her the picture of my dad
+Dialogue: 0,0:33:15.90,0:33:17.19,*Default,NTP,0000,0000,0000,,And she thought its an old uncle so..
+Dialogue: 0,0:33:17.36,0:33:18.87,*Default,NTP,0000,0000,0000,,i see
+Dialogue: 0,0:33:19.01,0:33:21.41,*Default,NTP,0000,0000,0000,,That's why she clings to oota san.
+Dialogue: 0,0:33:24.70,0:33:28.49,*Default,NTP,0000,0000,0000,,Actually, I have not established the wedding
+Dialogue: 0,0:33:29.94,0:33:33.28,*Default,NTP,0000,0000,0000,,My husband said that until my dad accept this marriage, he will not force it
+Dialogue: 0,0:33:35.22,0:33:40.82,*Default,NTP,0000,0000,0000,,I and my dad would like to follow the virgin rule
+Dialogue: 0,0:33:42.69,0:33:46.66,*Default,NTP,0000,0000,0000,,Turn around and say thank you together, but..
+Dialogue: 0,0:33:49.26,0:33:55.11,*Default,NTP,0000,0000,0000,,I want to apologise to my dad
+Dialogue: 0,0:33:56.97,0:33:58.82,*Default,NTP,0000,0000,0000,,He is my only precious father.
+Dialogue: 0,0:34:01.16,0:34:08.18,*Default,NTP,0000,0000,0000,,I don't want to keep at this relationship with him.
+Dialogue: 0,0:34:10.50,0:34:11.75,*Default,NTP,0000,0000,0000,,Cheers for hardwork
+Dialogue: 0,0:34:11.86,0:34:12.90,*Default,NTP,0000,0000,0000,,Where is Shikijima kun ?
+Dialogue: 0,0:34:14.01,0:34:14.78,*Default,NTP,0000,0000,0000,,He returned
+Dialogue: 0,0:34:16.89,0:34:18.07,*Default,NTP,0000,0000,0000,,Smart, He got away!
+Dialogue: 0,0:34:21.24,0:34:22.54,*Default,NTP,0000,0000,0000,,Who is this ?
+Dialogue: 0,0:34:22.65,0:34:24.42,*Default,NTP,0000,0000,0000,,I am Nanami, daughter of Outa san
+Dialogue: 0,0:34:24.72,0:34:26.82,*Default,NTP,0000,0000,0000,,Thanks for taking care for my dad
+Dialogue: 0,0:34:27.74,0:34:29.39,*Default,NTP,0000,0000,0000,,Welcome here
+Dialogue: 0,0:34:38.95,0:34:40.47,*Default,NTP,0000,0000,0000,,Dad
+Dialogue: 0,0:34:41.80,0:34:42.46,*Default,NTP,0000,0000,0000,,Please 
+Dialogue: 0,0:34:42.56,0:34:44.06,*Default,NTP,0000,0000,0000,,Just hear
+Dialogue: 0,0:34:44.47,0:34:45.79,*Default,NTP,0000,0000,0000,,I don't have anything to say to you.
+Dialogue: 0,0:34:45.88,0:34:49.12,*Default,NTP,0000,0000,0000,,I don't want
+Dialogue: 0,0:34:49.70,0:34:52.97,*Default,NTP,0000,0000,0000,,I don't want to hurt you and mom because of me
+Dialogue: 0,0:34:53.80,0:34:56.20,*Default,NTP,0000,0000,0000,,I don't want a have relationship with you like this
+Dialogue: 0,0:34:57.29,0:35:00.44,*Default,NTP,0000,0000,0000,,I am sorry
+Dialogue: 0,0:35:00.56,0:35:02.06,*Default,NTP,0000,0000,0000,,Where did you come ?
+Dialogue: 0,0:35:02.51,0:35:05.63,*Default,NTP,0000,0000,0000,,It is the only place you would hear me.
+Dialogue: 0,0:35:05.70,0:35:07.45,*Default,NTP,0000,0000,0000,,This is my working place.
+Dialogue: 0,0:35:07.56,0:35:09.76,*Default,NTP,0000,0000,0000,,Do you know how much shame you had brought to me ?
+Dialogue: 0,0:35:11.64,0:35:14.16,*Default,NTP,0000,0000,0000,,I won't change, no matter how hard you try to apologise.
+Dialogue: 0,0:35:14.23,0:35:16.07,*Default,NTP,0000,0000,0000,,You are not my daughter.
+Dialogue: 0,0:35:16.41,0:35:17.55,*Default,NTP,0000,0000,0000,,Do what ever you want
+Dialogue: 0,0:35:17.67,0:35:20.56,*Default,NTP,0000,0000,0000,,please forgive me for once
+Dialogue: 0,0:35:22.82,0:35:24.93,*Default,NTP,0000,0000,0000,,I am the only daughter 
+Dialogue: 0,0:35:25.51,0:35:27.40,*Default,NTP,0000,0000,0000,,Please
+Dialogue: 0,0:35:33.25,0:35:34.92,*Default,NTP,0000,0000,0000,,Please wait
+Dialogue: 0,0:35:34.96,0:35:36.19,*Default,NTP,0000,0000,0000,,It is non of your business
+Dialogue: 0,0:35:36.24,0:35:36.77,*Default,NTP,0000,0000,0000,,Get away
+Dialogue: 0,0:35:36.85,0:35:37.80,*Default,NTP,0000,0000,0000,,i cannot
+Dialogue: 0,0:35:38.61,0:35:42.76,*Default,NTP,0000,0000,0000,,Please try to listen to your daughter
+Dialogue: 0,0:35:42.88,0:35:44.11,*Default,NTP,0000,0000,0000,,Don't try to put opions on other family's problem.
+Dialogue: 0,0:35:45.47,0:35:46.17,*Default,NTP,0000,0000,0000,,Let go
+Dialogue: 0,0:35:46.25,0:35:47.46,*Default,NTP,0000,0000,0000,,Please
+Dialogue: 0,0:35:47.95,0:35:49.37,*Default,NTP,0000,0000,0000,,Please listen for once
+Dialogue: 0,0:35:51.48,0:35:54.97,*Default,NTP,0000,0000,0000,,You are the only father of Nanami, right ?
+Dialogue: 0,0:35:56.37,0:36:03.83,*Default,NTP,0000,0000,0000,,What ever you call youself, you are still a father
+Dialogue: 0,0:36:03.94,0:36:10.24,*Default,NTP,0000,0000,0000,,If you are father, take the responsibilites and accept the indulgence of your daughter
+Dialogue: 0,0:36:15.26,0:36:19.39,*Default,NTP,0000,0000,0000,,my dad did not care for me at all
+Dialogue: 0,0:36:19.92,0:36:21.97,*Default,NTP,0000,0000,0000,,He said, do what ever you like
+Dialogue: 0,0:36:24.75,0:36:27.13,*Default,NTP,0000,0000,0000,,I worked hard to my way of life
+Dialogue: 0,0:36:29.96,0:36:33.30,*Default,NTP,0000,0000,0000,,He left me and my mom
+Dialogue: 0,0:36:38.69,0:36:40.53,*Default,NTP,0000,0000,0000,,You are still a alive, right ?
+Dialogue: 0,0:36:43.91,0:36:46.96,*Default,NTP,0000,0000,0000,,If you are a dad,
+Dialogue: 0,0:36:47.10,0:36:49.77,*Default,NTP,0000,0000,0000,,Listen to your indugent daughter.
+Dialogue: 0,0:36:52.26,0:36:54.09,*Default,NTP,0000,0000,0000,,I ,..
+Dialogue: 0,0:36:56.29,0:37:07.95,*Default,NTP,0000,0000,0000,,I don't have that chance anymore.
+Dialogue: 0,0:37:09.09,0:37:13.66,*Default,NTP,0000,0000,0000,,Outa san, please
+Dialogue: 0,0:37:16.27,0:37:20.28,*Default,NTP,0000,0000,0000,,Listen to your daughter.
+Dialogue: 0,0:37:20.66,0:37:23.11,*Default,NTP,0000,0000,0000,,Yamda, Let's go
+Dialogue: 0,0:37:26.22,0:37:28.71,*Default,NTP,0000,0000,0000,,Outa san I am sorry.
+Dialogue: 0,0:37:32.68,0:37:33.99,*Default,NTP,0000,0000,0000,,It's ok.
+Dialogue: 0,0:37:34.91,0:37:36.69,*Default,NTP,0000,0000,0000,,I will take care of him.
+Dialogue: 0,0:37:46.20,0:37:54.01,*Default,NTP,0000,0000,0000,,Yamada, your dad was a splendid Air traffic controller
+Dialogue: 0,0:37:55.28,0:38:00.72,*Default,NTP,0000,0000,0000,,He was great  a person, and a great Air traffic controller
+Dialogue: 0,0:38:03.20,0:38:06.52,*Default,NTP,0000,0000,0000,,You want to hear this, right ?
+Dialogue: 0,0:38:17.38,0:38:18.96,*Default,NTP,0000,0000,0000,,Let's go
+Dialogue: 0,0:38:33.28,0:38:34.98,*Default,NTP,0000,0000,0000,,Kitana 
+Dialogue: 0,0:38:41.14,0:38:42.41,*Default,NTP,0000,0000,0000,,Mama
+Dialogue: 0,0:38:53.34,0:38:55.19,*Default,NTP,0000,0000,0000,,Uncle..
+Dialogue: 0,0:39:16.85,0:39:19.71,*Default,NTP,0000,0000,0000,,You have been a Cabin Attendant (CA)
+Dialogue: 0,0:39:20.80,0:39:23.01,*Default,NTP,0000,0000,0000,,You are really a silly daughter of mine
+Dialogue: 0,0:39:24.72,0:39:27.30,*Default,NTP,0000,0000,0000,,You left your mother and fly up in a sky is selfish
+Dialogue: 0,0:39:30.59,0:39:33.10,*Default,NTP,0000,0000,0000,,You seemed did not understand why I was angry
+Dialogue: 0,0:39:37.93,0:39:40.36,*Default,NTP,0000,0000,0000,,If you don't raise the morale
+Dialogue: 0,0:39:42.59,0:39:49.67,*Default,NTP,0000,0000,0000,,You would lose the most precious thing in life
+Dialogue: 0,0:39:50.98,0:39:52.37,*Default,NTP,0000,0000,0000,,Call your mother
+Dialogue: 0,0:39:52.86,0:39:54.48,*Default,NTP,0000,0000,0000,,Let's have meal together
+Dialogue: 0,0:40:19.80,0:40:20.98,*Default,NTP,0000,0000,0000,,Thank you
+Dialogue: 0,0:40:23.59,0:40:24.85,*Default,NTP,0000,0000,0000,,Sorry,
+Dialogue: 0,0:40:27.44,0:40:29.75,*Default,NTP,0000,0000,0000,,You don't have to apologise to me, silly
+Dialogue: 0,0:40:29.96,0:40:32.82,*Default,NTP,0000,0000,0000,,Its useless
+Dialogue: 0,0:40:34.52,0:40:37.94,*Default,NTP,0000,0000,0000,,I didn't think i would say that to outa san
+Dialogue: 0,0:40:39.93,0:40:42.29,*Default,NTP,0000,0000,0000,,Well, emotions changes
+Dialogue: 0,0:40:43.31,0:40:45.61,*Default,NTP,0000,0000,0000,,But, I ..
+Dialogue: 0,0:40:49.74,0:40:50.91,*Default,NTP,0000,0000,0000,,Nothing
+Dialogue: 0,0:40:51.22,0:40:52.46,*Default,NTP,0000,0000,0000,,Please tell me
+Dialogue: 0,0:40:55.03,0:40:56.05,*Default,NTP,0000,0000,0000,,I want to know
+Dialogue: 0,0:40:57.10,0:40:58.66,*Default,NTP,0000,0000,0000,,Then continue to wait
+Dialogue: 0,0:41:02.31,0:41:09.20,*Default,NTP,0000,0000,0000,,Yamda kun, Today is a great day to look up the sky 
+Dialogue: 0,0:41:12.32,0:41:14.03,*Default,NTP,0000,0000,0000,,Yes
+Dialogue: 0,0:41:14.85,0:41:19.03,*Default,NTP,0000,0000,0000,,Please remind me to capture Nakijima kun
+Dialogue: 0,0:41:19.47,0:41:20.98,*Default,NTP,0000,0000,0000,,Yes.
+Dialogue: 0,0:43:01.79,0:43:05.47,*Default,NTP,0000,0000,0000,,Come back , the Govemernt plane disappear
+Dialogue: 0,0:43:08.18,0:43:10.14,*Default,NTP,0000,0000,0000,,Maki san, which sector did the plane disappear ?
+Dialogue: 0,0:43:10.26,0:43:11.51,*Default,NTP,0000,0000,0000,,East of Kantou
+Dialogue: 0,0:43:12.20,0:43:15.03,*Default,NTP,0000,0000,0000,,The prime minister's flight is involved.
+Dialogue: 0,0:43:15.34,0:43:17.44,*Default,NTP,0000,0000,0000,,The aviation boards are coming to investigate on this case
+Dialogue: 0,0:43:17.51,0:43:18.18,*Default,NTP,0000,0000,0000,,Why ?
+Dialogue: 0,0:43:18.25,0:43:20.22,*Default,NTP,0000,0000,0000,,Because it is a VIP a/c
+Dialogue: 0,0:43:26.45,0:43:28.50,*Default,NTP,0000,0000,0000,,Shimuro ?
+Dialogue: 0,0:43:30.80,0:43:32.56,*Default,NTP,0000,0000,0000,,Yuki san, there are alot of targets are disappearing
+Dialogue: 0,0:43:32.63,0:43:35.12,*Default,NTP,0000,0000,0000,,also here.
+Dialogue: 0,0:43:35.64,0:43:37.80,*Default,NTP,0000,0000,0000,,Everone, stop your moves
+Dialogue: 0,0:43:40.50,0:43:41.33,*Default,NTP,0000,0000,0000,,What is the cause ?
+Dialogue: 0,0:43:41.41,0:43:42.52,*Default,NTP,0000,0000,0000,,We are not sure
+Dialogue: 0,0:43:43.75,0:43:45.59,*Default,NTP,0000,0000,0000,,Tell me the last time system is being accessed .
+Dialogue: 0,0:43:48.01,0:43:49.06,*Default,NTP,0000,0000,0000,,Oh no..
+Dialogue: 0,0:43:51.20,0:43:54.29,*Default,NTP,0000,0000,0000,,We have confirm it was accessed form the Controller's PC
+Dialogue: 0,0:43:54.88,0:43:57.21,*Default,NTP,0000,0000,0000,,The hacker is within us
+Dialogue: 0,0:44:01.58,0:44:05.72,*Default,NTP,0000,0000,0000,,Do you know that The FIR ( sky of japan) is called Fukuoka ?
+Dialogue: 0,0:44:09.08,0:44:11.01,*Default,NTP,0000,0000,0000,,In Fukuoka, Gannosu prefecture
+Dialogue: 0,0:44:11.07,0:44:13.31,*Default,NTP,0000,0000,0000,,The Fukuoka Area Control Centre
+Dialogue: 0,0:44:13.47,0:44:16.33,*Default,NTP,0000,0000,0000,,The headquarters of Fukuoka Air Traffic Management  (ATM)
+Dialogue: 0,0:44:16.62,0:44:20.14,*Default,NTP,0000,0000,0000,,Its manages all the airpace and oversess all 4 Area control centre of japan
+Dialogue: 0,0:44:20.21,0:44:27.78,*Default,NTP,0000,0000,0000,,It was established since 2005 to enhance flow ,effeiciency and safety of air traffic in japan
+Dialogue: 0,0:44:29.02,0:44:32.35,*Default,NTP,0000,0000,0000,,It is also responsible to notify individual airports , regards to
+Dialogue: 0,0:44:32.44,0:44:37.21,*Default,NTP,0000,0000,0000,,closing of runway and other relevant information
+Dialogue: 0,0:44:40.93,0:44:47.05,*Default,NTP,0000,0000,0000,,Because the ATM is located in Fukuoka, They call the Flying Information Region as Fukuoka
+Dialogue: 0,0:44:47.86,0:44:51.86,*Default,NTP,0000,0000,0000,,Thus, people called the sky of japan is fukuoka
+Dialogue: 0,0:44:53.57,0:44:57.18,*Default,NTP,0000,0000,0000,,The area of This airpspace is approximately 2400nm
+Dialogue: 0,0:44:58.14,0:45:02.23,*Default,NTP,0000,0000,0000,,The ATC has oversee and manage all 4 ACC, including
+Dialogue: 0,0:45:02.31,0:45:12.52,*Default,NTP,0000,0000,0000,,Naha, Toyko, Fukuoka And Sappro
+Dialogue: 0,0:45:13.21,0:45:21.62,*Default,NTP,0000,0000,0000,,They are the last resort to help prevent collision or accident to happen
+Dialogue: 0,0:45:23.40,0:45:29.33,*Default,NTP,0000,0000,0000,,We have to manage the traffic flow, the secotrs management
+Dialogue: 0,0:45:29.73,0:45:35.68,*Default,NTP,0000,0000,0000,,We are important also, to support Air traffic controllers
+Dialogue: 0,0:45:36.97,0:45:47.53,*Default,NTP,0000,0000,0000,,Japan is located in Asia, and there are lots of aircraft that we have to control everyday
+Dialogue: 0,0:45:51.79,0:46:01.01,*Default,NTP,0000,0000,0000,,To ensure High efficiency and safety ,they deply high technology system to help them make decision
+Dialogue: 0,0:46:01.64,0:46:07.98,*Default,NTP,0000,0000,0000,,The centralised system starts from ATM and various of information are then published to respective sectors
+Dialogue: 0,0:46:08.07,0:46:15.54,*Default,NTP,0000,0000,0000,,Nevertheless, these automated systems cannot 100% garantee a forcast of natural disaster
+Dialogue: 0,0:46:16.66,0:46:22.48,*Default,NTP,0000,0000,0000,,It is to be said despite the technology, the one who make decision is human
+Dialogue: 0,0:46:24.71,0:46:34.17,*Default,NTP,0000,0000,0000,,The last decision is made be human, not by machine
+Dialogue: 0,0:46:34.47,0:46:41.05,*Default,NTP,0000,0000,0000,,It is better to trust a human than a system depsite all its advancement
+Dialogue: 0,0:46:41.10,0:46:48.53,*Default,NTP,0000,0000,0000,,We take balance between the input from computer and interaction with human to make the final decision
+Dialogue: 0,0:46:50.79,0:46:57.04,*Default,NTP,0000,0000,0000,,Because of their endless effort , the sky is safe to be flown.

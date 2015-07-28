@@ -32,7 +32,7 @@ namespace AssLoader
         public void Serialize(TextWriter writer)
         {
             if(writer == null)
-                throw new ArgumentNullException("writer");
+                throw new ArgumentNullException(nameof(writer));
 
             writer.WriteLine("[Script Info]");
             foreach(var line in Subtitle.EditorInfo)
@@ -55,16 +55,16 @@ namespace AssLoader
 
         private void saveStyle(TextWriter writer)
         {
-            writer.WriteLine(Subtitle.StyleFormat.ToString());
+            writer.WriteLine(Subtitle.DefaultStyleFormat.ToString());
             foreach(var item in StyleDictionary.Values)
-                writer.WriteLine(item.Serialize(Subtitle.StyleFormat));
+                writer.WriteLine(item.Serialize(Subtitle.DefaultStyleFormat));
         }
 
         private void saveEvent(TextWriter writer)
         {
-            writer.WriteLine(Subtitle.EventFormat.ToString());
+            writer.WriteLine(Subtitle.DefaultEventFormat.ToString());
             foreach(var item in EventCollection)
-                writer.WriteLine(item.Serialize(Subtitle.EventFormat));
+                writer.WriteLine(item.Serialize(Subtitle.DefaultEventFormat));
         }
 
         /// <summary>

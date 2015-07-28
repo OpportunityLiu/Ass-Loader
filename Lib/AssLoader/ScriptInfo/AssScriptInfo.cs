@@ -50,7 +50,7 @@ namespace AssLoader.Collections
                     title = value;
                 else
                     title = null;
-                PropertyChanging();
+                RaisePropertyChanged();
             }
         }
 
@@ -74,7 +74,7 @@ namespace AssLoader.Collections
                     originalScript = value;
                 else
                     originalScript = null;
-                PropertyChanging();
+                RaisePropertyChanged();
             }
         }
 
@@ -98,7 +98,7 @@ namespace AssLoader.Collections
                     originalTranslation = value;
                 else
                     originalTranslation = null;
-                PropertyChanging();
+                RaisePropertyChanged();
             }
         }
 
@@ -123,7 +123,7 @@ namespace AssLoader.Collections
                     originalEditing = value;
                 else
                     originalEditing = null;
-                PropertyChanging();
+                RaisePropertyChanged();
             }
         }
 
@@ -147,7 +147,7 @@ namespace AssLoader.Collections
                     originalTiming = value;
                 else
                     originalTiming = null;
-                PropertyChanging();
+                RaisePropertyChanged();
             }
         }
 
@@ -171,7 +171,7 @@ namespace AssLoader.Collections
                     synchPoint = value;
                 else
                     synchPoint = null;
-                PropertyChanging();
+                RaisePropertyChanged();
             }
         }
 
@@ -195,7 +195,7 @@ namespace AssLoader.Collections
                     scriptUpdatedBy = value;
                 else
                     scriptUpdatedBy = null;
-                PropertyChanging();
+                RaisePropertyChanged();
             }
         }
 
@@ -219,7 +219,7 @@ namespace AssLoader.Collections
                     updateDetails = value;
                 else
                     updateDetails = null;
-                PropertyChanging();
+                RaisePropertyChanged();
             }
         }
 
@@ -238,7 +238,7 @@ namespace AssLoader.Collections
             set
             {
                 collisions = value;
-                PropertyChanging();
+                RaisePropertyChanged();
             }
         }
 
@@ -265,11 +265,11 @@ namespace AssLoader.Collections
             set
             {
                 if(double.IsNaN(value) || double.IsInfinity(value))
-                    throw new ArgumentException("value");
+                    throw new ArgumentException("value should be a valid number", nameof(value));
                 if(value <= 0)
-                    throw new ArgumentOutOfRangeException("value", "value must be greater than 0.");
+                    throw new ArgumentOutOfRangeException(nameof(value), "value must be greater than 0.");
                 playResY = value;
-                PropertyChanging();
+                RaisePropertyChanged();
             }
         }
 
@@ -295,11 +295,11 @@ namespace AssLoader.Collections
             set
             {
                 if(double.IsNaN(value) || double.IsInfinity(value))
-                    throw new ArgumentException("value");
+                    throw new ArgumentException("value should be a valid number", nameof(value));
                 if(value <= 0)
-                    throw new ArgumentOutOfRangeException("value", "value must be greater than 0.");
+                    throw new ArgumentOutOfRangeException(nameof(value), "value must be greater than 0.");
                 playResX = value;
-                PropertyChanging();
+                RaisePropertyChanged();
             }
         }
 
@@ -326,12 +326,12 @@ namespace AssLoader.Collections
                 if(value.HasValue)
                 {
                     if(double.IsNaN(value.Value) || double.IsInfinity(value.Value))
-                        throw new ArgumentException("value");
+                        throw new ArgumentException("value should be a valid number", nameof(value));
                     if(value.Value <= 0)
-                        throw new ArgumentOutOfRangeException("value", "value must be greater than 0.");
+                        throw new ArgumentOutOfRangeException(nameof(value), "value must be greater than 0.");
                 }
                 playDepth = value;
-                PropertyChanging();
+                RaisePropertyChanged();
             }
         }
 
@@ -372,12 +372,12 @@ namespace AssLoader.Collections
                 if(value.HasValue)
                 {
                     if(double.IsNaN(value.Value) || double.IsInfinity(value.Value))
-                        throw new ArgumentException("value");
+                        throw new ArgumentException("value should be a valid number", nameof(value));
                     if(value.Value <= 0)
-                        throw new ArgumentOutOfRangeException("value", "value must be greater than 0.");
+                        throw new ArgumentOutOfRangeException(nameof(value), "value must be greater than 0.");
                 }
                 timer = value;
-                PropertyChanging();
+                RaisePropertyChanged();
             }
         }
 
@@ -400,9 +400,9 @@ namespace AssLoader.Collections
             {
                 var num = (int)value;
                 if(ThrowHelper.IsLessThanZeroOrOutOfRange(4, num))
-                    throw new ArgumentOutOfRangeException("value");
+                    throw new ArgumentOutOfRangeException(nameof(value));
                 warpStyle = num;
-                PropertyChanging();
+                RaisePropertyChanged();
             }
         }
 
@@ -422,7 +422,7 @@ namespace AssLoader.Collections
             set
             {
                 scaledBorderAndShadow = value;
-                PropertyChanging();
+                RaisePropertyChanged();
             }
         }
     }

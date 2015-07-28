@@ -21,10 +21,10 @@ namespace AssLoader
         public EntryHeader(string format)
         {
             if(string.IsNullOrEmpty(format))
-                throw new ArgumentNullException("format");
+                throw new ArgumentNullException(nameof(format));
             data = new EntryData(format, int.MaxValue);
             if(data.Contains(string.Empty))
-                throw new ArgumentException("Header can't contains string.Empty.", "format");
+                throw new ArgumentException("Header can't contains string.Empty.", nameof(format));
             if(data.Distinct().Count() != data.Count)
                 throw new FormatException("Header can't contains repeated strings.");
         }
@@ -37,7 +37,7 @@ namespace AssLoader
         public EntryHeader(IEnumerable<string> format)
         {
             if(format == null)
-                throw new ArgumentNullException("format");
+                throw new ArgumentNullException(nameof(format));
             data = format.Distinct(StringComparer.OrdinalIgnoreCase).Select(s => s.Trim()).ToList();
         }
 

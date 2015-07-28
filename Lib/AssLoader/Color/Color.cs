@@ -158,11 +158,11 @@ namespace AssLoader
         public static Color Parse(string value)
         {
             if(string.IsNullOrEmpty(value))
-                throw new ArgumentNullException("value");
+                throw new ArgumentNullException(nameof(value));
             try
             {
                 if(value.StartsWith("&H", StringComparison.OrdinalIgnoreCase))
-                    return Color.FromUInt32(Convert.ToUInt32(value.Substring(2), 16));
+                    return FromUInt32(Convert.ToUInt32(value.Substring(2), 16));
             }
             catch(Exception ex)
             {

@@ -9,6 +9,7 @@ using System.Collections.ObjectModel;
 using AssLoader.Serializer;
 using System.Collections.Specialized;
 using System.ComponentModel;
+using System.Runtime.CompilerServices;
 
 namespace AssLoader.Collections
 {
@@ -65,7 +66,7 @@ namespace AssLoader.Collections
         public void Serialize(TextWriter writer)
         {
             if(writer == null)
-                throw new ArgumentNullException("writer");
+                throw new ArgumentNullException(nameof(writer));
             foreach(var item in scriptInfoFields.Values)
             {
                 var toWrite = item.Serialize(this);
@@ -389,10 +390,9 @@ namespace AssLoader.Collections
         /// Raise the event <see cref="PropertyChanged"/>.
         /// </summary>
         /// <param name="propertyName">The name of the changing property.</param>
-        protected virtual void PropertyChanging([System.Runtime.CompilerServices.CallerMemberName]string propertyName = "")
+        protected virtual void RaisePropertyChanged([CallerMemberName]string propertyName = "")
         {
-            if(PropertyChanged != null)
-                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
         #endregion

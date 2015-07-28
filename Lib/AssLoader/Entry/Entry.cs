@@ -7,6 +7,7 @@ using System.Reflection;
 using AssLoader.Serializer;
 using System.ComponentModel;
 using System.Threading;
+using System.Runtime.CompilerServices;
 
 namespace AssLoader
 {
@@ -65,7 +66,7 @@ namespace AssLoader
         public string Serialize(EntryHeader format)
         {
             if(format == null)
-                throw new ArgumentNullException("format");
+                throw new ArgumentNullException(nameof(format));
             var r = new EntryData(format.Select(key => fieldInfo[key].Serialize(this)).ToArray());
             return string.Format(FormatHelper.DefaultFormat, "{0}: {1}", EntryName, r.ToString());
         }
@@ -80,9 +81,9 @@ namespace AssLoader
         protected void Parse(string fields, EntryHeader format)
         {
             if(format == null)
-                throw new ArgumentNullException("format");
+                throw new ArgumentNullException(nameof(format));
             if(string.IsNullOrEmpty(fields))
-                throw new ArgumentNullException("fields");
+                throw new ArgumentNullException(nameof(fields));
             var data = new EntryData(fields, format.Count);
             for(int i = 0; i < format.Count; i++)
             {
@@ -106,9 +107,9 @@ namespace AssLoader
         protected void ParseExact(string fields, EntryHeader format)
         {
             if(format == null)
-                throw new ArgumentNullException("format");
+                throw new ArgumentNullException(nameof(format));
             if(string.IsNullOrEmpty(fields))
-                throw new ArgumentNullException("fields");
+                throw new ArgumentNullException(nameof(fields));
             var data = new EntryData(fields, format.Count);
             for(int i = 0; i < format.Count; i++)
                 fieldInfo[format[i]].Deserialize(this, data[i]);
@@ -142,11 +143,9 @@ namespace AssLoader
         /// Raise the event <see cref="PropertyChanged"/>.
         /// </summary>
         /// <param name="propertyName">The name of the changing property.</param>
-        protected virtual void PropertyChanging([System.Runtime.CompilerServices.CallerMemberName]string propertyName = "")
+        protected virtual void RaisePropertyChanged([CallerMemberName]string propertyName = "")
         {
-            if(PropertyChanged == null)
-                return;
-            PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
         #endregion

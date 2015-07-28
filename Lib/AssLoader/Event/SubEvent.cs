@@ -103,8 +103,8 @@ namespace AssLoader
             set
             {
                 iscomment = value;
-                PropertyChanging();
-                PropertyChanging("EntryName");
+                RaisePropertyChanged();
+                RaisePropertyChanged("EntryName");
             }
         }
 
@@ -131,9 +131,9 @@ namespace AssLoader
             set
             {
                 if(value < 0)
-                    throw new ArgumentOutOfRangeException("value");
+                    throw new ArgumentOutOfRangeException(nameof(value));
                 layer = value;
-                PropertyChanging();
+                RaisePropertyChanged();
             }
         }
 
@@ -159,12 +159,12 @@ namespace AssLoader
             set
             {
                 if(value.Kind != DateTimeKind.Unspecified)
-                    throw new ArgumentException("Specified datetime isn't needed.");
+                    throw new ArgumentException("Specified datetime isn't needed.",nameof(value));
                 if(value > endTime)
-                    throw new ArgumentOutOfRangeException("value", "StartTime must earlier than EndTime.");
+                    throw new ArgumentOutOfRangeException(nameof(value), "StartTime must earlier than EndTime.");
                 else
                     startTime = value;
-                PropertyChanging();
+                RaisePropertyChanged();
             }
         }
 
@@ -190,12 +190,12 @@ namespace AssLoader
             set
             {
                 if(value.Kind != DateTimeKind.Unspecified)
-                    throw new ArgumentException("Specified datetime isn't needed.");
+                    throw new ArgumentException("Specified datetime isn't needed.", nameof(value));
                 if(value < startTime)
-                    throw new ArgumentOutOfRangeException("value", "StartTime must earlier than EndTime.");
+                    throw new ArgumentOutOfRangeException(nameof(value), "StartTime must earlier than EndTime.");
                 else
                     endTime = value;
-                PropertyChanging();
+                RaisePropertyChanged();
             }
         }
 
@@ -218,7 +218,7 @@ namespace AssLoader
                     style = value;
                 else
                     style = null;
-                PropertyChanging();
+                RaisePropertyChanged();
             }
         }
 
@@ -244,7 +244,7 @@ namespace AssLoader
                     name = value;
                 else
                     name = null;
-                PropertyChanging();
+                RaisePropertyChanged();
             }
         }
 
@@ -267,9 +267,9 @@ namespace AssLoader
             set
             {
                 if(value < 0)
-                    throw new ArgumentOutOfRangeException("value");
+                    throw new ArgumentOutOfRangeException(nameof(value));
                 marginL = value;
-                PropertyChanging();
+                RaisePropertyChanged();
             }
         }
 
@@ -292,9 +292,9 @@ namespace AssLoader
             set
             {
                 if(value < 0)
-                    throw new ArgumentOutOfRangeException("value");
+                    throw new ArgumentOutOfRangeException(nameof(value));
                 marginR = value;
-                PropertyChanging();
+                RaisePropertyChanged();
             }
         }
 
@@ -317,9 +317,9 @@ namespace AssLoader
             set
             {
                 if(value < 0)
-                    throw new ArgumentOutOfRangeException("value");
+                    throw new ArgumentOutOfRangeException(nameof(value));
                 marginV = value;
-                PropertyChanging();
+                RaisePropertyChanged();
             }
         }
 
@@ -347,7 +347,7 @@ namespace AssLoader
                     effect = value;
                 else
                     effect = null;
-                PropertyChanging();
+                RaisePropertyChanged();
             }
         }
 
@@ -367,7 +367,7 @@ namespace AssLoader
             set
             {
                 text = value;
-                PropertyChanging();
+                RaisePropertyChanged();
             }
         }
 
