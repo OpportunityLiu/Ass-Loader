@@ -46,6 +46,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Collections\EventCollection.cs" />
+    <Compile Include="Properties\GlobalSuppressions.cs" />
     <Compile Include="Serializer\TextSerializeAttribute.cs" />
     <Compile Include="Collections\StyleDictionary.cs" />
     <Compile Include="Text\List.cs" />

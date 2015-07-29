@@ -110,6 +110,7 @@ namespace AssLoader
         /// <summary>
         /// Alpha channel of the <see cref="Color"/>, 0 for fully-transparent and 255 for non-transparent.
         /// </summary>
+        /// <seealso cref="Transparency"/>
         public byte Alpha
         {
             get
@@ -166,9 +167,9 @@ namespace AssLoader
             }
             catch(Exception ex)
             {
-                throw new FormatException(value + " is not a valid color string.", ex);
+                throw new FormatException($"\"{value}\" is not a valid color string.", ex);
             }
-            throw new FormatException(value + " is not a valid color string.");
+            throw new FormatException($"\"{value}\" is not a valid color string.");
         }
 
         #region IEquatable<Colour> 成员

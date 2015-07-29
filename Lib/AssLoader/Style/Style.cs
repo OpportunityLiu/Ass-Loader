@@ -148,7 +148,7 @@ namespace AssLoader
             }
             set
             {
-                if(double.IsNaN(value) || double.IsInfinity(value))
+                if(ThrowHelper.IsInvalidDouble(value))
                     throw new ArgumentException("value should be a valid number", nameof(value));
                 if(value < 0)
                     throw new ArgumentOutOfRangeException(nameof(value));
@@ -345,7 +345,7 @@ namespace AssLoader
             }
             set
             {
-                if(double.IsNaN(value) || double.IsInfinity(value))
+                if(ThrowHelper.IsInvalidDouble(value))
                     throw new ArgumentException("value should be a valid number", nameof(value));
                 if(value < 0)
                     throw new ArgumentOutOfRangeException(nameof(value));
@@ -374,7 +374,7 @@ namespace AssLoader
             }
             set
             {
-                if(double.IsNaN(value) || double.IsInfinity(value))
+                if(ThrowHelper.IsInvalidDouble(value))
                     throw new ArgumentException("value should be a valid number", nameof(value));
                 if(value < 0)
                     throw new ArgumentOutOfRangeException(nameof(value));
@@ -398,7 +398,7 @@ namespace AssLoader
             }
             set
             {
-                if(double.IsNaN(value) || double.IsInfinity(value))
+                if(ThrowHelper.IsInvalidDouble(value))
                     throw new ArgumentException("value should be a valid number", nameof(value));
                 spacing = value;
                 RaisePropertyChanged();
@@ -420,7 +420,7 @@ namespace AssLoader
             }
             set
             {
-                if(double.IsNaN(value) || double.IsInfinity(value))
+                if(ThrowHelper.IsInvalidDouble(value))
                     throw new ArgumentException("value should be a valid number", nameof(value));
                 rotation = value % 360;
                 if(rotation > 180)
@@ -481,7 +481,7 @@ namespace AssLoader
             }
             set
             {
-                if(double.IsNaN(value) || double.IsInfinity(value))
+                if(ThrowHelper.IsInvalidDouble(value))
                     throw new ArgumentException("value should be a valid number", nameof(value));
                 if(value < 0)
                     throw new ArgumentOutOfRangeException(nameof(value));
@@ -510,7 +510,7 @@ namespace AssLoader
             }
             set
             {
-                if(double.IsNaN(value) || double.IsInfinity(value))
+                if(ThrowHelper.IsInvalidDouble(value))
                     throw new ArgumentException("value should be a valid number", nameof(value));
                 if(value < 0)
                     throw new ArgumentOutOfRangeException(nameof(value));

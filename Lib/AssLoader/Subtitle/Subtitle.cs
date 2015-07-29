@@ -13,9 +13,9 @@ namespace AssLoader
     /// </summary>
     public static class Subtitle
     {
-        private class parseHelper<T> where T:ScriptInfoCollection,new()
+        private class parseHelper<T> where T : ScriptInfoCollection, new()
         {
-            public parseHelper(TextReader reader,bool isExact)
+            public parseHelper(TextReader reader, bool isExact)
             {
                 this.reader = reader;
                 this.isExact = isExact;
@@ -24,19 +24,26 @@ namespace AssLoader
             public Subtitle<T> GetResult()
             {
                 int lineNumber = 0;
+                string line = null;
+                var sec = isExact ? section.Unknown : section.ScriptInfo;
+                string secStr = null;
                 try
                 {
-                    var sec = section.Unknown;
                     while(true)
                     {
-                        var temp = reader.ReadLine();
+                        line = reader.ReadLine();
                         lineNumber++;
-                        if(temp == null)
+                        if(line == null)
                             return subtitle;
-                        temp = temp.Trim(null);
-                        if(string.IsNullOrEmpty(temp) || temp[0] == ';')
+
+                        var temp = line.Trim(null);
+
+                        // Skip empty lines and comment lines.
+                        if(temp.Length == 0 || temp[0] == ';')
                             continue;
-                        if(temp[0] == '[' && temp[temp.Length - 1] == ']')
+
+                        if(temp[0] == '[' && temp[temp.Length - 1] == ']') // Section header
+                        {
                             switch(temp.ToLower())
                             {
                                 case "[script info]":
@@ -54,9 +61,14 @@ namespace AssLoader
                                     break;
                                 default:
                                     sec = section.Unknown;
+                                    secStr = temp.Substring(1, temp.Length - 2);
+                                    if(isExact)
+                                        throw new InvalidOperationException($"Unknown section \"{secStr}\" found.");
                                     break;
                             }
-                        else
+                        }
+                        else // Section content
+                        {
                             switch(sec)
                             {
                                 case section.ScriptInfo:
@@ -69,19 +81,28 @@ namespace AssLoader
                                     initEvent(temp);
                                     break;
                                 default:
+                                    if(isExact)
+                                        throw new InvalidOperationException("Content found without a section header.");
                                     break;
                             }
+                        }
                     }
                 }
                 catch(Exception ex)
                 {
-                    throw new ArgumentException($"Error occurs during parsing.\nLine number: {lineNumber}", ex);
+                    var exception = new ArgumentException($@"Error occurs during parsing.
+Line number: {lineNumber}
+Content of the line: {line}", ex);
+                    exception.Data.Add("Line number", lineNumber);
+                    exception.Data.Add("Line content", line);
+                    exception.Data.Add("Current section", sec.ToString());
+                    throw exception;
                 }
             }
 
             public Task<Subtitle<T>> GetResultAsync()
             {
-                return Task.Run(()=>GetResult());
+                return Task.Run(() => GetResult());
             }
 
             private enum section

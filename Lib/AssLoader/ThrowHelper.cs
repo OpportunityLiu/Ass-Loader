@@ -17,5 +17,7 @@ namespace AssLoader
                 return ((uint)value) >= ((uint)max);
             }
         }
+
+        public static bool IsInvalidDouble(double value) => double.IsNaN(value) || double.IsInfinity(value);
     }
 }
