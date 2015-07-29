@@ -72,7 +72,7 @@ namespace AssLoader
                             switch(sec)
                             {
                                 case section.ScriptInfo:
-                                    subtitle.ScriptInfo.ParseLine(temp);
+                                    initScriptInfo(temp);
                                     break;
                                 case section.Styles:
                                     initStyle(temp);
@@ -120,6 +120,14 @@ Content of the line: {line}", ex);
             private bool isExact;
 
             private EntryHeader styleFormat, eventFormat;
+
+            private void initScriptInfo(string scriptInfoLine)
+            {
+                if(isExact)
+                    subtitle.ScriptInfo.ParseLineExact(scriptInfoLine);
+                else
+                    subtitle.ScriptInfo.ParseLine(scriptInfoLine);
+            }
 
             private void initStyle(string styleLine)
             {

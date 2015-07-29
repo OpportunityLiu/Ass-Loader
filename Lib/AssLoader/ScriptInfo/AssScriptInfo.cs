@@ -46,11 +46,9 @@ namespace AssLoader.Collections
             }
             set
             {
-                if(FormatHelper.SingleLineStringValueValid(ref value))
-                    title = value;
-                else
-                    title = null;
-                RaisePropertyChanged();
+                if(!FormatHelper.SingleLineStringValueValid(ref value))
+                    value = null;
+                Set(ref title, value);
             }
         }
 
@@ -70,11 +68,9 @@ namespace AssLoader.Collections
             }
             set
             {
-                if(FormatHelper.SingleLineStringValueValid(ref value))
-                    originalScript = value;
-                else
-                    originalScript = null;
-                RaisePropertyChanged();
+                if(!FormatHelper.SingleLineStringValueValid(ref value))
+                    value = null;
+                Set(ref originalScript, value);
             }
         }
 
@@ -94,11 +90,9 @@ namespace AssLoader.Collections
             }
             set
             {
-                if(FormatHelper.SingleLineStringValueValid(ref value))
-                    originalTranslation = value;
-                else
-                    originalTranslation = null;
-                RaisePropertyChanged();
+                if(!FormatHelper.SingleLineStringValueValid(ref value))
+                    value = null;
+                Set(ref originalTranslation, value);
             }
         }
 
@@ -119,11 +113,9 @@ namespace AssLoader.Collections
             }
             set
             {
-                if(FormatHelper.SingleLineStringValueValid(ref value))
-                    originalEditing = value;
-                else
-                    originalEditing = null;
-                RaisePropertyChanged();
+                if(!FormatHelper.SingleLineStringValueValid(ref value))
+                    value = null;
+                Set(ref originalEditing, value);
             }
         }
 
@@ -143,11 +135,9 @@ namespace AssLoader.Collections
             }
             set
             {
-                if(FormatHelper.SingleLineStringValueValid(ref value))
-                    originalTiming = value;
-                else
-                    originalTiming = null;
-                RaisePropertyChanged();
+                if(!FormatHelper.SingleLineStringValueValid(ref value))
+                    value = null;
+                Set(ref originalTiming, value);
             }
         }
 
@@ -167,11 +157,9 @@ namespace AssLoader.Collections
             }
             set
             {
-                if(FormatHelper.SingleLineStringValueValid(ref value))
-                    synchPoint = value;
-                else
-                    synchPoint = null;
-                RaisePropertyChanged();
+                if(!FormatHelper.SingleLineStringValueValid(ref value))
+                    value = null;
+                Set(ref synchPoint, value);
             }
         }
 
@@ -191,11 +179,9 @@ namespace AssLoader.Collections
             }
             set
             {
-                if(FormatHelper.SingleLineStringValueValid(ref value))
-                    scriptUpdatedBy = value;
-                else
-                    scriptUpdatedBy = null;
-                RaisePropertyChanged();
+                if(!FormatHelper.SingleLineStringValueValid(ref value))
+                    value = null;
+                Set(ref scriptUpdatedBy, value);
             }
         }
 
@@ -215,11 +201,9 @@ namespace AssLoader.Collections
             }
             set
             {
-                if(FormatHelper.SingleLineStringValueValid(ref value))
-                    updateDetails = value;
-                else
-                    updateDetails = null;
-                RaisePropertyChanged();
+                if(!FormatHelper.SingleLineStringValueValid(ref value))
+                    value = null;
+                Set(ref updateDetails, value);
             }
         }
 
@@ -237,8 +221,7 @@ namespace AssLoader.Collections
             }
             set
             {
-                collisions = value;
-                RaisePropertyChanged();
+                Set(ref collisions, value);
             }
         }
 
@@ -263,8 +246,7 @@ namespace AssLoader.Collections
             {
                 if(value <= 0)
                     throw new ArgumentOutOfRangeException(nameof(value), "value must be greater than 0.");
-                playResY = value;
-                RaisePropertyChanged();
+                Set(ref playResY, value);
             }
         }
 
@@ -288,8 +270,7 @@ namespace AssLoader.Collections
             {
                 if(value <= 0)
                     throw new ArgumentOutOfRangeException(nameof(value), "value must be greater than 0.");
-                playResX = value;
-                RaisePropertyChanged();
+                Set(ref playResX, value);
             }
         }
 
@@ -315,8 +296,7 @@ namespace AssLoader.Collections
                     if(value.Value <= 0)
                         throw new ArgumentOutOfRangeException(nameof(value), "value must be greater than 0.");
                 }
-                playDepth = value;
-                RaisePropertyChanged();
+                Set(ref playDepth, value);
             }
         }
 
@@ -361,8 +341,7 @@ namespace AssLoader.Collections
                     if(value.Value <= 0)
                         throw new ArgumentOutOfRangeException(nameof(value), "value must be greater than 0.");
                 }
-                timer = value;
-                RaisePropertyChanged();
+                Set(ref timer, value);
             }
         }
 
@@ -386,8 +365,7 @@ namespace AssLoader.Collections
                 var num = (int)value;
                 if(ThrowHelper.IsLessThanZeroOrOutOfRange(4, num))
                     throw new ArgumentOutOfRangeException(nameof(value));
-                warpStyle = num;
-                RaisePropertyChanged();
+                Set(ref warpStyle, num);
             }
         }
 
@@ -406,8 +384,7 @@ namespace AssLoader.Collections
             }
             set
             {
-                scaledBorderAndShadow = value;
-                RaisePropertyChanged();
+                Set(ref scaledBorderAndShadow, value);
             }
         }
     }

@@ -77,8 +77,11 @@ namespace Test
 
         public TextWriter SaveResult(string fileName)
         {
-            Context.AddResultFile(fileName);
-            return File.CreateText(fileName);
+            var directoryPath = Path.Combine(Context.TestDir, Context.FullyQualifiedTestClassName + "." + Context.TestName);
+            var filePath = Path.Combine(directoryPath, fileName);
+            Context.AddResultFile(filePath);
+            Directory.CreateDirectory(directoryPath);
+            return File.CreateText(filePath);
         }
 
         public async Task SaveResultAsync(string result)
@@ -89,9 +92,7 @@ namespace Test
 
         public TextWriter SaveResult()
         {
-            var full = Context.TestName + ".result";
-            Context.AddResultFile(full);
-            return File.CreateText(full);
+            return SaveResult("TestResult");
         }
 
         private static Random random = new Random();

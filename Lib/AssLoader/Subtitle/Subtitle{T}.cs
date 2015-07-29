@@ -48,7 +48,6 @@ namespace AssLoader
 
             writer.WriteLine("[Events]");
             saveEvent(writer);
-            writer.WriteLine();
 
             writer.Flush();
         }

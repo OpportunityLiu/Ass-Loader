@@ -30,6 +30,12 @@ namespace AssLoader
             private set;
         }
 
+        public DeserializeDelegate DeserializeExact
+        {
+            get;
+            private set;
+        }
+
         public SerializeDelegate Serialize
         {
             get;
@@ -43,23 +49,31 @@ namespace AssLoader
             this.SetValue = info.SetValue;
             if(serializer != null)
             {
-                this.Serialize = serialize(this, serializer.Serialize);
-                this.Deserialize = deserialize(this, serializer.Deserialize);
+                this.Serialize = serializeCustom(this, serializer.Serialize);
+                this.Deserialize = deserializeCustom(this, serializer.Deserialize);
+                this.DeserializeExact = deserializeCustomExact(this, serializer.Deserialize);
+                return;
+            }
+            this.Serialize = serializeDefault(this, fieldInfo.Format);
+            if(info.FieldType.GetTypeInfo().IsEnum)
+            {
+                this.Deserialize = deserializeEnum(this, info.FieldType);
+                this.DeserializeExact = deserializeEnumExact(this, info.FieldType);
             }
             else
             {
-                this.Serialize = serialize(this, "{0:" + fieldInfo.Format + "}");
-                this.Deserialize = deserialize(this, info.FieldType);
+                this.Deserialize = deserializeDefault(this, info.FieldType);
+                this.DeserializeExact = deserializeDefaultExact(this, info.FieldType);
             }
         }
 
-        private static DeserializeDelegate deserialize(FieldSerializeHelper field, DeserializerDelegate deserializer)
+        private static DeserializeDelegate deserializeCustom(FieldSerializeHelper field, DeserializerDelegate deserializer)
         {
-            return (obj,value) =>
+            return (obj, value) =>
             {
                 try
                 {
-                    field.SetValue(obj, deserializer(value) ?? field.defaultValue);
+                    field.SetValue(obj, deserializer(value));
                 }
                 catch(FormatException)
                 {
@@ -68,7 +82,7 @@ namespace AssLoader
             };
         }
 
-        private static DeserializeDelegate deserialize(FieldSerializeHelper field, Type fieldType)
+        private static DeserializeDelegate deserializeDefault(FieldSerializeHelper field, Type fieldType)
         {
             return (obj, value) =>
             {
@@ -83,14 +97,45 @@ namespace AssLoader
             };
         }
 
-        private static SerializeDelegate serialize(FieldSerializeHelper field, SerializeDelegate serializer)
+        private static DeserializeDelegate deserializeEnum(FieldSerializeHelper field, Type fieldType)
+        {
+            return (obj, value) =>
+            {
+                try
+                {
+                    field.SetValue(obj, Enum.Parse(fieldType, value, true));
+                }
+                catch(FormatException)
+                {
+                    field.SetValue(obj, field.defaultValue);
+                }
+            };
+        }
+
+        private static DeserializeDelegate deserializeCustomExact(FieldSerializeHelper field, DeserializerDelegate deserializer)
+        {
+            return (obj, value) => field.SetValue(obj, deserializer(value));
+        }
+
+        private static DeserializeDelegate deserializeDefaultExact(FieldSerializeHelper field, Type fieldType)
+        {
+            return (obj, value) => field.SetValue(obj, Convert.ChangeType(value, fieldType, FormatHelper.DefaultFormat));
+        }
+
+        private static DeserializeDelegate deserializeEnumExact(FieldSerializeHelper field, Type fieldType)
+        {
+            return (obj, value) => field.SetValue(obj, Enum.Parse(fieldType, value, true));
+        }
+
+        private static SerializeDelegate serializeCustom(FieldSerializeHelper field, SerializeDelegate serializer)
         {
             return obj => serializer(field.GetValue(obj) ?? field.defaultValue);
         }
 
-        private static SerializeDelegate serialize(FieldSerializeHelper field,string format)
+        private static SerializeDelegate serializeDefault(FieldSerializeHelper field, string format)
         {
-            return obj => string.Format(FormatHelper.DefaultFormat, format, field.GetValue(obj) ?? field.defaultValue);
+            var formatStr = $"{{0:{format}}}";
+            return obj => string.Format(FormatHelper.DefaultFormat, formatStr, field.GetValue(obj) ?? field.defaultValue);
         }
     }
 }
