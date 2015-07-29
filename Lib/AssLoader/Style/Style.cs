@@ -94,8 +94,7 @@ namespace AssLoader
             {
                 if(FormatHelper.FieldStringValueValid(ref value))
                 {
-                    name = value;
-                    RaisePropertyChanged();
+                    Set(ref name, value);
                 }
                 else
                     throw new ArgumentNullException(nameof(value));
@@ -120,8 +119,7 @@ namespace AssLoader
             {
                 if(FormatHelper.FieldStringValueValid(ref value))
                 {
-                    fontName = value;
-                    RaisePropertyChanged();
+                    Set(ref fontName, value);
                 }
                 else
                     throw new ArgumentNullException(nameof(value));
@@ -152,8 +150,7 @@ namespace AssLoader
                     throw new ArgumentException("value should be a valid number", nameof(value));
                 if(value < 0)
                     throw new ArgumentOutOfRangeException(nameof(value));
-                fontSize = value;
-                RaisePropertyChanged();
+                Set(ref fontSize, value);
             }
         }
 
@@ -172,8 +169,7 @@ namespace AssLoader
             }
             set
             {
-                primaryColor = value;
-                RaisePropertyChanged();
+                Set(ref primaryColor, value);
             }
         }
 
@@ -192,8 +188,7 @@ namespace AssLoader
             }
             set
             {
-                secondaryColor = value;
-                RaisePropertyChanged();
+                Set(ref secondaryColor, value);
             }
         }
 
@@ -212,8 +207,7 @@ namespace AssLoader
             }
             set
             {
-                outlineColor = value;
-                RaisePropertyChanged();
+                Set(ref outlineColor, value);
             }
         }
 
@@ -232,8 +226,7 @@ namespace AssLoader
             }
             set
             {
-                shadowColor = value;
-                RaisePropertyChanged();
+                Set(ref shadowColor, value);
             }
         }
 
@@ -251,11 +244,7 @@ namespace AssLoader
             }
             set
             {
-                if(value)
-                    bold = -1;
-                else
-                    bold = 0;
-                RaisePropertyChanged();
+                Set(ref bold, value ? -1 : 0);
             }
         }
 
@@ -273,11 +262,7 @@ namespace AssLoader
             }
             set
             {
-                if(value)
-                    italic = -1;
-                else
-                    italic = 0;
-                RaisePropertyChanged();
+                Set(ref italic, value ? -1 : 0);
             }
         }
 
@@ -295,11 +280,7 @@ namespace AssLoader
             }
             set
             {
-                if(value)
-                    underline = -1;
-                else
-                    underline = 0;
-                RaisePropertyChanged();
+                Set(ref underline, value ? -1 : 0);
             }
         }
 
@@ -317,11 +298,7 @@ namespace AssLoader
             }
             set
             {
-                if(value)
-                    strikeout = -1;
-                else
-                    strikeout = 0;
-                RaisePropertyChanged();
+                Set(ref strikeout, value ? -1 : 0);
             }
         }
 
@@ -349,8 +326,7 @@ namespace AssLoader
                     throw new ArgumentException("value should be a valid number", nameof(value));
                 if(value < 0)
                     throw new ArgumentOutOfRangeException(nameof(value));
-                scaleX = value;
-                RaisePropertyChanged();
+                Set(ref scaleX, value);
             }
         }
 
@@ -378,8 +354,7 @@ namespace AssLoader
                     throw new ArgumentException("value should be a valid number", nameof(value));
                 if(value < 0)
                     throw new ArgumentOutOfRangeException(nameof(value));
-                scaleY = value;
-                RaisePropertyChanged();
+                Set(ref scaleY, value);
             }
         }
 
@@ -400,8 +375,7 @@ namespace AssLoader
             {
                 if(ThrowHelper.IsInvalidDouble(value))
                     throw new ArgumentException("value should be a valid number", nameof(value));
-                spacing = value;
-                RaisePropertyChanged();
+                Set(ref spacing, value);
             }
         }
 
@@ -422,12 +396,12 @@ namespace AssLoader
             {
                 if(ThrowHelper.IsInvalidDouble(value))
                     throw new ArgumentException("value should be a valid number", nameof(value));
-                rotation = value % 360;
-                if(rotation > 180)
-                    rotation -= 360;
-                else if(rotation < -180)
-                    rotation += 360;
-                RaisePropertyChanged();
+                value = value % 360;
+                if(value > 180)
+                    value -= 360;
+                else if(value < -180)
+                    value += 360;
+                Set(ref rotation, value);
             }
         }
 
@@ -452,8 +426,7 @@ namespace AssLoader
                 {
                 case BorderStyle.OutlineAndDropShadow:
                 case BorderStyle.OpaqueBox:
-                    borderStyle = (int)value;
-                    RaisePropertyChanged();
+                    Set(ref borderStyle, (int)value);
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(value));
@@ -485,8 +458,7 @@ namespace AssLoader
                     throw new ArgumentException("value should be a valid number", nameof(value));
                 if(value < 0)
                     throw new ArgumentOutOfRangeException(nameof(value));
-                outline = value;
-                RaisePropertyChanged();
+                Set(ref outline, value);
             }
         }
 
@@ -514,8 +486,7 @@ namespace AssLoader
                     throw new ArgumentException("value should be a valid number", nameof(value));
                 if(value < 0)
                     throw new ArgumentOutOfRangeException(nameof(value));
-                shadow = value;
-                RaisePropertyChanged();
+                Set(ref shadow, value);
             }
         }
 
@@ -538,20 +509,19 @@ namespace AssLoader
             {
                 switch(value)
                 {
-                case AlignmentStyle.BottomLeft:
-                case AlignmentStyle.BottomCenter:
-                case AlignmentStyle.BottomRight:
-                case AlignmentStyle.MiddleLeft:
-                case AlignmentStyle.MiddleCenter:
-                case AlignmentStyle.MiddleRight:
-                case AlignmentStyle.TopLeft:
-                case AlignmentStyle.TopCenter:
-                case AlignmentStyle.TopRight:
-                    alignment = (int)value;
-                    RaisePropertyChanged();
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(value));
+                    case AlignmentStyle.BottomLeft:
+                    case AlignmentStyle.BottomCenter:
+                    case AlignmentStyle.BottomRight:
+                    case AlignmentStyle.MiddleLeft:
+                    case AlignmentStyle.MiddleCenter:
+                    case AlignmentStyle.MiddleRight:
+                    case AlignmentStyle.TopLeft:
+                    case AlignmentStyle.TopCenter:
+                    case AlignmentStyle.TopRight:
+                        Set(ref alignment, (int)value);
+                        break;
+                    default:
+                        throw new ArgumentOutOfRangeException(nameof(value));
                 }
             }
         }
@@ -573,8 +543,7 @@ namespace AssLoader
             {
                 if(value < 0)
                     throw new ArgumentOutOfRangeException(nameof(value));
-                marginL = value;
-                RaisePropertyChanged();
+                Set(ref marginL, value);
             }
         }
 
@@ -595,8 +564,7 @@ namespace AssLoader
             {
                 if(value < 0)
                     throw new ArgumentOutOfRangeException(nameof(value));
-                marginR = value;
-                RaisePropertyChanged();
+                Set(ref marginR, value);
             }
         }
 
@@ -617,8 +585,7 @@ namespace AssLoader
             {
                 if(value < 0)
                     throw new ArgumentOutOfRangeException(nameof(value));
-                marginV = value;
-                RaisePropertyChanged();
+                Set(ref marginV, value);
             }
         }
 
@@ -645,8 +612,7 @@ namespace AssLoader
             {
                 if(value < 0)
                     throw new ArgumentOutOfRangeException(nameof(value));
-                encoding = value;
-                RaisePropertyChanged();
+                Set(ref encoding, value);
             }
         }
 

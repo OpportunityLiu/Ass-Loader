@@ -81,7 +81,7 @@ namespace Test
                     };
             }).ForAll(item =>
             {
-                using(var savefile = helper.SaveResult(item.Key + "Parallel"))
+                using(var savefile = helper.SaveResult(item.Key))
                     item.Value.Serialize(savefile);
             });
         }

@@ -5,7 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace AssLoader
-{    /// <summary>
+{    
+    /// <summary>
      /// Infomation of field of <see cref="Entry"/>.
      /// </summary>
     [AttributeUsage(AttributeTargets.Field, Inherited = false, AllowMultiple = false)]
@@ -21,7 +22,7 @@ namespace AssLoader
         }
 
         /// <summary>
-        /// Name of the field in the ass file.
+        /// Name of the field in the ass file, which is defined at the "Format" line.
         /// </summary>
         public string Name
         {
@@ -30,7 +31,7 @@ namespace AssLoader
         }
 
         /// <summary>
-        /// Alias of the field in the ass file.
+        /// Alias of the field in the ass file, which is defined at the "Format" line.
         /// </summary>
         public string Alias
         {
@@ -57,6 +58,17 @@ namespace AssLoader
             set;
         }
         = "";
+
+#if DEBUG
+        /// <summary>
+        /// Returns <see cref="Name"/>.
+        /// </summary>
+        /// <returns><see cref="Name"/> of this <see cref="EntryFieldAttribute"/>.</returns>
+        public override string ToString()
+        {
+            return Name;
+        }
+#endif
     }
 }
 

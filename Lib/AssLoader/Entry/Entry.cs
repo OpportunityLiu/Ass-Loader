@@ -112,7 +112,7 @@ namespace AssLoader
                 throw new ArgumentNullException(nameof(fields));
             var data = new EntryData(fields, format.Count);
             for(int i = 0; i < format.Count; i++)
-                fieldInfo[format[i]].Deserialize(this, data[i]);
+                fieldInfo[format[i]].DeserializeExact(this, data[i]);
         }
 
         /// <summary>
@@ -123,6 +123,18 @@ namespace AssLoader
         protected T Clone<T>() where T : Entry, new()
         {
             var re = new T();
+            foreach(var item in fieldInfo.Values)
+                item.SetValue(re, item.GetValue(this));
+            return re;
+        }
+
+        /// <summary>
+        /// Make a copy of this <see cref="Entry"/>.
+        /// </summary>
+        /// <returns>A copy of this <see cref="Entry"/>.</returns>
+        protected Entry Clone()
+        {
+            var re = (Entry)Activator.CreateInstance(this.GetType());
             foreach(var item in fieldInfo.Values)
                 item.SetValue(re, item.GetValue(this));
             return re;
@@ -145,6 +157,23 @@ namespace AssLoader
         /// <param name="propertyName">The name of the changing property.</param>
         protected virtual void RaisePropertyChanged([CallerMemberName]string propertyName = "")
         {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        /// <summary>
+        /// Set the field and raise the event <see cref="PropertyChanged"/> if needed.
+        /// </summary>
+        /// <param name="propertyName">The name of the changing property.</param>
+        /// <typeparam name="T">The type of the property.</typeparam>
+        /// <param name="field">The field to set.</param>
+        /// <param name="value">The value to set.</param>
+        protected virtual void Set<T>(ref T field, T value, [CallerMemberName]string propertyName = "")
+        {
+            if(Equals(field, value))
+            {
+                return;
+            }
+            field = value;
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 

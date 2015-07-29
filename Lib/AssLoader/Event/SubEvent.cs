@@ -102,8 +102,7 @@ namespace AssLoader
             }
             set
             {
-                iscomment = value;
-                RaisePropertyChanged();
+                Set(ref iscomment, value);
                 RaisePropertyChanged("EntryName");
             }
         }
@@ -132,8 +131,7 @@ namespace AssLoader
             {
                 if(value < 0)
                     throw new ArgumentOutOfRangeException(nameof(value));
-                layer = value;
-                RaisePropertyChanged();
+                Set(ref layer, value);
             }
         }
 
@@ -163,8 +161,7 @@ namespace AssLoader
                 if(value > endTime)
                     throw new ArgumentOutOfRangeException(nameof(value), "StartTime must earlier than EndTime.");
                 else
-                    startTime = value;
-                RaisePropertyChanged();
+                Set(ref startTime, value);
             }
         }
 
@@ -194,8 +191,7 @@ namespace AssLoader
                 if(value < startTime)
                     throw new ArgumentOutOfRangeException(nameof(value), "StartTime must earlier than EndTime.");
                 else
-                    endTime = value;
-                RaisePropertyChanged();
+                Set(ref endTime, value);
             }
         }
 
@@ -214,11 +210,9 @@ namespace AssLoader
             }
             set
             {
-                if(FormatHelper.FieldStringValueValid(ref value))
-                    style = value;
-                else
-                    style = null;
-                RaisePropertyChanged();
+                if(!FormatHelper.FieldStringValueValid(ref value))
+                    value = null;
+                Set(ref style, value);
             }
         }
 
@@ -240,11 +234,9 @@ namespace AssLoader
             }
             set
             {
-                if(FormatHelper.FieldStringValueValid(ref value))
-                    name = value;
-                else
-                    name = null;
-                RaisePropertyChanged();
+                if(!FormatHelper.FieldStringValueValid(ref value))
+                    value = null;
+                Set(ref name, value);
             }
         }
 
@@ -268,8 +260,7 @@ namespace AssLoader
             {
                 if(value < 0)
                     throw new ArgumentOutOfRangeException(nameof(value));
-                marginL = value;
-                RaisePropertyChanged();
+                Set(ref marginL, value);
             }
         }
 
@@ -293,8 +284,7 @@ namespace AssLoader
             {
                 if(value < 0)
                     throw new ArgumentOutOfRangeException(nameof(value));
-                marginR = value;
-                RaisePropertyChanged();
+                Set(ref marginR, value);
             }
         }
 
@@ -318,8 +308,7 @@ namespace AssLoader
             {
                 if(value < 0)
                     throw new ArgumentOutOfRangeException(nameof(value));
-                marginV = value;
-                RaisePropertyChanged();
+                Set(ref marginV, value);
             }
         }
 
@@ -343,11 +332,9 @@ namespace AssLoader
             }
             set
             {
-                if(FormatHelper.FieldStringValueValid(ref value))
-                    effect = value;
-                else
-                    effect = null;
-                RaisePropertyChanged();
+                if(!FormatHelper.FieldStringValueValid(ref value))
+                    value = null;
+                Set(ref effect, value);
             }
         }
 
@@ -366,8 +353,7 @@ namespace AssLoader
             }
             set
             {
-                text = value;
-                RaisePropertyChanged();
+                Set(ref text, value);
             }
         }
 

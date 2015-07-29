@@ -65,6 +65,7 @@ namespace AssLoader
         }
         = "";
 
+#if DEBUG
         /// <summary>
         /// Returns <see cref="FieldName"/>.
         /// </summary>
@@ -73,5 +74,6 @@ namespace AssLoader
         {
             return fieldName;
         }
+#endif
     }
 }

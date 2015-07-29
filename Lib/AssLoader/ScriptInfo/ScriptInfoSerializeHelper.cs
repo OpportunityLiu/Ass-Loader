@@ -32,6 +32,12 @@ namespace AssLoader
             private set;
         }
 
+        public DeserializeDelegate DeserializeExact
+        {
+            get;
+            private set;
+        }
+
         public SerializeDelegate Serialize
         {
             get;
@@ -47,6 +53,7 @@ namespace AssLoader
             {
                 //custom
                 this.Deserialize = deserializeCustom(this, serializer.Deserialize);
+                this.Deserialize = deserializeCustomExact(this, serializer.Deserialize);
                 if(fieldInfo.IsOptional)
                     this.Serialize = serializeOptional(this, serializer.Serialize);
                 else
@@ -65,17 +72,22 @@ namespace AssLoader
             if((nullableInner = Nullable.GetUnderlyingType(fieldType)) != null)
             {
                 //nullable
+                if(this.defaultValue.GetType() == nullableInner)
+                    this.defaultValue = Activator.CreateInstance(fieldType, new[] { this.defaultValue });
                 this.Deserialize = deserializeNullable(this, fieldType, nullableInner);
+                this.Deserialize = deserializeNullableExact(this, fieldType, nullableInner);
                 return;
             }
             if(fieldType.GetTypeInfo().IsEnum)
             {
                 //enum
                 this.Deserialize = deserializeEnum(this, fieldType);
+                this.Deserialize = deserializeEnumExact(this, fieldType);
                 return;
             }
             //default
             this.Deserialize = deserializeDefault(this, fieldType);
+            this.Deserialize = deserializeDefaultExact(this, fieldType);
         }
 
         private static DeserializeDelegate deserializeDefault(ScriptInfoSerializeHelper target, Type fieldType)
@@ -108,13 +120,13 @@ namespace AssLoader
             };
         }
 
-        private static DeserializeDelegate deserializeEnum(ScriptInfoSerializeHelper target,Type fieldType)
+        private static DeserializeDelegate deserializeEnum(ScriptInfoSerializeHelper target, Type fieldType)
         {
             return (obj, value) =>
             {
                 try
                 {
-                    target.SetValue(obj, Enum.Parse(fieldType, value));
+                    target.SetValue(obj, Enum.Parse(fieldType, value, true));
                 }
                 catch(FormatException)
                 {
@@ -141,6 +153,36 @@ namespace AssLoader
                 catch(FormatException)
                 {
                     target.SetValue(obj, target.defaultValue);
+                }
+            };
+        }
+
+        private static DeserializeDelegate deserializeDefaultExact(ScriptInfoSerializeHelper target, Type fieldType)
+        {
+            return (obj, value) => target.SetValue(obj, Convert.ChangeType(value, fieldType, FormatHelper.DefaultFormat));
+        }
+
+        private static DeserializeDelegate deserializeCustomExact(ScriptInfoSerializeHelper target, DeserializerDelegate deserializer)
+        {
+            return (obj, value) => target.SetValue(obj, deserializer(value));
+        }
+
+        private static DeserializeDelegate deserializeEnumExact(ScriptInfoSerializeHelper target, Type fieldType)
+        {
+            return (obj, value) => target.SetValue(obj, Enum.Parse(fieldType, value, true));
+        }
+
+        private static DeserializeDelegate deserializeNullableExact(ScriptInfoSerializeHelper target, Type fieldType, Type innerType)
+        {
+            return (obj, value) =>
+            {
+                if(string.IsNullOrWhiteSpace(value))
+                    target.SetValue(obj, target.defaultValue);
+                else
+                {
+                    var innerValue = Convert.ChangeType(value, innerType, FormatHelper.DefaultFormat);
+                    var nullable = Activator.CreateInstance(fieldType, new object[] { innerValue });
+                    target.SetValue(obj, nullable);
                 }
             };
         }
