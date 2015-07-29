@@ -53,7 +53,7 @@ namespace AssLoader
             {
                 //custom
                 this.Deserialize = deserializeCustom(this, serializer.Deserialize);
-                this.Deserialize = deserializeCustomExact(this, serializer.Deserialize);
+                this.DeserializeExact = deserializeCustomExact(this, serializer.Deserialize);
                 if(fieldInfo.IsOptional)
                     this.Serialize = serializeOptional(this, serializer.Serialize);
                 else
@@ -72,22 +72,22 @@ namespace AssLoader
             if((nullableInner = Nullable.GetUnderlyingType(fieldType)) != null)
             {
                 //nullable
-                if(this.defaultValue.GetType() == nullableInner)
+                if(this.defaultValue?.GetType() == nullableInner)
                     this.defaultValue = Activator.CreateInstance(fieldType, new[] { this.defaultValue });
                 this.Deserialize = deserializeNullable(this, fieldType, nullableInner);
-                this.Deserialize = deserializeNullableExact(this, fieldType, nullableInner);
+                this.DeserializeExact = deserializeNullableExact(this, fieldType, nullableInner);
                 return;
             }
             if(fieldType.GetTypeInfo().IsEnum)
             {
                 //enum
                 this.Deserialize = deserializeEnum(this, fieldType);
-                this.Deserialize = deserializeEnumExact(this, fieldType);
+                this.DeserializeExact = deserializeEnumExact(this, fieldType);
                 return;
             }
             //default
             this.Deserialize = deserializeDefault(this, fieldType);
-            this.Deserialize = deserializeDefaultExact(this, fieldType);
+            this.DeserializeExact = deserializeDefaultExact(this, fieldType);
         }
 
         private static DeserializeDelegate deserializeDefault(ScriptInfoSerializeHelper target, Type fieldType)

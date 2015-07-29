@@ -15,8 +15,17 @@ namespace AssLoader
         /// <summary>
         /// Create new instance of <see cref="Style"/>.
         /// </summary>
-        public Style()
+        protected Style()
         {
+        }
+
+        /// <summary>
+        /// Create new instance of <see cref="Style"/> with the name.
+        /// </summary>
+        /// <param name="name">Name of the <see cref="Style"/>.</param>
+        public Style(string name)
+        {
+            Name = name;
         }
 
         /// <summary>
@@ -60,7 +69,7 @@ namespace AssLoader
         /// <exception cref="ArgumentNullException"><paramref name="newName"/> is not a valid <see cref="Name"/>.</exception>
         public Style Clone(string newName)
         {
-            var n = Clone<Style>();
+            var n = (Style)Clone();
             n.Name = newName;
             return n;
         }

@@ -16,6 +16,17 @@ namespace AssLoader.Collections
         {
         }
 
+        /// <summary>
+        /// Create a new instance of <see cref="AssScriptInfo"/> with given properties.
+        /// </summary>
+        /// <param name="originalScript">The original author(s) of the script.</param>
+        /// <param name="title">This is a description of the script.</param>
+        public AssScriptInfo(string title,string originalScript)
+        {
+            Title = title;
+            OriginalScript = originalScript;
+        }
+
         [ScriptInfo("ScriptType", DefaultValue = "v4.00+")]
         private string scriptType = "v4.00+";
 
@@ -34,7 +45,7 @@ namespace AssLoader.Collections
         private string title;
 
         /// <summary>
-        /// This is alpha description of the script.
+        /// This is a description of the script.
         /// If the original author(s) did not provide this information then "untitled" is automatically substituted.
         /// </summary>
         /// <exception cref="ArgumentException"><paramref name="value"/> contains line breaks.</exception>
@@ -226,7 +237,7 @@ namespace AssLoader.Collections
         }
 
 
-        [ScriptInfo("PlayResY")]
+        [ScriptInfo("PlayResY", DefaultValue = 360)]
         private int playResY = 360;
 
         /// <summary>
@@ -250,7 +261,7 @@ namespace AssLoader.Collections
             }
         }
 
-        [ScriptInfo("PlayResX")]
+        [ScriptInfo("PlayResX", DefaultValue = 640)]
         private int playResX = 640;
 
         /// <summary>

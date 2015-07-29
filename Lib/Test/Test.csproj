@@ -66,6 +66,7 @@
     <Compile Include="TimeSerializerTest.cs" />
     <Compile Include="TextContentTest.cs" />
     <Compile Include="SubtitleParseTest.cs" />
+    <Compile Include="CollectionTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\AssLoader\AssLoader.csproj">

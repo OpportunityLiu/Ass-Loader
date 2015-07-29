@@ -59,8 +59,8 @@ namespace Test
 
         public static void Init()
         {
-            new Subtitle<AssScriptInfo>();
-            new Style();
+            new Subtitle<AssScriptInfo>(new AssScriptInfo());
+            new Style("Default");
             new SubEvent();
         }
 

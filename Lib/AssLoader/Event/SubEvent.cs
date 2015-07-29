@@ -60,7 +60,7 @@ namespace AssLoader
         /// Make a copy of this <see cref="SubEvent"/>.
         /// </summary>
         /// <returns>A copy of this <see cref="SubEvent"/>.</returns>
-        public SubEvent Clone()
+        public new SubEvent Clone()
         {
             var re = Clone<SubEvent>();
             return re;
