@@ -92,7 +92,8 @@ namespace AssLoader
                 {
                     var exception = new ArgumentException($@"Error occurs during parsing.
 Line number: {lineNumber}
-Content of the line: {line}", ex);
+Content of the line:
+{line}", ex);
                     exception.Data.Add("Line number", lineNumber);
                     exception.Data.Add("Line content", line);
                     exception.Data.Add("Current section", sec.ToString());
@@ -115,7 +116,7 @@ Content of the line: {line}", ex);
 
             private TextReader reader;
 
-            private Subtitle<T> subtitle = new Subtitle<T>();
+            private Subtitle<T> subtitle = new Subtitle<T>(new T());
 
             private bool isExact;
 
@@ -136,23 +137,27 @@ Content of the line: {line}", ex);
                 {
                     switch(key.ToLower())
                     {
-                        case "format":
-                            styleFormat = new EntryHeader(value);
-                            return;
-                        case "style":
-                            if(styleFormat == null)
-                                styleFormat = DefaultStyleFormat;
-                            var s = isExact ? Style.ParseExact(styleFormat, value) : Style.Parse(styleFormat, value);
-                            try
-                            {
-                                subtitle.StyleDictionary.Add(s);
-                            }
-                            catch(ArgumentException) when (!isExact)
-                            {
-                            }
-                            return;
-                        default:
-                            return;
+                    case "format":
+                        styleFormat = new EntryHeader(value);
+                        return;
+                    case "style":
+                        if(styleFormat == null)
+                            styleFormat = DefaultStyleFormat;
+                        Style s;
+                        if(isExact)
+                        {
+                            s = Style.ParseExact(styleFormat, value);
+                            if(subtitle.StyleSet.ContainsName(s.Name))
+                                throw new ArgumentException($"Style with the name \"{s.Name}\" is already in the StyleSet.");
+                        }
+                        else
+                        {
+                            s=Style.Parse(styleFormat, value);
+                        }
+                        subtitle.StyleSet.Add(s);
+                        return;
+                    default:
+                        return;
                     }
                 }
             }

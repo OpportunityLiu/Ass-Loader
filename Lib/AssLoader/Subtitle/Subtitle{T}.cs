@@ -11,17 +11,22 @@ namespace AssLoader
     /// <summary>
     /// Subtitle file.
     /// </summary>
-    /// <typeparam name="TScriptInfo">Type of the container of the "script info" section of the ass file.</typeparam>
-    public class Subtitle<TScriptInfo> where TScriptInfo : ScriptInfoCollection, new()
+    /// <typeparam name="TScriptInfo">
+    /// Type of the container of the "script info" section of the ass file.
+    /// </typeparam>
+    public class Subtitle<TScriptInfo> where TScriptInfo : ScriptInfoCollection
     {
         /// <summary>
         /// Create a new instance of <see cref="Subtitle{TScriptInfo}"/>.
         /// </summary>
-        public Subtitle()
+        /// <param name="scriptInfo">
+        /// The <typeparamref name="TScriptInfo"/>of the <see cref="Subtitle{TScriptInfo}"/>
+        /// </param>
+        public Subtitle(TScriptInfo scriptInfo)
         {
-            EventCollection = new Collections.EventCollection();
-            StyleDictionary = new Collections.StyleDictionary();
-            this.ScriptInfo = new TScriptInfo();
+            EventCollection = new EventCollection();
+            StyleSet = new StyleSet();
+            this.ScriptInfo = scriptInfo;
         }
 
         /// <summary>
@@ -55,7 +60,7 @@ namespace AssLoader
         private void saveStyle(TextWriter writer)
         {
             writer.WriteLine(Subtitle.DefaultStyleFormat.ToString());
-            foreach(var item in StyleDictionary.Values)
+            foreach(var item in StyleSet)
                 writer.WriteLine(item.Serialize(Subtitle.DefaultStyleFormat));
         }
 
@@ -91,7 +96,7 @@ namespace AssLoader
         /// <summary>
         /// Container of information of the "style" section.
         /// </summary>
-        public Collections.StyleDictionary StyleDictionary
+        public StyleSet StyleSet
         {
             get;
             private set;
@@ -100,7 +105,7 @@ namespace AssLoader
         /// <summary>
         /// Container of information of the "event" section.
         /// </summary>
-        public Collections.EventCollection EventCollection
+        public EventCollection EventCollection
         {
             get;
             private set;
