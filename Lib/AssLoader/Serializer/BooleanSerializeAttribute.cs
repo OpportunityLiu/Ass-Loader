@@ -67,7 +67,7 @@ namespace AssLoader.Serializer
             else if(string.Equals(value, TrueString, StringComparison.OrdinalIgnoreCase))
                 return true;
             else if(ThrowOnDeserializing)
-                throw new FormatException("Convert failed, the string to deserialize is :\n" + value);
+                throw new FormatException($"Convert failed, the string to deserialize is:\n{value}");
             else
                 return false;
         }

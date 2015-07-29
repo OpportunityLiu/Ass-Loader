@@ -47,14 +47,14 @@ namespace AssLoader.Collections
 
         internal void ParseLine(string value)
         {
-            string k, y;
-            if(FormatHelper.TryPraseLine(out k, out y, value))
+            string k, v;
+            if(FormatHelper.TryPraseLine(out k, out v, value))
             {
                 ScriptInfoSerializeHelper helper;
                 if(scriptInfoFields.TryGetValue(k, out helper))
-                    helper.Deserialize(this, y);
+                    helper.Deserialize(this, v);
                 else
-                    undefinedFields[k] = y;
+                    undefinedFields[k] = v;
             }
         }
 
@@ -77,7 +77,7 @@ namespace AssLoader.Collections
             //unknown script info entries.
             writer.WriteLine();
             foreach(var item in undefinedFields)
-                writer.WriteLine("{0}: {1}", item.Key, item.Value);
+                writer.WriteLine($"{item.Key}: {item.Value}");
         }
 
         private static Dictionary<Type, Dictionary<string, ScriptInfoSerializeHelper>> scriptInfoCache = new Dictionary<Type, Dictionary<string, ScriptInfoSerializeHelper>>();
@@ -105,7 +105,7 @@ namespace AssLoader.Collections
         public void Add(string key, string value)
         {
             if(this.ContainsKey(key))
-                throw new ArgumentException("Key contains in the collection.");
+                throw new ArgumentException("Key contains in the collection.", nameof(key));
             this.undefinedFields[key] = value;
         }
 
@@ -172,7 +172,7 @@ namespace AssLoader.Collections
                 string va;
                 if(TryGetValue(key, out va))
                     return va;
-                throw new KeyNotFoundException(key + " not found.");
+                throw new KeyNotFoundException($"\"{key}\" not found.");
             }
             set
             {

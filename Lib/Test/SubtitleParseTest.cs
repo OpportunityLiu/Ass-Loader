@@ -34,7 +34,7 @@ namespace Test
             {
                 try
                 {
-                    Parse<AssScriptInfo>(item.Value);
+                    var ignore = Parse<AssScriptInfo>(item.Value);
                 }
                 catch(Exception ex)
                 {
@@ -50,12 +50,13 @@ namespace Test
             {
                 try
                 {
-                    ParseExact<AssScriptInfo>(item.Value);
+                    var ignore = ParseExact<AssScriptInfo>(item.Value);
                 }
-                catch(Exception ex)
+                catch(Exception ex) when (!ex.InnerException.Message.StartsWith("Unknown section"))
                 {
                     throw new Exception(item.Key, ex);
                 }
+                catch(Exception) { }
             }
         }
 
@@ -64,7 +65,7 @@ namespace Test
         {
             foreach(var item in helper.LoadTestFiles())
             {
-                var r = ParseAsync<AssScriptInfo>(item.Value).Result;
+                var ignore = ParseAsync<AssScriptInfo>(item.Value).Result;
             }
         }
 
@@ -73,7 +74,15 @@ namespace Test
         {
             foreach(var item in helper.LoadTestFiles())
             {
-                var r = ParseExactAsync<AssScriptInfo>(item.Value).Result;
+                try
+                {
+                    var ignore = ParseExactAsync<AssScriptInfo>(item.Value).Result;
+                }
+                catch(AggregateException ex) when (!ex.InnerException.InnerException.Message.StartsWith("Unknown section"))
+                {
+                    throw new Exception(item.Key, ex.InnerException);
+                }
+                catch(AggregateException) { }
             }
         }
     }

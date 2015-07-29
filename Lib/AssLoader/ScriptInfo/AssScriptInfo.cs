@@ -252,9 +252,6 @@ namespace AssLoader.Collections
         /// <exception cref="ArgumentOutOfRangeException">
         /// <paramref name="value"/> is not greater than 0.
         /// </exception>
-        /// <exception cref="ArgumentException">
-        /// <paramref name="value"/> is <see cref="double.IsNaN(double)"/> or <see cref="double.IsInfinity(double)"/>
-        /// </exception>
         /// <seealso cref="PlayResX"/>
         public int PlayResY
         {
@@ -264,8 +261,6 @@ namespace AssLoader.Collections
             }
             set
             {
-                if(double.IsNaN(value) || double.IsInfinity(value))
-                    throw new ArgumentException("value should be a valid number", nameof(value));
                 if(value <= 0)
                     throw new ArgumentOutOfRangeException(nameof(value), "value must be greater than 0.");
                 playResY = value;
@@ -282,9 +277,6 @@ namespace AssLoader.Collections
         /// <exception cref="ArgumentOutOfRangeException">
         /// <paramref name="value"/> is not greater than 0.
         /// </exception>
-        /// <exception cref="ArgumentException">
-        /// <paramref name="value"/> is <see cref="double.IsNaN(double)"/> or <see cref="double.IsInfinity(double)"/>
-        /// </exception>
         /// <seealso cref="PlayResY"/>
         public int PlayResX
         {
@@ -294,8 +286,6 @@ namespace AssLoader.Collections
             }
             set
             {
-                if(double.IsNaN(value) || double.IsInfinity(value))
-                    throw new ArgumentException("value should be a valid number", nameof(value));
                 if(value <= 0)
                     throw new ArgumentOutOfRangeException(nameof(value), "value must be greater than 0.");
                 playResX = value;
@@ -307,13 +297,10 @@ namespace AssLoader.Collections
         private int? playDepth;
 
         /// <summary>
-        /// (optional) This is the colour depth used by the script's author(s) when playing the script.
+        /// (optional) This is the color depth used by the script's author(s) when playing the script.
         /// </summary>
         /// <exception cref="ArgumentOutOfRangeException">
         /// <paramref name="value"/> is not greater than 0.
-        /// </exception>
-        /// <exception cref="ArgumentException">
-        /// <paramref name="value"/> is <see cref="double.IsNaN(double)"/> or <see cref="double.IsInfinity(double)"/>
         /// </exception>
         public int? PlayDepth
         {
@@ -325,8 +312,6 @@ namespace AssLoader.Collections
             {
                 if(value.HasValue)
                 {
-                    if(double.IsNaN(value.Value) || double.IsInfinity(value.Value))
-                        throw new ArgumentException("value should be a valid number", nameof(value));
                     if(value.Value <= 0)
                         throw new ArgumentOutOfRangeException(nameof(value), "value must be greater than 0.");
                 }
@@ -371,7 +356,7 @@ namespace AssLoader.Collections
             {
                 if(value.HasValue)
                 {
-                    if(double.IsNaN(value.Value) || double.IsInfinity(value.Value))
+                    if(ThrowHelper.IsInvalidDouble(value.Value))
                         throw new ArgumentException("value should be a valid number", nameof(value));
                     if(value.Value <= 0)
                         throw new ArgumentOutOfRangeException(nameof(value), "value must be greater than 0.");
