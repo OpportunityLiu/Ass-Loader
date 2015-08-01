@@ -6,10 +6,10 @@ using System.Runtime.InteropServices;
 // 有关程序集的常规信息通过以下特性集
 // 控制。更改这些特性值可修改
 // 与程序集关联的信息。
-[assembly: AssemblyTitle("AssLoaderExtention")]
-[assembly: AssemblyDescription("Extend methods for AssLoader.")]
+[assembly: AssemblyTitle("AssLoaderExtentionUniversal")]
+[assembly: AssemblyDescription("Extend methods for Windows Universal Applications.")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
+[assembly: AssemblyCompany("Opportunity")]
 [assembly: AssemblyProduct("AssLoaderExtention")]
 [assembly: AssemblyCopyright("")]
 [assembly: AssemblyTrademark("AssLoader")]
