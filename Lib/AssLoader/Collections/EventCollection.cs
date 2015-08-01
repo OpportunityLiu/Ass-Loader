@@ -21,6 +21,9 @@ namespace AssLoader.Collections
         {
         }
 
+        /// <summary>
+        /// Reorder the items in this <see cref="EventCollection"/> by <see cref="SubEvent.StartTime"/>
+        /// </summary>
         public void SortByTime()
         {
             var result = (from item in this
@@ -29,6 +32,9 @@ namespace AssLoader.Collections
             sort(result);
         }
 
+        /// <summary>
+        /// Reorder the items in this <see cref="EventCollection"/> by <see cref="SubEvent.Style"/>
+        /// </summary>
         public void SortByStyle()
         {
             var result = (from item in this
@@ -52,6 +58,10 @@ namespace AssLoader.Collections
 
         private bool sorting = false;
 
+        /// <summary>
+        /// Raise the <see cref="INotifyCollectionChanged.CollectionChanged"/> event.
+        /// </summary>
+        /// <param name="e">The eventargs of the event.</param>
         protected override void OnCollectionChanged(NotifyCollectionChangedEventArgs e)
         {
             // Pause notification
@@ -60,6 +70,10 @@ namespace AssLoader.Collections
             base.OnCollectionChanged(e);
         }
 
+        /// <summary>
+        /// Raise the <see cref="INotifyPropertyChanged.PropertyChanged"/> event.
+        /// </summary>
+        /// <param name="e">The eventargs of the event.</param>
         protected override void OnPropertyChanged(PropertyChangedEventArgs e)
         {
             // Pause notification

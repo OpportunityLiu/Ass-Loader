@@ -53,12 +53,20 @@ namespace AssLoader.Collections
             return -1;
         }
 
+        /// <summary>
+        /// Delete all items in the <see cref="StyleSet"/>.
+        /// </summary>
         protected override void ClearItems()
         {
             base.ClearItems();
             styleNameSet.Clear();
         }
 
+        /// <summary>
+        /// Insert items to the <see cref="StyleSet"/>.
+        /// </summary>
+        /// <param name="index">The index of the inserting item.</param>
+        /// <param name="item">The <see cref="Style"/> to insert.</param>
         protected override void InsertItem(int index, Style item)
         {
             if(styleNameSet.Add(item.Name))
@@ -71,6 +79,11 @@ namespace AssLoader.Collections
             }
         }
 
+        /// <summary>
+        /// Set the item of the given index.
+        /// </summary>
+        /// <param name="index">The index of the item.</param>
+        /// <param name="item">The new value of the item.</param>
         protected override void SetItem(int index, Style item)
         {
             styleNameSet.Remove(this[index].Name);
@@ -85,6 +98,10 @@ namespace AssLoader.Collections
             }
         }
 
+        /// <summary>
+        /// Remove the item at the index.
+        /// </summary>
+        /// <param name="index">The index of the item to remove.</param>
         protected override void RemoveItem(int index)
         {
             styleNameSet.Remove(this[index].Name);
