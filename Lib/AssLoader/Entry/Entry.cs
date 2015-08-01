@@ -167,14 +167,14 @@ namespace AssLoader
         /// <typeparam name="T">The type of the property.</typeparam>
         /// <param name="field">The field to set.</param>
         /// <param name="value">The value to set.</param>
-        protected virtual void Set<T>(ref T field, T value, [CallerMemberName]string propertyName = "")
+        protected void Set<T>(ref T field, T value, [CallerMemberName]string propertyName = "")
         {
             if(Equals(field, value))
             {
                 return;
             }
             field = value;
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+            RaisePropertyChanged(propertyName);
         }
 
         #endregion
