@@ -1,0 +1,177 @@
+﻿<Page x:Name="page"
+      x:Class="SubtitleEditor.View.MainPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:local="using:SubtitleEditor.View"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      mc:Ignorable="d"
+      xmlns:control="using:SubtitleEditor.Controls"
+      xmlns:vm="using:SubtitleEditor.ViewModel"
+      NavigationCacheMode="Enabled"
+      SizeChanged="page_SizeChanged">
+    <Page.Resources>
+        <Storyboard x:Name="splitViewExpand">
+            <DoubleAnimation Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.ScaleX)"
+                             Storyboard.TargetName="line"
+                             To="12.33333333"
+                             Duration="0:0:0.2" />
+        </Storyboard>
+        <Storyboard x:Name="splitViewClose">
+            <DoubleAnimation Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.ScaleX)"
+                             Storyboard.TargetName="line"
+                             To="1"
+                             Duration="0:0:0.2">
+                <DoubleAnimation.EasingFunction>
+                    <CubicEase EasingMode="EaseOut" />
+                </DoubleAnimation.EasingFunction>
+            </DoubleAnimation>
+        </Storyboard>
+        <Storyboard x:Name="Navigating">
+            <DoubleAnimation x:Name="tabTagTransform"
+                             Storyboard.TargetProperty="(UIElement.RenderTransform).(TranslateTransform.Y)"
+                             Storyboard.TargetName="tabTag"
+                             Duration="0:0:0.2">
+                <DoubleAnimation.EasingFunction>
+                    <CubicEase EasingMode="EaseOut" />
+                </DoubleAnimation.EasingFunction>
+            </DoubleAnimation>
+        </Storyboard>
+        <DataTemplate x:Key="TabTemplate"
+                      x:DataType="vm:SplitViewTabData">
+            <control:SplitViewTab Content="{x:Bind Content, Mode=OneWay}"
+                                  Tag="{x:Bind PageType, Mode=OneWay}"
+                                  IsChecked="{x:Bind IsChecked, Mode=OneWay}"
+                                  Click="SplitViewTabButton_Click">
+                <control:SplitViewTab.Icon>
+                    <FontIcon Glyph="{x:Bind Icon, Mode=OneWay}"
+                              FontSize="16" />
+                </control:SplitViewTab.Icon>
+                <ToolTipService.ToolTip>
+                    <ToolTip Content="{x:Bind Content, Mode=OneWay}" />
+                </ToolTipService.ToolTip>
+            </control:SplitViewTab>
+        </DataTemplate>
+    </Page.Resources>
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup>
+                <VisualState>
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="720" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="splitView.DisplayMode"
+                                Value="CompactOverlay" />
+                    </VisualState.Setters>
+                </VisualState>
+
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
+        <SplitView x:Name="splitView"
+                   DisplayMode="Overlay"
+                   PaneClosing="splitView_PaneClosing">
+            <SplitView.Pane>
+                <ScrollViewer VerticalScrollBarVisibility="Auto"
+                              HorizontalScrollBarVisibility="Disabled"
+                              Grid.Row="1"
+                              Margin="0"
+                              BorderThickness="0,48,0,0">
+                    <Grid x:Name="splitViewGrid">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <!--The following two row is for spacing-->
+                            <RowDefinition Height="24" />
+                            <RowDefinition />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+                        <Rectangle x:Name="tabTag"
+                                   Grid.Row="2"
+                                   Grid.RowSpan="999"
+                                   Width="4"
+                                   Height="48"
+                                   Fill="{ThemeResource SplitViewCheckedBrush}"
+                                   HorizontalAlignment="Left"
+                                   VerticalAlignment="Top">
+                            <Rectangle.RenderTransform>
+                                <TranslateTransform />
+                            </Rectangle.RenderTransform>
+                        </Rectangle>
+                        <ItemsControl ItemsSource="{x:Bind ViewModel.SplitViewButtons, Mode=OneWay}"
+                                      Grid.Row="0">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate x:DataType="vm:SplitViewButtonData">
+                                    <control:SplitViewButton Content="{x:Bind Content, Mode=OneWay}"
+                                                             Command="{x:Bind Command, Mode=OneWay}"
+                                                             Click="SplitViewCommand_Click">
+                                        <control:SplitViewButton.Icon>
+                                            <FontIcon Glyph="{x:Bind Icon, Mode=OneWay}"
+                                                      FontSize="16" />
+                                        </control:SplitViewButton.Icon>
+                                        <ToolTipService.ToolTip>
+                                            <ToolTip Content="{x:Bind Content, Mode=OneWay}" />
+                                        </ToolTipService.ToolTip>
+                                    </control:SplitViewButton>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                        <Line x:Name="line"
+                              Margin="12"
+                              Width="24"
+                              Stroke="{ThemeResource AppBarSeparatorForegroundThemeBrush}"
+                              X2="24"
+                              HorizontalAlignment="Left"
+                              RenderTransformOrigin="0,0.5"
+                              Grid.Row="1">
+                            <Line.RenderTransform>
+                                <CompositeTransform />
+                            </Line.RenderTransform>
+                        </Line>
+                        <ItemsControl x:Name="documentTabs"
+                                      ItemsSource="{x:Bind ViewModel.DocumentTabs, Mode=OneWay}"
+                                      Grid.Row="2"
+                                      ItemTemplate="{StaticResource TabTemplate}" />
+                        <control:SplitViewTab Content="{x:Bind ViewModel.Preferences.Content, Mode=OneWay}"
+                                              Tag="{x:Bind ViewModel.Preferences.PageType, Mode=OneWay}"
+                                              IsChecked="{x:Bind ViewModel.Preferences.IsChecked, Mode=OneWay}"
+                                              Click="SplitViewTabButton_Click2"
+                                              Grid.Row="999">
+                            <control:SplitViewTab.Icon>
+                                <FontIcon Glyph="{x:Bind ViewModel.Preferences.Icon, Mode=OneWay}"
+                                          FontSize="16" />
+                            </control:SplitViewTab.Icon>
+                            <ToolTipService.ToolTip>
+                                <ToolTip Content="{x:Bind ViewModel.Preferences.Content, Mode=OneWay}" />
+                            </ToolTipService.ToolTip>
+                        </control:SplitViewTab>
+                    </Grid>
+                </ScrollViewer>
+            </SplitView.Pane>
+            <Frame x:Name="frameInner" />
+        </SplitView>
+        <ContentPresenter x:Name="inputPane"
+                          Grid.Row="2"
+                          FontFamily="Segoe MDL2 Assets"
+                          FontSize="64"
+                          Visibility="Collapsed"
+                          VerticalAlignment="Stretch"
+                          HorizontalAlignment="Stretch"
+                          HorizontalContentAlignment="Center"
+                          VerticalContentAlignment="Center"
+                          Background="{ThemeResource SystemControlPageBackgroundBaseLowBrush}" />
+        <Button x:Name="splitOverlayButton"
+                Width="48"
+                Height="48"
+                Style="{StaticResource NavigationBackButtonNormalStyle}"
+                Click="SplitViewButton_Click"
+                Content="&#xE700;"
+                Background="{ThemeResource MenuFlyoutItemFocusedBackgroundThemeBrush}"
+                VerticalAlignment="Top" />
+    </Grid>
+</Page>

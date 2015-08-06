@@ -12,7 +12,7 @@ namespace AssLoader.Collections
     /// <summary>
     /// Observable collection of <see cref="SubEvent"/>.
     /// </summary>
-    public sealed class EventCollection : ObservableCollection<SubEvent>
+    public class EventCollection : ObservableCollection<SubEvent>
     {
         /// <summary>
         /// Create new instance of <see cref="EventCollection"/>.
@@ -29,7 +29,7 @@ namespace AssLoader.Collections
             var result = (from item in this
                           orderby item.StartTime, item.Style, item.EndTime
                           select item).ToArray();
-            sort(result);
+            Reorder(result);
         }
 
         /// <summary>
@@ -40,14 +40,20 @@ namespace AssLoader.Collections
             var result = (from item in this
                           orderby item.Style, item.StartTime, item.EndTime
                           select item).ToArray();
-            sort(result);
+            Reorder(result);
         }
 
-        private void sort(IEnumerable<SubEvent> sortedItems)
+        /// <summary>
+        /// Reorder the items in the <see cref="EventCollection"/>.
+        /// </summary>
+        /// <param name="items">The items in the <see cref="EventCollection"/> with the new order.</param>
+        protected void Reorder(IEnumerable<SubEvent> items)
         {
+            if(items == null)
+                throw new ArgumentNullException(nameof(items));
             sorting = true;
             this.ClearItems();
-            foreach(var item in sortedItems)
+            foreach(var item in items)
             {
                 this.Add(item);
             }

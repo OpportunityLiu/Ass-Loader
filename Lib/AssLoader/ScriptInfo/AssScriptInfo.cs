@@ -357,7 +357,7 @@ namespace AssLoader.Collections
         }
 
         [ScriptInfo("WrapStyle", DefaultValue = 0)]
-        private int warpStyle = 0;
+        private int wrapStyle = 0;
 
         /// <summary>
         /// Defines the default wrapping style. 
@@ -365,18 +365,18 @@ namespace AssLoader.Collections
         /// <exception cref="ArgumentOutOfRangeException">
         /// <paramref name="value"/> is not one of the valid value.
         /// </exception>
-        public WrapStyle WarpStyle
+        public WrapStyle WrapStyle
         {
             get
             {
-                return (WrapStyle)warpStyle;
+                return (WrapStyle)wrapStyle;
             }
             set
             {
                 var num = (int)value;
                 if(ThrowHelper.IsLessThanZeroOrOutOfRange(4, num))
                     throw new ArgumentOutOfRangeException(nameof(value));
-                Set(ref warpStyle, num);
+                Set(ref wrapStyle, num);
             }
         }
 
