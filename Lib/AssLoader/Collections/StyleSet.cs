@@ -10,7 +10,7 @@ namespace AssLoader.Collections
     /// <summary>
     /// Observable collection of <see cref="Style"/>, will delete repeted <see cref="Style"/>s autometically.
     /// </summary>
-    public sealed class StyleSet : ObservableCollection<Style>
+    public class StyleSet : ObservableCollection<Style>
     {
         /// <summary>
         /// Create new instance of <see cref="StyleSet"/>.
@@ -56,7 +56,7 @@ namespace AssLoader.Collections
         /// <summary>
         /// Delete all items in the <see cref="StyleSet"/>.
         /// </summary>
-        protected override void ClearItems()
+        protected sealed override void ClearItems()
         {
             base.ClearItems();
             styleNameSet.Clear();
@@ -67,7 +67,7 @@ namespace AssLoader.Collections
         /// </summary>
         /// <param name="index">The index of the inserting item.</param>
         /// <param name="item">The <see cref="Style"/> to insert.</param>
-        protected override void InsertItem(int index, Style item)
+        protected sealed override void InsertItem(int index, Style item)
         {
             if(styleNameSet.Add(item.Name))
             {
@@ -84,7 +84,7 @@ namespace AssLoader.Collections
         /// </summary>
         /// <param name="index">The index of the item.</param>
         /// <param name="item">The new value of the item.</param>
-        protected override void SetItem(int index, Style item)
+        protected sealed override void SetItem(int index, Style item)
         {
             styleNameSet.Remove(this[index].Name);
             if(styleNameSet.Add(item.Name))
@@ -102,10 +102,20 @@ namespace AssLoader.Collections
         /// Remove the item at the index.
         /// </summary>
         /// <param name="index">The index of the item to remove.</param>
-        protected override void RemoveItem(int index)
+        protected sealed override void RemoveItem(int index)
         {
             styleNameSet.Remove(this[index].Name);
             base.RemoveItem(index);
+        }
+
+        /// <summary>
+        /// Move the item to a new index.
+        /// </summary>
+        /// <param name="oldIndex">The index of the item to move.</param>
+        /// <param name="newIndex">The new index of the item.</param>
+        protected sealed override void MoveItem(int oldIndex, int newIndex)
+        {
+            base.MoveItem(oldIndex, newIndex);
         }
     }
 }
