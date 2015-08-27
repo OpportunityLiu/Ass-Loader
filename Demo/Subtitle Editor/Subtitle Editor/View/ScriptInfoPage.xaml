@@ -7,96 +7,183 @@
       xmlns:Converters="using:Newtonsoft.Json.Converters"
       x:Name="page"
       x:Class="SubtitleEditor.View.ScriptInfoPage"
-      mc:Ignorable="d">
+      mc:Ignorable="d"
+      xmlns:ass="using:AssLoader"
+      SizeChanged="ScriptInfoPage_SizeChanged"
+      NavigationCacheMode="Enabled">
+    <Page.Resources>
+        <local:WrapStyleConverter x:Key="WrapStyleConverter" />
+        <local:CollisionStyleConverter x:Key="CollisionStyleConverter" />
+    </Page.Resources>
     <Page.TopAppBar>
         <CommandBar Style="{StaticResource InnerPageCommandBarStyle}">
             <AppBarButton Label="Undo"
+                          x:Uid="Undo"
                           Icon="Undo"
+                          ToolTipService.ToolTip="{x:Bind ViewModel.DocumentView.UndoHint, Mode=OneWay}"
                           Command="{x:Bind ViewModel.DocumentView.Undo}" />
             <AppBarButton Label="Redo"
+                          x:Uid="Redo"
                           Icon="Redo"
+                          ToolTipService.ToolTip="{x:Bind ViewModel.DocumentView.RedoHint, Mode=OneWay}"
                           Command="{x:Bind ViewModel.DocumentView.Redo}" />
         </CommandBar>
     </Page.TopAppBar>
-    <ListView x:Name="root"
-              Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <ListView.ItemContainerStyle>
-            <Style TargetType="ListViewItem">
-                <Setter Property="TabNavigation"
-                        Value="Local" />
-                <Setter Property="HorizontalContentAlignment"
-                        Value="Stretch" />
-                <Setter Property="VerticalContentAlignment"
-                        Value="Stretch" />
-                <Setter Property="Template">
-                    <Setter.Value>
-                        <ControlTemplate TargetType="ListViewItem">
-                            <ContentPresenter Content="{TemplateBinding Content}"
-                                              ContentTemplate="{TemplateBinding ContentTemplate}"
-                                              Padding="12,8" />
-                        </ControlTemplate>
-                    </Setter.Value>
-                </Setter>
-            </Style>
-        </ListView.ItemContainerStyle>
-        <ListView.ItemContainerTransitions>
-            <TransitionCollection>
-                <EntranceThemeTransition IsStaggeringEnabled="True" />
-            </TransitionCollection>
-        </ListView.ItemContainerTransitions>
-        <TextBox Header="Title"
-                 Text="{x:Bind ViewModel.Title,Mode=TwoWay}"
-                 GotFocus="TextBox_GotFocus" />
-        <TextBox Header="Title"
-                 Text="{x:Bind ViewModel.Title,Mode=TwoWay}"
-                 GotFocus="TextBox_GotFocus" />
-        <TextBox Header="Title"
-                 Text="{x:Bind ViewModel.Title,Mode=TwoWay}"
-                 GotFocus="TextBox_GotFocus" />
-        <TextBox Header="Title"
-                 Text="{x:Bind ViewModel.Title,Mode=TwoWay}"
-                 GotFocus="TextBox_GotFocus" />
-        <TextBox Header="Title"
-                 Text="{x:Bind ViewModel.Title,Mode=TwoWay}"
-                 GotFocus="TextBox_GotFocus" />
-        <TextBox Header="Title"
-                 Text="{x:Bind ViewModel.Title,Mode=TwoWay}"
-                 GotFocus="TextBox_GotFocus" />
-        <TextBox Header="Title"
-                 Text="{x:Bind ViewModel.Title,Mode=TwoWay}"
-                 GotFocus="TextBox_GotFocus" />
-        <TextBox Header="Title"
-                 Text="{x:Bind ViewModel.Title,Mode=TwoWay}"
-                 GotFocus="TextBox_GotFocus" />
-        <TextBox Header="Title"
-                 Text="{x:Bind ViewModel.Title,Mode=TwoWay}"
-                 GotFocus="TextBox_GotFocus" />
-        <TextBox Header="Title"
-                 Text="{x:Bind ViewModel.Title,Mode=TwoWay}"
-                 GotFocus="TextBox_GotFocus" />
-        <TextBox Header="Title"
-                 Text="{x:Bind ViewModel.Title,Mode=TwoWay}"
-                 GotFocus="TextBox_GotFocus" />
-        <TextBox Header="Title"
-                 Text="{x:Bind ViewModel.Title,Mode=TwoWay}"
-                 GotFocus="TextBox_GotFocus" />
-        <TextBox Header="Title"
-                 Text="{x:Bind ViewModel.Title,Mode=TwoWay}"
-                 GotFocus="TextBox_GotFocus" />
-        <TextBox Header="Title"
-                 Text="{x:Bind ViewModel.Title,Mode=TwoWay}"
-                 GotFocus="TextBox_GotFocus" />
-        <TextBox Header="Title"
-                 Text="{x:Bind ViewModel.Title,Mode=TwoWay}"
-                 GotFocus="TextBox_GotFocus" />
-        <TextBox Header="Title"
-                 Text="{x:Bind ViewModel.Title,Mode=TwoWay}"
-                 GotFocus="TextBox_GotFocus" />
-        <TextBox Header="Title"
-                 Text="{x:Bind ViewModel.Title,Mode=TwoWay}"
-                 GotFocus="TextBox_GotFocus" />
-        <TextBox Header="Title"
-                 Text="{x:Bind ViewModel.Title,Mode=TwoWay}"
-                 GotFocus="TextBox_GotFocus" />
-    </ListView>
+    <ScrollViewer VerticalScrollBarVisibility="Auto"
+                  x:Name="root"
+                  IsTabStop="True">
+        <RelativePanel x:Name="relativePanel" HorizontalAlignment="Center">
+            <RelativePanel.ChildrenTransitions>
+                <TransitionCollection>
+                    <EntranceThemeTransition IsStaggeringEnabled="True" />
+                </TransitionCollection>
+            </RelativePanel.ChildrenTransitions>
+            <StackPanel MaxWidth="500"
+                        Padding="12"
+                        Margin="12"
+                        x:Name="stackPanelMetaData">
+                <Grid Margin="0,8">
+                    <TextBlock x:Uid="MetaData"
+                               Text="Meta data"
+                               Style="{StaticResource SubheaderTextBlockStyle}" />
+                    <Line Stroke="{ThemeResource ApplicationForegroundThemeBrush}"
+                          X2="508"
+                          Margin="-4"
+                          StrokeThickness="1"
+                          VerticalAlignment="Bottom" />
+                </Grid>
+                <TextBox x:Uid="Title"
+                         Margin="0,8"
+                         Header="Title"
+                         GotFocus="field_GotFocus"
+                         Text="{x:Bind ViewModel.Title, Mode=TwoWay}" />
+                <TextBox x:Uid="OriginalEditing"
+                         Margin="0,8"
+                         Header="OriginalEditing"
+                         GotFocus="field_GotFocus"
+                         Text="{x:Bind ViewModel.OriginalEditing, Mode=TwoWay}" />
+                <TextBox x:Uid="OriginalScript"
+                         Margin="0,8"
+                         Header="OriginalScript"
+                         GotFocus="field_GotFocus"
+                         Text="{x:Bind ViewModel.OriginalScript, Mode=TwoWay}" />
+                <TextBox x:Uid="OriginalTiming"
+                         Margin="0,8"
+                         Header="OriginalTiming"
+                         GotFocus="field_GotFocus"
+                         Text="{x:Bind ViewModel.OriginalTiming, Mode=TwoWay}" />
+                <TextBox x:Uid="OriginalTranslation"
+                         Margin="0,8"
+                         Header="OriginalTranslation"
+                         GotFocus="field_GotFocus"
+                         Text="{x:Bind ViewModel.OriginalTranslation, Mode=TwoWay}" />
+                <TextBox x:Uid="ScriptUpdatedBy"
+                         Margin="0,8"
+                         Header="ScriptUpdatedBy"
+                         GotFocus="field_GotFocus"
+                         Text="{x:Bind ViewModel.ScriptUpdatedBy, Mode=TwoWay}" />
+                <TextBox x:Uid="UpdateDetails"
+                         Margin="0,8"
+                         Header="UpdateDetails"
+                         GotFocus="field_GotFocus"
+                         Text="{x:Bind ViewModel.UpdateDetails, Mode=TwoWay}" />
+                <TextBox x:Uid="SynchPoint"
+                         Margin="0,8"
+                         Header="SynchPoint"
+                         GotFocus="field_GotFocus"
+                         Text="{x:Bind ViewModel.SynchPoint, Mode=TwoWay}" />
+            </StackPanel>
+            <StackPanel MaxWidth="500"
+                        Padding="12"
+                        Margin="12"
+                        x:Name="stackPanelScriptData"
+                        RelativePanel.RightOf="stackPanelMetaData">
+                <Grid Margin="0,8">
+                    <TextBlock x:Uid="ScriptData"
+                               Text="Script data"
+                               Style="{StaticResource SubheaderTextBlockStyle}" />
+                    <Line Stroke="{ThemeResource ApplicationForegroundThemeBrush}"
+                          X2="508"
+                          StrokeThickness="1"
+                          Margin="-4"
+                          VerticalAlignment="Bottom" />
+                </Grid>
+                <Grid GotFocus="field_GotFocus"
+                      Margin="0,8">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition />
+                        <ColumnDefinition Width="12" />
+                        <ColumnDefinition  Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock x:Uid="PlayRes"
+                               Grid.ColumnSpan="999"
+                               Text="PlayRes"
+                               Margin="0,0,0,8" />
+                    <TextBox Grid.Row="1"
+                             Grid.Column="0"
+                             InputScope="Number"
+                             LostFocus="numberedTextBox_LostFocus"
+                             MaxLength="9"
+                             IsSpellCheckEnabled="False"
+                             Text="{x:Bind ViewModel.PlayResX, Mode=TwoWay}" />
+                    <TextBlock Text="×"
+                               Margin="4,0"
+                               Grid.Row="1"
+                               Grid.Column="1"
+                               VerticalAlignment="Center"
+                               HorizontalAlignment="Center" />
+                    <TextBox Grid.Row="1"
+                             Grid.Column="2"
+                             InputScope="Number"
+                             LostFocus="numberedTextBox_LostFocus"
+                             MaxLength="9"
+                             IsSpellCheckEnabled="False"
+                             Text="{x:Bind ViewModel.PlayResY, Mode=TwoWay}" />
+                    <Button Grid.Row="1"
+                            Grid.Column="4"
+                            Content="Auto-detect" />
+                </Grid>
+                <ToggleSwitch x:Uid="ScaledBorderAndShadow"
+                              Header="ScaledBorderAndShadow"
+                              Margin="0,8,0,-2"
+                              IsOn="{x:Bind ViewModel.ScaledBorderAndShadow, Mode=TwoWay}" />
+                <ComboBox x:Uid="WrapStyle"
+                          Margin="0,8"
+                          Header="WrapStyle"
+                          GotFocus="field_GotFocus"
+                          HorizontalAlignment="Stretch"
+                          SelectedIndex="{x:Bind ViewModel.WrapStyle, Mode=TwoWay, Converter={StaticResource DefaultConverter}}">
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Converter={StaticResource WrapStyleConverter}}" />
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                    <ass:WrapStyle>Smart</ass:WrapStyle>
+                    <ass:WrapStyle>EndOfLine</ass:WrapStyle>
+                    <ass:WrapStyle>None</ass:WrapStyle>
+                    <ass:WrapStyle>Smart2</ass:WrapStyle>
+                </ComboBox>
+                <ComboBox x:Uid="Collisions"
+                          Margin="0,8"
+                          Header="Collisions"
+                          GotFocus="field_GotFocus"
+                          HorizontalAlignment="Stretch"
+                          SelectedIndex="{x:Bind ViewModel.Collisions, Mode=TwoWay, Converter={StaticResource DefaultConverter}}">
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Converter={StaticResource CollisionStyleConverter}}" />
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                    <ass:CollisionStyle>Normal</ass:CollisionStyle>
+                    <ass:CollisionStyle>Reverse</ass:CollisionStyle>
+                </ComboBox>
+            </StackPanel>
+        </RelativePanel>
+    </ScrollViewer>
 </Page>

@@ -26,7 +26,18 @@ namespace SubtitleEditor.View
         public StylePage()
         {
             this.InitializeComponent();
-            this.ViewModel = ViewModelLocator.GetForCurrentView().StyleView;
+            var ioc = ViewModelLocator.GetForCurrentView();
+            this.ViewModel = ioc.StyleView;
+        }
+
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            base.OnNavigatedTo(e);
+        }
+
+        protected override void OnNavigatedFrom(NavigationEventArgs e)
+        {
+            base.OnNavigatedFrom(e);
         }
 
         public StyleViewModel ViewModel
@@ -44,5 +55,10 @@ namespace SubtitleEditor.View
         // Using a DependencyProperty as the backing store for ViewModel.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty ViewModelProperty =
             DependencyProperty.Register("ViewModel", typeof(StyleViewModel), typeof(StylePage), new PropertyMetadata(null));
+
+        private void TextBlock_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
+        {
+            ViewModel.Styles.Remove((AssLoader.Style)((FrameworkElement)sender).DataContext);
+        }
     }
 }

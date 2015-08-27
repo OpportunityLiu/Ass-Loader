@@ -117,6 +117,9 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="ActionSetScriptInfo" xml:space="preserve">
+    <value>修改{0}</value>
+  </data>
   <data name="AppAuthor" xml:space="preserve">
     <value>Opportunity</value>
   </data>
@@ -129,11 +132,50 @@
   <data name="AssFileName" xml:space="preserve">
     <value>ASS 字幕文件</value>
   </data>
+  <data name="Collisions.Header" xml:space="preserve">
+    <value>冲突处理</value>
+  </data>
+  <data name="CollisionStyleNormal" xml:space="preserve">
+    <value>移动后续字幕。</value>
+  </data>
+  <data name="CollisionStyleReverse" xml:space="preserve">
+    <value>为后续字幕预留空间。</value>
+  </data>
+  <data name="DocumentRedo" xml:space="preserve">
+    <value>重做 {0}</value>
+  </data>
+  <data name="DocumentUndo" xml:space="preserve">
+    <value>撤销 {0}</value>
+  </data>
   <data name="ElementThemeDark" xml:space="preserve">
     <value>深色</value>
   </data>
   <data name="ElementThemeLight" xml:space="preserve">
     <value>浅色</value>
+  </data>
+  <data name="MetaData.Text" xml:space="preserve">
+    <value>元数据</value>
+  </data>
+  <data name="OriginalEditing.Header" xml:space="preserve">
+    <value>编辑</value>
+  </data>
+  <data name="OriginalScript.Header" xml:space="preserve">
+    <value>脚本</value>
+  </data>
+  <data name="OriginalTiming.Header" xml:space="preserve">
+    <value>时间轴</value>
+  </data>
+  <data name="OriginalTranslation.Header" xml:space="preserve">
+    <value>翻译</value>
+  </data>
+  <data name="PlayDepth.Header" xml:space="preserve">
+    <value>色彩深度</value>
+  </data>
+  <data name="PlayRes.Text" xml:space="preserve">
+    <value>脚本分辨率</value>
+  </data>
+  <data name="Redo.Label" xml:space="preserve">
+    <value>重做</value>
   </data>
   <data name="SaveDialogCancel" xml:space="preserve">
     <value>取消</value>
@@ -149,6 +191,60 @@
   </data>
   <data name="SaveDialogYes" xml:space="preserve">
     <value>保存</value>
+  </data>
+  <data name="ScaledBorderAndShadow.Header" xml:space="preserve">
+    <value>缩放边框和阴影</value>
+  </data>
+  <data name="ScriptData.Text" xml:space="preserve">
+    <value>脚本配置</value>
+  </data>
+  <data name="ScriptInfoCollisions" xml:space="preserve">
+    <value>冲突处理</value>
+  </data>
+  <data name="ScriptInfoOriginalEditing" xml:space="preserve">
+    <value>编辑</value>
+  </data>
+  <data name="ScriptInfoOriginalScript" xml:space="preserve">
+    <value>脚本</value>
+  </data>
+  <data name="ScriptInfoOriginalTiming" xml:space="preserve">
+    <value>时间轴</value>
+  </data>
+  <data name="ScriptInfoOriginalTranslation" xml:space="preserve">
+    <value>翻译</value>
+  </data>
+  <data name="ScriptInfoPlayDepth" xml:space="preserve">
+    <value>色彩深度</value>
+  </data>
+  <data name="ScriptInfoPlayResX" xml:space="preserve">
+    <value>水平分辨率</value>
+  </data>
+  <data name="ScriptInfoPlayResY" xml:space="preserve">
+    <value>垂直分辨率</value>
+  </data>
+  <data name="ScriptInfoScaledBorderAndShadow" xml:space="preserve">
+    <value>缩放边框和阴影</value>
+  </data>
+  <data name="ScriptInfoScriptUpdatedBy" xml:space="preserve">
+    <value>修订</value>
+  </data>
+  <data name="ScriptInfoSynchPoint" xml:space="preserve">
+    <value>同步点</value>
+  </data>
+  <data name="ScriptInfoTimer" xml:space="preserve">
+    <value>播放速度</value>
+  </data>
+  <data name="ScriptInfoTitle" xml:space="preserve">
+    <value>标题</value>
+  </data>
+  <data name="ScriptInfoUpdateDetails" xml:space="preserve">
+    <value>修订信息</value>
+  </data>
+  <data name="ScriptInfoWrapStyle" xml:space="preserve">
+    <value>换行方式</value>
+  </data>
+  <data name="ScriptUpdatedBy.Header" xml:space="preserve">
+    <value>修订</value>
   </data>
   <data name="SplitViewButtonNew" xml:space="preserve">
     <value>新建</value>
@@ -166,12 +262,42 @@
     <value>设置</value>
   </data>
   <data name="SplitViewTabScriptInfo" xml:space="preserve">
-    <value>元数据</value>
+    <value>脚本信息</value>
   </data>
   <data name="SplitViewTabStyle" xml:space="preserve">
     <value>样式</value>
   </data>
+  <data name="SynchPoint.Header" xml:space="preserve">
+    <value>同步点</value>
+  </data>
+  <data name="Timer.Header" xml:space="preserve">
+    <value>播放速度</value>
+  </data>
+  <data name="Title.Header" xml:space="preserve">
+    <value>标题</value>
+  </data>
+  <data name="Undo.Label" xml:space="preserve">
+    <value>撤销</value>
+  </data>
   <data name="Untitled" xml:space="preserve">
     <value>无标题</value>
+  </data>
+  <data name="UpdateDetails.Header" xml:space="preserve">
+    <value>修订信息</value>
+  </data>
+  <data name="WrapStyle.Header" xml:space="preserve">
+    <value>换行方式</value>
+  </data>
+  <data name="WrapStyleEndOfLine" xml:space="preserve">
+    <value>自上而下填充各行，“\N”换行。</value>
+  </data>
+  <data name="WrapStyleNone" xml:space="preserve">
+    <value>不自动折行，“\N”和“\n”换行。</value>
+  </data>
+  <data name="WrapStyleSmart" xml:space="preserve">
+    <value>平均分布各行，上行较宽，“\N”换行。</value>
+  </data>
+  <data name="WrapStyleSmart2" xml:space="preserve">
+    <value>平均分布各行，下行较宽，“\N”换行。</value>
   </data>
 </root>

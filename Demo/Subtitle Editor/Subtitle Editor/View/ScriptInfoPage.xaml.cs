@@ -16,6 +16,8 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using Windows.UI.Xaml.Media.Animation;
+using SubtitleEditor.Converters;
+using AssLoader;
 
 // “空白页”项模板在 http://go.microsoft.com/fwlink/?LinkId=234238 上提供
 
@@ -29,30 +31,80 @@ namespace SubtitleEditor.View
         public ScriptInfoPage()
         {
             this.InitializeComponent();
-            this.SizeChanged += ScriptInfoPage_SizeChanged;
+            var ioc = ViewModelLocator.GetForCurrentView();
+            this.ViewModel = ioc.ScriptInfoView;
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             InputPane.GetForCurrentView().Showing += ScriptInfoPage_Showing;
-            this.ViewModel = ViewModelLocator.GetForCurrentView().ScriptInfoView;
             base.OnNavigatedTo(e);
         }
 
         protected override void OnNavigatedFrom(NavigationEventArgs e)
         {
             InputPane.GetForCurrentView().Showing -= ScriptInfoPage_Showing;
-            this.ViewModel = null;
             base.OnNavigatedFrom(e);
         }
 
-        private bool needFocus;
+        private bool needFocus, isNarrow;
 
         private void ScriptInfoPage_SizeChanged(object sender, SizeChangedEventArgs e)
         {
+            if(e.NewSize.Width > 1100)
+            {
+                if(isNarrow)
+                {
+                    isNarrow = false;
+                    stackPanelScriptData.SetValue(RelativePanel.RightOfProperty, stackPanelMetaData);
+                    stackPanelScriptData.ClearValue(RelativePanel.BelowProperty);
+                }
+            }
+            else
+            {
+                if(!isNarrow)
+                {
+                    isNarrow = true;
+                    stackPanelScriptData.SetValue(RelativePanel.BelowProperty, stackPanelMetaData);
+                    stackPanelScriptData.ClearValue(RelativePanel.RightOfProperty);
+                }
+            }
+
             if(needFocus && focus != null)
             {
-                root.ScrollIntoView(focus);
+                var max = -48.0;
+                var found = false;
+                foreach(FrameworkElement item in stackPanelMetaData.Children)
+                {
+                    max += item.ActualHeight + 16.0;
+                    if(item == focus)
+                    {
+                        found = true;
+                        break;
+                    }
+                }
+                if(!found)
+                {
+                    if(!isNarrow)
+                        max = -48.0;
+                    else
+                        max += 48.0;
+                    foreach(FrameworkElement item in stackPanelScriptData.Children)
+                    {
+                        max += item.ActualHeight + 16.0;
+                        if(item == focus)
+                        {
+                            found = true;
+                            break;
+                        }
+                    }
+                }
+                var min = max - e.NewSize.Height + 120.0;
+                var current = root.VerticalOffset;
+                if(current < min)
+                    root.ChangeView(null, min, null);
+                else if(current > max)
+                    root.ChangeView(null, max, null);
             }
             needFocus = false;
         }
@@ -80,9 +132,42 @@ namespace SubtitleEditor.View
         public static readonly DependencyProperty ViewModelProperty =
             DependencyProperty.Register("ViewModel", typeof(ScriptInfoViewModel), typeof(ScriptInfoPage), new PropertyMetadata(null));
 
-        private void TextBox_GotFocus(object sender, RoutedEventArgs e)
+        private void field_GotFocus(object sender, RoutedEventArgs e)
         {
             focus = sender;
         }
+
+        private void numberedTextBox_LostFocus(object sender, RoutedEventArgs args)
+        {
+            var s = (TextBox)sender;
+            var num = string.Concat(s.Text.Where(c => c >= '0' && c <= '9')).TrimStart('0');
+            s.Text = string.IsNullOrEmpty(num) ? "0" : num;
+        }
+    }
+
+    class WrapStyleConverter : EnumConverter<WrapStyle>
+    {
+        protected override Dictionary<WrapStyle, object> ConvertDictionary
+        {
+            get;
+        } = new Dictionary<WrapStyle, object>()
+        {
+            [WrapStyle.Smart] = LocalizedStrings.WrapStyleSmart,
+            [WrapStyle.None] = LocalizedStrings.WrapStyleNone,
+            [WrapStyle.EndOfLine] = LocalizedStrings.WrapStyleEndOfLine,
+            [WrapStyle.Smart2] = LocalizedStrings.WrapStyleSmart2
+        };
+    }
+
+    class CollisionStyleConverter : EnumConverter<CollisionStyle>
+    {
+        protected override Dictionary<CollisionStyle, object> ConvertDictionary
+        {
+            get;
+        } = new Dictionary<CollisionStyle, object>()
+        {
+            [CollisionStyle.Normal] = LocalizedStrings.CollisionStyleNormal,
+            [CollisionStyle.Reverse] = LocalizedStrings.CollisionStyleReverse
+        };
     }
 }

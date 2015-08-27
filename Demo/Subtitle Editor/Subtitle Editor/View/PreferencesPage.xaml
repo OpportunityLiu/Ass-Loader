@@ -5,19 +5,30 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       mc:Ignorable="d"
-      xmlns:vm="using:SubtitleEditor.ViewModel">
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <ComboBox SelectedItem="{x:Bind ViewModel.Theme, Mode=TwoWay,Converter={StaticResource DefaultConverter}}" xmlns:con="using:SubtitleEditor.Converters">
-            <ComboBox.Resources>
-                <con:ElementThemeConverter x:Key="ElementThemeConverter"/>
-            </ComboBox.Resources>
-            <ComboBox.ItemTemplate>
-                <DataTemplate x:DataType="ElementTheme">
-                    <TextBlock Text="{Binding Converter={StaticResource ElementThemeConverter}}" />
-                </DataTemplate>
-            </ComboBox.ItemTemplate>
-            <ElementTheme>Light</ElementTheme>
-            <ElementTheme>Dark</ElementTheme>
-        </ComboBox>
-    </Grid>
+      xmlns:vm="using:SubtitleEditor.ViewModel" NavigationCacheMode="Enabled">
+    <Page.TopAppBar>
+        <CommandBar Style="{StaticResource InnerPageCommandBarStyle}" />
+    </Page.TopAppBar>
+    <ScrollViewer>
+        <StackPanel Padding="12">
+            <StackPanel.ChildrenTransitions>
+                <TransitionCollection>
+                    <EntranceThemeTransition IsStaggeringEnabled="True" />
+                </TransitionCollection>
+            </StackPanel.ChildrenTransitions>
+            <ComboBox Header="Theme"
+                      SelectedItem="{x:Bind ViewModel.Theme, Mode=TwoWay, Converter={StaticResource DefaultConverter}}">
+                <ComboBox.Resources>
+                    <local:ElementThemeConverter x:Key="ElementThemeConverter" />
+                </ComboBox.Resources>
+                <ComboBox.ItemTemplate>
+                    <DataTemplate x:DataType="ElementTheme">
+                        <TextBlock Text="{Binding Converter={StaticResource ElementThemeConverter}}" />
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+                <ElementTheme>Light</ElementTheme>
+                <ElementTheme>Dark</ElementTheme>
+            </ComboBox>
+        </StackPanel>
+    </ScrollViewer>
 </Page>

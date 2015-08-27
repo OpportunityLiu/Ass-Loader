@@ -122,15 +122,19 @@ namespace SubtitleEditor.ViewModel
         public async Task<bool> Save()
         {
             if(doc.CanSave)
-                await doc.SaveAsync();
-            else
             {
-                savePicker.SuggestedFileName = doc.Subtitle.ScriptInfo.Title ?? "";
-                var file = await savePicker.PickSaveFileAsync();
-                if(file == null)
-                    return false;
-                await doc.SaveFileAsync(file);
+                try
+                {
+                    await doc.SaveAsync();
+                    return true;
+                }
+                catch(Exception) { }
             }
+            savePicker.SuggestedFileName = doc.Subtitle.ScriptInfo.Title ?? "";
+            var file = await savePicker.PickSaveFileAsync();
+            if(file == null)
+                return false;
+            await doc.SaveFileAsync(file);
             return true;
         }
 

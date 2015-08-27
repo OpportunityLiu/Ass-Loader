@@ -54,8 +54,7 @@ namespace SubtitleEditor.View
             {
                 inputPane.Content = "\xE087"; //keyboard icon
                 if(height < 100)
-                    //snap to 4 px grid
-                    inputPane.FontSize = ((int)height / 8) * 4;
+                    inputPane.FontSize = height;
                 else
                     inputPane.FontSize = 64;
             }
@@ -86,16 +85,23 @@ namespace SubtitleEditor.View
 
         private void SplitViewButton_Click(object sender, RoutedEventArgs e)
         {
-            setPane(!splitView.IsPaneOpen);
+            var to = !splitView.IsPaneOpen;
+            splitView.IsPaneOpen = to;
+            if(to)
+            {
+                splitViewExpand.Begin();
+                if(splitView.DisplayMode == SplitViewDisplayMode.CompactInline)
+                    splitViewExpand.SkipToFill();
+            }
         }
 
-        private void setPane(bool isOpen)
+        private void closePaneIfNeeded()
         {
-            if(splitView.IsPaneOpen == isOpen)
+            if(splitView.IsPaneOpen == false)
                 return;
-            splitView.IsPaneOpen = isOpen;
-            if(isOpen)
-                splitViewExpand.Begin();
+            if(splitView.DisplayMode == SplitViewDisplayMode.CompactInline)
+                return;
+            splitView.IsPaneOpen = false;
         }
 
         private void navigating(SplitViewTabData to)
@@ -121,9 +127,8 @@ namespace SubtitleEditor.View
             {
                 tabTagTransform.To = index * 48;
             }
-            if(aniamtion)
-                Navigating.Begin();
-            else
+            Navigating.Begin();
+            if(!aniamtion)
                 Navigating.SkipToFill();
         }
 
@@ -131,7 +136,7 @@ namespace SubtitleEditor.View
 
         private void SplitViewTabButton_Click(object sender, RoutedEventArgs e)
         {
-            setPane(false);
+            closePaneIfNeeded();
             if(checkedTab == ViewModel.Preferences)
                 ViewModel.IsPreferencesShown = false;
             var checkedTabTemp = (SplitViewTabData)((FrameworkElement)sender).DataContext;
@@ -140,7 +145,7 @@ namespace SubtitleEditor.View
 
         private async void SplitViewTabButton_Click2(object sender, RoutedEventArgs e)
         {
-            setPane(false);
+            closePaneIfNeeded();
             if(await ViewModel.ShowPreferences())
                 return;
             var checkedTabTemp = ViewModel.Preferences;
@@ -150,17 +155,41 @@ namespace SubtitleEditor.View
 
         private void SplitViewCommand_Click(object sender, RoutedEventArgs e)
         {
-            setPane(false);
+            closePaneIfNeeded();
         }
 
-        private void page_SizeChanged(object sender, SizeChangedEventArgs e)
+        private void splitView_SizeChanged(object sender, SizeChangedEventArgs e)
         {
-            playNavigationAnimation(false);
+            if(e.NewSize.Width < 720)
+            {
+                splitView.DisplayMode = SplitViewDisplayMode.Overlay;
+            }
+            else
+            {
+                if(e.NewSize.Width < 1280)
+                {
+                    splitView.DisplayMode = SplitViewDisplayMode.CompactOverlay;
+                }
+                else
+                {
+                    splitView.DisplayMode = SplitViewDisplayMode.CompactInline;
+                }
+            }
         }
 
         private void splitView_PaneClosing(SplitView sender, SplitViewPaneClosingEventArgs args)
         {
             splitViewClose.Begin();
+            if(splitView.DisplayMode == SplitViewDisplayMode.CompactInline)
+                splitViewClose.SkipToFill();
+        }
+
+        private PreferencesViewModel preferences = PreferencesViewModel.Instance;
+
+        private void splitViewGrid_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            if(e.PreviousSize.Height != e.NewSize.Height)
+                playNavigationAnimation(false);
         }
     }
 }

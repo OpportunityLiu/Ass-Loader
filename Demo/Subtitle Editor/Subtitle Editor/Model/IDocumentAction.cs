@@ -7,6 +7,9 @@ using AssLoader;
 
 namespace SubtitleEditor.Model
 {
+    delegate void DocumentActionDo(Subtitle<ScriptInfo> subtitle);
+    delegate void DocumentActionUndo(Subtitle<ScriptInfo> subtitle);
+
     interface IDocumentAction
     {
         void Do(Subtitle<ScriptInfo> subtitle);
@@ -21,14 +24,15 @@ namespace SubtitleEditor.Model
 
     class DocumentAction : IDocumentAction
     {
-        public DocumentAction(string name, Action<Subtitle<ScriptInfo>> doAction, Action<Subtitle<ScriptInfo>> undoAction)
+        public DocumentAction(string name, DocumentActionDo doAction, DocumentActionUndo undoAction)
         {
             ActionFriendlyName = name;
             this.doAction = doAction;
             this.undoAction = undoAction;
         }
 
-        private Action<Subtitle<ScriptInfo>> doAction, undoAction;
+        private DocumentActionDo doAction;
+        private DocumentActionUndo undoAction;
 
         public string ActionFriendlyName
         {
