@@ -9,6 +9,14 @@ namespace SubtitleEditor
         public static string GetString(string resourceKey) => loader.GetString(resourceKey);
 
         /// <summary>
+        /// 修改{0}
+        /// </summary>
+        public static string ActionSetScriptInfo
+        {
+            get;
+        } = loader.GetString("ActionSetScriptInfo"); 
+
+        /// <summary>
         /// Opportunity
         /// </summary>
         public static string AppAuthor
@@ -41,7 +49,39 @@ namespace SubtitleEditor
         } = loader.GetString("AssFileName"); 
 
         /// <summary>
-        /// 暗
+        /// 移动后续字幕。
+        /// </summary>
+        public static string CollisionStyleNormal
+        {
+            get;
+        } = loader.GetString("CollisionStyleNormal"); 
+
+        /// <summary>
+        /// 为后续字幕预留空间。
+        /// </summary>
+        public static string CollisionStyleReverse
+        {
+            get;
+        } = loader.GetString("CollisionStyleReverse"); 
+
+        /// <summary>
+        /// 撤销 {0}
+        /// </summary>
+        public static string DocumentRedo
+        {
+            get;
+        } = loader.GetString("DocumentRedo"); 
+
+        /// <summary>
+        /// 重做 {0}
+        /// </summary>
+        public static string DocumentUndo
+        {
+            get;
+        } = loader.GetString("DocumentUndo"); 
+
+        /// <summary>
+        /// 深色
         /// </summary>
         public static string ElementThemeDark
         {
@@ -49,15 +89,7 @@ namespace SubtitleEditor
         } = loader.GetString("ElementThemeDark"); 
 
         /// <summary>
-        /// 默认
-        /// </summary>
-        public static string ElementThemeDefault
-        {
-            get;
-        } = loader.GetString("ElementThemeDefault"); 
-
-        /// <summary>
-        /// 亮
+        /// 浅色
         /// </summary>
         public static string ElementThemeLight
         {
@@ -105,6 +137,126 @@ namespace SubtitleEditor
         } = loader.GetString("SaveDialogYes"); 
 
         /// <summary>
+        /// 冲突处理
+        /// </summary>
+        public static string ScriptInfoCollisions
+        {
+            get;
+        } = loader.GetString("ScriptInfoCollisions"); 
+
+        /// <summary>
+        /// 编辑
+        /// </summary>
+        public static string ScriptInfoOriginalEditing
+        {
+            get;
+        } = loader.GetString("ScriptInfoOriginalEditing"); 
+
+        /// <summary>
+        /// 脚本
+        /// </summary>
+        public static string ScriptInfoOriginalScript
+        {
+            get;
+        } = loader.GetString("ScriptInfoOriginalScript"); 
+
+        /// <summary>
+        /// 时间轴
+        /// </summary>
+        public static string ScriptInfoOriginalTiming
+        {
+            get;
+        } = loader.GetString("ScriptInfoOriginalTiming"); 
+
+        /// <summary>
+        /// 翻译
+        /// </summary>
+        public static string ScriptInfoOriginalTranslation
+        {
+            get;
+        } = loader.GetString("ScriptInfoOriginalTranslation"); 
+
+        /// <summary>
+        /// 色彩深度
+        /// </summary>
+        public static string ScriptInfoPlayDepth
+        {
+            get;
+        } = loader.GetString("ScriptInfoPlayDepth"); 
+
+        /// <summary>
+        /// 水平分辨率
+        /// </summary>
+        public static string ScriptInfoPlayResX
+        {
+            get;
+        } = loader.GetString("ScriptInfoPlayResX"); 
+
+        /// <summary>
+        /// 垂直分辨率
+        /// </summary>
+        public static string ScriptInfoPlayResY
+        {
+            get;
+        } = loader.GetString("ScriptInfoPlayResY"); 
+
+        /// <summary>
+        /// 缩放边框和阴影
+        /// </summary>
+        public static string ScriptInfoScaledBorderAndShadow
+        {
+            get;
+        } = loader.GetString("ScriptInfoScaledBorderAndShadow"); 
+
+        /// <summary>
+        /// 修订
+        /// </summary>
+        public static string ScriptInfoScriptUpdatedBy
+        {
+            get;
+        } = loader.GetString("ScriptInfoScriptUpdatedBy"); 
+
+        /// <summary>
+        /// 同步点
+        /// </summary>
+        public static string ScriptInfoSynchPoint
+        {
+            get;
+        } = loader.GetString("ScriptInfoSynchPoint"); 
+
+        /// <summary>
+        /// 播放速度
+        /// </summary>
+        public static string ScriptInfoTimer
+        {
+            get;
+        } = loader.GetString("ScriptInfoTimer"); 
+
+        /// <summary>
+        /// 标题
+        /// </summary>
+        public static string ScriptInfoTitle
+        {
+            get;
+        } = loader.GetString("ScriptInfoTitle"); 
+
+        /// <summary>
+        /// 修订信息
+        /// </summary>
+        public static string ScriptInfoUpdateDetails
+        {
+            get;
+        } = loader.GetString("ScriptInfoUpdateDetails"); 
+
+        /// <summary>
+        /// 换行方式
+        /// </summary>
+        public static string ScriptInfoWrapStyle
+        {
+            get;
+        } = loader.GetString("ScriptInfoWrapStyle"); 
+
+        /// <summary>
         /// 新建
         /// </summary>
         public static string SplitViewButtonNew
@@ -145,7 +297,7 @@ namespace SubtitleEditor
         } = loader.GetString("SplitViewTabPreferences"); 
 
         /// <summary>
-        /// 元数据
+        /// 脚本信息
         /// </summary>
         public static string SplitViewTabScriptInfo
         {
@@ -167,5 +319,37 @@ namespace SubtitleEditor
         {
             get;
         } = loader.GetString("Untitled"); 
+
+        /// <summary>
+        /// 自上而下填充各行，“\N”换行。
+        /// </summary>
+        public static string WrapStyleEndOfLine
+        {
+            get;
+        } = loader.GetString("WrapStyleEndOfLine"); 
+
+        /// <summary>
+        /// 不自动折行，“\N”和“\n”换行。
+        /// </summary>
+        public static string WrapStyleNone
+        {
+            get;
+        } = loader.GetString("WrapStyleNone"); 
+
+        /// <summary>
+        /// 平均分布各行，上行较宽，“\N”换行。
+        /// </summary>
+        public static string WrapStyleSmart
+        {
+            get;
+        } = loader.GetString("WrapStyleSmart"); 
+
+        /// <summary>
+        /// 平均分布各行，下行较宽，“\N”换行。
+        /// </summary>
+        public static string WrapStyleSmart2
+        {
+            get;
+        } = loader.GetString("WrapStyleSmart2"); 
     }
 }

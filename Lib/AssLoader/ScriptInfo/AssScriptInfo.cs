@@ -244,7 +244,7 @@ namespace AssLoader.Collections
         /// This is the height of the screen used by the script's author(s) when playing the script. 
         /// </summary>
         /// <exception cref="ArgumentOutOfRangeException">
-        /// <paramref name="value"/> is not greater than 0.
+        /// <paramref name="value"/> is less than 0.
         /// </exception>
         /// <seealso cref="PlayResX"/>
         public int PlayResY
@@ -255,8 +255,8 @@ namespace AssLoader.Collections
             }
             set
             {
-                if(value <= 0)
-                    throw new ArgumentOutOfRangeException(nameof(value), "value must be greater than 0.");
+                if(value < 0)
+                    throw new ArgumentOutOfRangeException(nameof(value), "value is less than 0.");
                 Set(ref playResY, value);
             }
         }
@@ -268,7 +268,7 @@ namespace AssLoader.Collections
         /// This is the width of the screen used by the script's author(s) when playing the script.
         /// </summary>
         /// <exception cref="ArgumentOutOfRangeException">
-        /// <paramref name="value"/> is not greater than 0.
+        /// <paramref name="value"/> is less than 0.
         /// </exception>
         /// <seealso cref="PlayResY"/>
         public int PlayResX
@@ -279,8 +279,8 @@ namespace AssLoader.Collections
             }
             set
             {
-                if(value <= 0)
-                    throw new ArgumentOutOfRangeException(nameof(value), "value must be greater than 0.");
+                if(value < 0)
+                    throw new ArgumentOutOfRangeException(nameof(value), "value is less than 0.");
                 Set(ref playResX, value);
             }
         }

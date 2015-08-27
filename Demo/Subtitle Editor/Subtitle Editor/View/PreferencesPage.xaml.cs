@@ -1,4 +1,5 @@
-﻿using SubtitleEditor.ViewModel;
+﻿using SubtitleEditor.Converters;
+using SubtitleEditor.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -26,6 +27,8 @@ namespace SubtitleEditor.View
         public PreferencesPage()
         {
             this.InitializeComponent();
+            var ioc = ViewModelLocator.GetForCurrentView();
+            this.ViewModel = ioc.PreferencesView;
         }
 
         public PreferencesViewModel ViewModel
@@ -42,18 +45,30 @@ namespace SubtitleEditor.View
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            this.ViewModel = ViewModelLocator.GetForCurrentView().PreferencesView;
+            Bindings.Update();
             base.OnNavigatedTo(e);
         }
 
         protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
         {
-            this.ViewModel = null;
+            Bindings.StopTracking();
             base.OnNavigatingFrom(e);
         }
 
         // Using a DependencyProperty as the backing store for ViewModel.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty ViewModelProperty =
             DependencyProperty.Register("ViewModel", typeof(PreferencesViewModel), typeof(PreferencesPage), new PropertyMetadata(null));
+    }
+
+    class ElementThemeConverter : EnumConverter<ElementTheme>
+    {
+        protected override Dictionary<ElementTheme, object> ConvertDictionary
+        {
+            get;
+        } = new Dictionary<ElementTheme, object>()
+        {
+            [ElementTheme.Dark] = LocalizedStrings.ElementThemeDark,
+            [ElementTheme.Light] = LocalizedStrings.ElementThemeLight
+        };
     }
 }

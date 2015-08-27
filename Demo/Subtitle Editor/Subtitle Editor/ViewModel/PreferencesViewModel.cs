@@ -72,17 +72,22 @@ namespace SubtitleEditor.ViewModel
             if(roaming.Values.TryGetValue(propertyName, out value))
             {
                 var v = value.ToString();
-                var type = typeof(T);
-                var info = type.GetTypeInfo();
-                if(info.IsEnum)
+                Tuple<Type, bool> pInfo;
+                if(!propertyCache.TryGetValue(propertyName, out pInfo))
                 {
-                    return (T)Enum.Parse(type, v);
+                    var t = typeof(T);
+                    pInfo = new Tuple<Type, bool>(t, t.GetTypeInfo().IsEnum);
+                    propertyCache[propertyName] = pInfo;
+                }
+                if(pInfo.Item2)
+                {
+                    return (T)Enum.Parse(pInfo.Item1, v);
                 }
                 else
                 {
                     try
                     {
-                        return (T)Convert.ChangeType(v, type);
+                        return (T)Convert.ChangeType(v, pInfo.Item1);
                     }
                     catch(InvalidCastException) { }
                     catch(FormatException) { }
@@ -90,6 +95,9 @@ namespace SubtitleEditor.ViewModel
             }
             return default(T);
         }
+
+        //propertyName,propertyType,isEnum
+        private Dictionary<string, Tuple<Type, bool>> propertyCache = new Dictionary<string, Tuple<Type, bool>>();
 
         private void init<T>(T value, [CallerMemberName]string propertyName = null)
         {

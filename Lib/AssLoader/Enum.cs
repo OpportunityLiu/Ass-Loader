@@ -21,9 +21,9 @@
         /// <remarks>
         /// This means the subtitles can nearly always be read top-down,
         /// but it also means that the first subtitle can appear half way up the screen before the subsequent overlapping subtitles appear. 
-        /// It can use alpha lot of screen area.
+        /// It can use a lot of screen area.
         /// </remarks>
-        Reverse
+        Reverse = 1
     }
 
     /// <summary>
@@ -72,21 +72,21 @@
     public enum WrapStyle
     {
         /// <summary>
-        /// smart wrapping, lines are evenly broken, only @"\N" breaks.
+        /// Smart wrapping, lines are evenly broken, only @"\N" breaks.
         /// </summary>
-        Average = 0,
+        Smart = 0,
         /// <summary>
-        /// same as <see cref="Average"/>, but upper line gets wider.
+        /// End-of-line word wrapping, only @"\N" breaks.
         /// </summary>
-        Downward = 1,
+        EndOfLine = 1,
         /// <summary>
-        /// no word wrapping, @"\n" and @"\N" both breaks.
+        /// No word wrapping, both @"\n" and @"\N" breaks.
         /// </summary>
         None = 2,
         /// <summary>
-        /// same as <see cref="Average"/>, but lower line gets wider.
+        /// Same as <see cref="Smart"/>, but lower line gets wider.
         /// </summary>
-        Upward = 3
+        Smart2 = 3
     }
 
 }

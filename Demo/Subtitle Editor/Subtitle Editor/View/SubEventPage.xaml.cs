@@ -26,7 +26,18 @@ namespace SubtitleEditor.View
         public SubEventPage()
         {
             this.InitializeComponent();
-            this.ViewModel = ViewModelLocator.GetForCurrentView().SubEventView;
+            var ioc = ViewModelLocator.GetForCurrentView();
+            this.ViewModel = ioc.SubEventView;
+        }
+
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            base.OnNavigatedTo(e);
+        }
+
+        protected override void OnNavigatedFrom(NavigationEventArgs e)
+        {
+            base.OnNavigatedFrom(e);
         }
 
         public SubEventViewModel ViewModel

@@ -9,7 +9,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>SubtitleEditor</RootNamespace>
     <AssemblyName>SubtitleEditor</AssemblyName>
-    <DefaultLanguage>zh-CN</DefaultLanguage>
+    <DefaultLanguage>zh-Hans-cn</DefaultLanguage>
     <TargetPlatformIdentifier>UAP</TargetPlatformIdentifier>
     <TargetPlatformVersion>10.0.10240.0</TargetPlatformVersion>
     <TargetPlatformMinVersion>10.0.10240.0</TargetPlatformMinVersion>
@@ -104,6 +104,7 @@
       <DependentUpon>LocalizedStrings.tt</DependentUpon>
     </Compile>
     <Compile Include="ViewModel\DocumentViewModel.cs" />
+    <Compile Include="ViewModel\EditorViewModelBase.cs" />
     <Compile Include="ViewModel\ScriptInfoViewModel.cs" />
     <Compile Include="ViewModel\PreferencesViewModel.cs" />
     <Compile Include="ViewModel\StyleViewModel.cs" />

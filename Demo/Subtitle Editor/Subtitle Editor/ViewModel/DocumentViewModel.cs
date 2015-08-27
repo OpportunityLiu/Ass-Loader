@@ -15,8 +15,8 @@ namespace SubtitleEditor.ViewModel
         public DocumentViewModel()
         {
             doc.PropertyChanged += document_PropertyChanged;
-            Redo = new RelayCommand(() => doc.Redo(), () => doc.CanRedo);
-            Undo = new RelayCommand(() => doc.Undo(), () => doc.CanUndo);
+            Redo = new RelayCommand(() => doc.Redo(), () => doc.RedoAction != null);
+            Undo = new RelayCommand(() => doc.Undo(), () => doc.UndoAction != null);
         }
 
         private Document doc = ViewModelLocator.GetForCurrentView().Document;
@@ -31,16 +31,22 @@ namespace SubtitleEditor.ViewModel
             }
             switch(e.PropertyName)
             {
-            case nameof(Document.CanRedo):
-                Redo.RaiseCanExecuteChanged();
-                break;
-            case nameof(Document.CanUndo):
+            case nameof(Document.UndoAction):
+                RaisePropertyChanged(nameof(UndoHint));
                 Undo.RaiseCanExecuteChanged();
+                break;
+            case nameof(Document.RedoAction):
+                Redo.RaiseCanExecuteChanged();
+                RaisePropertyChanged(nameof(RedoHint));
                 break;
             default:
                 break;
             }
         }
+
+        public string UndoHint => string.Format(System.Globalization.CultureInfo.CurrentCulture, LocalizedStrings.DocumentUndo, doc.UndoAction?.ActionFriendlyName);
+
+        public string RedoHint => string.Format(System.Globalization.CultureInfo.CurrentCulture, LocalizedStrings.DocumentRedo, doc.RedoAction?.ActionFriendlyName);
 
         public RelayCommand Redo
         {

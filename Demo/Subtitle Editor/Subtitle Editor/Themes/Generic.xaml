@@ -74,6 +74,7 @@
                                           FontSize="{TemplateBinding FontSize}"
                                           FontFamily="{TemplateBinding FontFamily}" />
                         <ContentPresenter x:Name="Icon"
+                                          AutomationProperties.LabeledBy="{Binding Content}"
                                           AutomationProperties.AccessibilityView="Raw"
                                           Content="{TemplateBinding Icon}"
                                           Foreground="{TemplateBinding Foreground}" />

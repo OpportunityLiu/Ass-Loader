@@ -12,26 +12,15 @@ using AssLoader;
 
 namespace SubtitleEditor.ViewModel
 {
-    class ScriptInfoViewModel : ViewModelBase
+    class ScriptInfoViewModel : EditorViewModelBase
     {
-        public ScriptInfoViewModel()
-        {
-            var ioc = ViewModelLocator.GetForCurrentView();
-            document = ViewModelLocator.GetForCurrentView().Document;
-            document.PropertyChanged += document_PropertyChanged;
-            info = document.Subtitle?.ScriptInfo;
-            DocumentView = ioc.DocumentView;
-            if(info != null)
-                info.PropertyChanged += Info_PropertyChanged;
-        }
-
-        private void document_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        protected override void Document_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             if(string.IsNullOrEmpty(e.PropertyName) || e.PropertyName == nameof(Document.Subtitle))
             {
                 if(info != null)
                     info.PropertyChanged -= Info_PropertyChanged;
-                info = document.Subtitle?.ScriptInfo;
+                info = Document.Subtitle?.ScriptInfo;
                 if(info != null)
                     info.PropertyChanged += Info_PropertyChanged;
                 RaisePropertyChanged(null);
@@ -45,21 +34,6 @@ namespace SubtitleEditor.ViewModel
 
         private ScriptInfo info;
 
-        private Document document;
-
-        public DocumentViewModel DocumentView
-        {
-            get;
-            private set;
-        }
-
-        protected void SetValue<T>(ref T target, T value)
-        {
-            if(target.Equals(value))
-                return;
-
-        }
-
         public string Title
         {
             get
@@ -72,7 +46,7 @@ namespace SubtitleEditor.ViewModel
                 value = stringFormat(value);
                 if(value == oldValue)
                     return;
-                document.Do(new DocumentAction("Set Title",
+                Document.Do(new ScriptInfoAction(LocalizedStrings.ScriptInfoTitle,
                     sub => sub.ScriptInfo.Title = value,
                     sub => sub.ScriptInfo.Title = oldValue));
             }
@@ -90,7 +64,7 @@ namespace SubtitleEditor.ViewModel
                 value = stringFormat(value);
                 if(value == oldValue)
                     return;
-                document.Do(new DocumentAction("Set OriginalEditing",
+                Document.Do(new ScriptInfoAction(LocalizedStrings.ScriptInfoOriginalEditing,
                     sub => sub.ScriptInfo.OriginalEditing = value,
                     sub => sub.ScriptInfo.OriginalEditing = oldValue));
             }
@@ -108,7 +82,7 @@ namespace SubtitleEditor.ViewModel
                 value = stringFormat(value);
                 if(value == oldValue)
                     return;
-                document.Do(new DocumentAction("Set OriginalScript",
+                Document.Do(new ScriptInfoAction(LocalizedStrings.ScriptInfoOriginalScript,
                     sub => sub.ScriptInfo.OriginalScript = value,
                     sub => sub.ScriptInfo.OriginalScript = oldValue));
             }
@@ -126,7 +100,7 @@ namespace SubtitleEditor.ViewModel
                 value = stringFormat(value);
                 if(value == oldValue)
                     return;
-                document.Do(new DocumentAction("Set OriginalTiming",
+                Document.Do(new ScriptInfoAction(LocalizedStrings.ScriptInfoOriginalTiming,
                     sub => sub.ScriptInfo.OriginalTiming = value,
                     sub => sub.ScriptInfo.OriginalTiming = oldValue));
             }
@@ -144,7 +118,7 @@ namespace SubtitleEditor.ViewModel
                 value = stringFormat(value);
                 if(value == oldValue)
                     return;
-                document.Do(new DocumentAction("Set OriginalTranslation",
+                Document.Do(new ScriptInfoAction(LocalizedStrings.ScriptInfoOriginalTranslation,
                     sub => sub.ScriptInfo.OriginalTranslation = value,
                     sub => sub.ScriptInfo.OriginalTranslation = oldValue));
             }
@@ -162,7 +136,7 @@ namespace SubtitleEditor.ViewModel
                 value = stringFormat(value);
                 if(value == oldValue)
                     return;
-                document.Do(new DocumentAction("Set ScriptUpdatedBy",
+                Document.Do(new ScriptInfoAction(LocalizedStrings.ScriptInfoScriptUpdatedBy,
                     sub => sub.ScriptInfo.ScriptUpdatedBy = value,
                     sub => sub.ScriptInfo.ScriptUpdatedBy = oldValue));
             }
@@ -180,7 +154,7 @@ namespace SubtitleEditor.ViewModel
                 value = stringFormat(value);
                 if(value == oldValue)
                     return;
-                document.Do(new DocumentAction("Set UpdateDetails",
+                Document.Do(new ScriptInfoAction(LocalizedStrings.ScriptInfoUpdateDetails,
                     sub => sub.ScriptInfo.UpdateDetails = value,
                     sub => sub.ScriptInfo.UpdateDetails = oldValue));
             }
@@ -198,28 +172,28 @@ namespace SubtitleEditor.ViewModel
                 value = stringFormat(value);
                 if(value == oldValue)
                     return;
-                document.Do(new DocumentAction("Set SynchPoint",
+                Document.Do(new ScriptInfoAction(LocalizedStrings.ScriptInfoSynchPoint,
                     sub => sub.ScriptInfo.SynchPoint = value,
                     sub => sub.ScriptInfo.SynchPoint = oldValue));
             }
         }
 
-        public double? Timer
-        {
-            get
-            {
-                return info.Timer;
-            }
-            set
-            {
-                var oldValue = info.Timer;
-                if(value == oldValue)
-                    return;
-                document.Do(new DocumentAction("Set Timer",
-                    sub => sub.ScriptInfo.Timer = value,
-                    sub => sub.ScriptInfo.Timer = oldValue));
-            }
-        }
+        //public double? Timer
+        //{
+        //    get
+        //    {
+        //        return info.Timer;
+        //    }
+        //    set
+        //    {
+        //        var oldValue = info.Timer;
+        //        if(value == oldValue)
+        //            return;
+        //        Document.Do(new ScriptInfoAction(LocalizedStrings.ScriptInfoTimer,
+        //            sub => sub.ScriptInfo.Timer = value,
+        //            sub => sub.ScriptInfo.Timer = oldValue));
+        //    }
+        //}
 
         public CollisionStyle Collisions
         {
@@ -232,7 +206,7 @@ namespace SubtitleEditor.ViewModel
                 var oldValue = info.Collisions;
                 if(value == oldValue)
                     return;
-                document.Do(new DocumentAction("Set Collisions",
+                Document.Do(new ScriptInfoAction(LocalizedStrings.ScriptInfoCollisions,
                     sub => sub.ScriptInfo.Collisions = value,
                     sub => sub.ScriptInfo.Collisions = oldValue));
             }
@@ -249,28 +223,28 @@ namespace SubtitleEditor.ViewModel
                 var oldValue = info.WrapStyle;
                 if(value == oldValue)
                     return;
-                document.Do(new DocumentAction("Set WrapStyle",
+                Document.Do(new ScriptInfoAction(LocalizedStrings.ScriptInfoWrapStyle,
                     sub => sub.ScriptInfo.WrapStyle = value,
                     sub => sub.ScriptInfo.WrapStyle = oldValue));
             }
         }
 
-        public int? PlayDepth
-        {
-            get
-            {
-                return info.PlayDepth;
-            }
-            set
-            {
-                var oldValue = info.PlayDepth;
-                if(value == oldValue)
-                    return;
-                document.Do(new DocumentAction("Set PlayDepth",
-                    sub => sub.ScriptInfo.PlayDepth = value,
-                    sub => sub.ScriptInfo.PlayDepth = oldValue));
-            }
-        }
+        //public int? PlayDepth
+        //{
+        //    get
+        //    {
+        //        return info.PlayDepth;
+        //    }
+        //    set
+        //    {
+        //        var oldValue = info.PlayDepth;
+        //        if(value == oldValue)
+        //            return;
+        //        Document.Do(new ScriptInfoAction(LocalizedStrings.ScriptInfoPlayDepth,
+        //            sub => sub.ScriptInfo.PlayDepth = value,
+        //            sub => sub.ScriptInfo.PlayDepth = oldValue));
+        //    }
+        //}
 
         public int PlayResX
         {
@@ -283,7 +257,7 @@ namespace SubtitleEditor.ViewModel
                 var oldValue = info.PlayResX;
                 if(value == oldValue)
                     return;
-                document.Do(new DocumentAction("Set PlayResX",
+                Document.Do(new ScriptInfoAction(LocalizedStrings.ScriptInfoPlayResX,
                     sub => sub.ScriptInfo.PlayResX = value,
                     sub => sub.ScriptInfo.PlayResX = oldValue));
             }
@@ -300,7 +274,7 @@ namespace SubtitleEditor.ViewModel
                 var oldValue = info.PlayResY;
                 if(value == oldValue)
                     return;
-                document.Do(new DocumentAction("Set PlayResY",
+                Document.Do(new ScriptInfoAction(LocalizedStrings.ScriptInfoPlayResY,
                     sub => sub.ScriptInfo.PlayResY = value,
                     sub => sub.ScriptInfo.PlayResY = oldValue));
             }
@@ -317,7 +291,7 @@ namespace SubtitleEditor.ViewModel
                 var oldValue = info.ScaledBorderAndShadow;
                 if(value == oldValue)
                     return;
-                document.Do(new DocumentAction("Set ScaledBorderAndShadow",
+                Document.Do(new ScriptInfoAction(LocalizedStrings.ScriptInfoScaledBorderAndShadow,
                     sub => sub.ScriptInfo.ScaledBorderAndShadow = value,
                     sub => sub.ScriptInfo.ScaledBorderAndShadow = oldValue));
             }
@@ -331,5 +305,12 @@ namespace SubtitleEditor.ViewModel
             return value;
         }
 
+        private class ScriptInfoAction : DocumentAction
+        {
+            public ScriptInfoAction(string propertyName, DocumentActionDo doAction, DocumentActionUndo undoAction)
+                : base(string.Format(System.Globalization.CultureInfo.CurrentCulture, LocalizedStrings.ActionSetScriptInfo, propertyName), doAction, undoAction)
+            {
+            }
+        }
     }
 }

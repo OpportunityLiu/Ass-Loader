@@ -11,14 +11,7 @@ namespace SubtitleEditor.Model
     class ProjectConfig
     {
         [JsonProperty]
-        public string VideoPath
-        {
-            get;
-            set;
-        }
-
-        [JsonProperty]
-        public string AudioPath
+        public string MediaToken
         {
             get;
             set;

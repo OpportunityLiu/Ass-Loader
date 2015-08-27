@@ -1,17 +1,18 @@
-﻿using System;
+﻿using AssLoader;
+using GalaSoft.MvvmLight;
+using SubtitleEditor.Model;
+using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using GalaSoft.MvvmLight;
-using AssLoader;
-using SubtitleEditor.Model;
 using Windows.Storage;
-using Windows.Storage.Pickers;
-using System.IO;
-using Windows.UI.Xaml;
-using Windows.UI.ViewManagement;
+using Windows.Storage.AccessCache;
 using Windows.UI.Popups;
+using Windows.UI.ViewManagement;
+using Windows.UI.Xaml;
+using System.Collections.Concurrent;
 
 namespace SubtitleEditor.Model
 {
@@ -60,14 +61,14 @@ namespace SubtitleEditor.Model
         private void modified()
         {
             RaisePropertyChanged(nameof(CanSave));
-            RaisePropertyChanged(nameof(CanUndo));
-            RaisePropertyChanged(nameof(CanRedo));
+            RaisePropertyChanged(nameof(UndoAction));
+            RaisePropertyChanged(nameof(RedoAction));
             RaisePropertyChanged(nameof(IsModified));
         }
 
-        public bool CanUndo => currentAction.Value != null;
+        public IDocumentAction UndoAction => currentAction.Value;
 
-        public bool CanRedo => currentAction.Previous.Value != null;
+        public IDocumentAction RedoAction => currentAction.Previous.Value;
 
         public bool IsModified => currentAction != savedAction;
 
@@ -100,6 +101,8 @@ namespace SubtitleEditor.Model
             {
                 Set(ref subtitleFile, value);
                 RaisePropertyChanged(nameof(CanSave));
+                if(value != null)
+                    StorageApplicationPermissions.MostRecentlyUsedList.Add(value, value.Name, RecentStorageItemVisibility.AppAndSystem);
             }
         }
 
@@ -139,7 +142,17 @@ namespace SubtitleEditor.Model
         {
             if(!CanSave)
                 throw new InvalidOperationException("Can't save now.");
-            using(var stream = await SubtitleFile.OpenStreamForWriteAsync())
+                Stream stream;
+            try
+            {
+                stream = await SubtitleFile.OpenStreamForWriteAsync();
+            }
+            catch(Exception)
+            {
+                SubtitleFile = null;
+                throw;
+            }
+            using(stream)
             {
                 stream.SetLength(0);
                 using(var writer = new StreamWriter(stream))
