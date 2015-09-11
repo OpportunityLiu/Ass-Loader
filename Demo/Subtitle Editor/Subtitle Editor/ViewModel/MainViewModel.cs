@@ -13,6 +13,7 @@ using Windows.UI.Popups;
 using System.Threading.Tasks;
 using Windows.UI.Xaml;
 using Windows.UI.ViewManagement;
+using System.ComponentModel;
 
 namespace SubtitleEditor.ViewModel
 {
@@ -28,13 +29,15 @@ namespace SubtitleEditor.ViewModel
     /// See http://www.galasoft.ch/mvvm
     /// </para>
     /// </summary>
-    class MainViewModel : ViewModelBase
+    class MainViewModel : EditorViewModelBase
     {
         private static ViewModelLocator locator = new ViewModelLocator();
 
         private FileOpenPicker openPicker;
         private FileSavePicker savePicker;
         private MessageDialog saveDialog;
+
+        private bool isMobile;
 
         private enum dialogResult
         {
@@ -46,6 +49,8 @@ namespace SubtitleEditor.ViewModel
         /// </summary>
         public MainViewModel()
         {
+            if(Windows.System.Profile.AnalyticsInfo.VersionInfo.DeviceFamily == "Windows.Mobile")
+                isMobile = true;
             openPicker = new FileOpenPicker();
             openPicker.FileTypeFilter.Add(".ass");
 
@@ -55,15 +60,18 @@ namespace SubtitleEditor.ViewModel
             saveDialog = new MessageDialog(LocalizedStrings.SaveDialogContent, LocalizedStrings.SaveDialogTitle);
             saveDialog.Commands.Add(new UICommand(LocalizedStrings.SaveDialogYes, null, dialogResult.Yes));
             saveDialog.Commands.Add(new UICommand(LocalizedStrings.SaveDialogNo, null, dialogResult.No));
-            saveDialog.Commands.Add(new UICommand(LocalizedStrings.SaveDialogCancel, null, dialogResult.Cancel));
             saveDialog.DefaultCommandIndex = 0;
-            saveDialog.CancelCommandIndex = 2;
+            if(!isMobile)
+            {
+                saveDialog.Commands.Add(new UICommand(LocalizedStrings.SaveDialogCancel, null, dialogResult.Cancel));
+                saveDialog.CancelCommandIndex = 2;
+            }
 
             newFile = new RelayCommand(async () =>
             {
                 if(!await CleanUpBeforeNewOrOpen())
                     return;
-                doc.NewSubtitle();
+                Document.NewSubtitle();
             });
             openFile = new RelayCommand(async () =>
             {
@@ -72,9 +80,9 @@ namespace SubtitleEditor.ViewModel
                 var file = await openPicker.PickSingleFileAsync();
                 if(file == null)
                     return;
-                await doc.OpenFileAsync(file);
+                await Document.OpenFileAsync(file);
             });
-            saveFile = new RelayCommand(async () => await Save(), () => doc.IsModified);
+            saveFile = new RelayCommand(async () => await Save(), () => Document.IsModified);
 
             SplitViewButtons.Add(new SplitViewButtonData()
             {
@@ -114,27 +122,25 @@ namespace SubtitleEditor.ViewModel
                 Content = LocalizedStrings.SplitViewTabEvent,
                 PageType = typeof(View.SubEventPage)
             });
-            doc.PropertyChanged += documentPropertyChanged;
+            Document.PropertyChanged += documentPropertyChanged;
         }
-
-        private Document doc = ViewModelLocator.GetForCurrentView().Document;
 
         public async Task<bool> Save()
         {
-            if(doc.CanSave)
+            if(Document.CanSave)
             {
                 try
                 {
-                    await doc.SaveAsync();
+                    await Document.SaveAsync();
                     return true;
                 }
                 catch(Exception) { }
             }
-            savePicker.SuggestedFileName = doc.Subtitle.ScriptInfo.Title ?? "";
+            savePicker.SuggestedFileName = Document.Subtitle.ScriptInfo.Title ?? "";//TODO: locolized default new name.
             var file = await savePicker.PickSaveFileAsync();
             if(file == null)
                 return false;
-            await doc.SaveFileAsync(file);
+            await Document.SaveFileAsync(file);
             return true;
         }
 
@@ -144,7 +150,7 @@ namespace SubtitleEditor.ViewModel
         /// <returns>True if can continue.</returns>
         public async Task<bool> CleanUpBeforeNewOrOpen()
         {
-            if(doc.IsModified)
+            if(Document.IsModified)
                 switch(await showSaveDialog())
                 {
                 case dialogResult.Yes:
@@ -157,9 +163,11 @@ namespace SubtitleEditor.ViewModel
             return true;
         }
 
+        public bool NeedCleanUp => Document.IsModified;
+
         private async Task<dialogResult> showSaveDialog()
         {
-            return (dialogResult)(await saveDialog.ShowAsync()).Id;
+            return (dialogResult)((await saveDialog.ShowAsync())?.Id ?? dialogResult.Cancel);
         }
 
         private void documentPropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
@@ -171,7 +179,7 @@ namespace SubtitleEditor.ViewModel
             }
             switch(e.PropertyName)
             {
-            case nameof(doc.IsModified):
+            case nameof(Document.IsModified):
                 saveFile.RaiseCanExecuteChanged();
                 break;
             }
@@ -199,41 +207,19 @@ namespace SubtitleEditor.ViewModel
             PageType = typeof(View.PreferencesPage)
         };
 
-        private static bool isPreferencesShown;
-
-        private static Window preferencesShownWindow;
-
-        public bool IsPreferencesShown
+        protected override void Document_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            get
-            {
-                return isPreferencesShown;
-            }
-            set
-            {
-                if(value)
-                    preferencesShownWindow = Window.Current;
-                Set(ref isPreferencesShown, value);
-            }
+            if(string.IsNullOrEmpty(e.PropertyName) || e.PropertyName == nameof(Document.Title) || e.PropertyName == nameof(Document.IsModified))
+                RaisePropertyChanged(nameof(Title));
         }
 
-        public async Task<bool> ShowPreferences()
+        public string Title => $"{(Document.IsModified ? "● " : "")}{Document.Title ?? LocalizedStrings.Untitled}";
+
+        public override void Cleanup()
         {
-            if(isPreferencesShown)
-            {
-                var from= ApplicationView.GetForCurrentView().Id;
-                await preferencesShownWindow.Dispatcher.RunIdleAsync(async e =>
-                {
-                    preferencesShownWindow.Activate();
-                    var to = ApplicationView.GetApplicationViewIdForWindow(preferencesShownWindow.CoreWindow);
-                    if(from == to)
-                        return;
-                    await ApplicationViewSwitcher.SwitchAsync(to, from, ApplicationViewSwitchingOptions.Default);
-                });
-                return true;
-            }
-            else
-                return false;
+            if(Document != null)
+                Document.PropertyChanged -= documentPropertyChanged;
+            base.Cleanup();
         }
     }
 }

@@ -95,6 +95,8 @@
   </PropertyGroup>
   <ItemGroup>
     <!-- A reference to the entire .Net Framework and Windows SDK are automatically included -->
+    <Compile Include="Controls\StateTriggers\DeviceFamilyTrigger.cs" />
+    <Compile Include="Controls\StateTriggers\ElementSizeTrigger.cs" />
     <Compile Include="Converters\DefaultConverter.cs" />
     <Compile Include="Converters\EnumConverter.cs" />
     <Compile Include="Model\IDocumentAction.cs" />
@@ -109,6 +111,7 @@
     <Compile Include="ViewModel\PreferencesViewModel.cs" />
     <Compile Include="ViewModel\StyleViewModel.cs" />
     <Compile Include="ViewModel\SubEventViewModel.cs" />
+    <Compile Include="View\ICanGoBack.cs" />
     <Compile Include="View\ScriptInfoPage.xaml.cs">
       <DependentUpon>ScriptInfoPage.xaml</DependentUpon>
     </Compile>
@@ -226,6 +229,14 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Resources\" />
+  </ItemGroup>
+  <ItemGroup>
+    <SDKReference Include="WindowsDesktop, Version=10.0.10240.0">
+      <Name>Windows Desktop Extensions for the UWP</Name>
+    </SDKReference>
+    <SDKReference Include="WindowsMobile, Version=10.0.10240.0">
+      <Name>Windows Mobile Extensions for the UWP</Name>
+    </SDKReference>
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>

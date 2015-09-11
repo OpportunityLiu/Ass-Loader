@@ -69,7 +69,7 @@ namespace AssLoader
         /// <exception cref="ArgumentNullException"><paramref name="newName"/> is not a valid <see cref="Name"/>.</exception>
         public Style Clone(string newName)
         {
-            var n = (Style)Clone();
+            var n = Clone(() => new Style());
             n.Name = newName;
             return n;
         }

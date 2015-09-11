@@ -8,7 +8,10 @@
       mc:Ignorable="d"
       xmlns:control="using:SubtitleEditor.Controls"
       xmlns:vm="using:SubtitleEditor.ViewModel"
-      NavigationCacheMode="Enabled">
+      NavigationCacheMode="Enabled"
+      Loading="MainPage_Loading"
+      Unloaded="MainPage_Unloaded"
+      xmlns:triggers="using:SubtitleEditor.Controls.StateTriggers">
     <Page.Resources>
         <Storyboard x:Name="splitViewExpand">
             <DoubleAnimation Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.ScaleX)"
@@ -51,22 +54,129 @@
                 </ToolTipService.ToolTip>
             </control:SplitViewTab>
         </DataTemplate>
+        <DataTemplate x:Key="ActionTemplate"
+                      x:DataType="vm:SplitViewButtonData">
+            <control:SplitViewButton Content="{x:Bind Content, Mode=OneWay}"
+                                     Command="{x:Bind Command, Mode=OneWay}"
+                                     Click="SplitViewCommand_Click">
+                <control:SplitViewButton.Icon>
+                    <FontIcon Glyph="{x:Bind Icon, Mode=OneWay}"
+                              FontSize="16" />
+                </control:SplitViewButton.Icon>
+                <ToolTipService.ToolTip>
+                    <ToolTip Content="{x:Bind Content, Mode=OneWay}" />
+                </ToolTipService.ToolTip>
+            </control:SplitViewButton>
+        </DataTemplate>
     </Page.Resources>
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup>
+                <VisualState>
+                    <VisualState.StateTriggers>
+                        <triggers:DeviceFamilyTrigger DeviceFamily="Windows.Desktop" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="textBlockSubName.Visibility"
+                                Value="Collapsed" />
+                        <Setter Target="borderSubName.Visibility"
+                                Value="Collapsed" />
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState>
+                    <VisualState.StateTriggers>
+                        <triggers:DeviceFamilyTrigger DeviceFamily="Windows.Mobile" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="textBlockSubName.Visibility"
+                                Value="Collapsed" />
+                        <Setter Target="borderSubName.Visibility"
+                                Value="Visible" />
+                        <Setter Target="borderSubName.(Grid.Column)"
+                                Value="0" />
+                        <Setter Target="rowButtom.Height"
+                                Value="48" />
+                        <Setter Target="commandBar.(Grid.Row)"
+                                Value="2" />
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
         <Grid.RowDefinitions>
+            <RowDefinition x:Name="rowTop"
+                           Height="48" />
             <RowDefinition />
             <RowDefinition Height="Auto" />
+            <RowDefinition x:Name="rowButtom"
+                           Height="0" />
         </Grid.RowDefinitions>
+        <CommandBar x:Name="commandBar"
+                    Grid.RowSpan="999"
+                    VerticalContentAlignment="Stretch"
+                    HorizontalContentAlignment="Stretch">
+            <CommandBar.Content>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="48" />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="48" />
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+                    <Button x:Name="splitOverlayButton"
+                            Style="{StaticResource NavigationBackButtonNormalStyle}"
+                            Grid.RowSpan="2"
+                            Width="48"
+                            Height="Auto"
+                            VerticalAlignment="Stretch"
+                            Click="SplitViewButton_Click">
+                        <Button.Content>
+                            <TextBlock Text="&#xE700;" Margin="0,0,0,12"/>
+                        </Button.Content>
+                        <ToolTipService.ToolTip>
+                            <ToolTip Content="Menu" />
+                        </ToolTipService.ToolTip>
+                    </Button>
+                    <TextBlock x:Name="textBlockSubName"
+                               Grid.Column="1"
+                               Style="{StaticResource SubtitleTextBlockStyle}"
+                               Text="{x:Bind ViewModel.Title, Mode=OneWay}"
+                               Margin="16,0"
+                               VerticalAlignment="Center"
+                               TextWrapping="NoWrap"
+                               TextTrimming="CharacterEllipsis" />
+                </Grid>
+            </CommandBar.Content>
+            <AppBarButton Label="Undo"
+                          x:Uid="Undo"
+                          Icon="Undo"
+                          ToolTipService.ToolTip="{x:Bind ViewModel.DocumentView.UndoHint, Mode=OneWay}"
+                          Command="{x:Bind ViewModel.DocumentView.Undo}" />
+            <AppBarButton Label="Redo"
+                          x:Uid="Redo"
+                          Icon="Redo"
+                          ToolTipService.ToolTip="{x:Bind ViewModel.DocumentView.RedoHint, Mode=OneWay}"
+                          Command="{x:Bind ViewModel.DocumentView.Redo}" />
+        </CommandBar>
+        <Border x:Name="borderSubName"
+                Background="{ThemeResource SystemControlBackgroundChromeMediumBrush}"
+                Visibility="Collapsed">
+            <TextBlock Style="{StaticResource SubtitleTextBlockStyle}"
+                       Text="{x:Bind ViewModel.Title, Mode=OneWay}"
+                       VerticalAlignment="Center"
+                       Margin="16,0"
+                       TextWrapping="NoWrap"
+                       TextTrimming="CharacterEllipsis" />
+        </Border>
         <SplitView x:Name="splitView"
                    DisplayMode="Overlay"
                    PaneClosing="splitView_PaneClosing"
-                   SizeChanged="splitView_SizeChanged">
+                   SizeChanged="splitView_SizeChanged"
+                   Grid.Row="1">
             <SplitView.Pane>
                 <ScrollViewer VerticalScrollBarVisibility="Auto"
-                              HorizontalScrollBarVisibility="Disabled"
-                              Grid.Row="1"
-                              Margin="0"
-                              BorderThickness="0,48,0,0">
+                              HorizontalScrollBarVisibility="Disabled">
                     <Grid x:Name="splitViewGrid"
                           SizeChanged="splitViewGrid_SizeChanged">
                         <Grid.RowDefinitions>
@@ -83,7 +193,7 @@
                                    Grid.RowSpan="999"
                                    Width="4"
                                    Height="48"
-                                   Fill="{ThemeResource SplitViewCheckedBrush}"
+                                   Fill="{ThemeResource SystemControlForegroundAccentBrush}"
                                    HorizontalAlignment="Left"
                                    VerticalAlignment="Top">
                             <Rectangle.RenderTransform>
@@ -91,23 +201,8 @@
                             </Rectangle.RenderTransform>
                         </Rectangle>
                         <ItemsControl ItemsSource="{x:Bind ViewModel.SplitViewButtons, Mode=OneWay}"
-                                      Grid.Row="0">
-                            <ItemsControl.ItemTemplate>
-                                <DataTemplate x:DataType="vm:SplitViewButtonData">
-                                    <control:SplitViewButton Content="{x:Bind Content, Mode=OneWay}"
-                                                             Command="{x:Bind Command, Mode=OneWay}"
-                                                             Click="SplitViewCommand_Click">
-                                        <control:SplitViewButton.Icon>
-                                            <FontIcon Glyph="{x:Bind Icon, Mode=OneWay}"
-                                                      FontSize="16" />
-                                        </control:SplitViewButton.Icon>
-                                        <ToolTipService.ToolTip>
-                                            <ToolTip Content="{x:Bind Content, Mode=OneWay}" />
-                                        </ToolTipService.ToolTip>
-                                    </control:SplitViewButton>
-                                </DataTemplate>
-                            </ItemsControl.ItemTemplate>
-                        </ItemsControl>
+                                      Grid.Row="0"
+                                      ItemTemplate="{StaticResource ActionTemplate}"/>
                         <Line x:Name="line"
                               Margin="12"
                               Width="24"
@@ -124,10 +219,11 @@
                                       ItemsSource="{x:Bind ViewModel.DocumentTabs, Mode=OneWay}"
                                       Grid.Row="2"
                                       ItemTemplate="{StaticResource TabTemplate}" />
-                        <control:SplitViewTab Content="{x:Bind ViewModel.Preferences.Content, Mode=OneWay}"
+                        <control:SplitViewTab DataContext="{x:Bind ViewModel.Preferences, Mode=OneWay}"
+                                              Content="{x:Bind ViewModel.Preferences.Content, Mode=OneWay}"
                                               Tag="{x:Bind ViewModel.Preferences.PageType, Mode=OneWay}"
                                               IsChecked="{x:Bind ViewModel.Preferences.IsChecked, Mode=OneWay}"
-                                              Click="SplitViewTabButton_Click2"
+                                              Click="SplitViewTabButton_Click"
                                               Grid.Row="999">
                             <control:SplitViewTab.Icon>
                                 <FontIcon Glyph="{x:Bind ViewModel.Preferences.Icon, Mode=OneWay}"
@@ -145,24 +241,12 @@
         <ContentPresenter x:Name="inputPane"
                           Grid.Row="2"
                           FontFamily="Segoe MDL2 Assets"
-                          FontSize="64"
                           Visibility="Collapsed"
                           VerticalAlignment="Stretch"
                           HorizontalAlignment="Stretch"
                           HorizontalContentAlignment="Center"
                           VerticalContentAlignment="Center"
-                          Background="{ThemeResource SystemControlBackgroundChromeMediumBrush}" />
-        <Border Background="{ThemeResource MenuFlyoutItemFocusedBackgroundThemeBrush}"
-                HorizontalAlignment="Left"
-                VerticalAlignment="Top">
-            <Button x:Name="splitOverlayButton"
-                    Width="48"
-                    Height="48"
-                    Style="{StaticResource NavigationBackButtonNormalStyle}"
-                    Click="SplitViewButton_Click"
-                    Content="&#xE700;"
-                    Background="{ThemeResource MenuFlyoutItemFocusedBackgroundThemeBrush}"
-                    VerticalAlignment="Top" />
-        </Border>
+                          Tapped="inputPane_Tapped"
+                          Background="{ThemeResource SystemControlBackgroundChromeMediumLowBrush}" />
     </Grid>
 </Page>

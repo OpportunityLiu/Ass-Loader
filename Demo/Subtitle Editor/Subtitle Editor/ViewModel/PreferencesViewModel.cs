@@ -11,37 +11,39 @@ using Windows.UI;
 using Windows.Storage;
 using System.Runtime.CompilerServices;
 using System.Reflection;
+using System.ComponentModel;
+using Windows.Foundation;
+using Windows.UI.Core;
+using Windows.Foundation.Metadata;
 
 namespace SubtitleEditor.ViewModel
 {
     class PreferencesViewModel : ViewModelBase
     {
-        public static PreferencesViewModel Instance
+        public PreferencesViewModel()
         {
-            get;
-        } = new PreferencesViewModel();
-
-        private PreferencesViewModel()
-        {
+            instances.Add(new WeakReference<PreferencesViewModel>(this));
             if(NotInit)
                 return;
             NotInit = true;
             init(ElementTheme.Light, nameof(Theme));
         }
 
+        private CoreDispatcher dispatcher = Window.Current?.Dispatcher;
+
         public ElementTheme Theme
         {
             get
             {
-                return load<ElementTheme>();
+                return Load<ElementTheme>();
             }
             set
             {
-                foreach(var item in ((App)Application.Current).WindowCollection)
+                foreach(var item in ((App)Application.Current).WindowDictionary)
                 {
-                    item.LoadWindowPreferences();
+                    item.Value.LoadWindowPreferences();
                 }
-                save(value);
+                Save(value);
             }
         }
 
@@ -49,24 +51,34 @@ namespace SubtitleEditor.ViewModel
         {
             get
             {
-                return load<bool>();
+                return Load<bool>();
             }
             private set
             {
-                save(value);
+                Save(value);
             }
         }
 
-        private void save<T>(T value, [CallerMemberName]string propertyName = null)
+        public static async void Save<T>(T value, [CallerMemberName]string propertyName = null)
         {
             object oldValue;
             if(roaming.Values.TryGetValue(propertyName, out oldValue) && value.ToString().Equals(oldValue))
                 return;
             roaming.Values[propertyName] = value.ToString();
-            RaisePropertyChanged(propertyName);
+            for(int i = 0; i < instances.Count; i++)
+            {
+                PreferencesViewModel tar;
+                while(!instances[i].TryGetTarget(out tar))
+                {
+                    instances.RemoveAt(i);
+                    if(i >= instances.Count)
+                        break;
+                }
+                await tar.dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => tar.RaisePropertyChanged(propertyName));
+            }
         }
 
-        private T load<T>([CallerMemberName]string propertyName = null)
+        public static T Load<T>([CallerMemberName]string propertyName = null)
         {
             object value;
             if(roaming.Values.TryGetValue(propertyName, out value))
@@ -96,22 +108,24 @@ namespace SubtitleEditor.ViewModel
             return default(T);
         }
 
-        //propertyName,propertyType,isEnum
-        private Dictionary<string, Tuple<Type, bool>> propertyCache = new Dictionary<string, Tuple<Type, bool>>();
+        private static List<WeakReference<PreferencesViewModel>> instances = new List<WeakReference<PreferencesViewModel>>();
 
-        private void init<T>(T value, [CallerMemberName]string propertyName = null)
+        //propertyName,propertyType,isEnum
+        private static Dictionary<string, Tuple<Type, bool>> propertyCache = new Dictionary<string, Tuple<Type, bool>>();
+
+        private static void init<T>(T value, [CallerMemberName]string propertyName = null)
         {
             roaming.Values[propertyName] = value.ToString();
         }
 
-        private readonly ApplicationDataContainer roaming = ApplicationData.Current.RoamingSettings;
+        private static readonly ApplicationDataContainer roaming = ApplicationData.Current.RoamingSettings;
     }
 
     static class PreferencesLoader
     {
         public static async void LoadWindowPreferences(this Window window)
         {
-            var theme = PreferencesViewModel.Instance.Theme;
+            var theme = PreferencesViewModel.Load<ElementTheme>(nameof(PreferencesViewModel.Theme));
             await window.Dispatcher.RunIdleAsync(s =>
             {
                 ((FrameworkElement)window.Content).RequestedTheme = theme;
@@ -124,6 +138,18 @@ namespace SubtitleEditor.ViewModel
                 case ElementTheme.Dark:
                     TitleBarColor.Dark.SetColors(titlebar);
                     break;
+                }
+                if(ApiInformation.IsTypePresent("Windows.UI.ViewManagement.StatusBar"))
+                {
+                    switch(theme)
+                    {
+                    case ElementTheme.Light:
+                        TitleBarColor.Light.SetColors(StatusBar.GetForCurrentView());
+                        break;
+                    case ElementTheme.Dark:
+                        TitleBarColor.Dark.SetColors(StatusBar.GetForCurrentView());
+                        break;
+                    }
                 }
             });
         }
@@ -160,6 +186,15 @@ namespace SubtitleEditor.ViewModel
                 titlebar.ButtonHoverForegroundColor = ButtonHoverForegroundColor;
                 titlebar.ButtonInactiveBackgroundColor = ButtonInactiveBackgroundColor;
                 titlebar.ButtonInactiveForegroundColor = ButtonInactiveForegroundColor;
+            }
+
+            public void SetColors(StatusBar statusBar)
+            {
+                if(statusBar == null)
+                    return;
+                statusBar.BackgroundOpacity = 1;
+                statusBar.BackgroundColor = BackgroundColor;
+                statusBar.ForegroundColor = ForegroundColor;
             }
 
             public static TitleBarColor Dark

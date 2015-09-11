@@ -138,5 +138,31 @@ namespace Test
         {
             var t = Subtitle.Parse<AssScriptInfo>("");
         }
+
+        [TestMethod]
+        public void Clone()
+        {
+            var sub = Subtitle.Parse<AssScriptInfo>(helper.TestFile);
+            foreach(var style in sub.StyleSet)
+            {
+                var clone = style.Clone("Default");
+                Assert.AreEqual("Default", clone.Name);
+                Assert.AreEqual(style.Outline, clone.Outline);
+                Assert.AreEqual(style.OutlineColor, clone.OutlineColor);
+                Assert.AreEqual(style.FontName, clone.FontName);
+                Assert.AreEqual(style.FontSize, clone.FontSize);
+                Assert.AreEqual(style.Italic, clone.Italic);
+            }
+            foreach(var subeve in sub.EventCollection)
+            {
+                var clone = subeve.Clone();
+                Assert.AreEqual(subeve.StartTime, clone.StartTime);
+                Assert.AreEqual(subeve.Style, clone.Style);
+                Assert.AreEqual(subeve.Text, clone.Text);
+                Assert.AreEqual(subeve.MarginV, clone.MarginV);
+                Assert.AreEqual(subeve.IsComment, clone.IsComment);
+                Assert.AreEqual(subeve.Effect, clone.Effect);
+            }
+        }
     }
 }

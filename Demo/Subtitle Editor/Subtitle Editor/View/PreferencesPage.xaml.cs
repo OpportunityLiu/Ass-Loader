@@ -45,7 +45,7 @@ namespace SubtitleEditor.View
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            Bindings.Update();
+            Bindings.Initialize();
             base.OnNavigatedTo(e);
         }
 

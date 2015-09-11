@@ -10,36 +10,51 @@
       mc:Ignorable="d"
       xmlns:ass="using:AssLoader"
       SizeChanged="ScriptInfoPage_SizeChanged"
-      NavigationCacheMode="Enabled">
+      NavigationCacheMode="Enabled"
+      Unloaded="page_Unloaded">
     <Page.Resources>
         <local:WrapStyleConverter x:Key="WrapStyleConverter" />
         <local:CollisionStyleConverter x:Key="CollisionStyleConverter" />
     </Page.Resources>
-    <Page.TopAppBar>
-        <CommandBar Style="{StaticResource InnerPageCommandBarStyle}">
-            <AppBarButton Label="Undo"
-                          x:Uid="Undo"
-                          Icon="Undo"
-                          ToolTipService.ToolTip="{x:Bind ViewModel.DocumentView.UndoHint, Mode=OneWay}"
-                          Command="{x:Bind ViewModel.DocumentView.Undo}" />
-            <AppBarButton Label="Redo"
-                          x:Uid="Redo"
-                          Icon="Redo"
-                          ToolTipService.ToolTip="{x:Bind ViewModel.DocumentView.RedoHint, Mode=OneWay}"
-                          Command="{x:Bind ViewModel.DocumentView.Redo}" />
-        </CommandBar>
-    </Page.TopAppBar>
     <ScrollViewer VerticalScrollBarVisibility="Auto"
                   x:Name="root"
-                  IsTabStop="True">
-        <RelativePanel x:Name="relativePanel" HorizontalAlignment="Center">
+                  IsTabStop="True"
+                  Grid.Row="1">
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup xmlns:triggers="using:SubtitleEditor.Controls.StateTriggers">
+                <VisualState>
+                    <VisualState.StateTriggers>
+                        <triggers:ElementSizeTrigger Target="{x:Bind page}" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="stackPanelScriptData.(RelativePanel.Below)"
+                                Value="stackPanelMetaData" />
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState>
+                    <VisualState.StateTriggers>
+                        <triggers:ElementSizeTrigger Target="{x:Bind page}"
+                                                     MinElementWidth="1096" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="stackPanelScriptData.(RelativePanel.RightOf)"
+                                Value="stackPanelMetaData" />
+                        <Setter Target="stackPanelScriptData.Margin"
+                                Value="24,12" />
+                        <Setter Target="stackPanelMetaData.Margin"
+                                Value="24,12" />
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
+        <RelativePanel x:Name="relativePanel"
+                       HorizontalAlignment="Center">
             <RelativePanel.ChildrenTransitions>
                 <TransitionCollection>
                     <EntranceThemeTransition IsStaggeringEnabled="True" />
                 </TransitionCollection>
             </RelativePanel.ChildrenTransitions>
             <StackPanel MaxWidth="500"
-                        Padding="12"
                         Margin="12"
                         x:Name="stackPanelMetaData">
                 <Grid Margin="0,8">
@@ -56,48 +71,54 @@
                          Margin="0,8"
                          Header="Title"
                          GotFocus="field_GotFocus"
+                         LostFocus="field_LostFocus"
                          Text="{x:Bind ViewModel.Title, Mode=TwoWay}" />
                 <TextBox x:Uid="OriginalEditing"
                          Margin="0,8"
                          Header="OriginalEditing"
                          GotFocus="field_GotFocus"
+                         LostFocus="field_LostFocus"
                          Text="{x:Bind ViewModel.OriginalEditing, Mode=TwoWay}" />
                 <TextBox x:Uid="OriginalScript"
                          Margin="0,8"
                          Header="OriginalScript"
                          GotFocus="field_GotFocus"
+                         LostFocus="field_LostFocus"
                          Text="{x:Bind ViewModel.OriginalScript, Mode=TwoWay}" />
                 <TextBox x:Uid="OriginalTiming"
                          Margin="0,8"
                          Header="OriginalTiming"
                          GotFocus="field_GotFocus"
+                         LostFocus="field_LostFocus"
                          Text="{x:Bind ViewModel.OriginalTiming, Mode=TwoWay}" />
                 <TextBox x:Uid="OriginalTranslation"
                          Margin="0,8"
                          Header="OriginalTranslation"
                          GotFocus="field_GotFocus"
+                         LostFocus="field_LostFocus"
                          Text="{x:Bind ViewModel.OriginalTranslation, Mode=TwoWay}" />
                 <TextBox x:Uid="ScriptUpdatedBy"
                          Margin="0,8"
                          Header="ScriptUpdatedBy"
                          GotFocus="field_GotFocus"
+                         LostFocus="field_LostFocus"
                          Text="{x:Bind ViewModel.ScriptUpdatedBy, Mode=TwoWay}" />
                 <TextBox x:Uid="UpdateDetails"
                          Margin="0,8"
                          Header="UpdateDetails"
                          GotFocus="field_GotFocus"
+                         LostFocus="field_LostFocus"
                          Text="{x:Bind ViewModel.UpdateDetails, Mode=TwoWay}" />
                 <TextBox x:Uid="SynchPoint"
                          Margin="0,8"
                          Header="SynchPoint"
                          GotFocus="field_GotFocus"
+                         LostFocus="field_LostFocus"
                          Text="{x:Bind ViewModel.SynchPoint, Mode=TwoWay}" />
             </StackPanel>
             <StackPanel MaxWidth="500"
-                        Padding="12"
                         Margin="12"
-                        x:Name="stackPanelScriptData"
-                        RelativePanel.RightOf="stackPanelMetaData">
+                        x:Name="stackPanelScriptData">
                 <Grid Margin="0,8">
                     <TextBlock x:Uid="ScriptData"
                                Text="Script data"
@@ -108,8 +129,9 @@
                           Margin="-4"
                           VerticalAlignment="Bottom" />
                 </Grid>
-                <Grid GotFocus="field_GotFocus"
-                      Margin="0,8">
+                <Grid Margin="0,8"
+                      GotFocus="field_GotFocus"
+                      LostFocus="field_LostFocus">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
@@ -157,6 +179,7 @@
                           Margin="0,8"
                           Header="WrapStyle"
                           GotFocus="field_GotFocus"
+                          LostFocus="field_LostFocus"
                           HorizontalAlignment="Stretch"
                           SelectedIndex="{x:Bind ViewModel.WrapStyle, Mode=TwoWay, Converter={StaticResource DefaultConverter}}">
                     <ComboBox.ItemTemplate>
@@ -173,6 +196,7 @@
                           Margin="0,8"
                           Header="Collisions"
                           GotFocus="field_GotFocus"
+                          LostFocus="field_LostFocus"
                           HorizontalAlignment="Stretch"
                           SelectedIndex="{x:Bind ViewModel.Collisions, Mode=TwoWay, Converter={StaticResource DefaultConverter}}">
                     <ComboBox.ItemTemplate>

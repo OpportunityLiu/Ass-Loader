@@ -59,5 +59,13 @@ namespace SubtitleEditor.ViewModel
             get;
             private set;
         }
+
+        public override void Cleanup()
+        {
+            if(doc != null)
+                doc.PropertyChanged += document_PropertyChanged;
+            doc = null;
+            base.Cleanup();
+        }
     }
 }

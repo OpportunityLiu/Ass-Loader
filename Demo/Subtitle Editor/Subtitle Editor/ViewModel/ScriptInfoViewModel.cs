@@ -312,5 +312,13 @@ namespace SubtitleEditor.ViewModel
             {
             }
         }
+
+        public override void Cleanup()
+        {
+            if(info != null)
+                info.PropertyChanged -= Info_PropertyChanged;
+            info = null;
+            base.Cleanup();
+        }
     }
 }
