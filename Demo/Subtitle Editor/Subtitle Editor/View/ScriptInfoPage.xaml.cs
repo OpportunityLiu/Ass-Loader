@@ -37,69 +37,57 @@ namespace SubtitleEditor.View
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            InputPane.GetForCurrentView().Showing += ScriptInfoPage_Showing;
+            InputPane.GetForCurrentView().Showing += paneShowing;
             base.OnNavigatedTo(e);
         }
 
         protected override void OnNavigatedFrom(NavigationEventArgs e)
         {
-            InputPane.GetForCurrentView().Showing -= ScriptInfoPage_Showing;
+            InputPane.GetForCurrentView().Showing -= paneShowing;
             base.OnNavigatedFrom(e);
         }
 
-        private bool needFocus, isNarrow;
+        private void page_Unloaded(object sender, RoutedEventArgs e)
+        {
+            InputPane.GetForCurrentView().Showing -= paneShowing;
+        }
+
+        private bool needFocus;
 
         private void ScriptInfoPage_SizeChanged(object sender, SizeChangedEventArgs e)
         {
-            if(e.NewSize.Width > 1100)
+            if(!needFocus || focus == null)
+                return;
+            var max = 12.0;
+            FrameworkElement found = null;
+            foreach(FrameworkElement item in stackPanelMetaData.Children)
             {
-                if(isNarrow)
+                if(item == focus)
                 {
-                    isNarrow = false;
-                    stackPanelScriptData.SetValue(RelativePanel.RightOfProperty, stackPanelMetaData);
-                    stackPanelScriptData.ClearValue(RelativePanel.BelowProperty);
+                    found = item;
+                    break;
                 }
+                max += item.ActualHeight + 16.0;
             }
-            else
+            if(found == null)
             {
-                if(!isNarrow)
+                if(e.NewSize.Width >= 1096)
+                    max = 12.0;
+                else
+                    max += 24.0;
+                foreach(FrameworkElement item in stackPanelScriptData.Children)
                 {
-                    isNarrow = true;
-                    stackPanelScriptData.SetValue(RelativePanel.BelowProperty, stackPanelMetaData);
-                    stackPanelScriptData.ClearValue(RelativePanel.RightOfProperty);
-                }
-            }
-
-            if(needFocus && focus != null)
-            {
-                var max = -48.0;
-                var found = false;
-                foreach(FrameworkElement item in stackPanelMetaData.Children)
-                {
-                    max += item.ActualHeight + 16.0;
                     if(item == focus)
                     {
-                        found = true;
+                        found = item;
                         break;
                     }
+                    max += item.ActualHeight + 16.0;
                 }
-                if(!found)
-                {
-                    if(!isNarrow)
-                        max = -48.0;
-                    else
-                        max += 48.0;
-                    foreach(FrameworkElement item in stackPanelScriptData.Children)
-                    {
-                        max += item.ActualHeight + 16.0;
-                        if(item == focus)
-                        {
-                            found = true;
-                            break;
-                        }
-                    }
-                }
-                var min = max - e.NewSize.Height + 120.0;
+            }
+            if(found != null)
+            {
+                var min = max - e.NewSize.Height + found.ActualHeight + 16.0;
                 var current = root.VerticalOffset;
                 if(current < min)
                     root.ChangeView(null, min, null);
@@ -109,7 +97,7 @@ namespace SubtitleEditor.View
             needFocus = false;
         }
 
-        private void ScriptInfoPage_Showing(InputPane sender, InputPaneVisibilityEventArgs args)
+        private void paneShowing(InputPane sender, InputPaneVisibilityEventArgs args)
         {
             needFocus = true;
         }
@@ -137,10 +125,16 @@ namespace SubtitleEditor.View
             focus = sender;
         }
 
+        private void field_LostFocus(object sender, RoutedEventArgs e)
+        {
+            if(!needFocus)
+                focus = null;
+        }
+
         private void numberedTextBox_LostFocus(object sender, RoutedEventArgs args)
         {
             var s = (TextBox)sender;
-            var num = string.Concat(s.Text.Where(c => c >= '0' && c <= '9')).TrimStart('0');
+            var num = string.Concat(s.Text.TakeWhile(c => c != '.').Where(c => c >= '0' && c <= '9')).TrimStart('0');
             s.Text = string.IsNullOrEmpty(num) ? "0" : num;
         }
     }

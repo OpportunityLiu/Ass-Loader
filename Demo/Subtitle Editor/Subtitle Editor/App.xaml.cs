@@ -47,17 +47,17 @@ namespace SubtitleEditor
 #endif
             var view = ApplicationView.GetForCurrentView();
 
-            var doc = ViewModel.ViewModelLocator.GetForView(view.Id).Document;
+            var mainView = ViewModel.ViewModelLocator.GetForView(view.Id).MainView;
             System.ComponentModel.PropertyChangedEventHandler titleUpdater = (sender, e) =>
             {
-                if(string.IsNullOrEmpty(e.PropertyName) || e.PropertyName == nameof(Document.Subtitle) || e.PropertyName == nameof(Document.SubtitleFile) || e.PropertyName == nameof(Document.IsModified))
+                if(string.IsNullOrEmpty(e.PropertyName) || e.PropertyName == nameof(ViewModel.MainViewModel.Title))
                 {
-                    var document = (Document)sender;
-                    view.Title = $"{(document.IsModified ? "*" : "")} {document.SubtitleFile?.Name ?? document.Subtitle?.ScriptInfo.Title ?? LocalizedStrings.Untitled}";
+                    var mv = (ViewModel.MainViewModel)sender;
+                    view.Title = mv.Title;
                 }
             };
-            doc.PropertyChanged += titleUpdater;
-            titleUpdater(doc, new System.ComponentModel.PropertyChangedEventArgs(null));
+            mainView.PropertyChanged += titleUpdater;
+            titleUpdater(mainView, new System.ComponentModel.PropertyChangedEventArgs(null));
 
             view.SetPreferredMinSize(new Size(10000, 10000));
 
@@ -118,7 +118,20 @@ namespace SubtitleEditor
             var newViewId = 0;
             var newView = Windows.ApplicationModel.Core.CoreApplication.CreateNewView();
             var init = newView.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, initAction);
-            await newView.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () => newViewId = ApplicationView.GetForCurrentView().Id);
+            await newView.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
+            {
+                var newAppView = ApplicationView.GetForCurrentView();
+                newViewId = newAppView.Id;
+                newAppView.Consolidated += (sender, e) =>
+                {
+                    ViewModel.ViewModelLocator.ClearForView(newViewId);
+                    Window window = null;
+                    if(WindowDictionary.TryRemove(newViewId, out window))
+                    {
+                        window.Content = null;
+                    }
+                };
+            });
             await ApplicationViewSwitcher.TryShowAsStandaloneAsync(newViewId);
             await init;
         }
@@ -126,13 +139,14 @@ namespace SubtitleEditor
         protected override void OnWindowCreated(WindowCreatedEventArgs args)
         {
             base.OnWindowCreated(args);
-            WindowCollection.Add(args.Window);
+            var window = args.Window;
+            WindowDictionary.TryAdd(ApplicationView.GetApplicationViewIdForWindow(window.CoreWindow), window);
         }
 
-        public System.Collections.Concurrent.BlockingCollection<Window> WindowCollection
+        public System.Collections.Concurrent.ConcurrentDictionary<int, Window> WindowDictionary
         {
             get;
-        } = new System.Collections.Concurrent.BlockingCollection<Window>();
+        } = new System.Collections.Concurrent.ConcurrentDictionary<int,Window>();
 
         /// <summary>
         /// 导航到特定页失败时调用

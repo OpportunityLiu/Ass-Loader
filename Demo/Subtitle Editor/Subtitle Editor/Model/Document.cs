@@ -24,6 +24,25 @@ namespace SubtitleEditor.Model
             reset();
         }
 
+        private void updateTitle()
+        {
+            Title = SubtitleFile?.Name ?? Subtitle?.ScriptInfo.Title;
+        }
+
+        private string title;
+
+        public string Title
+        {
+            get
+            {
+                return title;
+            }
+            private set
+            {
+                Set(nameof(Title),ref title, value);
+            }
+        }
+
         private LinkedList<IDocumentAction> actionList = new LinkedList<IDocumentAction>();
         private LinkedListNode<IDocumentAction> currentAction, savedAction;
 
@@ -32,15 +51,35 @@ namespace SubtitleEditor.Model
             
         }
 
-        public void Do(IDocumentAction action)
+        public bool TryDo(IDocumentAction action)
         {
             if(subtitle == null)
-                throw new InvalidOperationException($"{nameof(Subtitle)} is null");
+                return false;
+            try
+            {
+                action.Do(subtitle);
+            }
+            catch(Exception)
+            {
+                return false;
+            }
             while(actionList.First.Next != currentAction)
                 actionList.Remove(actionList.First.Next);
             actionList.AddAfter(actionList.First, action);
             currentAction = actionList.First.Next;
+            modified();
+            return true;
+        }
+
+        public void Do(IDocumentAction action)
+        {
+            if(subtitle == null)
+                throw new InvalidOperationException($"{nameof(Subtitle)} is null");
             action.Do(subtitle);
+            while(actionList.First.Next != currentAction)
+                actionList.Remove(actionList.First.Next);
+            actionList.AddAfter(actionList.First, action);
+            currentAction = actionList.First.Next;
             modified();
         }
 
@@ -64,6 +103,7 @@ namespace SubtitleEditor.Model
             RaisePropertyChanged(nameof(UndoAction));
             RaisePropertyChanged(nameof(RedoAction));
             RaisePropertyChanged(nameof(IsModified));
+            updateTitle();
         }
 
         public IDocumentAction UndoAction => currentAction.Value;
@@ -86,6 +126,7 @@ namespace SubtitleEditor.Model
                 if(value.ScriptInfo.SubtitleEditorConfig == null)
                     value.ScriptInfo.SubtitleEditorConfig = new ProjectConfig();
                 RaisePropertyChanged(nameof(CanSave));
+                updateTitle();
             }
         }
 
@@ -103,6 +144,7 @@ namespace SubtitleEditor.Model
                 RaisePropertyChanged(nameof(CanSave));
                 if(value != null)
                     StorageApplicationPermissions.MostRecentlyUsedList.Add(value, value.Name, RecentStorageItemVisibility.AppAndSystem);
+                updateTitle();
             }
         }
 
@@ -170,5 +212,13 @@ namespace SubtitleEditor.Model
             await SaveAsync();
         }
 
+        public override void Cleanup()
+        {
+            Application.Current.Suspending -= onSuspending;
+            reset();
+            subtitle = null;
+            subtitleFile = null;
+            base.Cleanup();
+        }
     }
 }

@@ -16,6 +16,7 @@ using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Ioc;
 using Microsoft.Practices.ServiceLocation;
 using SubtitleEditor.Model;
+using System.Collections.Generic;
 using Windows.UI.ViewManagement;
 
 namespace SubtitleEditor.ViewModel
@@ -28,7 +29,26 @@ namespace SubtitleEditor.ViewModel
     {
         public static ViewModelLocator GetForView(int viewId)
         {
-            return locatorProvider.GetInstance<ViewModelLocator>(viewId.ToString());
+            lock (syncRoot)
+            {
+                ViewModelLocator value;
+                if(locators.TryGetValue(viewId, out value))
+                    return value;
+                value = new ViewModelLocator();
+                locators[viewId] = value;
+                return value;
+            }
+        }
+
+        public static void ClearForView(int viewId)
+        {
+            lock (syncRoot)
+            {
+                ViewModelLocator value;
+                if(locators.TryGetValue(viewId, out value))
+                    value.Cleanup();
+                locators.Remove(viewId);
+            }
         }
 
         public static ViewModelLocator GetForCurrentView()
@@ -36,13 +56,14 @@ namespace SubtitleEditor.ViewModel
             return GetForView(ApplicationView.GetForCurrentView().Id);
         }
 
-        private static SimpleIoc locatorProvider = initIoc();
-
-        private static SimpleIoc initIoc()
+        public static void ClearForCurrentView()
         {
-            SimpleIoc.Default.Register<ViewModelLocator>();
-            return SimpleIoc.Default;
+            ClearForView(ApplicationView.GetForCurrentView().Id);
         }
+
+        private static Dictionary<int, ViewModelLocator> locators = new Dictionary<int, ViewModelLocator>();
+
+        private static object syncRoot = new object();
 
         /// <summary>
         /// Initializes a new instance of the ViewModelLocator class.
@@ -53,7 +74,7 @@ namespace SubtitleEditor.ViewModel
             ioc.Register<ScriptInfoViewModel>();
             ioc.Register<StyleViewModel>();
             ioc.Register<SubEventViewModel>();
-            ioc.Register(() => PreferencesViewModel.Instance);
+            ioc.Register<PreferencesViewModel>();
             ioc.Register<DocumentViewModel>();
             ioc.Register<Document>();
         }
@@ -74,9 +95,16 @@ namespace SubtitleEditor.ViewModel
 
         public Document Document => ioc.GetInstance<Document>();
 
-        public static void Cleanup()
+        public void Cleanup()
         {
-            // TODO Clear the ViewModels
+            MainView.Cleanup();
+            ScriptInfoView.Cleanup();
+            StyleView.Cleanup();
+            SubEventView.Cleanup();
+            PreferencesView.Cleanup();
+            DocumentView.Cleanup();
+            Document.Cleanup();
+            ioc.Reset();
         }
     }
 }

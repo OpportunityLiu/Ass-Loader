@@ -22,19 +22,17 @@ namespace AssLoader
         protected Entry()
         {
             var type = this.GetType();
-            if(fieldInfoCache.ContainsKey(type))
-                fieldInfo = fieldInfoCache[type];
-            else
+            if(!fieldInfoCache.TryGetValue(type, out fieldInfo))
             {
                 fieldInfo = new Dictionary<string, FieldSerializeHelper>(StringComparer.OrdinalIgnoreCase);
                 do
                 {
                     foreach(var fInfo in type.GetRuntimeFields())
                     {
-                        var att = fInfo.GetCustomAttribute(typeof(EntryFieldAttribute)) as EntryFieldAttribute;
+                        var att = fInfo.GetCustomAttribute<EntryFieldAttribute>();
                         if(att == null)
                             continue;
-                        var ser = (SerializeAttribute)fInfo.GetCustomAttribute<SerializeAttribute>();
+                        var ser = fInfo.GetCustomAttribute<SerializeAttribute>();
                         var helper = new FieldSerializeHelper(fInfo, att, ser);
                         fieldInfo.Add(att.Name, helper);
                         if(!string.IsNullOrEmpty(att.Alias))
@@ -135,6 +133,37 @@ namespace AssLoader
         protected Entry Clone()
         {
             var re = (Entry)Activator.CreateInstance(this.GetType());
+            foreach(var item in fieldInfo.Values)
+                item.SetValue(re, item.GetValue(this));
+            return re;
+        }
+
+        /// <summary>
+        /// Make a copy of this <typeparamref name="T"/>.
+        /// </summary>
+        /// <typeparam name="T">A subclass of <see cref="Entry"/>.</typeparam>
+        /// <param name="factory">The factroy method to create new instance of the subclass.</param>
+        /// <returns>A copy of this <typeparamref name="T"/>.</returns>
+        protected T Clone<T>(Func<T> factory) where T : Entry
+        {
+            if(factory == null)
+                throw new ArgumentNullException(nameof(factory));
+            var re = factory();
+            foreach(var item in fieldInfo.Values)
+                item.SetValue(re, item.GetValue(this));
+            return re;
+        }
+
+        /// <summary>
+        /// Make a copy of this <see cref="Entry"/>.
+        /// </summary>
+        /// <param name="factory">The factroy method to create new instance of the subclass.</param>
+        /// <returns>A copy of this <see cref="Entry"/>.</returns>
+        protected Entry Clone(Func<Entry> factory)
+        {
+            if(factory == null)
+                throw new ArgumentNullException(nameof(factory));
+            var re = factory();
             foreach(var item in fieldInfo.Values)
                 item.SetValue(re, item.GetValue(this));
             return re;

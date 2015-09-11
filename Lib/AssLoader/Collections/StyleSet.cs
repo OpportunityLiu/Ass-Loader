@@ -31,7 +31,12 @@ namespace AssLoader.Collections
         /// </returns>
         public bool ContainsName(string name)
         {
-            return styleNameSet.Contains(name);
+            if(FormatHelper.FieldStringValueValid(ref name))
+            {
+                return styleNameSet.Contains(name);
+            }
+            else
+                throw new ArgumentNullException(nameof(name));
         }
 
         /// <summary>
@@ -43,7 +48,7 @@ namespace AssLoader.Collections
         /// </returns>
         public int IndexOf(string name)
         {
-            if(string.IsNullOrWhiteSpace(name))
+            if(!FormatHelper.FieldStringValueValid(ref name))
                 throw new ArgumentNullException(nameof(name));
             for(int i = 0; i < this.Count; i++)
             {

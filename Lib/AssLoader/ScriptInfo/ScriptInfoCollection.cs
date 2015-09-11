@@ -24,22 +24,25 @@ namespace AssLoader.Collections
         protected ScriptInfoCollection()
         {
             var type = this.GetType();
-            if(scriptInfoCache.ContainsKey(type))
-                scriptInfoFields = scriptInfoCache[type];
-            else
+            if(!scriptInfoCache.TryGetValue(type, out scriptInfoFields))
             {
-                scriptInfoFields = new Dictionary<string, ScriptInfoSerializeHelper>(StringComparer.OrdinalIgnoreCase);
+                var temp = new List<Dictionary<string, ScriptInfoSerializeHelper>>();
                 do
                 {
+                    var dict = new Dictionary<string, ScriptInfoSerializeHelper>(StringComparer.OrdinalIgnoreCase);
                     foreach(var fInfo in type.GetRuntimeFields())
                     {
-                        var att = fInfo.GetCustomAttribute(typeof(ScriptInfoAttribute)) as ScriptInfoAttribute;
+                        var att = fInfo.GetCustomAttribute<ScriptInfoAttribute>();
                         if(att == null)
                             continue;
-                        var ser = (SerializeAttribute)fInfo.GetCustomAttribute<SerializeAttribute>();
-                        scriptInfoFields.Add(att.FieldName, new ScriptInfoSerializeHelper(fInfo, att, ser));
+                        var ser = fInfo.GetCustomAttribute<SerializeAttribute>();
+                        dict.Add(att.FieldName, new ScriptInfoSerializeHelper(fInfo, att, ser));
                     }
+                    temp.Add(dict);
                 } while((type = type.GetTypeInfo().BaseType) != typeof(ScriptInfoCollection));
+                scriptInfoFields = (from dict in temp.Reverse<Dictionary<string, ScriptInfoSerializeHelper>>()
+                                    from entry in dict
+                                    select entry).ToDictionary(item => item.Key, item => item.Value, StringComparer.OrdinalIgnoreCase);
                 scriptInfoCache.Add(this.GetType(), scriptInfoFields);
             }
             this.UndefinedFields = new ReadOnlyDictionary<string, string>(this.undefinedFields);

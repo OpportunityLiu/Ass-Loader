@@ -59,10 +59,10 @@ namespace AssLoader.Collections
             }
             sorting = false;
             this.OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
-            this.OnPropertyChanged(new PropertyChangedEventArgs("Items"));
+            this.OnPropertyChanged(new PropertyChangedEventArgs(nameof(Items)));
         }
 
-        private bool sorting = false;
+        private volatile bool sorting = false;
 
         /// <summary>
         /// Raise the <see cref="INotifyCollectionChanged.CollectionChanged"/> event.
