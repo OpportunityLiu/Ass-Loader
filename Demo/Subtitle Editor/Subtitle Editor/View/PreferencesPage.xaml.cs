@@ -67,8 +67,8 @@ namespace SubtitleEditor.View
             get;
         } = new Dictionary<ElementTheme, object>()
         {
-            [ElementTheme.Dark] = LocalizedStrings.ElementThemeDark,
-            [ElementTheme.Light] = LocalizedStrings.ElementThemeLight
+            [ElementTheme.Dark] = LocalizedStrings.Resources.ElementThemeDark,
+            [ElementTheme.Light] = LocalizedStrings.Resources.ElementThemeLight
         };
     }
 }

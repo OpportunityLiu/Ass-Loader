@@ -169,6 +169,27 @@
     <Content Include="Assets\Square44x44Logo.targetsize-24_altform-unplated.png" />
     <Content Include="Assets\StoreLogo.png" />
     <Content Include="Assets\Wide310x150Logo.scale-200.png" />
+    <Content Include="$(SolutionDir)\FFmpeg\$(PlatformTarget)\bin\avcodec-57.dll">
+      <Link>FFmpeg\avcodec-57.dll</Link>
+    </Content>
+    <Content Include="$(SolutionDir)\FFmpeg\$(PlatformTarget)\bin\avdevice-57.dll">
+      <Link>FFmpeg\avdevice-57.dll</Link>
+    </Content>
+    <Content Include="$(SolutionDir)\FFmpeg\$(PlatformTarget)\bin\avfilter-6.dll">
+      <Link>FFmpeg\avfilter-6.dll</Link>
+    </Content>
+    <Content Include="$(SolutionDir)\FFmpeg\$(PlatformTarget)\bin\avformat-57.dll">
+      <Link>FFmpeg\avformat-57.dll</Link>
+    </Content>
+    <Content Include="$(SolutionDir)\FFmpeg\$(PlatformTarget)\bin\avutil-55.dll">
+      <Link>FFmpeg\avutil-55.dll</Link>
+    </Content>
+    <Content Include="$(SolutionDir)\FFmpeg\$(PlatformTarget)\bin\swresample-2.dll">
+      <Link>FFmpeg\swresample-2.dll</Link>
+    </Content>
+    <Content Include="$(SolutionDir)\FFmpeg\$(PlatformTarget)\bin\swscale-4.dll">
+      <Link>FFmpeg\swscale-4.dll</Link>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">
@@ -217,11 +238,14 @@
   </ItemGroup>
   <ItemGroup>
     <Reference Include="AssLoader">
-      <HintPath>..\..\..\Lib\AssLoader\bin\Release\AssLoader.dll</HintPath>
+      <HintPath>..\..\..\Lib\AssLoader\bin\$(PlatformTarget)\Release\AssLoader.dll</HintPath>
     </Reference>
     <Reference Include="AssLoaderExtensionUniversal, Version=0.1.2.0, Culture=neutral, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\Lib\AssLoaderExtensionUniversal\bin\Release\AssLoaderExtensionUniversal.dll</HintPath>
+      <HintPath>..\..\..\Lib\AssLoaderExtensionUniversal\bin\$(PlatformTarget)\Release\AssLoaderExtensionUniversal.dll</HintPath>
+    </Reference>
+    <Reference Include="FFmpegInterop">
+      <HintPath>..\FFmpegInterop\$(PlatformTarget)\FFmpegInterop.winmd</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>

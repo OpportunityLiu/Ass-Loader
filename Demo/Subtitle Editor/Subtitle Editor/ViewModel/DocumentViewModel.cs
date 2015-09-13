@@ -44,9 +44,9 @@ namespace SubtitleEditor.ViewModel
             }
         }
 
-        public string UndoHint => string.Format(System.Globalization.CultureInfo.CurrentCulture, LocalizedStrings.DocumentUndo, doc.UndoAction?.ActionFriendlyName);
+        public string UndoHint => string.Format(System.Globalization.CultureInfo.CurrentCulture, LocalizedStrings.Resources.DocumentUndo, doc.UndoAction?.ActionFriendlyName);
 
-        public string RedoHint => string.Format(System.Globalization.CultureInfo.CurrentCulture, LocalizedStrings.DocumentRedo, doc.RedoAction?.ActionFriendlyName);
+        public string RedoHint => string.Format(System.Globalization.CultureInfo.CurrentCulture, LocalizedStrings.Resources.DocumentRedo, doc.RedoAction?.ActionFriendlyName);
 
         public RelayCommand Redo
         {

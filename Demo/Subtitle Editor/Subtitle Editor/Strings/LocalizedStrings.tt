@@ -9,13 +9,22 @@
 <#@ import namespace="System.Xml" #>
 <#@ output extension=".cs" #>
 <# 
-    // TODO: Input resource path and default language.
+    // TODO: 修改相关配置。
+    // 检索 resw 的路径。
     var path = "Strings";
-    var sourceLanguage= "zh-cn";
+    // 生成辅助类的命名空间，默认使用 "<ProjectDefaultNamespace>.LocalizedStrings"。
+    var localizedStringsNameSpace = "";
+    // 检索 resw 并生成注释时使用的语言。
+    var sourceLanguage = "zh-cn";
+    // 是否为默认工程，决定是否需要显式定义资源路径。
+    var isDefaultProject = true;
 
+    var nameSpace = string.IsNullOrWhiteSpace(localizedStringsNameSpace) ? 
+        (GetProjectDefaultNamespace()+ ".LocalizedStrings"):
+        localizedStringsNameSpace;
 
     // 用于存放所有 resw 的 key。
-    var names = new Dictionary<string, string>();
+    var names = new Dictionary<string, Dictionary<string, string>>();
     var stringsPath = Path.Combine(GetProjectPath(), path, sourceLanguage);
     string[] reswPaths;
 
@@ -29,10 +38,12 @@
     {
         reswPaths = new string[0];
     }
-    
     foreach(string reswPath in reswPaths)
     {
-        XmlDocument document = new XmlDocument();
+        var className = Path.GetFileNameWithoutExtension(reswPath);
+        var content = new Dictionary<string, string>();
+
+        var document = new XmlDocument();
         document.Load(reswPath);
 
         // 获取 resw 文件中的 data 节点。
@@ -45,41 +56,60 @@
                 // key 中包含 ‘.’ 的作为控件的多语言化，不处理。
                 if(value.Contains("."))
                     continue;
-                names.Add(value, dataNode["value"].InnerText);
+                content.Add(value, dataNode["value"].InnerText);
             }
         }
+
+        if(content.Count != 0)
+            names.Add(className, content);
     }
 #>
 using Windows.ApplicationModel.Resources;
 
-namespace <#=GetProjectDefaultNamespace()#>
+namespace <#=nameSpace#>
 {    
-    public static class LocalizedStrings
+<#
+    foreach(var localizedClass in names)
     {
-        private static readonly ResourceLoader loader = new ResourceLoader();
+#>
+    public static class <#=localizedClass.Key#>
+    {
+<#
+        var resourcePath = (isDefaultProject ? "" : GetProjectAssemblyName()) + "/" + localizedClass.Key;
+        if(string.IsNullOrEmpty(resourcePath))
+        {
+#>
+        private static readonly ResourceLoader loader = ResourceLoader.GetForViewIndependentUse();
+<#
+        }
+        else
+        {
+#>
+        private static readonly ResourceLoader loader = ResourceLoader.GetForViewIndependentUse("<#=resourcePath#>");
+<#
+        }
+#>
 
         public static string GetString(string resourceKey) => loader.GetString(resourceKey);
 <#
-    foreach(var name in names)
-    {
-        if(string.IsNullOrWhiteSpace(name.Key))
+        foreach(var name in localizedClass.Value)
         {
-            continue;
-        }
+            if(string.IsNullOrWhiteSpace(name.Key))
+                continue;
 #>
 
         /// <summary>
 <#
-        var comments = new StringReader(name.Value);
-        while(true)
-        {
-            var comment = comments.ReadLine();
-            if(comment == null)
-                break;
+            var comments = new StringReader(name.Value);
+            while(true)
+            {
+                var comment = comments.ReadLine();
+                if(comment == null)
+                    break;
 #>
         /// <#=comment#>
 <#
-        }
+            }
 #>
         /// </summary>
         public static string <#=name.Key#>
@@ -87,9 +117,13 @@ namespace <#=GetProjectDefaultNamespace()#>
             get;
         } = loader.GetString("<#=name.Key#>"); 
 <#
-    }
+        }
 #>
     }
+
+<#
+    }
+#>
 }
 <#+
     // 获取当前 T4 模板所在的工程的目录。
@@ -105,5 +139,14 @@ namespace <#=GetProjectDefaultNamespace()#>
         EnvDTE.DTE dte = (EnvDTE.DTE)serviceProvider.GetService(typeof(EnvDTE.DTE));
         EnvDTE.Project project = (EnvDTE.Project)dte.Solution.FindProjectItem(this.Host.TemplateFile).ContainingProject;
         return project.Properties.Item("DefaultNamespace").Value.ToString();
+    }
+
+    // 获取当前 T4 模板所在的工程的默认命名空间。
+    public string GetProjectAssemblyName()
+    {
+        IServiceProvider serviceProvider = (IServiceProvider)this.Host;
+        EnvDTE.DTE dte = (EnvDTE.DTE)serviceProvider.GetService(typeof(EnvDTE.DTE));
+        EnvDTE.Project project = (EnvDTE.Project)dte.Solution.FindProjectItem(this.Host.TemplateFile).ContainingProject;
+        return project.Properties.Item("AssemblyName").Value.ToString();
     }
 #>

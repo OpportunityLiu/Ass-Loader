@@ -9,6 +9,8 @@ using AssLoader;
 using System.ComponentModel;
 using AssLoader.Collections;
 using SubtitleEditor.Model;
+using GalaSoft.MvvmLight.Command;
+using System.Runtime.CompilerServices;
 
 namespace SubtitleEditor.ViewModel
 {
@@ -99,6 +101,28 @@ namespace SubtitleEditor.ViewModel
                     selectedStyle.PropertyChanged += SelectedStyle_PropertyChanged;
                     this.selectedIndex = parent.Styles.IndexOf(selectedStyle);
                 }
+                this.Delete = new RelayCommand(() => this.parent.Delete(this.selectedStyle), () => this.selectedStyle != null);
+                this.Rename = new RelayCommand(rename, () => this.newName != null);
+            }
+
+            private void rename()
+            {
+                var index = this.selectedIndex;
+                var oldValue = this.selectedStyle;
+                var newValue = oldValue.Clone(this.newName);
+                this.parent.Document.Do(new DocumentAction("Change Name", sub =>
+                {
+                    var temp = this.parent.SelectedStyle == oldValue;
+                    sub.StyleSet[index] = newValue;
+                    if(temp)
+                        this.parent.SelectedStyle = newValue;
+                }, sub =>
+                {
+                    var temp = this.parent.SelectedStyle == newValue;
+                    sub.StyleSet[index] = oldValue;
+                    if(temp)
+                        this.parent.SelectedStyle = oldValue;
+                }));
             }
 
             private void Parent_PropertyChanged(object sender, PropertyChangedEventArgs e)
@@ -113,13 +137,28 @@ namespace SubtitleEditor.ViewModel
                         selectedStyle.PropertyChanged += SelectedStyle_PropertyChanged;
                         selectedIndex = parent.Styles.IndexOf(selectedStyle);
                     }
-                    RaisePropertyChanged(null);
+                    newName = null;
+                    Delete.RaiseCanExecuteChanged();
+                    Rename.RaiseCanExecuteChanged();
+                    RaisePropertyChanged("");
                 }
             }
 
             private void SelectedStyle_PropertyChanged(object sender, PropertyChangedEventArgs e)
             {
                 RaisePropertyChanged(e.PropertyName);
+            }
+
+            public RelayCommand Delete
+            {
+                get;
+                private set;
+            }
+
+            public RelayCommand Rename
+            {
+                get;
+                private set;
             }
 
             public string Name
@@ -132,31 +171,20 @@ namespace SubtitleEditor.ViewModel
                 }
                 set
                 {
-                    if(selectedStyle == null || string.IsNullOrWhiteSpace(value) || parent.Styles.ContainsName(value))
+                    if(selectedStyle != null && !string.IsNullOrWhiteSpace(value) && !parent.Styles.ContainsName(value) && selectedStyle.Name != value)
                     {
-                        RaisePropertyChanged(nameof(Name));
-                        return;
+                        newName = value;
                     }
-                    var index = selectedIndex;
-                    var oldValue = selectedStyle;
-                    var newValue = selectedStyle.Clone(value);
-                    parent.Document.Do(new DocumentAction("Change Name", sub =>
+                    else
                     {
-                        var temp = parent.SelectedStyle == oldValue;
-                        sub.StyleSet.RemoveAt(index);
-                        sub.StyleSet.Insert(index, newValue);
-                        if(temp)
-                            parent.SelectedStyle = newValue;
-                    }, sub =>
-                    {
-                        var temp = parent.SelectedStyle == newValue;
-                        sub.StyleSet.RemoveAt(index);
-                        sub.StyleSet.Insert(index, oldValue);
-                        if(temp)
-                            parent.SelectedStyle = oldValue;
-                    }));
+                        newName = null;
+                    }
+                    RaisePropertyChanged(nameof(Name));
+                    Rename.RaiseCanExecuteChanged();
                 }
             }
+
+            private string newName;
 
             public AlignmentStyle Alignment
             {

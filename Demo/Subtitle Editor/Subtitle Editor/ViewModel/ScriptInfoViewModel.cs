@@ -46,7 +46,7 @@ namespace SubtitleEditor.ViewModel
                 value = stringFormat(value);
                 if(value == oldValue)
                     return;
-                Document.Do(new ScriptInfoAction(LocalizedStrings.ScriptInfoTitle,
+                Document.Do(new ScriptInfoAction(LocalizedStrings.Resources.ScriptInfoTitle,
                     sub => sub.ScriptInfo.Title = value,
                     sub => sub.ScriptInfo.Title = oldValue));
             }
@@ -64,7 +64,7 @@ namespace SubtitleEditor.ViewModel
                 value = stringFormat(value);
                 if(value == oldValue)
                     return;
-                Document.Do(new ScriptInfoAction(LocalizedStrings.ScriptInfoOriginalEditing,
+                Document.Do(new ScriptInfoAction(LocalizedStrings.Resources.ScriptInfoOriginalEditing,
                     sub => sub.ScriptInfo.OriginalEditing = value,
                     sub => sub.ScriptInfo.OriginalEditing = oldValue));
             }
@@ -82,7 +82,7 @@ namespace SubtitleEditor.ViewModel
                 value = stringFormat(value);
                 if(value == oldValue)
                     return;
-                Document.Do(new ScriptInfoAction(LocalizedStrings.ScriptInfoOriginalScript,
+                Document.Do(new ScriptInfoAction(LocalizedStrings.Resources.ScriptInfoOriginalScript,
                     sub => sub.ScriptInfo.OriginalScript = value,
                     sub => sub.ScriptInfo.OriginalScript = oldValue));
             }
@@ -100,7 +100,7 @@ namespace SubtitleEditor.ViewModel
                 value = stringFormat(value);
                 if(value == oldValue)
                     return;
-                Document.Do(new ScriptInfoAction(LocalizedStrings.ScriptInfoOriginalTiming,
+                Document.Do(new ScriptInfoAction(LocalizedStrings.Resources.ScriptInfoOriginalTiming,
                     sub => sub.ScriptInfo.OriginalTiming = value,
                     sub => sub.ScriptInfo.OriginalTiming = oldValue));
             }
@@ -118,7 +118,7 @@ namespace SubtitleEditor.ViewModel
                 value = stringFormat(value);
                 if(value == oldValue)
                     return;
-                Document.Do(new ScriptInfoAction(LocalizedStrings.ScriptInfoOriginalTranslation,
+                Document.Do(new ScriptInfoAction(LocalizedStrings.Resources.ScriptInfoOriginalTranslation,
                     sub => sub.ScriptInfo.OriginalTranslation = value,
                     sub => sub.ScriptInfo.OriginalTranslation = oldValue));
             }
@@ -136,7 +136,7 @@ namespace SubtitleEditor.ViewModel
                 value = stringFormat(value);
                 if(value == oldValue)
                     return;
-                Document.Do(new ScriptInfoAction(LocalizedStrings.ScriptInfoScriptUpdatedBy,
+                Document.Do(new ScriptInfoAction(LocalizedStrings.Resources.ScriptInfoScriptUpdatedBy,
                     sub => sub.ScriptInfo.ScriptUpdatedBy = value,
                     sub => sub.ScriptInfo.ScriptUpdatedBy = oldValue));
             }
@@ -154,7 +154,7 @@ namespace SubtitleEditor.ViewModel
                 value = stringFormat(value);
                 if(value == oldValue)
                     return;
-                Document.Do(new ScriptInfoAction(LocalizedStrings.ScriptInfoUpdateDetails,
+                Document.Do(new ScriptInfoAction(LocalizedStrings.Resources.ScriptInfoUpdateDetails,
                     sub => sub.ScriptInfo.UpdateDetails = value,
                     sub => sub.ScriptInfo.UpdateDetails = oldValue));
             }
@@ -172,7 +172,7 @@ namespace SubtitleEditor.ViewModel
                 value = stringFormat(value);
                 if(value == oldValue)
                     return;
-                Document.Do(new ScriptInfoAction(LocalizedStrings.ScriptInfoSynchPoint,
+                Document.Do(new ScriptInfoAction(LocalizedStrings.Resources.ScriptInfoSynchPoint,
                     sub => sub.ScriptInfo.SynchPoint = value,
                     sub => sub.ScriptInfo.SynchPoint = oldValue));
             }
@@ -189,7 +189,7 @@ namespace SubtitleEditor.ViewModel
         //        var oldValue = info.Timer;
         //        if(value == oldValue)
         //            return;
-        //        Document.Do(new ScriptInfoAction(LocalizedStrings.ScriptInfoTimer,
+        //        Document.Do(new ScriptInfoAction(LocalizedStrings.Resources.ScriptInfoTimer,
         //            sub => sub.ScriptInfo.Timer = value,
         //            sub => sub.ScriptInfo.Timer = oldValue));
         //    }
@@ -206,7 +206,7 @@ namespace SubtitleEditor.ViewModel
                 var oldValue = info.Collisions;
                 if(value == oldValue)
                     return;
-                Document.Do(new ScriptInfoAction(LocalizedStrings.ScriptInfoCollisions,
+                Document.Do(new ScriptInfoAction(LocalizedStrings.Resources.ScriptInfoCollisions,
                     sub => sub.ScriptInfo.Collisions = value,
                     sub => sub.ScriptInfo.Collisions = oldValue));
             }
@@ -223,7 +223,7 @@ namespace SubtitleEditor.ViewModel
                 var oldValue = info.WrapStyle;
                 if(value == oldValue)
                     return;
-                Document.Do(new ScriptInfoAction(LocalizedStrings.ScriptInfoWrapStyle,
+                Document.Do(new ScriptInfoAction(LocalizedStrings.Resources.ScriptInfoWrapStyle,
                     sub => sub.ScriptInfo.WrapStyle = value,
                     sub => sub.ScriptInfo.WrapStyle = oldValue));
             }
@@ -240,7 +240,7 @@ namespace SubtitleEditor.ViewModel
         //        var oldValue = info.PlayDepth;
         //        if(value == oldValue)
         //            return;
-        //        Document.Do(new ScriptInfoAction(LocalizedStrings.ScriptInfoPlayDepth,
+        //        Document.Do(new ScriptInfoAction(LocalizedStrings.Resources.ScriptInfoPlayDepth,
         //            sub => sub.ScriptInfo.PlayDepth = value,
         //            sub => sub.ScriptInfo.PlayDepth = oldValue));
         //    }
@@ -257,7 +257,7 @@ namespace SubtitleEditor.ViewModel
                 var oldValue = info.PlayResX;
                 if(value == oldValue)
                     return;
-                Document.Do(new ScriptInfoAction(LocalizedStrings.ScriptInfoPlayResX,
+                Document.Do(new ScriptInfoAction(LocalizedStrings.Resources.ScriptInfoPlayResX,
                     sub => sub.ScriptInfo.PlayResX = value,
                     sub => sub.ScriptInfo.PlayResX = oldValue));
             }
@@ -274,7 +274,7 @@ namespace SubtitleEditor.ViewModel
                 var oldValue = info.PlayResY;
                 if(value == oldValue)
                     return;
-                Document.Do(new ScriptInfoAction(LocalizedStrings.ScriptInfoPlayResY,
+                Document.Do(new ScriptInfoAction(LocalizedStrings.Resources.ScriptInfoPlayResY,
                     sub => sub.ScriptInfo.PlayResY = value,
                     sub => sub.ScriptInfo.PlayResY = oldValue));
             }
@@ -291,7 +291,7 @@ namespace SubtitleEditor.ViewModel
                 var oldValue = info.ScaledBorderAndShadow;
                 if(value == oldValue)
                     return;
-                Document.Do(new ScriptInfoAction(LocalizedStrings.ScriptInfoScaledBorderAndShadow,
+                Document.Do(new ScriptInfoAction(LocalizedStrings.Resources.ScriptInfoScaledBorderAndShadow,
                     sub => sub.ScriptInfo.ScaledBorderAndShadow = value,
                     sub => sub.ScriptInfo.ScaledBorderAndShadow = oldValue));
             }
@@ -308,7 +308,7 @@ namespace SubtitleEditor.ViewModel
         private class ScriptInfoAction : DocumentAction
         {
             public ScriptInfoAction(string propertyName, DocumentActionDo doAction, DocumentActionUndo undoAction)
-                : base(string.Format(System.Globalization.CultureInfo.CurrentCulture, LocalizedStrings.ActionSetScriptInfo, propertyName), doAction, undoAction)
+                : base(string.Format(System.Globalization.CultureInfo.CurrentCulture, LocalizedStrings.Resources.ActionSetScriptInfo, propertyName), doAction, undoAction)
             {
             }
         }

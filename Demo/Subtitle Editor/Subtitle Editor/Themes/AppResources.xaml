@@ -1,11 +1,5 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:con="using:SubtitleEditor.Converters">
-
-    <Style x:Key="InnerPageAppBarStyle"
-           TargetType="AppBar">
-        <Setter Property="Margin"
-                Value="48,0,0,0" />
-    </Style>
     <con:DefaultConverter x:Key="DefaultConverter" />
 </ResourceDictionary>

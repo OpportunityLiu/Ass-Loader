@@ -102,8 +102,7 @@
             <ListView.ItemTemplate>
                 <DataTemplate x:DataType="ass:Style">
                     <Grid>
-                        <TextBlock DoubleTapped="TextBlock_DoubleTapped"
-                                   Text="{x:Bind Name, Mode=OneWay}" />
+                        <TextBlock Text="{x:Bind Name, Mode=OneWay}" />
                     </Grid>
                 </DataTemplate>
             </ListView.ItemTemplate>
@@ -127,11 +126,23 @@
                 <CompositeTransform />
             </ScrollViewer.RenderTransform>
             <StackPanel x:Name="stackPanelDetail">
-                <Button x:Name="buttonBack"
-                        Content="back"
-                        Tapped="buttonBack_Tapped" />
-                <TextBox Text="{x:Bind ViewModel.SelectedStyleEditor.Name, Mode=TwoWay}" />
-
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <TextBox Text="{Binding ViewModel.SelectedStyleEditor.Name, ElementName=page, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                             PlaceholderText="Name"/>
+                    <Button Grid.Column="1"
+                            Content="Finish"
+                            Command="{x:Bind ViewModel.SelectedStyleEditor.Rename}" />
+                    <Button Grid.Column="1"
+                            Content="Rename"/>
+                    <Button Grid.Column="2"
+                            Content="Delete"
+                            Command="{x:Bind ViewModel.SelectedStyleEditor.Delete}" />
+                </Grid>
             </StackPanel>
         </ScrollViewer>
     </Grid>
