@@ -27,11 +27,10 @@ namespace SubtitleEditor.View
         {
             this.InitializeComponent();
             stackPanelDetail.Visibility = Visibility.Collapsed;
+            this.ViewModel = ViewModelLocator.GetForCurrentView().StyleView;
             stackPanelDetail.Opacity = 0;
-            var ioc = ViewModelLocator.GetForCurrentView();
-            this.ViewModel = ioc.StyleView;
             this.leftWidth = (double)Resources["LeftSubPageWidth"];
-            this.onePageMinWidth= (double)Resources["OnePageMinWidth"];
+            this.onePageMinWidth = (double)Resources["OnePageMinWidth"];
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
@@ -42,11 +41,6 @@ namespace SubtitleEditor.View
         protected override void OnNavigatedFrom(NavigationEventArgs e)
         {
             base.OnNavigatedFrom(e);
-        }
-
-        private void buttonBack_Tapped(object sender, RoutedEventArgs e)
-        {
-            GoBack();
         }
 
         public StyleViewModel ViewModel
@@ -61,14 +55,11 @@ namespace SubtitleEditor.View
             }
         }
 
+        public bool CanGoBack => listView.SelectedItem != null && state != pageState.lr;
+
         // Using a DependencyProperty as the backing store for ViewModel.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty ViewModelProperty =
             DependencyProperty.Register("ViewModel", typeof(StyleViewModel), typeof(StylePage), new PropertyMetadata(null));
-
-        private void TextBlock_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
-        {
-            ViewModel.Delete((AssLoader.Style)((FrameworkElement)sender).DataContext);
-        }
 
         private enum pageState
         {
@@ -93,16 +84,18 @@ namespace SubtitleEditor.View
                 listView.ClearValue(HorizontalAlignmentProperty);
                 scrollViewerDetail.ClearValue(MarginProperty);
                 toSubPageAnmation(false);
+                CanGoBackChanged?.Invoke(this, EventArgs.Empty);
             }
             else
             {
-                if(state==pageState.lr)
+                if(state == pageState.lr)
                     return;
                 state = pageState.lr;
                 listView.Width = leftWidth;
                 listView.HorizontalAlignment = HorizontalAlignment.Left;
                 scrollViewerDetail.Margin = new Thickness(leftWidth, 0, 0, 0);
                 toSubPageAnmation(false);
+                CanGoBackChanged?.Invoke(this, EventArgs.Empty);
             }
         }
 
@@ -143,8 +136,11 @@ namespace SubtitleEditor.View
 
         private bool previousIsNull = true;
 
+        public event CanGoBackChangedEventHandler CanGoBackChanged;
+
         private void listView_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            CanGoBackChanged?.Invoke(this, EventArgs.Empty);
             if(listView.SelectedItem == null && !previousIsNull)
             {
                 hideRight.Begin();
@@ -157,10 +153,14 @@ namespace SubtitleEditor.View
                 previousIsNull = false;
             }
             if(state == pageState.lr)
+            {
                 return;
+            }
             else
+            {
                 state = listView.SelectedItem == null ? pageState.l : pageState.r;
-            toSubPageAnmation(true);
+                toSubPageAnmation(true);
+            }
         }
 
         private void toPage_Completed(object sender, object e)
@@ -191,6 +191,12 @@ namespace SubtitleEditor.View
         {
             if(ViewModel.SelectedStyle == null)
                 stackPanelDetail.Visibility = Visibility.Collapsed;
+        }
+
+        public void GoBack()
+        {
+            listView.Focus(FocusState.Programmatic);
+            listView.SelectedItem = null;
         }
     }
 }

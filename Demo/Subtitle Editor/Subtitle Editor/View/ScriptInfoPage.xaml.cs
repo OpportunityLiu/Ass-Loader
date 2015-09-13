@@ -37,14 +37,17 @@ namespace SubtitleEditor.View
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            InputPane.GetForCurrentView().Showing += paneShowing;
             base.OnNavigatedTo(e);
         }
 
         protected override void OnNavigatedFrom(NavigationEventArgs e)
         {
-            InputPane.GetForCurrentView().Showing -= paneShowing;
             base.OnNavigatedFrom(e);
+        }
+
+        private void page_Loaded(object sender, RoutedEventArgs e)
+        {
+            InputPane.GetForCurrentView().Showing += paneShowing;
         }
 
         private void page_Unloaded(object sender, RoutedEventArgs e)
@@ -146,10 +149,10 @@ namespace SubtitleEditor.View
             get;
         } = new Dictionary<WrapStyle, object>()
         {
-            [WrapStyle.Smart] = LocalizedStrings.WrapStyleSmart,
-            [WrapStyle.None] = LocalizedStrings.WrapStyleNone,
-            [WrapStyle.EndOfLine] = LocalizedStrings.WrapStyleEndOfLine,
-            [WrapStyle.Smart2] = LocalizedStrings.WrapStyleSmart2
+            [WrapStyle.Smart] = LocalizedStrings.Resources.WrapStyleSmart,
+            [WrapStyle.None] = LocalizedStrings.Resources.WrapStyleNone,
+            [WrapStyle.EndOfLine] = LocalizedStrings.Resources.WrapStyleEndOfLine,
+            [WrapStyle.Smart2] = LocalizedStrings.Resources.WrapStyleSmart2
         };
     }
 
@@ -160,8 +163,8 @@ namespace SubtitleEditor.View
             get;
         } = new Dictionary<CollisionStyle, object>()
         {
-            [CollisionStyle.Normal] = LocalizedStrings.CollisionStyleNormal,
-            [CollisionStyle.Reverse] = LocalizedStrings.CollisionStyleReverse
+            [CollisionStyle.Normal] = LocalizedStrings.Resources.CollisionStyleNormal,
+            [CollisionStyle.Reverse] = LocalizedStrings.Resources.CollisionStyleReverse
         };
     }
 }

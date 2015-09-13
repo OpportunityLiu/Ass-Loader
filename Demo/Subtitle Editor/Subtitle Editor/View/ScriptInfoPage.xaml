@@ -11,6 +11,7 @@
       xmlns:ass="using:AssLoader"
       SizeChanged="ScriptInfoPage_SizeChanged"
       NavigationCacheMode="Enabled"
+      Loaded="page_Loaded"
       Unloaded="page_Unloaded">
     <Page.Resources>
         <local:WrapStyleConverter x:Key="WrapStyleConverter" />

@@ -16,6 +16,8 @@ namespace SubtitleEditor.View
             get;
         }
 
-        event EventHandler CanGoBackChanged;
+        event CanGoBackChangedEventHandler CanGoBackChanged;
     }
+
+    delegate void CanGoBackChangedEventHandler(IGoBack sender, EventArgs e);
 }

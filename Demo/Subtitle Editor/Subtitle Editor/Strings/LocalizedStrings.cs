@@ -1,10 +1,10 @@
 ﻿using Windows.ApplicationModel.Resources;
 
-namespace SubtitleEditor
+namespace SubtitleEditor.LocalizedStrings
 {    
-    public static class LocalizedStrings
+    public static class Resources
     {
-        private static readonly ResourceLoader loader = new ResourceLoader();
+        private static readonly ResourceLoader loader = ResourceLoader.GetForViewIndependentUse("/Resources");
 
         public static string GetString(string resourceKey) => loader.GetString(resourceKey);
 
@@ -65,7 +65,7 @@ namespace SubtitleEditor
         } = loader.GetString("CollisionStyleReverse"); 
 
         /// <summary>
-        /// 撤销 {0}
+        /// 重做 {0}
         /// </summary>
         public static string DocumentRedo
         {
@@ -73,7 +73,7 @@ namespace SubtitleEditor
         } = loader.GetString("DocumentRedo"); 
 
         /// <summary>
-        /// 重做 {0}
+        /// 撤销 {0}
         /// </summary>
         public static string DocumentUndo
         {
@@ -352,4 +352,5 @@ namespace SubtitleEditor
             get;
         } = loader.GetString("WrapStyleSmart2"); 
     }
+
 }

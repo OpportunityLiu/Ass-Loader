@@ -37,41 +37,21 @@ namespace SubtitleEditor.View
 
         private void MainPage_Loading(FrameworkElement sender, object args)
         {
-            SystemNavigationManager.GetForCurrentView().BackRequested += backRequested;
             pane = InputPane.GetForCurrentView();
+            navigationManager = SystemNavigationManager.GetForCurrentView();
+            navigationManager.BackRequested += backRequested;
             pane.Showing += inputPaneChanged;
             pane.Hiding += inputPaneChanged;
         }
 
         private void MainPage_Unloaded(object sender, RoutedEventArgs e)
         {
-            SystemNavigationManager.GetForCurrentView().BackRequested -= backRequested;
+            navigationManager.BackRequested -= backRequested;
             pane.Showing -= inputPaneChanged;
             pane.Hiding -= inputPaneChanged;
         }
 
-        private async void backRequested(object sender, BackRequestedEventArgs e)
-        {
-            if(e.Handled)
-                return;
-            var inner = frameInner.Content as IGoBack;
-            if(inner != null)
-            {
-                e.Handled = inner.GoBack();
-            }
-            if(e.Handled)
-                return;
-            if(e.Handled = cleaning)
-                return;
-            if(e.Handled = ViewModel.NeedCleanUp)
-            {
-                cleaning = true;
-                await ViewModel.CleanUpBeforeNewOrOpen();
-                cleaning = false;
-            }
-        }
-
-        private bool cleaning = false;
+        private SystemNavigationManager navigationManager;
 
         private InputPane pane;
 
@@ -226,6 +206,35 @@ namespace SubtitleEditor.View
         private void inputPane_Tapped(object sender, TappedRoutedEventArgs e)
         {
             pane.TryHide();
+        }
+
+        private void frameInner_Navigated(object sender, NavigationEventArgs e)
+        {
+            if(innerContent != null)
+            {
+                innerContent.CanGoBackChanged -= InnerContent_CanGoBackChanged;
+            }
+            innerContent= e.Content as IGoBack;
+            if(innerContent != null)
+            {
+                innerContent.CanGoBackChanged += InnerContent_CanGoBackChanged;
+            }
+        }
+
+        private IGoBack innerContent;
+
+        private void InnerContent_CanGoBackChanged(IGoBack sender, EventArgs e)
+        {
+            navigationManager.AppViewBackButtonVisibility = sender.CanGoBack ? AppViewBackButtonVisibility.Visible : AppViewBackButtonVisibility.Collapsed;
+        }
+
+        private void backRequested(object sender, BackRequestedEventArgs e)
+        {
+            if(innerContent?.CanGoBack == true)
+            {
+                innerContent.GoBack();
+                e.Handled = true;
+            }
         }
     }
 }

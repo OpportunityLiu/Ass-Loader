@@ -55,15 +55,15 @@ namespace SubtitleEditor.ViewModel
             openPicker.FileTypeFilter.Add(".ass");
 
             savePicker = new FileSavePicker() { DefaultFileExtension = ".ass" };
-            savePicker.FileTypeChoices.Add(LocalizedStrings.AssFileName, new[] { ".ass" });
+            savePicker.FileTypeChoices.Add(LocalizedStrings.Resources.AssFileName, new[] { ".ass" });
 
-            saveDialog = new MessageDialog(LocalizedStrings.SaveDialogContent, LocalizedStrings.SaveDialogTitle);
-            saveDialog.Commands.Add(new UICommand(LocalizedStrings.SaveDialogYes, null, dialogResult.Yes));
-            saveDialog.Commands.Add(new UICommand(LocalizedStrings.SaveDialogNo, null, dialogResult.No));
+            saveDialog = new MessageDialog(LocalizedStrings.Resources.SaveDialogContent, LocalizedStrings.Resources.SaveDialogTitle);
+            saveDialog.Commands.Add(new UICommand(LocalizedStrings.Resources.SaveDialogYes, null, dialogResult.Yes));
+            saveDialog.Commands.Add(new UICommand(LocalizedStrings.Resources.SaveDialogNo, null, dialogResult.No));
             saveDialog.DefaultCommandIndex = 0;
             if(!isMobile)
             {
-                saveDialog.Commands.Add(new UICommand(LocalizedStrings.SaveDialogCancel, null, dialogResult.Cancel));
+                saveDialog.Commands.Add(new UICommand(LocalizedStrings.Resources.SaveDialogCancel, null, dialogResult.Cancel));
                 saveDialog.CancelCommandIndex = 2;
             }
 
@@ -87,39 +87,39 @@ namespace SubtitleEditor.ViewModel
             SplitViewButtons.Add(new SplitViewButtonData()
             {
                 Icon = "\xE160",
-                Content = LocalizedStrings.SplitViewButtonNew,
+                Content = LocalizedStrings.Resources.SplitViewButtonNew,
                 Command = newFile
             });
             SplitViewButtons.Add(new SplitViewButtonData()
             {
                 Icon = "\xE8E5",
-                Content = LocalizedStrings.SplitViewButtonOpen,
+                Content = LocalizedStrings.Resources.SplitViewButtonOpen,
                 Command = openFile
             });
             SplitViewButtons.Add(new SplitViewButtonData()
             {
                 Icon = "\xE105",
-                Content = LocalizedStrings.SplitViewButtonSave,
+                Content = LocalizedStrings.Resources.SplitViewButtonSave,
                 Command = saveFile
             });
 
             DocumentTabs.Add(new SplitViewTabData()
             {
                 Icon = "\xE1CB",
-                Content = LocalizedStrings.SplitViewTabScriptInfo,
+                Content = LocalizedStrings.Resources.SplitViewTabScriptInfo,
                 PageType = typeof(View.ScriptInfoPage),
                 IsChecked = true
             });
             DocumentTabs.Add(new SplitViewTabData()
             {
                 Icon = "\xE2B1",
-                Content = LocalizedStrings.SplitViewTabStyle,
+                Content = LocalizedStrings.Resources.SplitViewTabStyle,
                 PageType = typeof(View.StylePage)
             });
             DocumentTabs.Add(new SplitViewTabData()
             {
                 Icon = "\xE292",
-                Content = LocalizedStrings.SplitViewTabEvent,
+                Content = LocalizedStrings.Resources.SplitViewTabEvent,
                 PageType = typeof(View.SubEventPage)
             });
             Document.PropertyChanged += documentPropertyChanged;
@@ -203,7 +203,7 @@ namespace SubtitleEditor.ViewModel
         } = new SplitViewTabData()
         {
             Icon = "\xE115",
-            Content = LocalizedStrings.SplitViewTabPreferences,
+            Content = LocalizedStrings.Resources.SplitViewTabPreferences,
             PageType = typeof(View.PreferencesPage)
         };
 
@@ -213,7 +213,7 @@ namespace SubtitleEditor.ViewModel
                 RaisePropertyChanged(nameof(Title));
         }
 
-        public string Title => $"{(Document.IsModified ? "● " : "")}{Document.Title ?? LocalizedStrings.Untitled}";
+        public string Title => $"{(Document.IsModified ? "● " : "")}{Document.Title ?? LocalizedStrings.Resources.Untitled}";
 
         public override void Cleanup()
         {

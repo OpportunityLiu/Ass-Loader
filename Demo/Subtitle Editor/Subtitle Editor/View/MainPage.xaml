@@ -236,7 +236,7 @@
                     </Grid>
                 </ScrollViewer>
             </SplitView.Pane>
-            <Frame x:Name="frameInner" />
+            <Frame x:Name="frameInner" Navigated="frameInner_Navigated"/>
         </SplitView>
         <ContentPresenter x:Name="inputPane"
                           Grid.Row="2"
