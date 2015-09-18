@@ -4,7 +4,7 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:vm="using:SubtitleEditor.ViewModel"
-      xmlns:Converters="using:Newtonsoft.Json.Converters"
+      xmlns:con="using:SubtitleEditor.Converters"
       x:Name="page"
       x:Class="SubtitleEditor.View.ScriptInfoPage"
       mc:Ignorable="d"
@@ -14,8 +14,8 @@
       Loaded="page_Loaded"
       Unloaded="page_Unloaded">
     <Page.Resources>
-        <local:WrapStyleConverter x:Key="WrapStyleConverter" />
-        <local:CollisionStyleConverter x:Key="CollisionStyleConverter" />
+        <con:WrapStyleConverter x:Key="WrapStyleConverter" />
+        <con:CollisionStyleConverter x:Key="CollisionStyleConverter" />
     </Page.Resources>
     <ScrollViewer VerticalScrollBarVisibility="Auto"
                   x:Name="root"
@@ -182,7 +182,7 @@
                           GotFocus="field_GotFocus"
                           LostFocus="field_LostFocus"
                           HorizontalAlignment="Stretch"
-                          SelectedIndex="{x:Bind ViewModel.WrapStyle, Mode=TwoWay, Converter={StaticResource DefaultConverter}}">
+                          SelectedIndex="{x:Bind ViewModel.WrapStyle, Mode=TwoWay, Converter={StaticResource EmptyConverter}}">
                     <ComboBox.ItemTemplate>
                         <DataTemplate>
                             <TextBlock Text="{Binding Converter={StaticResource WrapStyleConverter}}" />
@@ -199,7 +199,7 @@
                           GotFocus="field_GotFocus"
                           LostFocus="field_LostFocus"
                           HorizontalAlignment="Stretch"
-                          SelectedIndex="{x:Bind ViewModel.Collisions, Mode=TwoWay, Converter={StaticResource DefaultConverter}}">
+                          SelectedIndex="{x:Bind ViewModel.Collisions, Mode=TwoWay, Converter={StaticResource EmptyConverter}}">
                     <ComboBox.ItemTemplate>
                         <DataTemplate>
                             <TextBlock Text="{Binding Converter={StaticResource CollisionStyleConverter}}" />

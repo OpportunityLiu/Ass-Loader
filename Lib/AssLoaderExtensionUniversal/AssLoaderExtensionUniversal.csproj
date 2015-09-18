@@ -133,6 +133,7 @@
     <None Include="project.json" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ColorConverters.cs" />
     <Compile Include="ColorExtention.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Content Include="Properties\AssLoaderExtensionUniversal.rd.xml">

@@ -95,10 +95,13 @@
   </PropertyGroup>
   <ItemGroup>
     <!-- A reference to the entire .Net Framework and Windows SDK are automatically included -->
+    <Compile Include="Controls\SamplePresenter.cs" />
     <Compile Include="Controls\StateTriggers\DeviceFamilyTrigger.cs" />
     <Compile Include="Controls\StateTriggers\ElementSizeTrigger.cs" />
-    <Compile Include="Converters\DefaultConverter.cs" />
+    <Compile Include="Converters\BoolVisibilityConverter.cs" />
+    <Compile Include="Converters\EmptyConverter.cs" />
     <Compile Include="Converters\EnumConverter.cs" />
+    <Compile Include="Model\FontList.cs" />
     <Compile Include="Model\IDocumentAction.cs" />
     <Compile Include="Strings\LocalizedStrings.cs">
       <AutoGen>True</AutoGen>
@@ -124,10 +127,19 @@
     <Compile Include="View\SubEventPage.xaml.cs">
       <DependentUpon>SubEventPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="App.xaml.cs">
+      <DependentUpon>App.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\MainPage.xaml.cs">
+      <DependentUpon>MainPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
     <Content Include="ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Chu2Koi[01].ass" />
     <None Include="Package.StoreAssociation.xml" />
+    <Content Include="Resources\massgrid.png" />
     <Content Include="Strings\LocalizedStrings.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>LocalizedStrings.cs</LastGenOutput>
@@ -145,19 +157,11 @@
     <Compile Include="ViewModel\ViewModelLocator.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="App.xaml.cs">
-      <DependentUpon>App.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="View\MainPage.xaml.cs">
-      <DependentUpon>MainPage.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
     <AppxManifest Include="Package.appxmanifest">
       <SubType>Designer</SubType>
     </AppxManifest>
-    <PRIResource Include="Strings\zh-cn\Resources.resw" />
+    <PRIResource Include="Strings\zh-Hans\Resources.resw" />
+    <Content Include="sub.srt" />
     <None Include="Subtitle Editor_StoreKey.pfx" />
   </ItemGroup>
   <ItemGroup>
@@ -169,26 +173,28 @@
     <Content Include="Assets\Square44x44Logo.targetsize-24_altform-unplated.png" />
     <Content Include="Assets\StoreLogo.png" />
     <Content Include="Assets\Wide310x150Logo.scale-200.png" />
+  </ItemGroup>
+  <ItemGroup>
     <Content Include="$(SolutionDir)\FFmpeg\$(PlatformTarget)\bin\avcodec-57.dll">
-      <Link>FFmpeg\avcodec-57.dll</Link>
+      <Link>avcodec-57.dll</Link>
     </Content>
     <Content Include="$(SolutionDir)\FFmpeg\$(PlatformTarget)\bin\avdevice-57.dll">
-      <Link>FFmpeg\avdevice-57.dll</Link>
+      <Link>avdevice-57.dll</Link>
     </Content>
     <Content Include="$(SolutionDir)\FFmpeg\$(PlatformTarget)\bin\avfilter-6.dll">
-      <Link>FFmpeg\avfilter-6.dll</Link>
+      <Link>avfilter-6.dll</Link>
     </Content>
     <Content Include="$(SolutionDir)\FFmpeg\$(PlatformTarget)\bin\avformat-57.dll">
-      <Link>FFmpeg\avformat-57.dll</Link>
+      <Link>avformat-57.dll</Link>
     </Content>
     <Content Include="$(SolutionDir)\FFmpeg\$(PlatformTarget)\bin\avutil-55.dll">
-      <Link>FFmpeg\avutil-55.dll</Link>
+      <Link>avutil-55.dll</Link>
     </Content>
     <Content Include="$(SolutionDir)\FFmpeg\$(PlatformTarget)\bin\swresample-2.dll">
-      <Link>FFmpeg\swresample-2.dll</Link>
+      <Link>swresample-2.dll</Link>
     </Content>
     <Content Include="$(SolutionDir)\FFmpeg\$(PlatformTarget)\bin\swscale-4.dll">
-      <Link>FFmpeg\swscale-4.dll</Link>
+      <Link>swscale-4.dll</Link>
     </Content>
   </ItemGroup>
   <ItemGroup>
@@ -251,9 +257,7 @@
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Resources\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <SDKReference Include="WindowsDesktop, Version=10.0.10240.0">
       <Name>Windows Desktop Extensions for the UWP</Name>

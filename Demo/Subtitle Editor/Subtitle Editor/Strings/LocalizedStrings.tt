@@ -15,7 +15,7 @@
     // 生成辅助类的命名空间，默认使用 "<ProjectDefaultNamespace>.LocalizedStrings"。
     var localizedStringsNameSpace = "";
     // 检索 resw 并生成注释时使用的语言。
-    var sourceLanguage = "zh-cn";
+    var sourceLanguage = "zh-Hans";
     // 是否为默认工程，决定是否需要显式定义资源路径。
     var isDefaultProject = true;
 
