@@ -1,6 +1,6 @@
 ﻿using UIColor = Windows.UI.Color;
 
-namespace AssLoader
+namespace AssLoader.Extension
 {
     /// <summary>
     /// Converters between <see cref="UIColor"/> and <see cref="Color"/>.

@@ -7,8 +7,18 @@
       mc:Ignorable="d"
       xmlns:vm="using:SubtitleEditor.ViewModel"
       NavigationCacheMode="Enabled">
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <TextBlock>Event</TextBlock>
-
-    </Grid>
+    <StackPanel Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <TextBlock x:Name="sample"
+                   Text="Sample 示例 サンプル　さんぷる" 
+                   FontFamily="{Binding ElementName=fontfamily, Path=SelectedItem}"/>
+        <ComboBox x:Name="fontfamily">
+            <ComboBox.ItemTemplate>
+                <DataTemplate x:DataType="FontFamily">
+                    <TextBlock Text="{x:Bind Source}" />
+                </DataTemplate>
+            </ComboBox.ItemTemplate>
+        </ComboBox>
+        <Button Content="set"
+                Click="Button_Click" />
+    </StackPanel>
 </Page>

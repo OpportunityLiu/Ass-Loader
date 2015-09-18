@@ -77,6 +77,8 @@ namespace SubtitleEditor.ViewModel
 
         public class SelectedStyleViewModel : ViewModelBase
         {
+            private static Style defaultStyle = new Style("*Default");
+
             private StyleViewModel parent;
             private Style selectedStyle;
             private int selectedIndex;
@@ -136,11 +138,11 @@ namespace SubtitleEditor.ViewModel
                     {
                         selectedStyle.PropertyChanged += SelectedStyle_PropertyChanged;
                         selectedIndex = parent.Styles.IndexOf(selectedStyle);
+                        RaisePropertyChanged("");
                     }
                     newName = null;
                     Delete.RaiseCanExecuteChanged();
                     Rename.RaiseCanExecuteChanged();
-                    RaisePropertyChanged("");
                 }
             }
 
@@ -165,9 +167,7 @@ namespace SubtitleEditor.ViewModel
             {
                 get
                 {
-                    if(selectedStyle == null)
-                        return default(string);
-                    return selectedStyle.Name;
+                    return (selectedStyle ?? defaultStyle).Name;
                 }
                 set
                 {
@@ -190,9 +190,7 @@ namespace SubtitleEditor.ViewModel
             {
                 get
                 {
-                    if(selectedStyle == null)
-                        return default(AlignmentStyle);
-                    return selectedStyle.Alignment;
+                    return (selectedStyle ?? defaultStyle).Alignment;
                 }
                 set
                 {
@@ -209,9 +207,7 @@ namespace SubtitleEditor.ViewModel
             {
                 get
                 {
-                    if(selectedStyle == null)
-                        return default(bool);
-                    return selectedStyle.Bold;
+                    return (selectedStyle ?? defaultStyle).Bold;
                 }
                 set
                 {
@@ -228,9 +224,7 @@ namespace SubtitleEditor.ViewModel
             {
                 get
                 {
-                    if(selectedStyle == null)
-                        return default(BorderStyle);
-                    return selectedStyle.BorderStyle;
+                    return (selectedStyle ?? defaultStyle).BorderStyle;
                 }
                 set
                 {
@@ -243,32 +237,30 @@ namespace SubtitleEditor.ViewModel
                 }
             }
 
-            public int Encoding
-            {
-                get
-                {
-                    if(selectedStyle == null)
-                        return default(int);
-                    return selectedStyle.Encoding;
-                }
-                set
-                {
-                    if(selectedStyle == null)
-                        return;
-                    var index = selectedIndex;
-                    var oldValue = selectedStyle.Encoding;
-                    if(!parent.Document.TryDo(new DocumentAction("Change Encoding", sub => sub.StyleSet[index].Encoding = value, sub => sub.StyleSet[index].Encoding = oldValue)))
-                        RaisePropertyChanged(nameof(Encoding));
-                }
-            }
+            //public int Encoding
+            //{
+            //    get
+            //    {
+            //        if(selectedStyle == null)
+            //            return default(int);
+            //        return selectedStyle.Encoding;
+            //    }
+            //    set
+            //    {
+            //        if(selectedStyle == null)
+            //            return;
+            //        var index = selectedIndex;
+            //        var oldValue = selectedStyle.Encoding;
+            //        if(!parent.Document.TryDo(new DocumentAction("Change Encoding", sub => sub.StyleSet[index].Encoding = value, sub => sub.StyleSet[index].Encoding = oldValue)))
+            //            RaisePropertyChanged(nameof(Encoding));
+            //    }
+            //}
 
             public string FontName
             {
                 get
                 {
-                    if(selectedStyle == null)
-                        return default(string);
-                    return selectedStyle.FontName;
+                    return (selectedStyle ?? defaultStyle).FontName;
                 }
                 set
                 {
@@ -285,9 +277,7 @@ namespace SubtitleEditor.ViewModel
             {
                 get
                 {
-                    if(selectedStyle == null)
-                        return default(double);
-                    return selectedStyle.FontSize;
+                    return (selectedStyle ?? defaultStyle).FontSize;
                 }
                 set
                 {
@@ -304,9 +294,7 @@ namespace SubtitleEditor.ViewModel
             {
                 get
                 {
-                    if(selectedStyle == null)
-                        return default(bool);
-                    return selectedStyle.Italic;
+                    return (selectedStyle ?? defaultStyle).Italic;
                 }
                 set
                 {
@@ -323,9 +311,7 @@ namespace SubtitleEditor.ViewModel
             {
                 get
                 {
-                    if(selectedStyle == null)
-                        return default(int);
-                    return selectedStyle.MarginL;
+                    return (selectedStyle ?? defaultStyle).MarginL;
                 }
                 set
                 {
@@ -342,9 +328,7 @@ namespace SubtitleEditor.ViewModel
             {
                 get
                 {
-                    if(selectedStyle == null)
-                        return default(int);
-                    return selectedStyle.MarginR;
+                    return (selectedStyle ?? defaultStyle).MarginR;
                 }
                 set
                 {
@@ -361,9 +345,7 @@ namespace SubtitleEditor.ViewModel
             {
                 get
                 {
-                    if(selectedStyle == null)
-                        return default(int);
-                    return selectedStyle.MarginV;
+                    return (selectedStyle ?? defaultStyle).MarginV;
                 }
                 set
                 {
@@ -380,9 +362,7 @@ namespace SubtitleEditor.ViewModel
             {
                 get
                 {
-                    if(selectedStyle == null)
-                        return default(double);
-                    return selectedStyle.Outline;
+                    return (selectedStyle ?? defaultStyle).Outline;
                 }
                 set
                 {
@@ -399,9 +379,7 @@ namespace SubtitleEditor.ViewModel
             {
                 get
                 {
-                    if(selectedStyle == null)
-                        return default(Color);
-                    return selectedStyle.OutlineColor;
+                    return (selectedStyle ?? defaultStyle).OutlineColor;
                 }
                 set
                 {
@@ -418,9 +396,7 @@ namespace SubtitleEditor.ViewModel
             {
                 get
                 {
-                    if(selectedStyle == null)
-                        return default(Color);
-                    return selectedStyle.PrimaryColor;
+                    return (selectedStyle ?? defaultStyle).PrimaryColor;
                 }
                 set
                 {
@@ -437,9 +413,7 @@ namespace SubtitleEditor.ViewModel
             {
                 get
                 {
-                    if(selectedStyle == null)
-                        return default(double);
-                    return selectedStyle.Rotation;
+                    return (selectedStyle ?? defaultStyle).Rotation;
                 }
                 set
                 {
@@ -456,9 +430,7 @@ namespace SubtitleEditor.ViewModel
             {
                 get
                 {
-                    if(selectedStyle == null)
-                        return default(double);
-                    return selectedStyle.ScaleX;
+                    return (selectedStyle ?? defaultStyle).ScaleX;
                 }
                 set
                 {
@@ -475,9 +447,7 @@ namespace SubtitleEditor.ViewModel
             {
                 get
                 {
-                    if(selectedStyle == null)
-                        return default(double);
-                    return selectedStyle.ScaleY;
+                    return (selectedStyle ?? defaultStyle).ScaleY;
                 }
                 set
                 {
@@ -494,9 +464,7 @@ namespace SubtitleEditor.ViewModel
             {
                 get
                 {
-                    if(selectedStyle == null)
-                        return default(Color);
-                    return selectedStyle.SecondaryColor;
+                    return (selectedStyle ?? defaultStyle).SecondaryColor;
                 }
                 set
                 {
@@ -513,9 +481,7 @@ namespace SubtitleEditor.ViewModel
             {
                 get
                 {
-                    if(selectedStyle == null)
-                        return default(double);
-                    return selectedStyle.Shadow;
+                    return (selectedStyle ?? defaultStyle).Shadow;
                 }
                 set
                 {
@@ -532,9 +498,7 @@ namespace SubtitleEditor.ViewModel
             {
                 get
                 {
-                    if(selectedStyle == null)
-                        return default(Color);
-                    return selectedStyle.ShadowColor;
+                    return (selectedStyle ?? defaultStyle).ShadowColor;
                 }
                 set
                 {
@@ -551,9 +515,7 @@ namespace SubtitleEditor.ViewModel
             {
                 get
                 {
-                    if(selectedStyle == null)
-                        return default(double);
-                    return selectedStyle.Spacing;
+                    return (selectedStyle ?? defaultStyle).Spacing;
                 }
                 set
                 {
@@ -570,9 +532,7 @@ namespace SubtitleEditor.ViewModel
             {
                 get
                 {
-                    if(selectedStyle == null)
-                        return default(bool);
-                    return selectedStyle.Strikeout;
+                    return (selectedStyle ?? defaultStyle).Strikeout;
                 }
                 set
                 {
@@ -589,9 +549,7 @@ namespace SubtitleEditor.ViewModel
             {
                 get
                 {
-                    if(selectedStyle == null)
-                        return default(bool);
-                    return selectedStyle.Underline;
+                    return (selectedStyle ?? defaultStyle).Underline;
                 }
                 set
                 {

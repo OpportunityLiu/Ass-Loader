@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using System.Threading.Tasks;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.UI.Xaml;
@@ -26,9 +27,9 @@ namespace SubtitleEditor.View
         public StylePage()
         {
             this.InitializeComponent();
-            stackPanelDetail.Visibility = Visibility.Collapsed;
+            gridDetail.Visibility = Visibility.Collapsed;
             this.ViewModel = ViewModelLocator.GetForCurrentView().StyleView;
-            stackPanelDetail.Opacity = 0;
+            gridDetail.Opacity = 0;
             this.leftWidth = (double)Resources["LeftSubPageWidth"];
             this.onePageMinWidth = (double)Resources["OnePageMinWidth"];
         }
@@ -55,7 +56,7 @@ namespace SubtitleEditor.View
             }
         }
 
-        public bool CanGoBack => listView.SelectedItem != null && state != pageState.lr;
+        public bool CanGoBack => state == pageState.r;
 
         // Using a DependencyProperty as the backing store for ViewModel.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty ViewModelProperty =
@@ -82,7 +83,7 @@ namespace SubtitleEditor.View
                 state = listView.SelectedItem == null ? pageState.l : pageState.r;
                 listView.ClearValue(WidthProperty);
                 listView.ClearValue(HorizontalAlignmentProperty);
-                scrollViewerDetail.ClearValue(MarginProperty);
+                borderDetail.ClearValue(MarginProperty);
                 toSubPageAnmation(false);
                 CanGoBackChanged?.Invoke(this, EventArgs.Empty);
             }
@@ -93,7 +94,7 @@ namespace SubtitleEditor.View
                 state = pageState.lr;
                 listView.Width = leftWidth;
                 listView.HorizontalAlignment = HorizontalAlignment.Left;
-                scrollViewerDetail.Margin = new Thickness(leftWidth, 0, 0, 0);
+                borderDetail.Margin = new Thickness(leftWidth + 4, 0, 0, 0);
                 toSubPageAnmation(false);
                 CanGoBackChanged?.Invoke(this, EventArgs.Empty);
             }
@@ -102,7 +103,7 @@ namespace SubtitleEditor.View
         private void toSubPageAnmation(bool useAnmation)
         {
             listView.Visibility = Visibility.Visible;
-            scrollViewerDetail.Visibility = Visibility.Visible;
+            borderDetail.Visibility = Visibility.Visible;
             switch(state)
             {
             case pageState.lr:
@@ -140,7 +141,6 @@ namespace SubtitleEditor.View
 
         private void listView_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            CanGoBackChanged?.Invoke(this, EventArgs.Empty);
             if(listView.SelectedItem == null && !previousIsNull)
             {
                 hideRight.Begin();
@@ -148,7 +148,7 @@ namespace SubtitleEditor.View
             }
             else if(previousIsNull)
             {
-                stackPanelDetail.Visibility = Visibility.Visible;
+                gridDetail.Visibility = Visibility.Visible;
                 showRight.Begin();
                 previousIsNull = false;
             }
@@ -160,6 +160,7 @@ namespace SubtitleEditor.View
             {
                 state = listView.SelectedItem == null ? pageState.l : pageState.r;
                 toSubPageAnmation(true);
+                CanGoBackChanged?.Invoke(this, EventArgs.Empty);
             }
         }
 
@@ -169,17 +170,17 @@ namespace SubtitleEditor.View
             {
             case pageState.lr:
                 listView.Visibility = Visibility.Visible;
-                scrollViewerDetail.Visibility = Visibility.Visible;
+                borderDetail.Visibility = Visibility.Visible;
                 rectangleSplit.Visibility = Visibility.Visible;
                 break;
             case pageState.l:
                 listView.Visibility = Visibility.Visible;
-                scrollViewerDetail.Visibility = Visibility.Collapsed;
+                borderDetail.Visibility = Visibility.Collapsed;
                 rectangleSplit.Visibility = Visibility.Collapsed;
                 break;
             case pageState.r:
                 listView.Visibility = Visibility.Collapsed;
-                scrollViewerDetail.Visibility = Visibility.Visible;
+                borderDetail.Visibility = Visibility.Visible;
                 rectangleSplit.Visibility = Visibility.Collapsed;
                 break;
             default:
@@ -190,7 +191,7 @@ namespace SubtitleEditor.View
         private void hideRight_Completed(object sender, object e)
         {
             if(ViewModel.SelectedStyle == null)
-                stackPanelDetail.Visibility = Visibility.Collapsed;
+                gridDetail.Visibility = Visibility.Collapsed;
         }
 
         public void GoBack()

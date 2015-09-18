@@ -15,7 +15,7 @@
                 </TransitionCollection>
             </StackPanel.ChildrenTransitions>
             <ComboBox Header="Theme"
-                      SelectedItem="{x:Bind ViewModel.Theme, Mode=TwoWay, Converter={StaticResource DefaultConverter}}">
+                      SelectedItem="{x:Bind ViewModel.Theme, Mode=TwoWay, Converter={StaticResource EmptyConverter}}">
                 <ComboBox.Resources>
                     <local:ElementThemeConverter x:Key="ElementThemeConverter" />
                 </ComboBox.Resources>

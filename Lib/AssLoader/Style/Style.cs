@@ -111,7 +111,7 @@ namespace AssLoader
         }
 
         [EntryField("Fontname")]
-        private string fontName;
+        private string fontName = "Arial";
 
         /// <summary>
         /// The font name as used by Windows. 

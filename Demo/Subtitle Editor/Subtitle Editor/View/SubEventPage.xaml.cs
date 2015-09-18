@@ -1,4 +1,5 @@
-﻿using SubtitleEditor.ViewModel;
+﻿using FFmpegInterop;
+using SubtitleEditor.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -6,6 +7,11 @@ using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.Media.Core;
+using Windows.Media.Playback;
+using Windows.Storage;
+using Windows.Storage.Pickers;
+using Windows.Storage.Streams;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -28,6 +34,7 @@ namespace SubtitleEditor.View
             this.InitializeComponent();
             var ioc = ViewModelLocator.GetForCurrentView();
             this.ViewModel = ioc.SubEventView;
+            fontfamily.ItemsSource = Model.FontList.Instance;
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
@@ -55,5 +62,9 @@ namespace SubtitleEditor.View
         // Using a DependencyProperty as the backing store for ViewModel.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty ViewModelProperty =
             DependencyProperty.Register("ViewModel", typeof(SubEventViewModel), typeof(SubEventPage), new PropertyMetadata(null));
+
+        private  void Button_Click(object sender, RoutedEventArgs e)
+        {
+        }
     }
 }
