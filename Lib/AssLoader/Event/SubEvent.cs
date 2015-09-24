@@ -137,7 +137,7 @@ namespace AssLoader
 
         [TimeSerialize]
         [EntryField("Start")]
-        private DateTime startTime;
+        private TimeSpan startTime;
 
         /// <summary>
         /// Start time for this <see cref="SubEvent"/>.
@@ -145,10 +145,7 @@ namespace AssLoader
         /// <exception cref="ArgumentOutOfRangeException">
         /// <paramref name="value"/> late than <see cref="EndTime"/>.
         /// </exception>
-        /// <exception cref="ArgumentException">
-        /// <see cref="DateTime.Kind"/> of <paramref name="value"/> is not <see cref="DateTimeKind.Unspecified"/>.
-        /// </exception>
-        public DateTime StartTime
+        public TimeSpan StartTime
         {
             get
             {
@@ -156,8 +153,6 @@ namespace AssLoader
             }
             set
             {
-                if(value.Kind != DateTimeKind.Unspecified)
-                    throw new ArgumentException("Specified datetime isn't needed.",nameof(value));
                 if(value > endTime)
                     throw new ArgumentOutOfRangeException(nameof(value), "StartTime must earlier than EndTime.");
                 else
@@ -167,7 +162,7 @@ namespace AssLoader
 
         [TimeSerialize]
         [EntryField("End")]
-        private DateTime endTime;
+        private TimeSpan endTime;
 
         /// <summary>
         /// End time for this <see cref="SubEvent"/>.
@@ -175,10 +170,7 @@ namespace AssLoader
         /// <exception cref="ArgumentOutOfRangeException">
         /// <paramref name="value"/> earlier than <see cref="StartTime"/>.
         /// </exception>
-        /// <exception cref="ArgumentException">
-        /// <see cref="DateTime.Kind"/> of <paramref name="value"/> is not <see cref="DateTimeKind.Unspecified"/>.
-        /// </exception>
-        public DateTime EndTime
+        public TimeSpan EndTime
         {
             get
             {
@@ -186,8 +178,6 @@ namespace AssLoader
             }
             set
             {
-                if(value.Kind != DateTimeKind.Unspecified)
-                    throw new ArgumentException("Specified datetime isn't needed.", nameof(value));
                 if(value < startTime)
                     throw new ArgumentOutOfRangeException(nameof(value), "StartTime must earlier than EndTime.");
                 else

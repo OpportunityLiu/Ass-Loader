@@ -184,21 +184,19 @@ namespace SubtitleEditor.Model
         {
             if(!CanSave)
                 throw new InvalidOperationException("Can't save now.");
-                Stream stream;
             try
             {
-                stream = await SubtitleFile.OpenStreamForWriteAsync();
+                using(var stream = await SubtitleFile.OpenStreamForWriteAsync())
+                {
+                    stream.SetLength(0);
+                    using(var writer = new StreamWriter(stream))
+                        subtitle.Serialize(writer);
+                }
             }
             catch(Exception)
             {
                 SubtitleFile = null;
                 throw;
-            }
-            using(stream)
-            {
-                stream.SetLength(0);
-                using(var writer = new StreamWriter(stream))
-                    subtitle.Serialize(writer);
             }
             savedAction = currentAction;
             RaisePropertyChanged(nameof(IsModified));

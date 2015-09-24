@@ -8,24 +8,24 @@ using System.Globalization;
 namespace AssLoader.Serializer
 {
     /// <summary>
-    /// Custom serializer for <see cref="DateTime"/>.
+    /// Custom serializer for <see cref="TimeSpan"/>.
     /// </summary>
     [AttributeUsage(AttributeTargets.Field, AllowMultiple = false, Inherited = true)]
     public sealed class TimeSerializeAttribute : SerializeAttribute
     {
         /// <summary>
-        /// Convert <see cref="DateTime"/> to <see cref="string"/>.
+        /// Convert <see cref="TimeSpan"/> to <see cref="string"/>.
         /// </summary>
         /// <param name="value">The value to convert.</param>
         /// <returns>The result of convertion.</returns>
         public override string Serialize(object value)
         {
-            var va = (DateTime)value;
-            return (va.Ticks / 36000000000).ToString(FormatHelper.DefaultFormat) + va.ToString(":mm:ss.ff", FormatHelper.DefaultFormat);
+            var va = (TimeSpan)value;
+            return (va.Ticks / 36000000000).ToString(FormatHelper.DefaultFormat) + va.ToString(@"\:mm\:ss\.ff", FormatHelper.DefaultFormat);
         }
 
         /// <summary>
-        /// Convert <see cref="string"/> to <see cref="DateTime"/>.
+        /// Convert <see cref="string"/> to <see cref="TimeSpan"/>.
         /// </summary>
         /// <param name="value">The value to convert.</param>
         /// <returns>The result of convertion.</returns>   
@@ -38,7 +38,7 @@ namespace AssLoader.Serializer
             var h = long.Parse(num[0], FormatHelper.DefaultFormat);
             var m = long.Parse(num[1], FormatHelper.DefaultFormat);
             var tick = (long)(Math.Round(1E7 * double.Parse(num[2], FormatHelper.DefaultFormat)));
-            return new DateTime(((h * 60 + m) * (60 * 10000000) + tick));
+            return new TimeSpan(((h * 60 + m) * (60 * 10000000) + tick));
         }
     }
 }

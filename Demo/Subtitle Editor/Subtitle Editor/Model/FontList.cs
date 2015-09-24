@@ -50,8 +50,9 @@ namespace SubtitleEditor.Model
                 }
             }
             localNames.AddRange(ApplicationLanguages.Languages);
-            var x = new Language("zh-cn");
+            gdiFontFaces = new List<GdiInterop.LogFont>();
             using(var factory = new Factory())
+            using(var gdiInterop = factory.GdiInterop)
             using(var fontCollection = factory.GetSystemFontCollection(true))
             {
                 var fonts = new List<string>();
@@ -59,24 +60,48 @@ namespace SubtitleEditor.Model
                 for(int i = 0; i < count; i++)
                 {
                     using(var font = fontCollection.GetFontFamily(i))
-                    using(var names = font.FamilyNames)
                     {
-                        var index = 0;
-                        foreach(var localName in localNames)
+                        var faceCount = font.FontCount;
+                        for(int j = 0; j < faceCount; j++)
                         {
-                            if(names.FindLocaleName(localName, out index))
-                                break;
+                            try
+                            {
+                                using(var face = font.GetFont(j))
+                                {
+                                    var logF = new GdiInterop.LogFont();
+                                    if(gdiInterop.ToLogFont(face, logF))
+                                    {
+                                        fonts.Add(logF.lfFaceName);
+                                        gdiFontFaces.Add(logF);
+                                    }
+                                }
+
+                            }
+                            catch(Exception)
+                            {
+                            }
                         }
-                        if(index <= 0)
-                            fonts.Add(names.GetString(0));
-                        else
-                            fonts.Add(names.GetString(index));
+                        //string familyName;
+                        //using(var names = font.FamilyNames)
+                        //{
+                        //    var index = 0;
+                        //    foreach(var localName in localNames)
+                        //    {
+                        //        if(names.FindLocaleName(localName, out index))
+                        //            break;
+                        //    }
+                        //    if(index <= 0)
+                        //        familyName = names.GetString(0);
+                        //    else
+                        //        familyName = names.GetString(index);
+                        //}
                     }
                 }
-                fonts.Sort(StringComparer.CurrentCultureIgnoreCase);
-                this.fonts = fonts.Select(name => new Windows.UI.Xaml.Media.FontFamily(name)).ToList();
+                this.fonts = fonts.OrderBy(s => s).Distinct().Select(name => new Windows.UI.Xaml.Media.FontFamily(name)).ToList();
             }
         }
+
+        private List<GdiInterop.LogFont> gdiFontFaces;
 
         private List<Windows.UI.Xaml.Media.FontFamily> fonts;
 
