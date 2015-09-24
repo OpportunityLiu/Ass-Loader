@@ -137,7 +137,6 @@
     <Content Include="ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Chu2Koi[01].ass" />
     <None Include="Package.StoreAssociation.xml" />
     <Content Include="Resources\massgrid.png" />
     <Content Include="Strings\LocalizedStrings.tt">
@@ -161,7 +160,6 @@
       <SubType>Designer</SubType>
     </AppxManifest>
     <PRIResource Include="Strings\zh-Hans\Resources.resw" />
-    <Content Include="sub.srt" />
     <None Include="Subtitle Editor_StoreKey.pfx" />
   </ItemGroup>
   <ItemGroup>

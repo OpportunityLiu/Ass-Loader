@@ -12,7 +12,7 @@ namespace Test
             var t = new AssLoader.Serializer.TimeSerializeAttribute();
             Action<long> test = value =>
             {
-                var time = new DateTime(value * 100000L);
+                var time = new TimeSpan(value * 100000L);
                 var str = t.Serialize(time);
                 var des = t.Deserialize(str);
                 Assert.AreEqual(time, des);
