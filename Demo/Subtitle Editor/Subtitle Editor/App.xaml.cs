@@ -43,11 +43,14 @@ namespace SubtitleEditor
             if(System.Diagnostics.Debugger.IsAttached)
             {
                 this.DebugSettings.EnableFrameRateCounter = true;
+                //this.DebugSettings.EnableRedrawRegions = true;
+                //this.DebugSettings.IsOverdrawHeatMapEnabled = true;
+                //this.DebugSettings.IsTextPerformanceVisualizationEnabled = true;
             }
 #endif
             var view = ApplicationView.GetForCurrentView();
 
-            var mainView = ViewModel.ViewModelLocator.GetForView(view.Id).MainView;
+             var mainView = ViewModel.ViewModelLocator.GetForView(view.Id).MainView;
             System.ComponentModel.PropertyChangedEventHandler titleUpdater = (sender, e) =>
             {
                 if(string.IsNullOrEmpty(e.PropertyName) || e.PropertyName == nameof(ViewModel.MainViewModel.Title))

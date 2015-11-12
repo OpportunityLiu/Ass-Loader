@@ -1,23 +1,10 @@
 ﻿using FFmpegInterop;
 using SubtitleEditor.ViewModel;
 using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
-using Windows.Media.Core;
-using Windows.Media.Playback;
 using Windows.Storage;
 using Windows.Storage.Pickers;
-using Windows.Storage.Streams;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 
 // “空白页”项模板在 http://go.microsoft.com/fwlink/?LinkId=234238 上提供
@@ -34,7 +21,6 @@ namespace SubtitleEditor.View
             this.InitializeComponent();
             var ioc = ViewModelLocator.GetForCurrentView();
             this.ViewModel = ioc.SubEventView;
-            fontfamily.ItemsSource = Model.FontList.Instance;
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
@@ -62,9 +48,20 @@ namespace SubtitleEditor.View
         // Using a DependencyProperty as the backing store for ViewModel.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty ViewModelProperty =
             DependencyProperty.Register("ViewModel", typeof(SubEventViewModel), typeof(SubEventPage), new PropertyMetadata(null));
+        FileOpenPicker f = new FileOpenPicker() {SuggestedStartLocation= PickerLocationId.Desktop,ViewMode= PickerViewMode.Thumbnail };
 
-        private  void Button_Click(object sender, RoutedEventArgs e)
+        Windows.Media.Editing.MediaComposition comp = new Windows.Media.Editing.MediaComposition();
+
+        private async void Button_Click(object sender, RoutedEventArgs e)
         {
+            f.FileTypeFilter.Add(".gif");
+            var h = await f.PickSingleFileAsync();
+            if(h == null)
+                return;
+            comp.Clips.Clear();
+            comp.Clips.Add(await Windows.Media.Editing.MediaClip.CreateFromImageFileAsync(h,new TimeSpan(10000000)));
+            media.SetMediaStreamSource(comp.GenerateMediaStreamSource());
+            media.Play();
         }
     }
 }

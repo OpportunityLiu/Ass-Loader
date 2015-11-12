@@ -22,7 +22,20 @@ namespace AssLoader.Collections
         }
 
         /// <summary>
-        /// Reorder the items in this <see cref="EventCollection"/> by <see cref="SubEvent.StartTime"/>
+        /// Reorder the items in this <see cref="EventCollection"/> by the <paramref name="comparer"/>.
+        /// </summary>
+        /// <param name="comparer">The <see cref="IComparer{SubEvent}"/> to compare the <see cref="SubEvent"/> in this <see cref="EventCollection"/></param>
+        /// <exception cref="ArgumentNullException"><paramref name="comparer"/> is <c>null</c>.</exception>
+        public void Sort(IComparer<SubEvent> comparer)
+        {
+            if(comparer == null)
+                throw new ArgumentNullException(nameof(comparer));
+            var result = this.OrderBy(e => e, comparer).ToArray();
+            Reorder(result);
+        }
+
+        /// <summary>
+        /// Reorder the items in this <see cref="EventCollection"/> by <see cref="SubEvent.StartTime"/>.
         /// </summary>
         public void SortByTime()
         {
@@ -33,7 +46,7 @@ namespace AssLoader.Collections
         }
 
         /// <summary>
-        /// Reorder the items in this <see cref="EventCollection"/> by <see cref="SubEvent.Style"/>
+        /// Reorder the items in this <see cref="EventCollection"/> by <see cref="SubEvent.Style"/>.
         /// </summary>
         public void SortByStyle()
         {
@@ -52,7 +65,7 @@ namespace AssLoader.Collections
             if(items == null)
                 throw new ArgumentNullException(nameof(items));
             sorting = true;
-            this.ClearItems();
+            this.Clear();
             foreach(var item in items)
             {
                 this.Add(item);
