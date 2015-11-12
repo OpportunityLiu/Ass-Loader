@@ -13,12 +13,13 @@ namespace AssLoader
     /// </summary>
     public static class Subtitle
     {
-        private class parseHelper<T> where T : ScriptInfoCollection, new()
+        private class parseHelper<T> where T : ScriptInfoCollection
         {
-            public parseHelper(TextReader reader, bool isExact)
+            public parseHelper(TextReader reader, bool isExact, Func<T> factory)
             {
                 this.reader = reader;
                 this.isExact = isExact;
+                this.subtitle = new Subtitle<T>(factory());
             }
 
             public Subtitle<T> GetResult()
@@ -46,44 +47,44 @@ namespace AssLoader
                         {
                             switch(temp.ToLower())
                             {
-                                case "[script info]":
-                                case "[scriptinfo]":
-                                    sec = section.ScriptInfo;
-                                    break;
-                                case "[v4+ styles]":
-                                case "[v4 styles+]":
-                                case "[v4+styles]":
-                                case "[v4styles+]":
-                                    sec = section.Styles;
-                                    break;
-                                case "[events]":
-                                    sec = section.Events;
-                                    break;
-                                default:
-                                    sec = section.Unknown;
-                                    secStr = temp.Substring(1, temp.Length - 2);
-                                    if(isExact)
-                                        throw new InvalidOperationException($"Unknown section \"{secStr}\" found.");
-                                    break;
+                            case "[script info]":
+                            case "[scriptinfo]":
+                                sec = section.ScriptInfo;
+                                break;
+                            case "[v4+ styles]":
+                            case "[v4 styles+]":
+                            case "[v4+styles]":
+                            case "[v4styles+]":
+                                sec = section.Styles;
+                                break;
+                            case "[events]":
+                                sec = section.Events;
+                                break;
+                            default:
+                                sec = section.Unknown;
+                                secStr = temp.Substring(1, temp.Length - 2);
+                                if(isExact)
+                                    throw new InvalidOperationException($"Unknown section \"{secStr}\" found.");
+                                break;
                             }
                         }
                         else // Section content
                         {
                             switch(sec)
                             {
-                                case section.ScriptInfo:
-                                    initScriptInfo(temp);
-                                    break;
-                                case section.Styles:
-                                    initStyle(temp);
-                                    break;
-                                case section.Events:
-                                    initEvent(temp);
-                                    break;
-                                default:
-                                    if(isExact)
-                                        throw new InvalidOperationException("Content found without a section header.");
-                                    break;
+                            case section.ScriptInfo:
+                                initScriptInfo(temp);
+                                break;
+                            case section.Styles:
+                                initStyle(temp);
+                                break;
+                            case section.Events:
+                                initEvent(temp);
+                                break;
+                            default:
+                                if(isExact)
+                                    throw new InvalidOperationException("Content found without a section header.");
+                                break;
                             }
                         }
                     }
@@ -116,7 +117,7 @@ Content of the line:
 
             private TextReader reader;
 
-            private Subtitle<T> subtitle = new Subtitle<T>(new T());
+            private Subtitle<T> subtitle;
 
             private bool isExact;
 
@@ -152,7 +153,7 @@ Content of the line:
                         }
                         else
                         {
-                            s=Style.Parse(styleFormat, value);
+                            s = Style.Parse(styleFormat, value);
                         }
                         subtitle.StyleSet.Add(s);
                         return;
@@ -220,7 +221,7 @@ Content of the line:
         {
             if(reader == null)
                 throw new ArgumentNullException(nameof(reader));
-            return new parseHelper<TScriptInfo>(reader, false).GetResult();
+            return new parseHelper<TScriptInfo>(reader, false, () => new TScriptInfo()).GetResult();
         }
 
         /// <summary>
@@ -236,7 +237,7 @@ Content of the line:
         {
             if(reader == null)
                 throw new ArgumentNullException(nameof(reader));
-            return new parseHelper<TScriptInfo>(reader, true).GetResult();
+            return new parseHelper<TScriptInfo>(reader, true, () => new TScriptInfo()).GetResult();
         }
 
         /// <summary>
@@ -269,7 +270,7 @@ Content of the line:
         {
             if(reader == null)
                 throw new ArgumentNullException(nameof(reader));
-            return await new parseHelper<TScriptInfo>(reader, false).GetResultAsync();
+            return await new parseHelper<TScriptInfo>(reader, false, () => new TScriptInfo()).GetResultAsync();
         }
 
         /// <summary>
@@ -285,7 +286,119 @@ Content of the line:
         {
             if(reader == null)
                 throw new ArgumentNullException(nameof(reader));
-            return await new parseHelper<TScriptInfo>(reader, true).GetResultAsync();
+            return await new parseHelper<TScriptInfo>(reader, true, () => new TScriptInfo()).GetResultAsync();
+        }
+
+        /// <summary>
+        /// Parse the <see cref="string"/> of ass file.
+        /// </summary>
+        /// <typeparam name="TScriptInfo">Type of the container of the "script info" section of the ass file.</typeparam>
+        /// <param name="subtitle">A <see cref="string"/> of ass file.</param>
+        /// <returns>A <see cref="Subtitle{TScriptInfo}"/> presents the ass file.</returns>
+        /// <param name="factory">The factory method to create <typeparamref name="TScriptInfo"/>.</param>
+        /// <exception cref="ArgumentNullException"><paramref name="subtitle"/> or <paramref name="factory"/> is null.</exception>
+        /// <exception cref="ArgumentException"><paramref name="subtitle"/> contains an ass file of wrong format.</exception>
+        public static Subtitle<TScriptInfo> Parse<TScriptInfo>(string subtitle, Func<TScriptInfo> factory)
+            where TScriptInfo : ScriptInfoCollection
+        {
+            if(subtitle == null)
+                throw new ArgumentNullException(nameof(subtitle));
+            using(var reader = new StringReader(subtitle))
+                return Parse<TScriptInfo>(reader, factory);
+        }
+
+        /// <summary>
+        /// Parse the <see cref="TextReader"/> of ass file.
+        /// </summary>
+        /// <typeparam name="TScriptInfo">Type of the container of the "script info" section of the ass file.</typeparam>
+        /// <param name="reader">A <see cref="TextReader"/> of ass file.</param>
+        /// <returns>A <see cref="Subtitle{TScriptInfo}"/> presents the ass file.</returns>
+        /// <param name="factory">The factory method to create <typeparamref name="TScriptInfo"/>.</param>
+        /// <exception cref="ArgumentNullException"><paramref name="reader"/> or <paramref name="factory"/> is null.</exception>
+        /// <exception cref="ArgumentException"><paramref name="reader"/> contains an ass file of wrong format.</exception>
+        public static Subtitle<TScriptInfo> Parse<TScriptInfo>(TextReader reader, Func<TScriptInfo> factory)
+            where TScriptInfo : ScriptInfoCollection
+        {
+            if(reader == null)
+                throw new ArgumentNullException(nameof(reader));
+            if(factory == null)
+                throw new ArgumentNullException(nameof(factory));
+            return new parseHelper<TScriptInfo>(reader, false, factory).GetResult();
+        }
+
+        /// <summary>
+        /// Parse the <see cref="TextReader"/> of ass file.
+        /// </summary>
+        /// <typeparam name="TScriptInfo">Type of the container of the "script info" section of the ass file.</typeparam>
+        /// <param name="reader">A <see cref="TextReader"/> of ass file.</param>
+        /// <returns>A <see cref="Subtitle{TScriptInfo}"/> presents the ass file.</returns>
+        /// <param name="factory">The factory method to create <typeparamref name="TScriptInfo"/>.</param>
+        /// <exception cref="ArgumentNullException"><paramref name="reader"/> or <paramref name="factory"/> is null.</exception>
+        /// <exception cref="ArgumentException"><paramref name="reader"/> contains an ass file of wrong format.</exception>
+        public static Subtitle<TScriptInfo> ParseExact<TScriptInfo>(TextReader reader, Func<TScriptInfo> factory)
+            where TScriptInfo : ScriptInfoCollection
+        {
+            if(reader == null)
+                throw new ArgumentNullException(nameof(reader));
+            if(factory == null)
+                throw new ArgumentNullException(nameof(factory));
+            return new parseHelper<TScriptInfo>(reader, true, factory).GetResult();
+        }
+
+        /// <summary>
+        /// Parse the <see cref="string"/> of ass file.
+        /// </summary>
+        /// <typeparam name="TScriptInfo">Type of the container of the "script info" section of the ass file.</typeparam>
+        /// <param name="subtitle">A <see cref="string"/> of ass file.</param>
+        /// <returns>A <see cref="Subtitle{TScriptInfo}"/> presents the ass file.</returns>
+        /// <param name="factory">The factory method to create <typeparamref name="TScriptInfo"/>.</param>
+        /// <exception cref="ArgumentNullException"><paramref name="subtitle"/> or <paramref name="factory"/> is null.</exception>
+        /// <exception cref="ArgumentException"><paramref name="subtitle"/> contains an ass file of wrong format.</exception>
+        public static async Task<Subtitle<TScriptInfo>> ParseAsync<TScriptInfo>(string subtitle, Func<TScriptInfo> factory)
+            where TScriptInfo : ScriptInfoCollection
+        {
+            if(subtitle == null)
+                throw new ArgumentNullException(nameof(subtitle));
+            using(var reader = new StringReader(subtitle))
+                return await ParseAsync<TScriptInfo>(reader, factory);
+        }
+
+        /// <summary>
+        /// Parse the <see cref="TextReader"/> of ass file.
+        /// </summary>
+        /// <typeparam name="TScriptInfo">Type of the container of the "script info" section of the ass file.</typeparam>
+        /// <param name="reader">A <see cref="TextReader"/> of ass file.</param>
+        /// <returns>A <see cref="Subtitle{TScriptInfo}"/> presents the ass file.</returns>
+        /// <param name="factory">The factory method to create <typeparamref name="TScriptInfo"/>.</param>
+        /// <exception cref="ArgumentNullException"><paramref name="reader"/> or <paramref name="factory"/> is null.</exception>
+        /// <exception cref="ArgumentException"><paramref name="reader"/> contains an ass file of wrong format.</exception>
+        public static async Task<Subtitle<TScriptInfo>> ParseAsync<TScriptInfo>(TextReader reader, Func<TScriptInfo> factory)
+            where TScriptInfo : ScriptInfoCollection
+        {
+            if(reader == null)
+                throw new ArgumentNullException(nameof(reader));
+            if(factory == null)
+                throw new ArgumentNullException(nameof(factory));
+            return await new parseHelper<TScriptInfo>(reader, false, factory).GetResultAsync();
+        }
+
+        /// <summary>
+        /// Parse the <see cref="TextReader"/> of ass file.
+        /// </summary>
+        /// <typeparam name="TScriptInfo">Type of the container of the "script info" section of the ass file.</typeparam>
+        /// <param name="reader">A <see cref="TextReader"/> of ass file.</param>
+        /// <returns>A <see cref="Subtitle{TScriptInfo}"/> presents the ass file.</returns>
+        /// <param name="factory">The factory method to create <typeparamref name="TScriptInfo"/>.</param>
+        /// <exception cref="ArgumentNullException"><paramref name="reader"/> or <paramref name="factory"/> is null.</exception>
+        /// <exception cref="ArgumentException"><paramref name="reader"/> contains an ass file of wrong format.</exception>
+        public static async Task<Subtitle<TScriptInfo>> ParseExactAsync<TScriptInfo>(TextReader reader, Func<TScriptInfo> factory)
+            where TScriptInfo : ScriptInfoCollection
+        {
+            if(reader == null)
+                throw new ArgumentNullException(nameof(reader));
+            if(factory == null)
+                throw new ArgumentNullException(nameof(factory));
+            return await new parseHelper<TScriptInfo>(reader, true, factory).GetResultAsync();
         }
 
         internal readonly static EntryHeader DefaultStyleFormat = new EntryHeader("Name,Fontname,Fontsize,PrimaryColour,SecondaryColour,OutlineColour,BackColour,Bold,Italic,Underline,Strikeout,ScaleX,ScaleY,Spacing,Angle,BorderStyle,Outline,Shadow,Alignment,MarginL,MarginR,MarginV,Encoding");

@@ -55,16 +55,10 @@ namespace SubtitleEditor.View
 
         private InputPane pane;
 
-        private static string deviceFamily = Windows.System.Profile.AnalyticsInfo.VersionInfo.DeviceFamily;
-
         private void inputPaneChanged(InputPane sender, InputPaneVisibilityEventArgs args)
         {
             args.EnsuredFocusedElementInView = true;
             var height = args.OccludedRect.Height;
-            if(deviceFamily == "Windows.Mobile")
-            {
-                height -= 48;
-            }
             if(height < 1)
             {
                 inputPane.Visibility = Visibility.Collapsed;
@@ -72,16 +66,6 @@ namespace SubtitleEditor.View
             }
 
             inputPane.Height = height;
-            if(height < 32)
-                inputPane.Content = null;
-            else
-            {
-                inputPane.Content = "\xE087"; //keyboard icon
-                if(height < 100)
-                    inputPane.FontSize = height * 0.8;
-                else
-                    inputPane.FontSize = 64;
-            }
             inputPane.Visibility = Visibility.Visible;
         }
 
@@ -201,11 +185,6 @@ namespace SubtitleEditor.View
         {
             if(e.PreviousSize.Height != e.NewSize.Height)
                 playNavigationAnimation(false);
-        }
-
-        private void inputPane_Tapped(object sender, TappedRoutedEventArgs e)
-        {
-            pane.TryHide();
         }
 
         private void frameInner_Navigated(object sender, NavigationEventArgs e)

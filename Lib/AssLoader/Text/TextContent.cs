@@ -9,6 +9,7 @@ namespace AssLoader
 {
     /// <summary>
     /// Text of <see cref="SubEvent"/>, support methods to modify the text.
+    /// This class is immutable.
     /// </summary>
     public sealed partial class TextContent : IEquatable<TextContent>
     {
@@ -280,6 +281,6 @@ namespace AssLoader
         /// <summary>
         /// Empty <see cref="TextContent"/>, whose <see cref="Value"/> is <see cref="string.Empty"/>.
         /// </summary>
-        public static readonly TextContent Empty = "";
+        public static readonly TextContent Empty = string.Empty;
     }
 }
