@@ -14,14 +14,14 @@ namespace AssLoader
         internal EntryData(string fields, int count)
         {
             this.fields = fields.Split(splitChar, count);
-            for(int i = 0; i < this.fields.Length; i++)
+            for(var i = 0; i < this.fields.Length; i++)
                 this.fields[i] = this.fields[i].Trim();
         }
 
         internal EntryData(params string[] fields)
         {
             this.fields = fields;
-            for(int i = 0; i < this.fields.Length; i++)
+            for(var i = 0; i < this.fields.Length; i++)
                 FormatHelper.SingleLineStringValueValid(ref this.fields[i]);
         }
 
@@ -34,21 +34,9 @@ namespace AssLoader
 
         #region IReadOnlyCollection<string> 成员
 
-        public string this[int index]
-        {
-            get
-            {
-                return fields[index];
-            }
-        }
+        public string this[int index] => this.fields[index];
 
-        public int Count
-        {
-            get
-            {
-                return fields.Length;
-            }
-        }
+        public int Count => this.fields.Length;
 
         #endregion
 
@@ -56,7 +44,7 @@ namespace AssLoader
 
         public IEnumerator<string> GetEnumerator()
         {
-            return ((IEnumerable<string>)fields).GetEnumerator();
+            return ((IEnumerable<string>)this.fields).GetEnumerator();
         }
 
         #endregion
@@ -65,7 +53,7 @@ namespace AssLoader
 
         IEnumerator IEnumerable.GetEnumerator()
         {
-            return fields.GetEnumerator();
+            return this.fields.GetEnumerator();
         }
 
         #endregion

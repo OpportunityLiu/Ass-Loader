@@ -28,7 +28,7 @@ namespace Test
         }
 
         [TestMethod]
-        public void TestMethod1()
+        public void CreateStyleSet()
         {
             var c = new StyleSet();
             var f1 = new Style("1") { FontName = "a" };
@@ -39,12 +39,14 @@ namespace Test
             var f6 = new Style("6") { FontName = "abbbbb" };
             var f7 = new Style("7") { FontName = "abbbbbb" };
             var f8 = new Style("8") { FontName = "abbbbbbb" };
-        }
-
-        [TestMethod]
-        public void MyTestMethod()
-        {
-            var s = Subtitle.Parse<AssScriptInfo>(helper.TestFile);
+            c.Add(f1);
+            c.Add(f2);
+            c.Add(f3);
+            c.Add(f4);
+            c.Add(f5);
+            c.Add(f6);
+            c.Add(f7);
+            c.Add(f8);
         }
     }
 }

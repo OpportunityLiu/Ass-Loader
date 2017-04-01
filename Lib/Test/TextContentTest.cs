@@ -9,11 +9,13 @@ namespace Test
     public class TextContentTest
     {
         [TestMethod]
-        public void TestMethod1()
+        public void CreateTextContent()
         {
-            TextContent t =new TextContent( "df{ghj");
+            var t =new TextContent( "df{ghj");
             var tags = t.Tags.ToArray();
             var texts = t.Texts.ToArray();
+            Assert.AreEqual(0, tags.Length);
+            Assert.AreEqual(1, texts.Length);
         }
     }
 }

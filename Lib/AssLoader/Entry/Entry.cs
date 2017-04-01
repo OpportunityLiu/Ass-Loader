@@ -22,9 +22,9 @@ namespace AssLoader
         protected Entry()
         {
             var type = this.GetType();
-            if(!fieldInfoCache.TryGetValue(type, out fieldInfo))
+            if(!fieldInfoCache.TryGetValue(type, out this.fieldInfo))
             {
-                fieldInfo = new Dictionary<string, FieldSerializeHelper>(StringComparer.OrdinalIgnoreCase);
+                this.fieldInfo = new Dictionary<string, FieldSerializeHelper>(StringComparer.OrdinalIgnoreCase);
                 do
                 {
                     foreach(var fInfo in type.GetRuntimeFields())
@@ -34,12 +34,12 @@ namespace AssLoader
                             continue;
                         var ser = fInfo.GetCustomAttribute<SerializeAttribute>();
                         var helper = new FieldSerializeHelper(fInfo, att, ser);
-                        fieldInfo.Add(att.Name, helper);
+                        this.fieldInfo.Add(att.Name, helper);
                         if(!string.IsNullOrEmpty(att.Alias))
-                            fieldInfo.Add(att.Alias, helper);
+                            this.fieldInfo.Add(att.Alias, helper);
                     }
                 } while((type = type.GetTypeInfo().BaseType) != typeof(Entry));
-                fieldInfoCache.Add(this.GetType(), fieldInfo);
+                fieldInfoCache.Add(this.GetType(), this.fieldInfo);
             }
         }
 
@@ -65,7 +65,7 @@ namespace AssLoader
         {
             if(format == null)
                 throw new ArgumentNullException(nameof(format));
-            var r = new EntryData(format.Select(key => fieldInfo[key].Serialize(this)).ToArray());
+            var r = new EntryData(format.Select(key => this.fieldInfo[key].Serialize(this)).ToArray());
             return string.Format(FormatHelper.DefaultFormat, "{0}: {1}", EntryName, r.ToString());
         }
 
@@ -83,10 +83,9 @@ namespace AssLoader
             if(string.IsNullOrEmpty(fields))
                 throw new ArgumentNullException(nameof(fields));
             var data = new EntryData(fields, format.Count);
-            for(int i = 0; i < format.Count; i++)
+            for(var i = 0; i < format.Count; i++)
             {
-                FieldSerializeHelper target;
-                if(!fieldInfo.TryGetValue(format[i], out target))
+                if(!this.fieldInfo.TryGetValue(format[i], out var target))
                     continue;
                 target.Deserialize(this, data[i]);
             }
@@ -109,8 +108,8 @@ namespace AssLoader
             if(string.IsNullOrEmpty(fields))
                 throw new ArgumentNullException(nameof(fields));
             var data = new EntryData(fields, format.Count);
-            for(int i = 0; i < format.Count; i++)
-                fieldInfo[format[i]].DeserializeExact(this, data[i]);
+            for(var i = 0; i < format.Count; i++)
+                this.fieldInfo[format[i]].DeserializeExact(this, data[i]);
         }
 
         /// <summary>
@@ -121,7 +120,7 @@ namespace AssLoader
         protected T Clone<T>() where T : Entry, new()
         {
             var re = new T();
-            foreach(var item in fieldInfo.Values)
+            foreach(var item in this.fieldInfo.Values)
                 item.SetValue(re, item.GetValue(this));
             return re;
         }
@@ -133,7 +132,7 @@ namespace AssLoader
         protected Entry Clone()
         {
             var re = (Entry)Activator.CreateInstance(this.GetType());
-            foreach(var item in fieldInfo.Values)
+            foreach(var item in this.fieldInfo.Values)
                 item.SetValue(re, item.GetValue(this));
             return re;
         }
@@ -149,7 +148,7 @@ namespace AssLoader
             if(factory == null)
                 throw new ArgumentNullException(nameof(factory));
             var re = factory();
-            foreach(var item in fieldInfo.Values)
+            foreach(var item in this.fieldInfo.Values)
                 item.SetValue(re, item.GetValue(this));
             return re;
         }
@@ -164,7 +163,7 @@ namespace AssLoader
             if(factory == null)
                 throw new ArgumentNullException(nameof(factory));
             var re = factory();
-            foreach(var item in fieldInfo.Values)
+            foreach(var item in this.fieldInfo.Values)
                 item.SetValue(re, item.GetValue(this));
             return re;
         }
@@ -199,9 +198,7 @@ namespace AssLoader
         protected void Set<T>(ref T field, T value, [CallerMemberName]string propertyName = "")
         {
             if(Equals(field, value))
-            {
                 return;
-            }
             field = value;
             RaisePropertyChanged(propertyName);
         }

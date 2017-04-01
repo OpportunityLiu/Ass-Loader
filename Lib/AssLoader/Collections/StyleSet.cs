@@ -33,7 +33,7 @@ namespace AssLoader.Collections
         {
             if(FormatHelper.FieldStringValueValid(ref name))
             {
-                return styleNameSet.Contains(name);
+                return this.styleNameSet.Contains(name);
             }
             else
                 throw new ArgumentNullException(nameof(name));
@@ -50,7 +50,7 @@ namespace AssLoader.Collections
         {
             if(!FormatHelper.FieldStringValueValid(ref name))
                 throw new ArgumentNullException(nameof(name));
-            for(int i = 0; i < this.Count; i++)
+            for(var i = 0; i < this.Count; i++)
             {
                 if(string.Equals(this[i].Name, name, StringComparison.OrdinalIgnoreCase))
                     return i;
@@ -64,7 +64,7 @@ namespace AssLoader.Collections
         protected sealed override void ClearItems()
         {
             base.ClearItems();
-            styleNameSet.Clear();
+            this.styleNameSet.Clear();
         }
 
         /// <summary>
@@ -74,7 +74,7 @@ namespace AssLoader.Collections
         /// <param name="item">The <see cref="Style"/> to insert.</param>
         protected sealed override void InsertItem(int index, Style item)
         {
-            if(styleNameSet.Add(item.Name))
+            if(this.styleNameSet.Add(item.Name))
             {
                 base.InsertItem(index, item);
             }
@@ -91,8 +91,8 @@ namespace AssLoader.Collections
         /// <param name="item">The new value of the item.</param>
         protected sealed override void SetItem(int index, Style item)
         {
-            styleNameSet.Remove(this[index].Name);
-            if(styleNameSet.Add(item.Name))
+            this.styleNameSet.Remove(this[index].Name);
+            if(this.styleNameSet.Add(item.Name))
             {
                 base.SetItem(index, item);
             }
@@ -109,7 +109,7 @@ namespace AssLoader.Collections
         /// <param name="index">The index of the item to remove.</param>
         protected sealed override void RemoveItem(int index)
         {
-            styleNameSet.Remove(this[index].Name);
+            this.styleNameSet.Remove(this[index].Name);
             base.RemoveItem(index);
         }
 

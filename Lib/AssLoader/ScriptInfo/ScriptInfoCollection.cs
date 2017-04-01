@@ -24,7 +24,7 @@ namespace AssLoader.Collections
         protected ScriptInfoCollection()
         {
             var type = this.GetType();
-            if(!scriptInfoCache.TryGetValue(type, out scriptInfoFields))
+            if(!scriptInfoCache.TryGetValue(type, out this.scriptInfoFields))
             {
                 var temp = new List<Dictionary<string, ScriptInfoSerializeHelper>>();
                 do
@@ -40,37 +40,33 @@ namespace AssLoader.Collections
                     }
                     temp.Add(dict);
                 } while((type = type.GetTypeInfo().BaseType) != typeof(ScriptInfoCollection));
-                scriptInfoFields = (from dict in temp.Reverse<Dictionary<string, ScriptInfoSerializeHelper>>()
+                this.scriptInfoFields = (from dict in temp.Reverse<Dictionary<string, ScriptInfoSerializeHelper>>()
                                     from entry in dict
                                     select entry).ToDictionary(item => item.Key, item => item.Value, StringComparer.OrdinalIgnoreCase);
-                scriptInfoCache.Add(this.GetType(), scriptInfoFields);
+                scriptInfoCache.Add(this.GetType(), this.scriptInfoFields);
             }
             this.UndefinedFields = new ReadOnlyDictionary<string, string>(this.undefinedFields);
         }
 
         internal void ParseLine(string value)
         {
-            string k, v;
-            if(FormatHelper.TryPraseLine(out k, out v, value))
+            if(FormatHelper.TryPraseLine(out var k, out var v, value))
             {
-                ScriptInfoSerializeHelper helper;
-                if(scriptInfoFields.TryGetValue(k, out helper))
+                if(this.scriptInfoFields.TryGetValue(k, out var helper))
                     helper.Deserialize(this, v);
                 else
-                    undefinedFields[k] = v;
+                    this.undefinedFields[k] = v;
             }
         }
 
         internal void ParseLineExact(string value)
         {
-            string k, v;
-            if(FormatHelper.TryPraseLine(out k, out v, value))
+            if(FormatHelper.TryPraseLine(out var k, out var v, value))
             {
-                ScriptInfoSerializeHelper helper;
-                if(scriptInfoFields.TryGetValue(k, out helper))
+                if(this.scriptInfoFields.TryGetValue(k, out var helper))
                     helper.DeserializeExact(this, v);
                 else
-                    undefinedFields[k] = v;
+                    this.undefinedFields[k] = v;
             }
         }
 
@@ -83,18 +79,18 @@ namespace AssLoader.Collections
         {
             if(writer == null)
                 throw new ArgumentNullException(nameof(writer));
-            foreach(var item in scriptInfoFields.Values)
+            foreach(var item in this.scriptInfoFields.Values)
             {
                 var toWrite = item.Serialize(this);
                 if(toWrite != null)
                     writer.WriteLine(toWrite);
             }
-            if(undefinedFields.Count == 0)
+            if(this.undefinedFields.Count == 0)
                 return;
 
             //unknown script info entries.
             writer.WriteLine();
-            foreach(var item in undefinedFields)
+            foreach(var item in this.undefinedFields)
                 writer.WriteLine($"{item.Key}: {item.Value}");
         }
 
@@ -134,7 +130,7 @@ namespace AssLoader.Collections
         /// <returns>True if <paramref name="key"/> found in defined fields or <see cref="UndefinedFields"/>.</returns>
         public bool ContainsKey(string key)
         {
-            return undefinedFields.ContainsKey(key) || scriptInfoFields.ContainsKey(key);
+            return this.undefinedFields.ContainsKey(key) || this.scriptInfoFields.ContainsKey(key);
         }
 
         /// <summary>
@@ -145,7 +141,7 @@ namespace AssLoader.Collections
         /// <returns>True if value removed sucessfully.</returns>
         public bool Remove(string key)
         {
-            return undefinedFields.Remove(key);
+            return this.undefinedFields.Remove(key);
         }
 
         /// <summary>
@@ -156,14 +152,12 @@ namespace AssLoader.Collections
         /// <returns>True if <paramref name="key"/> found in the <see cref="ScriptInfoCollection"/>.</returns>
         public bool TryGetValue(string key, out string value)
         {
-            string s;
-            if(undefinedFields.TryGetValue(key, out s))
+            if(this.undefinedFields.TryGetValue(key, out var s))
             {
                 value = s;
                 return true;
             }
-            ScriptInfoSerializeHelper ssi;
-            if(scriptInfoFields.TryGetValue(key, out ssi))
+            if(this.scriptInfoFields.TryGetValue(key, out var ssi))
             {
                 value = ssi.Serialize(this);
                 return true;
@@ -187,17 +181,16 @@ namespace AssLoader.Collections
         {
             get
             {
-                string va;
-                if(TryGetValue(key, out va))
+                if(TryGetValue(key, out var va))
                     return va;
                 throw new KeyNotFoundException($"\"{key}\" not found.");
             }
             set
             {
-                if(scriptInfoFields.ContainsKey(key))
+                if(this.scriptInfoFields.ContainsKey(key))
                     throw new InvalidOperationException("The key has defined, please use property.");
                 else
-                    undefinedFields[key] = value;
+                    this.undefinedFields[key] = value;
             }
         }
 
@@ -206,7 +199,7 @@ namespace AssLoader.Collections
         /// </summary>
         public void Clear()
         {
-            undefinedFields.Clear();
+            this.undefinedFields.Clear();
         }
 
         #region IDictionary<string,string> 成员
@@ -215,9 +208,9 @@ namespace AssLoader.Collections
         {
             get
             {
-                if(keys == null)
-                    return keys = new Collection(this, true);
-                return keys;
+                if(this.keys == null)
+                    return this.keys = new Collection(this, true);
+                return this.keys;
             }
         }
 
@@ -225,9 +218,9 @@ namespace AssLoader.Collections
         {
             get
             {
-                if(values == null)
-                    return values = new Collection(this, false);
-                return values;
+                if(this.values == null)
+                    return this.values = new Collection(this, false);
+                return this.values;
             }
         }
 
@@ -259,40 +252,28 @@ namespace AssLoader.Collections
 
             public bool Contains(string item)
             {
-                if(isKey)
-                    return collection.ContainsKey(item);
+                if(this.isKey)
+                    return this.collection.ContainsKey(item);
                 else
-                    return collection.Any(i => i.Value == item);
+                    return this.collection.Any(i => i.Value == item);
             }
 
             public void CopyTo(string[] array, int arrayIndex)
             {
-                if(isKey)
-                    collection.scriptInfoFields.Keys
-                        .Concat(collection.undefinedFields.Keys)
+                if(this.isKey)
+                    this.collection.scriptInfoFields.Keys
+                        .Concat(this.collection.undefinedFields.Keys)
                         .ToArray().CopyTo(array, arrayIndex);
                 else
-                    collection.scriptInfoFields.Values
+                    this.collection.scriptInfoFields.Values
                         .Select(item => item.Serialize(this))
-                        .Concat(collection.undefinedFields.Values)
+                        .Concat(this.collection.undefinedFields.Values)
                         .ToArray().CopyTo(array, arrayIndex);
             }
 
-            public int Count
-            {
-                get
-                {
-                    return ((ICollection<KeyValuePair<string, string>>)collection).Count;
-                }
-            }
+            public int Count => ((ICollection<KeyValuePair<string, string>>)this.collection).Count;
 
-            bool ICollection<string>.IsReadOnly
-            {
-                get
-                {
-                    return true;
-                }
-            }
+            bool ICollection<string>.IsReadOnly => true;
 
             bool ICollection<string>.Remove(string item)
             {
@@ -305,13 +286,13 @@ namespace AssLoader.Collections
 
             public IEnumerator<string> GetEnumerator()
             {
-                if(isKey)
-                    return collection.scriptInfoFields.Keys
-                        .Concat(collection.undefinedFields.Keys).GetEnumerator();
+                if(this.isKey)
+                    return this.collection.scriptInfoFields.Keys
+                        .Concat(this.collection.undefinedFields.Keys).GetEnumerator();
                 else
-                    return collection.scriptInfoFields.Values
+                    return this.collection.scriptInfoFields.Values
                         .Select(item => item.Serialize(this))
-                        .Concat(collection.undefinedFields.Values).GetEnumerator();
+                        .Concat(this.collection.undefinedFields.Values).GetEnumerator();
             }
 
             #endregion
@@ -344,29 +325,17 @@ namespace AssLoader.Collections
         {
             this.scriptInfoFields
                 .Select(item => new KeyValuePair<string, string>(item.Key, item.Value.Serialize(this)))
-                .Concat(undefinedFields).ToArray().CopyTo(array, arrayIndex);
+                .Concat(this.undefinedFields).ToArray().CopyTo(array, arrayIndex);
         }
 
-        int ICollection<KeyValuePair<string, string>>.Count
-        {
-            get
-            {
-                return scriptInfoFields.Count + undefinedFields.Count;
-            }
-        }
+        int ICollection<KeyValuePair<string, string>>.Count => this.scriptInfoFields.Count + this.undefinedFields.Count;
 
-        bool ICollection<KeyValuePair<string, string>>.IsReadOnly
-        {
-            get
-            {
-                return false;
-            }
-        }
+        bool ICollection<KeyValuePair<string, string>>.IsReadOnly => false;
 
         bool ICollection<KeyValuePair<string, string>>.Remove(KeyValuePair<string, string> item)
         {
-            if(undefinedFields.ContainsKey(item.Key))
-                return undefinedFields.Remove(item.Key);
+            if(this.undefinedFields.ContainsKey(item.Key))
+                return this.undefinedFields.Remove(item.Key);
             return false;
         }
 
@@ -378,7 +347,7 @@ namespace AssLoader.Collections
         {
             return this.scriptInfoFields
                  .Select(item => new KeyValuePair<string, string>(item.Key, item.Value.Serialize(this)))
-                 .Concat(undefinedFields).GetEnumerator();
+                 .Concat(this.undefinedFields).GetEnumerator();
         }
 
         #endregion

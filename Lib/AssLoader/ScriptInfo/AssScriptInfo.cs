@@ -33,13 +33,7 @@ namespace AssLoader.Collections
         /// <summary>
         /// This is the SSA script fields version.
         /// </summary>
-        public string ScriptType
-        {
-            get
-            {
-                return scriptType;
-            }
-        }
+        public string ScriptType => this.scriptType;
 
         [ScriptInfo("Title", DefaultValue = "untitled")]
         private string title;
@@ -51,15 +45,12 @@ namespace AssLoader.Collections
         /// <exception cref="ArgumentException"><paramref name="value"/> contains line breaks.</exception>
         public string Title
         {
-            get
-            {
-                return title;
-            }
+            get => this.title;
             set
             {
                 if(!FormatHelper.SingleLineStringValueValid(ref value))
                     value = null;
-                Set(ref title, value);
+                Set(ref this.title, value);
             }
         }
 
@@ -73,15 +64,12 @@ namespace AssLoader.Collections
         /// <exception cref="ArgumentException"><paramref name="value"/> contains line breaks.</exception>
         public string OriginalScript
         {
-            get
-            {
-                return originalScript;
-            }
+            get => this.originalScript;
             set
             {
                 if(!FormatHelper.SingleLineStringValueValid(ref value))
                     value = null;
-                Set(ref originalScript, value);
+                Set(ref this.originalScript, value);
             }
         }
 
@@ -95,15 +83,12 @@ namespace AssLoader.Collections
         /// <exception cref="ArgumentException"><paramref name="value"/> contains line breaks.</exception>
         public string OriginalTranslation
         {
-            get
-            {
-                return originalTranslation;
-            }
+            get => this.originalTranslation;
             set
             {
                 if(!FormatHelper.SingleLineStringValueValid(ref value))
                     value = null;
-                Set(ref originalTranslation, value);
+                Set(ref this.originalTranslation, value);
             }
         }
 
@@ -118,15 +103,12 @@ namespace AssLoader.Collections
         /// <exception cref="ArgumentException"><paramref name="value"/> contains line breaks.</exception>
         public string OriginalEditing
         {
-            get
-            {
-                return originalEditing;
-            }
+            get => this.originalEditing;
             set
             {
                 if(!FormatHelper.SingleLineStringValueValid(ref value))
                     value = null;
-                Set(ref originalEditing, value);
+                Set(ref this.originalEditing, value);
             }
         }
 
@@ -140,15 +122,12 @@ namespace AssLoader.Collections
         /// <exception cref="ArgumentException"><paramref name="value"/> contains line breaks.</exception>
         public string OriginalTiming
         {
-            get
-            {
-                return originalTiming;
-            }
+            get => this.originalTiming;
             set
             {
                 if(!FormatHelper.SingleLineStringValueValid(ref value))
                     value = null;
-                Set(ref originalTiming, value);
+                Set(ref this.originalTiming, value);
             }
         }
 
@@ -162,15 +141,12 @@ namespace AssLoader.Collections
         /// <exception cref="ArgumentException"><paramref name="value"/> contains line breaks.</exception>
         public string SynchPoint
         {
-            get
-            {
-                return synchPoint;
-            }
+            get => this.synchPoint;
             set
             {
                 if(!FormatHelper.SingleLineStringValueValid(ref value))
                     value = null;
-                Set(ref synchPoint, value);
+                Set(ref this.synchPoint, value);
             }
         }
 
@@ -184,15 +160,12 @@ namespace AssLoader.Collections
         /// <exception cref="ArgumentException"><paramref name="value"/> contains line breaks.</exception>
         public string ScriptUpdatedBy
         {
-            get
-            {
-                return scriptUpdatedBy;
-            }
+            get => this.scriptUpdatedBy;
             set
             {
                 if(!FormatHelper.SingleLineStringValueValid(ref value))
                     value = null;
-                Set(ref scriptUpdatedBy, value);
+                Set(ref this.scriptUpdatedBy, value);
             }
         }
 
@@ -206,15 +179,12 @@ namespace AssLoader.Collections
         /// <exception cref="ArgumentException"><paramref name="value"/> contains line breaks.</exception>
         public string UpdateDetails
         {
-            get
-            {
-                return updateDetails;
-            }
+            get => this.updateDetails;
             set
             {
                 if(!FormatHelper.SingleLineStringValueValid(ref value))
                     value = null;
-                Set(ref updateDetails, value);
+                Set(ref this.updateDetails, value);
             }
         }
 
@@ -226,14 +196,8 @@ namespace AssLoader.Collections
         /// </summary>
         public CollisionStyle Collisions
         {
-            get
-            {
-                return collisions;
-            }
-            set
-            {
-                Set(ref collisions, value);
-            }
+            get => this.collisions;
+            set => Set(ref this.collisions, value);
         }
 
 
@@ -249,15 +213,12 @@ namespace AssLoader.Collections
         /// <seealso cref="PlayResX"/>
         public int PlayResY
         {
-            get
-            {
-                return playResY;
-            }
+            get => this.playResY;
             set
             {
                 if(value < 0)
                     throw new ArgumentOutOfRangeException(nameof(value), "value is less than 0.");
-                Set(ref playResY, value);
+                Set(ref this.playResY, value);
             }
         }
 
@@ -273,15 +234,12 @@ namespace AssLoader.Collections
         /// <seealso cref="PlayResY"/>
         public int PlayResX
         {
-            get
-            {
-                return playResX;
-            }
+            get => this.playResX;
             set
             {
                 if(value < 0)
                     throw new ArgumentOutOfRangeException(nameof(value), "value is less than 0.");
-                Set(ref playResX, value);
+                Set(ref this.playResX, value);
             }
         }
 
@@ -296,10 +254,7 @@ namespace AssLoader.Collections
         /// </exception>
         public int? PlayDepth
         {
-            get
-            {
-                return playDepth;
-            }
+            get => this.playDepth;
             set
             {
                 if(value.HasValue)
@@ -307,7 +262,7 @@ namespace AssLoader.Collections
                     if(value.Value <= 0)
                         throw new ArgumentOutOfRangeException(nameof(value), "value must be greater than 0.");
                 }
-                Set(ref playDepth, value);
+                Set(ref this.playDepth, value);
             }
         }
 
@@ -339,10 +294,7 @@ namespace AssLoader.Collections
         /// </remarks>
         public double? Timer
         {
-            get
-            {
-                return timer;
-            }
+            get => this.timer;
             set
             {
                 if(value.HasValue)
@@ -352,7 +304,7 @@ namespace AssLoader.Collections
                     if(value.Value <= 0)
                         throw new ArgumentOutOfRangeException(nameof(value), "value must be greater than 0.");
                 }
-                Set(ref timer, value);
+                Set(ref this.timer, value);
             }
         }
 
@@ -367,16 +319,13 @@ namespace AssLoader.Collections
         /// </exception>
         public WrapStyle WrapStyle
         {
-            get
-            {
-                return (WrapStyle)wrapStyle;
-            }
+            get => (WrapStyle)this.wrapStyle;
             set
             {
                 var num = (int)value;
                 if(ThrowHelper.IsLessThanZeroOrOutOfRange(4, num))
                     throw new ArgumentOutOfRangeException(nameof(value));
-                Set(ref wrapStyle, num);
+                Set(ref this.wrapStyle, num);
             }
         }
 
@@ -389,14 +338,8 @@ namespace AssLoader.Collections
         /// </summary>
         public bool ScaledBorderAndShadow
         {
-            get
-            {
-                return scaledBorderAndShadow;
-            }
-            set
-            {
-                Set(ref scaledBorderAndShadow, value);
-            }
+            get => this.scaledBorderAndShadow;
+            set => Set(ref this.scaledBorderAndShadow, value);
         }
     }
 }

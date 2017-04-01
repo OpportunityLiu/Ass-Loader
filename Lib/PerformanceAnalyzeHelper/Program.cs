@@ -24,7 +24,7 @@ namespace PerformanceAnalyzeHelper
             //            where m.GetCustomAttribute(typeof(TestMethodAttribute)) != null
             //            select m.Invoke(testc, null)).ToArray();
             var c = new SubtitleParseTest() { TestContext = null };
-            for(int i = 0; i < 0xff; i++)
+            for(var i = 0; i < 0xff; i++)
             {
                 c.Parse();
                 c.ParseExact();

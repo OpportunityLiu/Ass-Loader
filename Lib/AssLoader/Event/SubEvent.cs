@@ -72,7 +72,7 @@ namespace AssLoader
         /// <returns>A string form of this <see cref="SubEvent"/>.</returns>
         public override string ToString()
         {
-            return EntryName + ": " + text.ToString();
+            return EntryName + ": " + this.text.ToString();
         }
 
         /// <summary>
@@ -96,13 +96,10 @@ namespace AssLoader
         /// </summary>
         public bool IsComment
         {
-            get
-            {
-                return iscomment;
-            }
+            get => this.iscomment;
             set
             {
-                Set(ref iscomment, value);
+                Set(ref this.iscomment, value);
                 RaisePropertyChanged("EntryName");
             }
         }
@@ -123,15 +120,12 @@ namespace AssLoader
         /// </remarks>
         public int Layer
         {
-            get
-            {
-                return layer;
-            }
+            get => this.layer;
             set
             {
                 if(value < 0)
                     throw new ArgumentOutOfRangeException(nameof(value));
-                Set(ref layer, value);
+                Set(ref this.layer, value);
             }
         }
 
@@ -147,16 +141,13 @@ namespace AssLoader
         /// </exception>
         public TimeSpan StartTime
         {
-            get
-            {
-                return startTime;
-            }
+            get => this.startTime;
             set
             {
-                if(value > endTime)
+                if(value > this.endTime)
                     throw new ArgumentOutOfRangeException(nameof(value), "StartTime must earlier than EndTime.");
                 else
-                Set(ref startTime, value);
+                Set(ref this.startTime, value);
             }
         }
 
@@ -172,16 +163,13 @@ namespace AssLoader
         /// </exception>
         public TimeSpan EndTime
         {
-            get
-            {
-                return endTime;
-            }
+            get => endTime;
             set
             {
-                if(value < startTime)
+                if(value < this.startTime)
                     throw new ArgumentOutOfRangeException(nameof(value), "StartTime must earlier than EndTime.");
                 else
-                Set(ref endTime, value);
+                Set(ref this.endTime, value);
             }
         }
 
@@ -194,15 +182,12 @@ namespace AssLoader
         /// <exception cref="ArgumentException"><paramref name="value"/> contains line breaks.</exception>
         public string Style
         {
-            get
-            {
-                return style;
-            }
+            get => style;
             set
             {
                 if(!FormatHelper.FieldStringValueValid(ref value))
                     value = null;
-                Set(ref style, value);
+                Set(ref this.style, value);
             }
         }
 
@@ -218,15 +203,12 @@ namespace AssLoader
         /// </remarks>
         public string Name
         {
-            get
-            {
-                return name;
-            }
+            get => name;
             set
             {
                 if(!FormatHelper.FieldStringValueValid(ref value))
                     value = null;
-                Set(ref name, value);
+                Set(ref this.name, value);
             }
         }
 
@@ -242,15 +224,12 @@ namespace AssLoader
         /// </exception>
         public int MarginL
         {
-            get
-            {
-                return marginL;
-            }
+            get => marginL;
             set
             {
                 if(value < 0)
                     throw new ArgumentOutOfRangeException(nameof(value));
-                Set(ref marginL, value);
+                Set(ref this.marginL, value);
             }
         }
 
@@ -266,15 +245,12 @@ namespace AssLoader
         /// </exception>
         public int MarginR
         {
-            get
-            {
-                return marginR;
-            }
+            get => marginR;
             set
             {
                 if(value < 0)
                     throw new ArgumentOutOfRangeException(nameof(value));
-                Set(ref marginR, value);
+                Set(ref this.marginR, value);
             }
         }
 
@@ -290,15 +266,12 @@ namespace AssLoader
         /// </exception>
         public int MarginV
         {
-            get
-            {
-                return marginV;
-            }
+            get => marginV;
             set
             {
                 if(value < 0)
                     throw new ArgumentOutOfRangeException(nameof(value));
-                Set(ref marginV, value);
+                Set(ref this.marginV, value);
             }
         }
 
@@ -316,15 +289,12 @@ namespace AssLoader
         /// </remarks>
         public string Effect
         {
-            get
-            {
-                return effect;
-            }
+            get => effect;
             set
             {
                 if(!FormatHelper.FieldStringValueValid(ref value))
                     value = null;
-                Set(ref effect, value);
+                Set(ref this.effect, value);
             }
         }
 
@@ -337,14 +307,8 @@ namespace AssLoader
         /// </summary>
         public TextContent Text
         {
-            get
-            {
-                return text;
-            }
-            set
-            {
-                Set(ref text, value);
-            }
+            get => text;
+            set => Set(ref text, value);
         }
 
         #endregion

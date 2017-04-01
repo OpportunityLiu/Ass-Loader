@@ -11,179 +11,8 @@ namespace AssLoader
     /// <summary>
     /// The static class contains methods to get instances of <see cref="Subtitle{TScriptInfo}"/> from ass files.
     /// </summary>
-    public static class Subtitle
+    public static partial class Subtitle
     {
-        private class parseHelper<T> where T : ScriptInfoCollection
-        {
-            public parseHelper(TextReader reader, bool isExact, Func<T> factory)
-            {
-                this.reader = reader;
-                this.isExact = isExact;
-                this.subtitle = new Subtitle<T>(factory());
-            }
-
-            public Subtitle<T> GetResult()
-            {
-                int lineNumber = 0;
-                string line = null;
-                var sec = isExact ? section.Unknown : section.ScriptInfo;
-                string secStr = null;
-                try
-                {
-                    while(true)
-                    {
-                        line = reader.ReadLine();
-                        lineNumber++;
-                        if(line == null)
-                            return subtitle;
-
-                        var temp = line.Trim(null);
-
-                        // Skip empty lines and comment lines.
-                        if(temp.Length == 0 || temp[0] == ';')
-                            continue;
-
-                        if(temp[0] == '[' && temp[temp.Length - 1] == ']') // Section header
-                        {
-                            switch(temp.ToLower())
-                            {
-                            case "[script info]":
-                            case "[scriptinfo]":
-                                sec = section.ScriptInfo;
-                                break;
-                            case "[v4+ styles]":
-                            case "[v4 styles+]":
-                            case "[v4+styles]":
-                            case "[v4styles+]":
-                                sec = section.Styles;
-                                break;
-                            case "[events]":
-                                sec = section.Events;
-                                break;
-                            default:
-                                sec = section.Unknown;
-                                secStr = temp.Substring(1, temp.Length - 2);
-                                if(isExact)
-                                    throw new InvalidOperationException($"Unknown section \"{secStr}\" found.");
-                                break;
-                            }
-                        }
-                        else // Section content
-                        {
-                            switch(sec)
-                            {
-                            case section.ScriptInfo:
-                                initScriptInfo(temp);
-                                break;
-                            case section.Styles:
-                                initStyle(temp);
-                                break;
-                            case section.Events:
-                                initEvent(temp);
-                                break;
-                            default:
-                                if(isExact)
-                                    throw new InvalidOperationException("Content found without a section header.");
-                                break;
-                            }
-                        }
-                    }
-                }
-                catch(Exception ex)
-                {
-                    var exception = new ArgumentException($@"Error occurs during parsing.
-Line number: {lineNumber}
-Content of the line:
-{line}", ex);
-                    exception.Data.Add("Line number", lineNumber);
-                    exception.Data.Add("Line content", line);
-                    exception.Data.Add("Current section", sec.ToString());
-                    throw exception;
-                }
-            }
-
-            public Task<Subtitle<T>> GetResultAsync()
-            {
-                return Task.Run(() => GetResult());
-            }
-
-            private enum section
-            {
-                Unknown = 0,
-                ScriptInfo,
-                Styles,
-                Events
-            }
-
-            private TextReader reader;
-
-            private Subtitle<T> subtitle;
-
-            private bool isExact;
-
-            private EntryHeader styleFormat, eventFormat;
-
-            private void initScriptInfo(string scriptInfoLine)
-            {
-                if(isExact)
-                    subtitle.ScriptInfo.ParseLineExact(scriptInfoLine);
-                else
-                    subtitle.ScriptInfo.ParseLine(scriptInfoLine);
-            }
-
-            private void initStyle(string styleLine)
-            {
-                string key, value;
-                if(FormatHelper.TryPraseLine(out key, out value, styleLine))
-                {
-                    switch(key.ToLower())
-                    {
-                    case "format":
-                        styleFormat = new EntryHeader(value);
-                        return;
-                    case "style":
-                        if(styleFormat == null)
-                            styleFormat = DefaultStyleFormat;
-                        Style s;
-                        if(isExact)
-                        {
-                            s = Style.ParseExact(styleFormat, value);
-                            if(subtitle.StyleSet.ContainsName(s.Name))
-                                throw new ArgumentException($"Style with the name \"{s.Name}\" is already in the StyleSet.");
-                        }
-                        else
-                        {
-                            s = Style.Parse(styleFormat, value);
-                        }
-                        subtitle.StyleSet.Add(s);
-                        return;
-                    default:
-                        return;
-                    }
-                }
-            }
-
-            private void initEvent(string eventLine)
-            {
-                string key, value;
-                if(FormatHelper.TryPraseLine(out key, out value, eventLine))
-                {
-                    if(string.Equals(key, "format", StringComparison.OrdinalIgnoreCase))
-                    {
-                        eventFormat = new EntryHeader(value);
-                    }
-                    else
-                    {
-                        if(eventFormat == null)
-                            eventFormat = DefaultEventFormat;
-                        var sub = isExact ? SubEvent.ParseExact(eventFormat, string.Equals(key, "comment", StringComparison.OrdinalIgnoreCase), value) : SubEvent.Parse(eventFormat, string.Equals(key, "comment", StringComparison.OrdinalIgnoreCase), value);
-                        subtitle.EventCollection.Add(sub);
-                    }
-                }
-            }
-
-        }
-
         internal static readonly string[] EditorInfo =
         {
             "; This file is generated by AssLoader",
@@ -221,7 +50,7 @@ Content of the line:
         {
             if(reader == null)
                 throw new ArgumentNullException(nameof(reader));
-            return new parseHelper<TScriptInfo>(reader, false, () => new TScriptInfo()).GetResult();
+            return new ParseHelper<TScriptInfo>(reader, false, () => new TScriptInfo()).GetResult();
         }
 
         /// <summary>
@@ -237,7 +66,7 @@ Content of the line:
         {
             if(reader == null)
                 throw new ArgumentNullException(nameof(reader));
-            return new parseHelper<TScriptInfo>(reader, true, () => new TScriptInfo()).GetResult();
+            return new ParseHelper<TScriptInfo>(reader, true, () => new TScriptInfo()).GetResult();
         }
 
         /// <summary>
@@ -270,7 +99,7 @@ Content of the line:
         {
             if(reader == null)
                 throw new ArgumentNullException(nameof(reader));
-            return await new parseHelper<TScriptInfo>(reader, false, () => new TScriptInfo()).GetResultAsync();
+            return await new ParseHelper<TScriptInfo>(reader, false, () => new TScriptInfo()).GetResultAsync();
         }
 
         /// <summary>
@@ -286,7 +115,7 @@ Content of the line:
         {
             if(reader == null)
                 throw new ArgumentNullException(nameof(reader));
-            return await new parseHelper<TScriptInfo>(reader, true, () => new TScriptInfo()).GetResultAsync();
+            return await new ParseHelper<TScriptInfo>(reader, true, () => new TScriptInfo()).GetResultAsync();
         }
 
         /// <summary>
@@ -323,7 +152,7 @@ Content of the line:
                 throw new ArgumentNullException(nameof(reader));
             if(factory == null)
                 throw new ArgumentNullException(nameof(factory));
-            return new parseHelper<TScriptInfo>(reader, false, factory).GetResult();
+            return new ParseHelper<TScriptInfo>(reader, false, factory).GetResult();
         }
 
         /// <summary>
@@ -342,7 +171,7 @@ Content of the line:
                 throw new ArgumentNullException(nameof(reader));
             if(factory == null)
                 throw new ArgumentNullException(nameof(factory));
-            return new parseHelper<TScriptInfo>(reader, true, factory).GetResult();
+            return new ParseHelper<TScriptInfo>(reader, true, factory).GetResult();
         }
 
         /// <summary>
@@ -379,7 +208,7 @@ Content of the line:
                 throw new ArgumentNullException(nameof(reader));
             if(factory == null)
                 throw new ArgumentNullException(nameof(factory));
-            return await new parseHelper<TScriptInfo>(reader, false, factory).GetResultAsync();
+            return await new ParseHelper<TScriptInfo>(reader, false, factory).GetResultAsync();
         }
 
         /// <summary>
@@ -398,7 +227,7 @@ Content of the line:
                 throw new ArgumentNullException(nameof(reader));
             if(factory == null)
                 throw new ArgumentNullException(nameof(factory));
-            return await new parseHelper<TScriptInfo>(reader, true, factory).GetResultAsync();
+            return await new ParseHelper<TScriptInfo>(reader, true, factory).GetResultAsync();
         }
 
         internal readonly static EntryHeader DefaultStyleFormat = new EntryHeader("Name,Fontname,Fontsize,PrimaryColour,SecondaryColour,OutlineColour,BackColour,Bold,Italic,Underline,Strikeout,ScaleX,ScaleY,Spacing,Angle,BorderStyle,Outline,Shadow,Alignment,MarginL,MarginR,MarginV,Encoding");

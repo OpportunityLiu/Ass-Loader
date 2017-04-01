@@ -2,7 +2,7 @@
 <Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
-    <MinimumVisualStudioVersion>12.0</MinimumVisualStudioVersion>
+    <MinimumVisualStudioVersion>14.0</MinimumVisualStudioVersion>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{4E3F3026-100A-4349-A67D-E41F3EE1EFED}</ProjectGuid>
@@ -13,8 +13,9 @@
     <DefaultLanguage>zh-CN</DefaultLanguage>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{786C830F-07A1-408B-BD7F-6EE04809D6DB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
-    <TargetFrameworkProfile>Profile151</TargetFrameworkProfile>
-    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
+    <TargetFrameworkProfile>
+    </TargetFrameworkProfile>
+    <TargetFrameworkVersion>v5.0</TargetFrameworkVersion>
     <SccProjectName>SAK</SccProjectName>
     <SccLocalPath>SAK</SccLocalPath>
     <SccAuxPath>SAK</SccAuxPath>
@@ -113,11 +114,12 @@
     <Compile Include="Properties\GlobalSuppressions.cs" />
     <Compile Include="Serializer\TextSerializeAttribute.cs" />
     <Compile Include="Collections\StyleSet.cs" />
+    <Compile Include="Subtitle\Subtitle.ParseHelper.cs" />
     <Compile Include="Text\List.cs" />
     <Compile Include="Text\TextContent.cs" />
     <Compile Include="Color\Color.cs" />
     <Compile Include="Color\Colors.cs" />
-    <Compile Include="Delegate.cs" />
+    <Compile Include="Delegates.cs" />
     <Compile Include="Entry\Entry.cs" />
     <Compile Include="Entry\EntryData.cs" />
     <Compile Include="Entry\EntryFieldAttribute.cs" />
@@ -125,7 +127,7 @@
     <Compile Include="Event\SubEvent.cs" />
     <Compile Include="Entry\EntryHeader.cs" />
     <Compile Include="FormatHelper.cs" />
-    <Compile Include="Enum.cs" />
+    <Compile Include="Enums.cs" />
     <Compile Include="ScriptInfo\AssScriptInfo.cs" />
     <Compile Include="ScriptInfo\ScriptInfoAttribute.cs" />
     <Compile Include="ScriptInfo\ScriptInfoCollection.cs" />
@@ -139,6 +141,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Subtitle\Subtitle.cs" />
     <Compile Include="ThrowHelper.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="project.json" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

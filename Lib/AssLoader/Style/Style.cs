@@ -80,7 +80,7 @@ namespace AssLoader
         /// <returns>A string form of this <see cref="Style"/>.</returns>
         public override string ToString()
         {
-            return "Style: " + name;
+            return "Style: " + this.name;
         }
 
         #region Fields
@@ -95,15 +95,12 @@ namespace AssLoader
         /// <exception cref="ArgumentException"><paramref name="value"/> contains line breaks.</exception>
         public string Name
         {
-            get
-            {
-                return name;
-            }
+            get => name;
             protected set
             {
                 if(FormatHelper.FieldStringValueValid(ref value))
                 {
-                    Set(ref name, value);
+                    Set(ref this.name, value);
                 }
                 else
                     throw new ArgumentNullException(nameof(value));
@@ -120,15 +117,12 @@ namespace AssLoader
         /// <exception cref="ArgumentException"><paramref name="value"/> contains line breaks.</exception>
         public string FontName
         {
-            get
-            {
-                return fontName;
-            }
+            get => fontName;
             set
             {
                 if(FormatHelper.FieldStringValueValid(ref value))
                 {
-                    Set(ref fontName, value);
+                    Set(ref this.fontName, value);
                 }
                 else
                     throw new ArgumentNullException(nameof(value));
@@ -149,17 +143,14 @@ namespace AssLoader
         /// </exception>
         public double FontSize
         {
-            get
-            {
-                return fontSize;
-            }
+            get => fontSize;
             set
             {
                 if(ThrowHelper.IsInvalidDouble(value))
                     throw new ArgumentException("value should be a valid number", nameof(value));
                 if(value < 0)
                     throw new ArgumentOutOfRangeException(nameof(value));
-                Set(ref fontSize, value);
+                Set(ref this.fontSize, value);
             }
         }
 
@@ -172,14 +163,8 @@ namespace AssLoader
         /// </summary>
         public Color PrimaryColor
         {
-            get
-            {
-                return primaryColor;
-            }
-            set
-            {
-                Set(ref primaryColor, value);
-            }
+            get => primaryColor;
+            set => Set(ref primaryColor, value);
         }
 
         [ColorSerialize]
@@ -191,14 +176,8 @@ namespace AssLoader
         /// </summary>
         public Color SecondaryColor
         {
-            get
-            {
-                return secondaryColor;
-            }
-            set
-            {
-                Set(ref secondaryColor, value);
-            }
+            get => secondaryColor;
+            set => Set(ref secondaryColor, value);
         }
 
         [ColorSerialize]
@@ -210,14 +189,8 @@ namespace AssLoader
         /// </summary>
         public Color OutlineColor
         {
-            get
-            {
-                return outlineColor;
-            }
-            set
-            {
-                Set(ref outlineColor, value);
-            }
+            get => outlineColor;
+            set => Set(ref outlineColor, value);
         }
 
         [ColorSerialize]
@@ -229,14 +202,8 @@ namespace AssLoader
         /// </summary>
         public Color ShadowColor
         {
-            get
-            {
-                return shadowColor;
-            }
-            set
-            {
-                Set(ref shadowColor, value);
-            }
+            get => shadowColor;
+            set => Set(ref shadowColor, value);
         }
 
         [EntryField("Bold")]
@@ -247,14 +214,8 @@ namespace AssLoader
         /// </summary>
         public bool Bold
         {
-            get
-            {
-                return bold == -1;
-            }
-            set
-            {
-                Set(ref bold, value ? -1 : 0);
-            }
+            get => bold == -1;
+            set => Set(ref bold, value ? -1 : 0);
         }
 
         [EntryField("Italic")]
@@ -265,14 +226,8 @@ namespace AssLoader
         /// </summary>
         public bool Italic
         {
-            get
-            {
-                return italic == -1;
-            }
-            set
-            {
-                Set(ref italic, value ? -1 : 0);
-            }
+            get => italic == -1;
+            set => Set(ref italic, value ? -1 : 0);
         }
 
         [EntryField("Underline")]
@@ -283,14 +238,8 @@ namespace AssLoader
         /// </summary>
         public bool Underline
         {
-            get
-            {
-                return underline == -1;
-            }
-            set
-            {
-                Set(ref underline, value ? -1 : 0);
-            }
+            get => underline == -1;
+            set => Set(ref underline, value ? -1 : 0);
         }
 
         [EntryField("Strikeout")]
@@ -301,14 +250,8 @@ namespace AssLoader
         /// </summary>
         public bool Strikeout
         {
-            get
-            {
-                return strikeout == -1;
-            }
-            set
-            {
-                Set(ref strikeout, value ? -1 : 0);
-            }
+            get => strikeout == -1;
+            set => Set(ref strikeout, value ? -1 : 0);
         }
 
         [EntryField("ScaleX")]
@@ -325,17 +268,14 @@ namespace AssLoader
         /// </exception>
         public double ScaleX
         {
-            get
-            {
-                return scaleX;
-            }
+            get => scaleX;
             set
             {
                 if(ThrowHelper.IsInvalidDouble(value))
                     throw new ArgumentException("value should be a valid number", nameof(value));
                 if(value < 0)
                     throw new ArgumentOutOfRangeException(nameof(value));
-                Set(ref scaleX, value);
+                Set(ref this.scaleX, value);
             }
         }
 
@@ -353,17 +293,14 @@ namespace AssLoader
         /// </exception>
         public double ScaleY
         {
-            get
-            {
-                return scaleY;
-            }
+            get => scaleY;
             set
             {
                 if(ThrowHelper.IsInvalidDouble(value))
                     throw new ArgumentException("value should be a valid number", nameof(value));
                 if(value < 0)
                     throw new ArgumentOutOfRangeException(nameof(value));
-                Set(ref scaleY, value);
+                Set(ref this.scaleY, value);
             }
         }
 
@@ -376,15 +313,12 @@ namespace AssLoader
         /// <exception cref="ArgumentException"><paramref name="value"/> is <see cref="double.IsNaN(double)"/> or <see cref="double.IsInfinity(double)"/></exception>
         public double Spacing
         {
-            get
-            {
-                return spacing;
-            }
+            get => spacing;
             set
             {
                 if(ThrowHelper.IsInvalidDouble(value))
                     throw new ArgumentException("value should be a valid number", nameof(value));
-                Set(ref spacing, value);
+                Set(ref this.spacing, value);
             }
         }
 
@@ -397,10 +331,7 @@ namespace AssLoader
         /// <exception cref="ArgumentException"><paramref name="value"/> is <see cref="double.IsNaN(double)"/> or <see cref="double.IsInfinity(double)"/></exception>
         public double Rotation
         {
-            get
-            {
-                return rotation;
-            }
+            get => rotation;
             set
             {
                 if(ThrowHelper.IsInvalidDouble(value))
@@ -410,7 +341,7 @@ namespace AssLoader
                     value -= 360;
                 else if(value < -180)
                     value += 360;
-                Set(ref rotation, value);
+                Set(ref this.rotation, value);
             }
         }
 
@@ -425,17 +356,14 @@ namespace AssLoader
         /// </exception>
         public BorderStyle BorderStyle
         {
-            get
-            {
-                return (BorderStyle)borderStyle;
-            }
+            get => (BorderStyle)borderStyle;
             set
             {
                 switch(value)
                 {
                 case BorderStyle.OutlineAndDropShadow:
                 case BorderStyle.OpaqueBox:
-                    Set(ref borderStyle, (int)value);
+                    Set(ref this.borderStyle, (int)value);
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(value));
@@ -457,17 +385,14 @@ namespace AssLoader
         /// </exception>
         public double Outline
         {
-            get
-            {
-                return outline;
-            }
+            get => outline;
             set
             {
                 if(ThrowHelper.IsInvalidDouble(value))
                     throw new ArgumentException("value should be a valid number", nameof(value));
                 if(value < 0)
                     throw new ArgumentOutOfRangeException(nameof(value));
-                Set(ref outline, value);
+                Set(ref this.outline, value);
             }
         }
 
@@ -485,17 +410,14 @@ namespace AssLoader
         /// </exception>
         public double Shadow
         {
-            get
-            {
-                return shadow;
-            }
+            get => shadow;
             set
             {
                 if(ThrowHelper.IsInvalidDouble(value))
                     throw new ArgumentException("value should be a valid number", nameof(value));
                 if(value < 0)
                     throw new ArgumentOutOfRangeException(nameof(value));
-                Set(ref shadow, value);
+                Set(ref this.shadow, value);
             }
         }
 
@@ -510,27 +432,24 @@ namespace AssLoader
         /// </exception>
         public AlignmentStyle Alignment
         {
-            get
-            {
-                return (AlignmentStyle)alignment;
-            }
+            get => (AlignmentStyle)alignment;
             set
             {
                 switch(value)
                 {
-                    case AlignmentStyle.BottomLeft:
-                    case AlignmentStyle.BottomCenter:
-                    case AlignmentStyle.BottomRight:
-                    case AlignmentStyle.MiddleLeft:
-                    case AlignmentStyle.MiddleCenter:
-                    case AlignmentStyle.MiddleRight:
-                    case AlignmentStyle.TopLeft:
-                    case AlignmentStyle.TopCenter:
-                    case AlignmentStyle.TopRight:
-                        Set(ref alignment, (int)value);
-                        break;
-                    default:
-                        throw new ArgumentOutOfRangeException(nameof(value));
+                case AlignmentStyle.BottomLeft:
+                case AlignmentStyle.BottomCenter:
+                case AlignmentStyle.BottomRight:
+                case AlignmentStyle.MiddleLeft:
+                case AlignmentStyle.MiddleCenter:
+                case AlignmentStyle.MiddleRight:
+                case AlignmentStyle.TopLeft:
+                case AlignmentStyle.TopCenter:
+                case AlignmentStyle.TopRight:
+                    Set(ref this.alignment, (int)value);
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(value));
                 }
             }
         }
@@ -544,15 +463,12 @@ namespace AssLoader
         /// <exception cref="ArgumentOutOfRangeException"><paramref name="value"/> is less than 0.</exception>
         public int MarginL
         {
-            get
-            {
-                return marginL;
-            }
+            get => marginL;
             set
             {
                 if(value < 0)
                     throw new ArgumentOutOfRangeException(nameof(value));
-                Set(ref marginL, value);
+                Set(ref this.marginL, value);
             }
         }
 
@@ -565,15 +481,12 @@ namespace AssLoader
         /// <exception cref="ArgumentOutOfRangeException"><paramref name="value"/> is less than 0.</exception>
         public int MarginR
         {
-            get
-            {
-                return marginR;
-            }
+            get => marginR;
             set
             {
                 if(value < 0)
                     throw new ArgumentOutOfRangeException(nameof(value));
-                Set(ref marginR, value);
+                Set(ref this.marginR, value);
             }
         }
 
@@ -586,15 +499,12 @@ namespace AssLoader
         /// <exception cref="ArgumentOutOfRangeException"><paramref name="value"/> is less than 0.</exception>
         public int MarginV
         {
-            get
-            {
-                return marginV;
-            }
+            get => marginV;
             set
             {
                 if(value < 0)
                     throw new ArgumentOutOfRangeException(nameof(value));
-                Set(ref marginV, value);
+                Set(ref this.marginV, value);
             }
         }
 
@@ -613,15 +523,12 @@ namespace AssLoader
         /// </remarks>
         public int Encoding
         {
-            get
-            {
-                return encoding;
-            }
+            get => encoding;
             set
             {
                 if(value < 0)
                     throw new ArgumentOutOfRangeException(nameof(value));
-                Set(ref encoding, value);
+                Set(ref this.encoding, value);
             }
         }
 
@@ -630,12 +537,6 @@ namespace AssLoader
         /// <summary>
         /// Name of this <see cref="Entry"/>, will be "Style".
         /// </summary>
-        protected sealed override string EntryName
-        {
-            get
-            {
-                return "Style";
-            }
-        }
+        protected sealed override string EntryName => "Style";
     }
 }

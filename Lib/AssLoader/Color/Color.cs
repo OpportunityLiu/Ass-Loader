@@ -28,15 +28,15 @@ namespace AssLoader
             {
                 unchecked
                 {
-                    return (byte)((data & rMask) >> rOffset);
+                    return (byte)((this.data & rMask) >> rOffset);
                 }
             }
             set
             {
                 unchecked
                 {
-                    data &= rFliter;
-                    data |= ((uint)value << rOffset);
+                    this.data &= rFliter;
+                    this.data |= ((uint)value << rOffset);
                 }
             }
         }
@@ -50,15 +50,15 @@ namespace AssLoader
             {
                 unchecked
                 {
-                    return (byte)((data & gMask) >> gOffset);
+                    return (byte)((this.data & gMask) >> gOffset);
                 }
             }
             set
             {
                 unchecked
                 {
-                    data &= gFliter;
-                    data |= ((uint)value << gOffset);
+                    this.data &= gFliter;
+                    this.data |= ((uint)value << gOffset);
                 }
             }
         }
@@ -72,15 +72,15 @@ namespace AssLoader
             {
                 unchecked
                 {
-                    return (byte)((data & bMask) >> bOffset);
+                    return (byte)((this.data & bMask) >> bOffset);
                 }
             }
             set
             {
                 unchecked
                 {
-                    data &= bFliter;
-                    data |= ((uint)value << bOffset);
+                    this.data &= bFliter;
+                    this.data |= ((uint)value << bOffset);
                 }
             }
         }
@@ -94,15 +94,15 @@ namespace AssLoader
             {
                 unchecked
                 {
-                    return (byte)((data & tMask) >> tOffset);
+                    return (byte)((this.data & tMask) >> tOffset);
                 }
             }
             set
             {
                 unchecked
                 {
-                    data &= tFliter;
-                    data |= ((uint)value << tOffset);
+                    this.data &= tFliter;
+                    this.data |= ((uint)value << tOffset);
                 }
             }
         }
@@ -113,14 +113,8 @@ namespace AssLoader
         /// <seealso cref="Transparency"/>
         public byte Alpha
         {
-            get
-            {
-                return (byte)~Transparency;
-            }
-            set
-            {
-                Transparency = (byte)~value;
-            }
+            get => (byte)~this.Transparency;
+            set => this.Transparency = (byte)~value;
         }
 
         private const uint tFliter = 0x00FFFFFF;
@@ -146,7 +140,7 @@ namespace AssLoader
         /// <returns>The string form of the <see cref="Color"/> in the ass file, which is a <see cref="string"/> started with "&amp;H" and followed an 8-digit hex number.</returns>
         public override string ToString()
         {
-            return string.Format(FormatHelper.DefaultFormat, "&H{0:X8}", data);
+            return string.Format(FormatHelper.DefaultFormat, "&H{0:X8}", this.data);
         }
 
         /// <summary>
@@ -172,7 +166,7 @@ namespace AssLoader
             throw new FormatException($"\"{value}\" is not a valid color string.");
         }
 
-        #region IEquatable<Colour> 成员
+        #region IEquatable<Color> 成员
 
         /// <summary>
         /// Returns whatever two <see cref="Color"/> are equal.
@@ -224,9 +218,9 @@ namespace AssLoader
         /// <returns>True if the two <see cref="Color"/> are equal.</returns>
         public override bool Equals(object obj)
         {
-            if(obj == null || !(obj is Color))
-                return false;
-            return Equals((Color)obj);
+            if(obj is Color c)
+                return Equals(c);
+            return false;
         }
 
         /// <summary>

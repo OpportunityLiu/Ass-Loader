@@ -1,13 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace AssLoader
 {
-    [Pure]
     static class ThrowHelper
     {
         public static bool IsLessThanZeroOrOutOfRange(int max, int value)
@@ -18,6 +16,7 @@ namespace AssLoader
             }
         }
 
-        public static bool IsInvalidDouble(double value) => double.IsNaN(value) || double.IsInfinity(value);
+        public static bool IsInvalidDouble(double value) 
+            => double.IsNaN(value) || double.IsInfinity(value);
     }
 }

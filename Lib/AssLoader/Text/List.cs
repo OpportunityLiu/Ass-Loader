@@ -35,9 +35,9 @@ namespace AssLoader
             {
                 get
                 {
-                    if(ThrowHelper.IsLessThanZeroOrOutOfRange(max, index))
+                    if(ThrowHelper.IsLessThanZeroOrOutOfRange(this.max, index))
                         throw new ArgumentOutOfRangeException(nameof(index));
-                    return texts[index * 2];
+                    return this.texts[index * 2];
                 }
             }
 
@@ -48,7 +48,7 @@ namespace AssLoader
             /// <summary>
             /// Count of texts in the <see cref="TextContent"/>.
             /// </summary>
-            public int Count => max;
+            public int Count => this.max;
 
             #endregion
 
@@ -60,15 +60,16 @@ namespace AssLoader
             /// <returns>A enumerator of texts of the <see cref="TextContent"/>.</returns>
             public IEnumerator<string> GetEnumerator()
             {
-                for(int i = 0; i < texts.Length; i += 2)
-                    yield return texts[i];
+                for(var i = 0; i < this.texts.Length; i += 2)
+                    yield return this.texts[i];
             }
 
             #endregion
 
             #region IEnumerable 成员
 
-            System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator() => this.GetEnumerator();
+            System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator() 
+                => this.GetEnumerator();
 
             #endregion
         }
@@ -99,9 +100,9 @@ namespace AssLoader
             {
                 get
                 {
-                    if(ThrowHelper.IsLessThanZeroOrOutOfRange(max, index))
+                    if(ThrowHelper.IsLessThanZeroOrOutOfRange(this.max, index))
                         throw new ArgumentOutOfRangeException(nameof(index));
-                    return texts[index * 2 + 1];
+                    return this.texts[index * 2 + 1];
                 }
             }
 
@@ -112,7 +113,7 @@ namespace AssLoader
             /// <summary>
             /// Count of tags in the <see cref="TextContent"/>.
             /// </summary>
-            public int Count => max;
+            public int Count => this.max;
 
             #endregion
 
@@ -124,15 +125,16 @@ namespace AssLoader
             /// <returns>A enumerator of tags of the <see cref="TextContent"/>.</returns>
             public IEnumerator<string> GetEnumerator()
             {
-                for(int i = 1; i < texts.Length; i += 2)
-                    yield return texts[i];
+                for(var i = 1; i < this.texts.Length; i += 2)
+                    yield return this.texts[i];
             }
 
             #endregion
 
             #region IEnumerable 成员
 
-            System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator() => this.GetEnumerator();
+            System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator() 
+                => this.GetEnumerator();
 
             #endregion
         }

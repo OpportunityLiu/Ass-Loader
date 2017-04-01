@@ -22,10 +22,10 @@ namespace AssLoader
         {
             if(string.IsNullOrEmpty(format))
                 throw new ArgumentNullException(nameof(format));
-            data = new EntryData(format, int.MaxValue);
-            if(data.Contains(string.Empty))
+            this.data = new EntryData(format, int.MaxValue);
+            if(this.data.Contains(string.Empty))
                 throw new ArgumentException("Header can't contains string.Empty.", nameof(format));
-            if(data.Distinct().Count() != data.Count)
+            if(this.data.Distinct().Count() != this.data.Count)
                 throw new FormatException("Header can't contains repeated strings.");
         }
 
@@ -38,7 +38,7 @@ namespace AssLoader
         {
             if(format == null)
                 throw new ArgumentNullException(nameof(format));
-            data = format.Distinct(StringComparer.OrdinalIgnoreCase).Select(s => s.Trim()).ToList();
+            this.data = format.Distinct(StringComparer.OrdinalIgnoreCase).Select(s => s.Trim()).ToList();
         }
 
         /// <summary>
@@ -47,7 +47,7 @@ namespace AssLoader
         /// <returns>A <see cref="string"/> presents the ass format of this <see cref="EntryHeader"/>.</returns>
         public override string ToString()
         {
-            return string.Format(FormatHelper.DefaultFormat, "Format: {0}", data.ToString());
+            return string.Format(FormatHelper.DefaultFormat, "Format: {0}", this.data.ToString());
         }
 
         private IReadOnlyList<string> data;
@@ -95,7 +95,7 @@ namespace AssLoader
 
         System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
         {
-            return data.GetEnumerator();
+            return this.data.GetEnumerator();
         }
 
         #endregion
@@ -108,13 +108,7 @@ namespace AssLoader
         /// <param name="index">The index of entry names, starts from 0.</param>
         /// <returns>The entry name with the given index.</returns>
         /// <exception cref="ArgumentOutOfRangeException"><paramref name="index"/> out of range.</exception>
-        public string this[int index]
-        {
-            get
-            {
-                return data[index];
-            }
-        }
+        public string this[int index] => this.data[index];
 
         #endregion
 
@@ -123,13 +117,7 @@ namespace AssLoader
         /// <summary>
         /// Get the number of entry names of this <see cref="EntryHeader"/>.
         /// </summary>
-        public int Count
-        {
-            get
-            {
-                return data.Count;
-            }
-        }
+        public int Count => this.data.Count;
 
         #endregion
 
@@ -141,7 +129,7 @@ namespace AssLoader
         /// <returns>The enumerator of entry names of this <see cref="EntryHeader"/>.</returns>
         public IEnumerator<string> GetEnumerator()
         {
-            return data.GetEnumerator();
+            return this.data.GetEnumerator();
         }
 
         #endregion

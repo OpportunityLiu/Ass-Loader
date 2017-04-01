@@ -30,8 +30,34 @@ namespace AssLoader.Collections
         {
             if(comparer == null)
                 throw new ArgumentNullException(nameof(comparer));
-            var result = this.OrderBy(e => e, comparer).ToArray();
-            Reorder(result);
+            if(this.Items is List<SubEvent> l)
+            {
+                l.Sort(comparer);
+            }
+            else
+            {
+                var items = this.Items.OrderBy(i => i, comparer).ToList();
+                this.Items.Clear();
+                foreach(var item in items)
+                {
+                    this.Items.Add(item);
+                }
+
+            }
+            this.OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
+            this.OnPropertyChanged(new PropertyChangedEventArgs(nameof(Items)));
+        }
+
+        /// <summary>
+        /// Reorder the items in this <see cref="EventCollection"/> by the <paramref name="comparison"/>.
+        /// </summary>
+        /// <param name="comparison">The <see cref="Comparison{SubEvent}"/> to compare the <see cref="SubEvent"/> in this <see cref="EventCollection"/></param>
+        /// <exception cref="ArgumentNullException"><paramref name="comparison"/> is <c>null</c>.</exception>
+        public void Sort(Comparison<SubEvent> comparison)
+        {
+            if(comparison == null)
+                throw new ArgumentNullException(nameof(comparison));
+            Sort(Comparer<SubEvent>.Create(comparison));
         }
 
         /// <summary>
@@ -39,10 +65,16 @@ namespace AssLoader.Collections
         /// </summary>
         public void SortByTime()
         {
-            var result = (from item in this
-                          orderby item.StartTime, item.Style, item.EndTime
-                          select item).ToArray();
-            Reorder(result);
+            Sort((a, b) =>
+            {
+                var c1 = TimeSpan.Compare(a.StartTime, b.StartTime);
+                if(c1 != 0)
+                    return c1;
+                var c2 = string.Compare(a.Style, b.Style);
+                if(c2 != 0)
+                    return c2;
+                return TimeSpan.Compare(a.EndTime, b.EndTime);
+            });
         }
 
         /// <summary>
@@ -50,55 +82,16 @@ namespace AssLoader.Collections
         /// </summary>
         public void SortByStyle()
         {
-            var result = (from item in this
-                          orderby item.Style, item.StartTime, item.EndTime
-                          select item).ToArray();
-            Reorder(result);
-        }
-
-        /// <summary>
-        /// Reorder the items in the <see cref="EventCollection"/>.
-        /// </summary>
-        /// <param name="items">The items in the <see cref="EventCollection"/> with the new order.</param>
-        protected void Reorder(IEnumerable<SubEvent> items)
-        {
-            if(items == null)
-                throw new ArgumentNullException(nameof(items));
-            sorting = true;
-            this.Clear();
-            foreach(var item in items)
+            Sort((a, b) =>
             {
-                this.Add(item);
-            }
-            sorting = false;
-            this.OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
-            this.OnPropertyChanged(new PropertyChangedEventArgs(nameof(Items)));
-        }
-
-        private volatile bool sorting = false;
-
-        /// <summary>
-        /// Raise the <see cref="INotifyCollectionChanged.CollectionChanged"/> event.
-        /// </summary>
-        /// <param name="e">The eventargs of the event.</param>
-        protected override void OnCollectionChanged(NotifyCollectionChangedEventArgs e)
-        {
-            // Pause notification
-            if(sorting)
-                return;
-            base.OnCollectionChanged(e);
-        }
-
-        /// <summary>
-        /// Raise the <see cref="INotifyPropertyChanged.PropertyChanged"/> event.
-        /// </summary>
-        /// <param name="e">The eventargs of the event.</param>
-        protected override void OnPropertyChanged(PropertyChangedEventArgs e)
-        {
-            // Pause notification
-            if(sorting)
-                return;
-            base.OnPropertyChanged(e);
+                var c2 = string.Compare(a.Style, b.Style);
+                if(c2 != 0)
+                    return c2;
+                var c1 = TimeSpan.Compare(a.StartTime, b.StartTime);
+                if(c1 != 0)
+                    return c1;
+                return TimeSpan.Compare(a.EndTime, b.EndTime);
+            });
         }
     }
 }

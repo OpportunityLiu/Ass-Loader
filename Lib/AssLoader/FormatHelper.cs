@@ -35,11 +35,7 @@ namespace AssLoader
             }
         }
 
-        public static IFormatProvider DefaultFormat
-        {
-            get;
-        }
-        = System.Globalization.CultureInfo.InvariantCulture;
+        public static IFormatProvider DefaultFormat { get; } = System.Globalization.CultureInfo.InvariantCulture;
 
         private static readonly char[] split = new char[] { ':' };
 

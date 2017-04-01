@@ -44,26 +44,26 @@ namespace AssLoader
             var stext = new List<string>();
             var start = 0;
             var b = false;
-            for(int i = 0; i < Value.Length; i++)
+            for(var i = 0; i < Value.Length; i++)
             {
                 switch(Value[i])
                 {
-                    case '{':
-                        if(!b)
-                        {
-                            b = true;
-                            stext.Add(Value.Substring(start, i - start));
-                            start = i + 1;
-                        }
-                        break;
-                    case '}':
-                        if(b)
-                        {
-                            b = false;
-                            stext.Add(Value.Substring(start, i - start));
-                            start = i + 1;
-                        }
-                        break;
+                case '{':
+                    if(!b)
+                    {
+                        b = true;
+                        stext.Add(Value.Substring(start, i - start));
+                        start = i + 1;
+                    }
+                    break;
+                case '}':
+                    if(b)
+                    {
+                        b = false;
+                        stext.Add(Value.Substring(start, i - start));
+                        start = i + 1;
+                    }
+                    break;
                 }
             }
             if(b)
@@ -71,8 +71,8 @@ namespace AssLoader
             else
                 stext.Add(Value.Substring(start));
             this.splitedTexts = stext.ToArray();
-            this.Tags = new TagList(splitedTexts);
-            this.Texts = new TextList(splitedTexts);
+            this.Tags = new TagList(this.splitedTexts);
+            this.Texts = new TextList(this.splitedTexts);
         }
 
         internal static TextContent Parse(string value)
@@ -131,11 +131,11 @@ namespace AssLoader
         /// <returns>A new instance of <see cref="TextContent"/> that removed tags.</returns>
         public TextContent RemoveTags()
         {
-            if(splitedTexts.Length == 1)
+            if(this.splitedTexts.Length == 1)
                 return this;
             var builder = new StringBuilder(Value.Length);
-            for(var i = 0; i < splitedTexts.Length; i += 2)
-                builder.Append(splitedTexts[i]);
+            for(var i = 0; i < this.splitedTexts.Length; i += 2)
+                builder.Append(this.splitedTexts[i]);
             return builder.ToString();
         }
 
@@ -145,12 +145,12 @@ namespace AssLoader
         /// <returns>A new instance of <see cref="TextContent"/> that removed texts.</returns>
         public TextContent RemoveTexts()
         {
-            if(splitedTexts.Length == 1)
+            if(this.splitedTexts.Length == 1)
                 return Empty;
             var builder = new StringBuilder(Value.Length);
             builder.Append('{');
-            for(var i = 1; i < splitedTexts.Length; i += 2)
-                builder.Append(splitedTexts[i]);
+            for(var i = 1; i < this.splitedTexts.Length; i += 2)
+                builder.Append(this.splitedTexts[i]);
             builder.Append('}');
             return builder.ToString();
         }
@@ -169,16 +169,16 @@ namespace AssLoader
                 return this;
             index = index * 2;
             var builder = new StringBuilder(Value.Length + newText.Length);
-            for(int i = 0; i < splitedTexts.Length; i++)
+            for(var i = 0; i < this.splitedTexts.Length; i++)
             {
                 if(i == index)
                     builder.Append(newText);
                 else
-                    builder.Append(splitedTexts[i]);
-                if(++i >= splitedTexts.Length)
+                    builder.Append(this.splitedTexts[i]);
+                if(++i >= this.splitedTexts.Length)
                     break;
                 builder.Append('{');
-                builder.Append(splitedTexts[i]);
+                builder.Append(this.splitedTexts[i]);
                 builder.Append('}');
             }
             return builder.ToString();
@@ -199,16 +199,16 @@ namespace AssLoader
                 return this;
             index = index * 2 + 1;
             var builder = new StringBuilder(Value.Length + newTag.Length);
-            for(int i = 0; i < splitedTexts.Length; i++)
+            for(var i = 0; i < this.splitedTexts.Length; i++)
             {
-                builder.Append(splitedTexts[i]);
-                if(++i >= splitedTexts.Length)
+                builder.Append(this.splitedTexts[i]);
+                if(++i >= this.splitedTexts.Length)
                     break;
                 builder.Append('{');
                 if(i == index)
                     builder.Append(newTag);
                 else
-                    builder.Append(splitedTexts[i]);
+                    builder.Append(this.splitedTexts[i]);
                 builder.Append('}');
             }
             return builder.ToString();
@@ -219,7 +219,7 @@ namespace AssLoader
         /// </summary>
         /// <param name="value">The <see cref="TextContent"/> to convert.</param>
         /// <returns><see cref="Value"/> of <paramref name="value"/>.</returns>
-        public static implicit operator string (TextContent value) => value?.Value;
+        public static implicit operator string(TextContent value) => value?.Value;
 
         /// <summary>
         /// Convert a <see cref="string"/> to <see cref="TextContent"/>.

@@ -11,7 +11,7 @@
     <AssemblyName>ExtensionUniversalTest</AssemblyName>
     <DefaultLanguage>en-us</DefaultLanguage>
     <TargetPlatformIdentifier>UAP</TargetPlatformIdentifier>
-    <TargetPlatformVersion>10.0.10240.0</TargetPlatformVersion>
+    <TargetPlatformVersion>10.0.14393.0</TargetPlatformVersion>
     <TargetPlatformMinVersion>10.0.10240.0</TargetPlatformMinVersion>
     <MinimumVisualStudioVersion>14</MinimumVisualStudioVersion>
     <FileAlignment>512</FileAlignment>
@@ -137,7 +137,7 @@
       <Name>AssLoaderExtensionUniversal</Name>
     </ProjectReference>
     <ProjectReference Include="..\AssLoader\AssLoader.csproj">
-      <Project>{4e3f3026-100a-4349-a67d-e41f3ee1efed}</Project>
+      <Project>{4E3F3026-100A-4349-A67D-E41F3EE1EFED}</Project>
       <Name>AssLoader</Name>
     </ProjectReference>
   </ItemGroup>
