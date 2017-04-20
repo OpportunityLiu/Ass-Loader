@@ -20,14 +20,8 @@ namespace Test
 
         public TestContext TestContext
         {
-            get
-            {
-                return helper.Context;
-            }
-            set
-            {
-                helper = new TestHelper(value);
-            }
+            get => helper.Context;
+            set => helper = new TestHelper(value);
         }
 
         [TestMethod]
@@ -59,11 +53,11 @@ namespace Test
         public void LoadAndSave()
         {
             Subtitle<AssScriptInfo> t;
-            foreach(var item in helper.LoadTestFiles())
+            foreach(var item in this.helper.LoadTestFiles())
             {
                 using(var r = item.Value)
                     t = Subtitle.Parse<AssScriptInfo>(r);
-                using(var savefile = helper.SaveResult(item.Key))
+                using(var savefile = this.helper.SaveResult(item.Key))
                     t.Serialize(savefile);
             }
         }
@@ -71,7 +65,7 @@ namespace Test
         [TestMethod]
         public void LoadAndSaveParallel()
         {
-            helper.LoadTestFiles().AsParallel().Select(item =>
+            this.helper.LoadTestFiles().AsParallel().Select(item =>
             {
                 using(var r = item.Value)
                     return new
@@ -81,7 +75,7 @@ namespace Test
                     };
             }).ForAll(item =>
             {
-                using(var savefile = helper.SaveResult(item.Key))
+                using(var savefile = this.helper.SaveResult(item.Key))
                     item.Value.Serialize(savefile);
             });
         }
@@ -89,7 +83,7 @@ namespace Test
         [TestMethod]
         public void CommentAll()
         {
-            foreach(var file in helper.LoadTestFiles())
+            foreach(var file in this.helper.LoadTestFiles())
             {
                 var t = Subtitle.Parse<AssScriptInfo>(file.Value);
                 foreach(var item in t.EventCollection)
@@ -104,7 +98,7 @@ namespace Test
         [TestMethod]
         public void CommentAllParallel()
         {
-            helper.LoadTestFiles().AsParallel().Select(item =>
+            this.helper.LoadTestFiles().AsParallel().Select(item =>
             {
                 using(var r = item.Value)
                     return Subtitle.Parse<AssScriptInfo>(r);
@@ -121,7 +115,7 @@ namespace Test
         [TestMethod]
         public void DecommentAll()
         {
-            foreach(var file in helper.LoadTestFiles())
+            foreach(var file in this.helper.LoadTestFiles())
             {
                 var t = Subtitle.Parse<AssScriptInfo>(file.Value);
                 foreach(var item in t.EventCollection)
@@ -142,7 +136,7 @@ namespace Test
         [TestMethod]
         public void Clone()
         {
-            var sub = Subtitle.Parse<AssScriptInfo>(helper.TestFile);
+            var sub = Subtitle.Parse<AssScriptInfo>(this.helper.TestFile);
             foreach(var style in sub.StyleSet)
             {
                 var clone = style.Clone("Default");

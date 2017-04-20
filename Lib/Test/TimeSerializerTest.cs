@@ -17,11 +17,11 @@ namespace Test
                 var des = t.Deserialize(str);
                 Assert.AreEqual(time, des);
             };
-            for(int i = 0; i < 0xffff; i++)
+            for(var i = 0; i < 0xffff; i++)
                 test(TestHelper.RandomReader.ReadByte());
-            for(int i = 0; i < 0xffff; i++)
+            for(var i = 0; i < 0xffff; i++)
                 test(TestHelper.RandomReader.ReadUInt16());
-            for(int i = 0; i < 0xffff; i++)
+            for(var i = 0; i < 0xffff; i++)
                 test(TestHelper.RandomReader.ReadUInt32());
         }
     }

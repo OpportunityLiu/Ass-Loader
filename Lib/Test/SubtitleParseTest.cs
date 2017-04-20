@@ -17,20 +17,14 @@ namespace Test
 
         public TestContext TestContext
         {
-            get
-            {
-                return helper.Context;
-            }
-            set
-            {
-                helper = new TestHelper(value);
-            }
+            get => helper.Context;
+            set => helper = new TestHelper(value);
         }
 
         [TestMethod]
         public void Parse()
         {
-            foreach(var item in helper.LoadTestFiles())
+            foreach(var item in this.helper.LoadTestFiles())
             {
                 try
                 {
@@ -49,7 +43,7 @@ namespace Test
         [TestMethod]
         public void ParseExact()
         {
-            foreach(var item in helper.LoadTestFiles())
+            foreach(var item in this.helper.LoadTestFiles())
             {
                 try
                 {
@@ -69,7 +63,7 @@ namespace Test
         [TestMethod]
         public void ParseAsync()
         {
-            foreach(var item in helper.LoadTestFiles())
+            foreach(var item in this.helper.LoadTestFiles())
             {
                 using(item.Value)
                 {
@@ -81,7 +75,7 @@ namespace Test
         [TestMethod]
         public void ParseExactAsync()
         {
-            foreach(var item in helper.LoadTestFiles())
+            foreach(var item in this.helper.LoadTestFiles())
             {
                 try
                 {

@@ -17,14 +17,8 @@ namespace Test
 
         public TestContext TestContext
         {
-            get
-            {
-                return helper.Context;
-            }
-            set
-            {
-                helper = new TestHelper(value);
-            }
+            get => helper.Context;
+            set => helper = new TestHelper(value);
         }
 
         [TestMethod]

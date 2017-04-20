@@ -10,9 +10,9 @@ namespace Test
         [TestMethod]
         public void ParseRgba()
         {
-            for(int i = 0; i < 0xffff; i++)
+            for(var i = 0; i < 0xffff; i++)
             {
-                uint va = TestHelper.RandomReader.ReadUInt32();
+                var va = TestHelper.RandomReader.ReadUInt32();
                 var str = "&H" + Convert.ToString(va, 16).PadLeft(8, '0');
                 var c = Color.Parse(str);
                 Assert.AreEqual(str, c.ToString(), true);
@@ -22,7 +22,7 @@ namespace Test
         [TestMethod]
         public void ParseRgb()
         {
-            for(int i = 0; i < 0xffff; i++)
+            for(var i = 0; i < 0xffff; i++)
             {
                 var va = TestHelper.Random.Next(0x1000000);
                 var c = Color.Parse("&H" + Convert.ToString(va, 16).PadLeft(6, '0'));
@@ -34,7 +34,7 @@ namespace Test
         public void ChangeRgba()
         {
             Func<Color> raCo = () => Color.Parse("&H" + Convert.ToString(TestHelper.RandomReader.ReadUInt32(), 16).PadLeft(8, '0'));
-            for(int i = 0; i < 256; i++)
+            for(var i = 0; i < 256; i++)
             {
                 var va = (byte)i;
                 var c = raCo();
@@ -46,7 +46,7 @@ namespace Test
                 Assert.AreEqual(t, c.Transparency);
                 Assert.AreEqual(255, c.Transparency + c.Alpha);
             }
-            for(int i = 0; i < 256; i++)
+            for(var i = 0; i < 256; i++)
             {
                 var va = (byte)i;
                 var c = raCo();
@@ -58,7 +58,7 @@ namespace Test
                 Assert.AreEqual(t, c.Transparency);
                 Assert.AreEqual(255, c.Transparency + c.Alpha);
             }
-            for(int i = 0; i < 256; i++)
+            for(var i = 0; i < 256; i++)
             {
                 var va = (byte)i;
                 var c = raCo();
@@ -70,7 +70,7 @@ namespace Test
                 Assert.AreEqual(t, c.Transparency);
                 Assert.AreEqual(255, c.Transparency + c.Alpha);
             }
-            for(int i = 0; i < 256; i++)
+            for(var i = 0; i < 256; i++)
             {
                 var va = (byte)i;
                 var c = raCo();
@@ -82,7 +82,7 @@ namespace Test
                 Assert.AreEqual(va, c.Transparency);
                 Assert.AreEqual(255, c.Transparency + c.Alpha);
             }
-            for(int i = 0; i < 256; i++)
+            for(var i = 0; i < 256; i++)
             {
                 var va = (byte)i;
                 var c = raCo();
@@ -99,7 +99,7 @@ namespace Test
         [TestMethod]
         public void FromArgb()
         {
-            for(int i = 0; i < 0xFFFFF; i++)
+            for(var i = 0; i < 0xFFFFF; i++)
             {
                 var b = TestHelper.RandomReader.ReadBytes(4);
                 var c = Color.FromArgb(b[0], b[1], b[2], b[3]);

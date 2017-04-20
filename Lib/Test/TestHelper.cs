@@ -95,15 +95,7 @@ namespace Test
             return SaveResult("TestResult");
         }
 
-        private static Random random = new Random();
-
-        public static Random Random
-        {
-            get
-            {
-                return random;
-            }
-        }
+        public static Random Random { get; } = new Random();
 
         private static MemoryStream randomCache = new MemoryStream(65536);
 
@@ -127,7 +119,7 @@ namespace Test
         private static void refreshCache()
         {
             var buffer = new byte[65536];
-            random.NextBytes(buffer);
+            Random.NextBytes(buffer);
             randomCache.Position = 0;
             randomCache.Write(buffer, 0, 65536);
             randomCache.Position = 0;
@@ -137,14 +129,14 @@ namespace Test
 
         public void StartTimer()
         {
-            watch.Start();
+            this.watch.Start();
         }
 
         public void EndTimer()
         {
-            watch.Stop();
-            WriteResult("Run time: {0} ms.", watch.Elapsed.TotalMilliseconds);
-            watch.Reset();
+            this.watch.Stop();
+            WriteResult("Run time: {0} ms.", this.watch.Elapsed.TotalMilliseconds);
+            this.watch.Reset();
         }
     }
 }

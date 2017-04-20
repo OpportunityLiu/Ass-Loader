@@ -12,14 +12,8 @@ namespace Test
     {
         public TestContext TestContext
         {
-            get
-            {
-                return helper.Context;
-            }
-            set
-            {
-                helper = new TestHelper(value);
-            }
+            get => helper.Context;
+            set => helper = new TestHelper(value);
         }
 
         private TestHelper helper;
@@ -27,17 +21,17 @@ namespace Test
         [TestMethod]
         public void InitA()
         {
-            helper.StartTimer();
+            this.helper.StartTimer();
             TestHelper.Init();
-            helper.EndTimer();
+            this.helper.EndTimer();
         }
 
         [TestMethod]
         public void InitB()
         {
-            helper.StartTimer();
+            this.helper.StartTimer();
             TestHelper.Init();
-            helper.EndTimer();
+            this.helper.EndTimer();
         }
     }
 }
