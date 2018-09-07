@@ -1,19 +1,19 @@
-﻿using System;
+﻿using AssLoader;
+using AssLoader.Collections;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using AssLoader;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.Diagnostics;
-using AssLoader.Collections;
 
 namespace Test
 {
     internal class TestHelper
     {
-        private static readonly FileInfo[] testfiles = new DirectoryInfo("../../../TestFiles/").GetFiles();
+        private static readonly FileInfo[] testfiles = new DirectoryInfo("../../../../TestFiles/").GetFiles();
 
         public string TestFile
         {
@@ -25,8 +25,8 @@ namespace Test
         {
             get
             {
-                foreach(var item in testfiles)
-                    using(var r = item.OpenText())
+                foreach (var item in testfiles)
+                    using (var r = item.OpenText())
                         yield return r.ReadToEnd();
             }
         }
@@ -34,7 +34,7 @@ namespace Test
         public TestHelper(TestContext context)
         {
             this.Context = context;
-            using(var r = testfiles[0].OpenText())
+            using (var r = testfiles[0].OpenText())
             {
                 this.TestFile = r.ReadToEnd();
             }
@@ -42,7 +42,7 @@ namespace Test
 
         public IEnumerable<KeyValuePair<string, TextReader>> LoadTestFiles()
         {
-            foreach(var item in testfiles)
+            foreach (var item in testfiles)
                 yield return new KeyValuePair<string, TextReader>(item.Name, item.OpenText());
         }
 
@@ -71,22 +71,21 @@ namespace Test
 
         public async Task SaveResultAsync(string fileName, string result)
         {
-            using(var writer = SaveResult(fileName))
+            using (var writer = SaveResult(fileName))
                 await writer.WriteAsync(result);
         }
 
         public TextWriter SaveResult(string fileName)
         {
-            var directoryPath = Path.Combine(Context.TestDir, Context.FullyQualifiedTestClassName + "." + Context.TestName);
+            var directoryPath = Path.Combine("../../../../TestResults/", Context.FullyQualifiedTestClassName + "." + Context.TestName);
             var filePath = Path.Combine(directoryPath, fileName);
-            Context.AddResultFile(filePath);
             Directory.CreateDirectory(directoryPath);
             return File.CreateText(filePath);
         }
 
         public async Task SaveResultAsync(string result)
         {
-            using(var writer = SaveResult())
+            using (var writer = SaveResult())
                 await writer.WriteAsync(result);
         }
 
@@ -110,7 +109,7 @@ namespace Test
         {
             get
             {
-                if(randomCache.Position > 65500)
+                if (randomCache.Position > 65500)
                     refreshCache();
                 return randomReader;
             }
