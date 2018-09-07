@@ -13,7 +13,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\AssLoader\AssLoader.csproj" />
+    <ProjectReference Include="..\Opportunity.AssLoader\Opportunity.AssLoader.csproj" />
   </ItemGroup>
 
 </Project>

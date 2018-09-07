@@ -2,7 +2,7 @@
 using Opportunity.AssLoader.Serializer;
 using System;
 
-namespace Test
+namespace Opportunity.AssLoader.Test
 {
     [TestClass]
     public class TimeSerializerTest

@@ -2,7 +2,7 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Opportunity.AssLoader;
 
-namespace Test
+namespace Opportunity.AssLoader.Test
 {
     [TestClass]
     public class ColorTest

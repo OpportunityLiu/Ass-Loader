@@ -5,7 +5,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Opportunity.AssLoader;
 using System.Linq;
 
-namespace Test
+namespace Opportunity.AssLoader.Test
 {
     [TestClass]
     public class InitTest

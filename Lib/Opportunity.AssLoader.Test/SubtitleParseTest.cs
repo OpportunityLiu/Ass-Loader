@@ -3,7 +3,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using static Opportunity.AssLoader.Subtitle;
 using Opportunity.AssLoader.Collections;
 
-namespace Test
+namespace Opportunity.AssLoader.Test
 {
     [TestClass]
     public class SubtitleParseTest

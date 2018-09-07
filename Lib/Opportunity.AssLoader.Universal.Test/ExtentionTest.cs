@@ -6,7 +6,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 
-namespace UWPTest
+namespace Opportunity.AssLoader.Universal.Test
 {
     [TestClass]
     public class ExtentionTest

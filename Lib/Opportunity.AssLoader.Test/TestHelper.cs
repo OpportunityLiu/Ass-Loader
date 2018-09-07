@@ -9,7 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Test
+namespace Opportunity.AssLoader.Test
 {
     internal class TestHelper
     {

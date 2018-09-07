@@ -5,4 +5,8 @@
     <LangVersion>latest</LangVersion>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Opportunity.AssLoader.Test\Opportunity.AssLoader.Test.csproj" />
+  </ItemGroup>
+
 </Project>

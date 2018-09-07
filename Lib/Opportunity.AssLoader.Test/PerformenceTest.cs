@@ -6,7 +6,7 @@ using Opportunity.AssLoader;
 using System.IO;
 using Opportunity.AssLoader.Collections;
 
-namespace Test
+namespace Opportunity.AssLoader.Test
 {
     [TestClass]
     public class PerformenceTest

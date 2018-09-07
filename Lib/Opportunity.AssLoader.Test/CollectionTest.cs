@@ -3,7 +3,7 @@ using Opportunity.AssLoader;
 using Opportunity.AssLoader.Collections;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace Test
+namespace Opportunity.AssLoader.Test
 {
     [TestClass]
     public class CollectionTest

@@ -1,17 +1,17 @@
-﻿using System;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Opportunity.AssLoader.Test;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
-using Test;
-using System.Reflection;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace PerformanceAnalyzeHelper
 {
-    class Program
+    internal class Program
     {
-        static void Main(string[] args)
+        private static void Main(string[] args)
         {
             //var f = System.IO.File.OpenText(@"C:\Users\Opportunity\Desktop\Upotte[02].ass");
             //var t = AssLoader.Subtitle.Parse<AssLoader.AssScriptInfo>(f);
@@ -24,47 +24,47 @@ namespace PerformanceAnalyzeHelper
             //            where m.GetCustomAttribute(typeof(TestMethodAttribute)) != null
             //            select m.Invoke(testc, null)).ToArray();
             var c = new SubtitleParseTest() { TestContext = null };
-            for(var i = 0; i < 0xff; i++)
+            for (var i = 0; i < 0xff; i++)
             {
                 c.Parse();
                 c.ParseExact();
             }
         }
 
-        static void Read(int times)
+        private static void Read(int times)
         {
             var count = 0;
             var testc = new PerformenceTest()
             {
                 TestContext = null
             };
-        Repeat:
+            Repeat:
             try
             {
                 testc.Read();
             }
-            catch(Exception)
+            catch (Exception)
             {
-                if(++count < times)
+                if (++count < times)
                     goto Repeat;
             }
         }
 
-        static void Write(int times)
+        private static void Write(int times)
         {
             var count = 0;
             var testc = new PerformenceTest()
             {
                 TestContext = null
             };
-        Repeat:
+            Repeat:
             try
             {
                 testc.Write();
             }
-            catch(Exception)
+            catch (Exception)
             {
-                if(++count < times)
+                if (++count < times)
                     goto Repeat;
             }
         }

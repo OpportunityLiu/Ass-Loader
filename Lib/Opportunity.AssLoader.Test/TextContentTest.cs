@@ -3,7 +3,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Linq;
 using Opportunity.AssLoader;
 
-namespace Test
+namespace Opportunity.AssLoader.Test
 {
     [TestClass]
     public class TextContentTest

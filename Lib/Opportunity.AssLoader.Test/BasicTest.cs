@@ -6,7 +6,7 @@ using System.Linq;
 using System.Collections.Generic;
 using Opportunity.AssLoader.Collections;
 
-namespace Test
+namespace Opportunity.AssLoader.Test
 {
     [TestClass]
     public class BasicTest

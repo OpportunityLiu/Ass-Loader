@@ -7,8 +7,8 @@
     <ProjectGuid>{B9E78BAD-E3AA-4BF7-9CCC-E73AC7E3F767}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>AssLoader</RootNamespace>
-    <AssemblyName>AssLoaderExtensionUniversal</AssemblyName>
+    <RootNamespace>Opportunity.AssLoader</RootNamespace>
+    <AssemblyName>Opportunity.AssLoader.Universal</AssemblyName>
     <DefaultLanguage>zh-CN</DefaultLanguage>
     <TargetPlatformIdentifier>UAP</TargetPlatformIdentifier>
     <TargetPlatformVersion>10.0.17134.0</TargetPlatformVersion>
@@ -16,10 +16,6 @@
     <MinimumVisualStudioVersion>14</MinimumVisualStudioVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{A5A43C5B-DE2A-4C0C-9213-0A381AF9435A};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
-    <SccProjectName>SAK</SccProjectName>
-    <SccLocalPath>SAK</SccLocalPath>
-    <SccAuxPath>SAK</SccAuxPath>
-    <SccProvider>SAK</SccProvider>
     <RuntimeIdentifiers>win10-arm;win10-arm-aot;win10-x86;win10-x86-aot;win10-x64;win10-x64-aot</RuntimeIdentifiers>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -71,7 +67,6 @@
     <UseVSHostingProcess>false</UseVSHostingProcess>
     <ErrorReport>prompt</ErrorReport>
     <Prefer32Bit>true</Prefer32Bit>
-    <DocumentationFile>bin\ARM\Release\AssLoaderExtensionUniversal.XML</DocumentationFile>
     <GenerateLibraryLayout>true</GenerateLibraryLayout>
     <RunCodeAnalysis>true</RunCodeAnalysis>
   </PropertyGroup>
@@ -99,7 +94,6 @@
     <UseVSHostingProcess>false</UseVSHostingProcess>
     <ErrorReport>prompt</ErrorReport>
     <Prefer32Bit>true</Prefer32Bit>
-    <DocumentationFile>bin\x64\Release\AssLoaderExtensionUniversal.XML</DocumentationFile>
     <GenerateLibraryLayout>true</GenerateLibraryLayout>
     <RunCodeAnalysis>true</RunCodeAnalysis>
   </PropertyGroup>
@@ -127,7 +121,6 @@
     <UseVSHostingProcess>false</UseVSHostingProcess>
     <ErrorReport>prompt</ErrorReport>
     <Prefer32Bit>true</Prefer32Bit>
-    <DocumentationFile>bin\x86\Release\AssLoaderExtensionUniversal.XML</DocumentationFile>
     <GenerateLibraryLayout>true</GenerateLibraryLayout>
     <RunCodeAnalysis>true</RunCodeAnalysis>
   </PropertyGroup>
@@ -143,6 +136,12 @@
     <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform">
       <Version>6.1.7</Version>
     </PackageReference>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Opportunity.AssLoader\Opportunity.AssLoader.csproj">
+      <Project>{06d590de-e62a-439e-b583-1d6ec5dca9c1}</Project>
+      <Name>Opportunity.AssLoader</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
