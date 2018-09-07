@@ -7,7 +7,7 @@ before_build:
 build:
   project: Lib\AssLoader.sln
 artifacts:
-- path: Lib/AssLoader/bin/Release/*.nupkg
+- path: Lib/Opportunity.AssLoader/bin/Release/*.nupkg
   name: nupkg
 deploy:
 - provider: NuGet
