@@ -1,15 +1,15 @@
-﻿using System;
+﻿using Opportunity.AssLoader.Serializer;
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Reflection;
-using AssLoader.Serializer;
 using System.ComponentModel;
-using System.Threading;
+using System.Linq;
+using System.Reflection;
 using System.Runtime.CompilerServices;
+using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
 
-namespace AssLoader
+namespace Opportunity.AssLoader
 {
     /// <summary>
     /// Entry of ass file.
@@ -22,23 +22,23 @@ namespace AssLoader
         protected Entry()
         {
             var type = this.GetType();
-            if(!fieldInfoCache.TryGetValue(type, out this.fieldInfo))
+            if (!fieldInfoCache.TryGetValue(type, out this.fieldInfo))
             {
                 this.fieldInfo = new Dictionary<string, FieldSerializeHelper>(StringComparer.OrdinalIgnoreCase);
                 do
                 {
-                    foreach(var fInfo in type.GetRuntimeFields())
+                    foreach (var fInfo in type.GetRuntimeFields())
                     {
                         var att = fInfo.GetCustomAttribute<EntryFieldAttribute>();
-                        if(att == null)
+                        if (att == null)
                             continue;
                         var ser = fInfo.GetCustomAttribute<SerializeAttribute>();
                         var helper = new FieldSerializeHelper(fInfo, att, ser);
                         this.fieldInfo.Add(att.Name, helper);
-                        if(!string.IsNullOrEmpty(att.Alias))
+                        if (!string.IsNullOrEmpty(att.Alias))
                             this.fieldInfo.Add(att.Alias, helper);
                     }
-                } while((type = type.GetTypeInfo().BaseType) != typeof(Entry));
+                } while ((type = type.GetTypeInfo().BaseType) != typeof(Entry));
                 fieldInfoCache.Add(this.GetType(), this.fieldInfo);
             }
         }
@@ -63,7 +63,7 @@ namespace AssLoader
         /// <exception cref="ArgumentNullException"><paramref name="format"/> is null.</exception>
         public string Serialize(EntryHeader format)
         {
-            if(format == null)
+            if (format == null)
                 throw new ArgumentNullException(nameof(format));
             var r = new EntryData(format.Select(key => this.fieldInfo[key].Serialize(this)).ToArray());
             return string.Format(FormatHelper.DefaultFormat, "{0}: {1}", EntryName, r.ToString());
@@ -78,14 +78,14 @@ namespace AssLoader
         /// <exception cref="FormatException">Deserialize failed for some fields.</exception>
         protected void Parse(string fields, EntryHeader format)
         {
-            if(format == null)
+            if (format == null)
                 throw new ArgumentNullException(nameof(format));
-            if(string.IsNullOrEmpty(fields))
+            if (string.IsNullOrEmpty(fields))
                 throw new ArgumentNullException(nameof(fields));
             var data = new EntryData(fields, format.Count);
-            for(var i = 0; i < format.Count; i++)
+            for (var i = 0; i < format.Count; i++)
             {
-                if(!this.fieldInfo.TryGetValue(format[i], out var target))
+                if (!this.fieldInfo.TryGetValue(format[i], out var target))
                     continue;
                 target.Deserialize(this, data[i]);
             }
@@ -103,12 +103,12 @@ namespace AssLoader
         /// </exception>
         protected void ParseExact(string fields, EntryHeader format)
         {
-            if(format == null)
+            if (format == null)
                 throw new ArgumentNullException(nameof(format));
-            if(string.IsNullOrEmpty(fields))
+            if (string.IsNullOrEmpty(fields))
                 throw new ArgumentNullException(nameof(fields));
             var data = new EntryData(fields, format.Count);
-            for(var i = 0; i < format.Count; i++)
+            for (var i = 0; i < format.Count; i++)
                 this.fieldInfo[format[i]].DeserializeExact(this, data[i]);
         }
 
@@ -120,7 +120,7 @@ namespace AssLoader
         protected T Clone<T>() where T : Entry, new()
         {
             var re = new T();
-            foreach(var item in this.fieldInfo.Values)
+            foreach (var item in this.fieldInfo.Values)
                 item.SetValue(re, item.GetValue(this));
             return re;
         }
@@ -132,7 +132,7 @@ namespace AssLoader
         protected Entry Clone()
         {
             var re = (Entry)Activator.CreateInstance(this.GetType());
-            foreach(var item in this.fieldInfo.Values)
+            foreach (var item in this.fieldInfo.Values)
                 item.SetValue(re, item.GetValue(this));
             return re;
         }
@@ -145,10 +145,10 @@ namespace AssLoader
         /// <returns>A copy of this <typeparamref name="T"/>.</returns>
         protected T Clone<T>(Func<T> factory) where T : Entry
         {
-            if(factory == null)
+            if (factory == null)
                 throw new ArgumentNullException(nameof(factory));
             var re = factory();
-            foreach(var item in this.fieldInfo.Values)
+            foreach (var item in this.fieldInfo.Values)
                 item.SetValue(re, item.GetValue(this));
             return re;
         }
@@ -160,10 +160,10 @@ namespace AssLoader
         /// <returns>A copy of this <see cref="Entry"/>.</returns>
         protected Entry Clone(Func<Entry> factory)
         {
-            if(factory == null)
+            if (factory == null)
                 throw new ArgumentNullException(nameof(factory));
             var re = factory();
-            foreach(var item in this.fieldInfo.Values)
+            foreach (var item in this.fieldInfo.Values)
                 item.SetValue(re, item.GetValue(this));
             return re;
         }
@@ -197,7 +197,7 @@ namespace AssLoader
         /// <param name="value">The value to set.</param>
         protected void Set<T>(ref T field, T value, [CallerMemberName]string propertyName = "")
         {
-            if(Equals(field, value))
+            if (Equals(field, value))
                 return;
             field = value;
             RaisePropertyChanged(propertyName);

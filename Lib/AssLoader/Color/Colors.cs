@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace AssLoader
+namespace Opportunity.AssLoader
 {
     internal enum KnownColor : uint
     {

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AssLoader
+namespace Opportunity.AssLoader
 {
     /// <summary>
     /// Presents a certain color with red, green, blue and transparency channel.
@@ -152,14 +152,14 @@ namespace AssLoader
         /// <exception cref="FormatException"><paramref name="value"/> is not a valid color string.</exception>
         public static Color Parse(string value)
         {
-            if(string.IsNullOrEmpty(value))
+            if (string.IsNullOrEmpty(value))
                 throw new ArgumentNullException(nameof(value));
             try
             {
-                if(value.StartsWith("&H", StringComparison.OrdinalIgnoreCase))
+                if (value.StartsWith("&H", StringComparison.OrdinalIgnoreCase))
                     return FromUInt32(Convert.ToUInt32(value.Substring(2), 16));
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 throw new FormatException($"\"{value}\" is not a valid color string.", ex);
             }
@@ -218,7 +218,7 @@ namespace AssLoader
         /// <returns>True if the two <see cref="Color"/> are equal.</returns>
         public override bool Equals(object obj)
         {
-            if(obj is Color c)
+            if (obj is Color c)
                 return Equals(c);
             return false;
         }

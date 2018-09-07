@@ -1,4 +1,4 @@
-﻿using AssLoader.Collections;
+﻿using Opportunity.AssLoader.Collections;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AssLoader
+namespace Opportunity.AssLoader
 {
     /// <summary>
     /// Infomation of field of <see cref="ScriptInfoCollection"/>.

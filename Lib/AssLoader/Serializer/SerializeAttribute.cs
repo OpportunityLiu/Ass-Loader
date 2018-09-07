@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AssLoader.Serializer
+namespace Opportunity.AssLoader.Serializer
 {
     /// <summary>
     /// Provides custom methods to serialize and deserialize fields of ass file.

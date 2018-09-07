@@ -1,10 +1,10 @@
 ﻿using System;
 using System.IO;
-using AssLoader;
+using Opportunity.AssLoader;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Linq;
 using System.Collections.Generic;
-using AssLoader.Collections;
+using Opportunity.AssLoader.Collections;
 
 namespace Test
 {

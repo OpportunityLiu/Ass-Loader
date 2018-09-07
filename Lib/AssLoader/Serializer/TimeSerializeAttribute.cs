@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Globalization;
 
-namespace AssLoader.Serializer
+namespace Opportunity.AssLoader.Serializer
 {
     /// <summary>
     /// Custom serializer for <see cref="TimeSpan"/>.

@@ -7,7 +7,7 @@ using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
 
-namespace AssLoader.Collections
+namespace Opportunity.AssLoader.Collections
 {
     /// <summary>
     /// Observable collection of <see cref="SubEvent"/>.

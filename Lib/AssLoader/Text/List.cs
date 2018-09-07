@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Collections.ObjectModel;
 
-namespace AssLoader
+namespace Opportunity.AssLoader
 {
     public sealed partial class TextContent : IEquatable<TextContent>
     {

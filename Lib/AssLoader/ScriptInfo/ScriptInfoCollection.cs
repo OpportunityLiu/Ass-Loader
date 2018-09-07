@@ -6,12 +6,12 @@ using System.Threading.Tasks;
 using System.Reflection;
 using System.IO;
 using System.Collections.ObjectModel;
-using AssLoader.Serializer;
+using Opportunity.AssLoader.Serializer;
 using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
-namespace AssLoader.Collections
+namespace Opportunity.AssLoader.Collections
 {
     /// <summary>
     /// Container of the "script info" section.

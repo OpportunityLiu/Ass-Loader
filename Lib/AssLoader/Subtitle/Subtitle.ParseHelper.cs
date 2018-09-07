@@ -1,9 +1,9 @@
-﻿using AssLoader.Collections;
+﻿using Opportunity.AssLoader.Collections;
 using System;
 using System.IO;
 using System.Threading.Tasks;
 
-namespace AssLoader
+namespace Opportunity.AssLoader
 {
     public static partial class Subtitle
     {

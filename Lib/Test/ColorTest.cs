@@ -1,6 +1,6 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using AssLoader;
+using Opportunity.AssLoader;
 
 namespace Test
 {

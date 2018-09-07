@@ -5,7 +5,7 @@ using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Collections.ObjectModel;
 
-namespace AssLoader.Collections
+namespace Opportunity.AssLoader.Collections
 {
     /// <summary>
     /// Observable collection of <see cref="Style"/>, will delete repeted <see cref="Style"/>s autometically.

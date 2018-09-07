@@ -4,9 +4,9 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
-using AssLoader.Serializer;
+using Opportunity.AssLoader.Serializer;
 
-namespace AssLoader
+namespace Opportunity.AssLoader
 {
     internal sealed class ScriptInfoSerializeHelper
     {

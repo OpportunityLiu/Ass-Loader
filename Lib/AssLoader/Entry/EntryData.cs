@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AssLoader
+namespace Opportunity.AssLoader
 {
     internal class EntryData : IReadOnlyList<string>
     {
@@ -14,14 +14,14 @@ namespace AssLoader
         internal EntryData(string fields, int count)
         {
             this.fields = fields.Split(splitChar, count);
-            for(var i = 0; i < this.fields.Length; i++)
+            for (var i = 0; i < this.fields.Length; i++)
                 this.fields[i] = this.fields[i].Trim();
         }
 
         internal EntryData(params string[] fields)
         {
             this.fields = fields;
-            for(var i = 0; i < this.fields.Length; i++)
+            for (var i = 0; i < this.fields.Length; i++)
                 FormatHelper.SingleLineStringValueValid(ref this.fields[i]);
         }
 

@@ -1,4 +1,4 @@
-﻿using AssLoader.Collections;
+﻿using Opportunity.AssLoader.Collections;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AssLoader
+namespace Opportunity.AssLoader
 {
     /// <summary>
     /// The static class contains methods to get instances of <see cref="Subtitle{TScriptInfo}"/> from ass files.

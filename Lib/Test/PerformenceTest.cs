@@ -2,9 +2,9 @@
 using System.Text;
 using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using AssLoader;
+using Opportunity.AssLoader;
 using System.IO;
-using AssLoader.Collections;
+using Opportunity.AssLoader.Collections;
 
 namespace Test
 {

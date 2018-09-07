@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Linq;
-using AssLoader.Serializer;
+using Opportunity.AssLoader.Serializer;
 
-namespace AssLoader.Collections
+namespace Opportunity.AssLoader.Collections
 {
     /// <summary>
     /// Container of the "script info" section which provides access to common properties of script info.

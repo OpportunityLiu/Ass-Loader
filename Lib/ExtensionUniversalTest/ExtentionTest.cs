@@ -1,10 +1,10 @@
-﻿using System;
+﻿using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
+using Opportunity.AssLoader;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
 using System.Reflection;
-using AssLoader;
+using System.Text;
 
 namespace UWPTest
 {
@@ -16,7 +16,7 @@ namespace UWPTest
         {
             var ra = new Random();
             Func<Color> raCo = () => Color.Parse("&H" + Convert.ToString((uint)ra.Next(int.MinValue, int.MaxValue), 16).PadLeft(8, '0'));
-            for(var i = 0; i < 65536; i++)
+            for (var i = 0; i < 65536; i++)
             {
                 var ca = raCo();
                 var cu = ca.ToUIColor();

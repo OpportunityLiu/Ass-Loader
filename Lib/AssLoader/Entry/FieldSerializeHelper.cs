@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Reflection;
-using AssLoader.Serializer;
+using Opportunity.AssLoader.Serializer;
 
-namespace AssLoader
+namespace Opportunity.AssLoader
 {
     internal sealed class FieldSerializeHelper
     {

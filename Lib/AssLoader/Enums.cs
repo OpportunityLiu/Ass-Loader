@@ -1,4 +1,4 @@
-﻿namespace AssLoader
+﻿namespace Opportunity.AssLoader
 {
     /// <summary>
     /// Describes how subtitles are moved to prevent onscreen collisions.

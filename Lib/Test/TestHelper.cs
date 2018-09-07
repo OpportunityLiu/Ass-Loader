@@ -1,6 +1,6 @@
-﻿using AssLoader;
-using AssLoader.Collections;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Opportunity.AssLoader;
+using Opportunity.AssLoader.Collections;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;

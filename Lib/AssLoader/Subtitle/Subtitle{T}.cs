@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.IO;
 using System.Reflection;
-using AssLoader.Collections;
+using Opportunity.AssLoader.Collections;
 
-namespace AssLoader
+namespace Opportunity.AssLoader
 {
     /// <summary>
     /// Subtitle file.

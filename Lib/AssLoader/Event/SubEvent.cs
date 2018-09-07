@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using AssLoader.Serializer;
+using Opportunity.AssLoader.Serializer;
 
-namespace AssLoader
+namespace Opportunity.AssLoader
 {
     /// <summary>
     /// Entry of "events" section.

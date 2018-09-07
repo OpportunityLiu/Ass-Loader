@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AssLoader.Serializer
+namespace Opportunity.AssLoader.Serializer
 {
     /// <summary>
     /// Custom serializer for <see cref="bool"/>.

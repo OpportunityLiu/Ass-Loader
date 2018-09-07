@@ -1,6 +1,6 @@
 ﻿using System;
-using AssLoader;
-using AssLoader.Collections;
+using Opportunity.AssLoader;
+using Opportunity.AssLoader.Collections;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Test

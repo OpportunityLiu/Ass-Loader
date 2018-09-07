@@ -4,10 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Windows.UI.Xaml.Data;
-using UIColor = Windows.UI.Color;
 using Windows.UI.Xaml.Media;
+using UIColor = Windows.UI.Color;
 
-namespace AssLoader.Extension
+namespace Opportunity.AssLoader.Extension
 {
     /// <summary>
     /// A converter between <see cref="UIColor"/> and <see cref="Color"/>.

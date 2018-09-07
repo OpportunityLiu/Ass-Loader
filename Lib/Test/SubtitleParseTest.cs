@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using static AssLoader.Subtitle;
-using AssLoader.Collections;
+using static Opportunity.AssLoader.Subtitle;
+using Opportunity.AssLoader.Collections;
 
 namespace Test
 {

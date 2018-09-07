@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AssLoader
+namespace Opportunity.AssLoader
 {    
     /// <summary>
      /// Infomation of field of <see cref="Entry"/>.

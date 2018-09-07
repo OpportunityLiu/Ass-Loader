@@ -2,7 +2,7 @@
 using System.Text;
 using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using AssLoader;
+using Opportunity.AssLoader;
 using System.Linq;
 
 namespace Test

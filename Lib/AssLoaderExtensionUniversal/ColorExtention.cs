@@ -1,7 +1,7 @@
 ﻿using System;
 using UIColor = Windows.UI.Color;
 
-namespace AssLoader
+namespace Opportunity.AssLoader
 {
     /// <summary>
     /// Converters between <see cref="UIColor"/> and <see cref="Color"/>.
