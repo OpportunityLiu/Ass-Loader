@@ -6,14 +6,16 @@
     <Authors>Opportunity</Authors>
     <Company>Opportunity</Company>
     <Description>A library to load, edit and create advanced SubStation file.</Description>
-    <PackageLicenseUrl>https://github.com/OpportunityLiu/Helpers/blob/master/LICENSE</PackageLicenseUrl>
-    <PackageProjectUrl>https://github.com/OpportunityLiu/Helpers</PackageProjectUrl>
+    <PackageLicenseUrl>https://github.com/OpportunityLiu/Ass-Loader/blob/master/LICENSE</PackageLicenseUrl>
+    <PackageProjectUrl>https://github.com/OpportunityLiu/Ass-Loader</PackageProjectUrl>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
     <Version>0.1.3</Version>
     <RootNamespace>Opportunity</RootNamespace>
-    <PackageTags>helpers</PackageTags>
+    <PackageTags>advanced-substation;substation;subtitle;subtitles-parsing;ass</PackageTags>
     <LangVersion>latest</LangVersion>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <RepositoryUrl>https://github.com/OpportunityLiu/Ass-Loader.git</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
   </PropertyGroup>
 
 </Project>
