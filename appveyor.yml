@@ -6,9 +6,11 @@ before_build:
 - cmd: nuget restore Lib\AssLoader.sln
 build:
   project: Lib\AssLoader.sln
-# deploy:
-# - provider: NuGet
-#   api_key:
-#     secure: cbXUaBDDi9qM2CTeRS/V71WRe56ZsjZGLBPBOlzsX0e1oSRV9L5R/qLYMQNaun9N
-#   skip_symbols: false
+artifacts:
+- path: Lib/AssLoader/bin/Release/*.nupkg
+  name: nupkg
+deploy:
+- provider: NuGet
+  api_key:
+    secure: cbXUaBDDi9qM2CTeRS/V71WRe56ZsjZGLBPBOlzsX0e1oSRV9L5R/qLYMQNaun9N
 
