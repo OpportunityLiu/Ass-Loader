@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Collections.ObjectModel;
 
 namespace Opportunity.AssLoader
 {
@@ -26,15 +26,12 @@ namespace Opportunity.AssLoader
         /// <param name="value">The content of text.</param>
         public TextContent(string value)
         {
-            if(string.IsNullOrEmpty(value))
+            if (string.IsNullOrEmpty(value))
                 this.Value = "";
             else
             {
                 var s = value.Trim().Split(sep, StringSplitOptions.None);
-                if(s.Length == 1)
-                    this.Value = s[0];
-                else
-                    this.Value = string.Join(@"\N", s);
+                this.Value = s.Length == 1 ? s[0] : string.Join(@"\N", s);
             }
             this.init();
         }
@@ -44,12 +41,12 @@ namespace Opportunity.AssLoader
             var stext = new List<string>();
             var start = 0;
             var b = false;
-            for(var i = 0; i < this.Value.Length; i++)
+            for (var i = 0; i < this.Value.Length; i++)
             {
-                switch(this.Value[i])
+                switch (this.Value[i])
                 {
                 case '{':
-                    if(!b)
+                    if (!b)
                     {
                         b = true;
                         stext.Add(this.Value.Substring(start, i - start));
@@ -57,7 +54,7 @@ namespace Opportunity.AssLoader
                     }
                     break;
                 case '}':
-                    if(b)
+                    if (b)
                     {
                         b = false;
                         stext.Add(this.Value.Substring(start, i - start));
@@ -66,7 +63,7 @@ namespace Opportunity.AssLoader
                     break;
                 }
             }
-            if(b)
+            if (b)
                 stext[stext.Count - 1] += this.Value.Substring(start - 1);
             else
                 stext.Add(this.Value.Substring(start));
@@ -77,7 +74,7 @@ namespace Opportunity.AssLoader
 
         internal static TextContent Parse(string value)
         {
-            if(string.IsNullOrEmpty(value))
+            if (string.IsNullOrEmpty(value))
                 return Empty;
             var re = new TextContent()
             {
@@ -131,10 +128,10 @@ namespace Opportunity.AssLoader
         /// <returns>A new instance of <see cref="TextContent"/> that removed tags.</returns>
         public TextContent RemoveTags()
         {
-            if(this.splitedTexts.Length == 1)
+            if (this.splitedTexts.Length == 1)
                 return this;
             var builder = new StringBuilder(this.Value.Length);
-            for(var i = 0; i < this.splitedTexts.Length; i += 2)
+            for (var i = 0; i < this.splitedTexts.Length; i += 2)
                 builder.Append(this.splitedTexts[i]);
             return builder.ToString();
         }
@@ -145,11 +142,11 @@ namespace Opportunity.AssLoader
         /// <returns>A new instance of <see cref="TextContent"/> that removed texts.</returns>
         public TextContent RemoveTexts()
         {
-            if(this.splitedTexts.Length == 1)
+            if (this.splitedTexts.Length == 1)
                 return Empty;
             var builder = new StringBuilder(this.Value.Length);
             builder.Append('{');
-            for(var i = 1; i < this.splitedTexts.Length; i += 2)
+            for (var i = 1; i < this.splitedTexts.Length; i += 2)
                 builder.Append(this.splitedTexts[i]);
             builder.Append('}');
             return builder.ToString();
@@ -165,17 +162,17 @@ namespace Opportunity.AssLoader
         public TextContent ReplaceText(int index, string newText)
         {
             newText = newText ?? "";
-            if(newText == this.Texts[index])
+            if (newText == this.Texts[index])
                 return this;
             index = index * 2;
             var builder = new StringBuilder(this.Value.Length + newText.Length);
-            for(var i = 0; i < this.splitedTexts.Length; i++)
+            for (var i = 0; i < this.splitedTexts.Length; i++)
             {
-                if(i == index)
+                if (i == index)
                     builder.Append(newText);
                 else
                     builder.Append(this.splitedTexts[i]);
-                if(++i >= this.splitedTexts.Length)
+                if (++i >= this.splitedTexts.Length)
                     break;
                 builder.Append('{');
                 builder.Append(this.splitedTexts[i]);
@@ -195,17 +192,17 @@ namespace Opportunity.AssLoader
         public TextContent ReplaceTag(int index, string newTag)
         {
             newTag = newTag ?? "";
-            if(newTag == this.Tags[index])
+            if (newTag == this.Tags[index])
                 return this;
             index = index * 2 + 1;
             var builder = new StringBuilder(this.Value.Length + newTag.Length);
-            for(var i = 0; i < this.splitedTexts.Length; i++)
+            for (var i = 0; i < this.splitedTexts.Length; i++)
             {
                 builder.Append(this.splitedTexts[i]);
-                if(++i >= this.splitedTexts.Length)
+                if (++i >= this.splitedTexts.Length)
                     break;
                 builder.Append('{');
-                if(i == index)
+                if (i == index)
                     builder.Append(newTag);
                 else
                     builder.Append(this.splitedTexts[i]);

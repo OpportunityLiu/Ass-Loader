@@ -42,9 +42,10 @@ namespace SubtitleEditor
             if (System.Diagnostics.Debugger.IsAttached)
             {
                 this.DebugSettings.EnableFrameRateCounter = true;
+                this.DebugSettings.IsBindingTracingEnabled = true;
                 //this.DebugSettings.EnableRedrawRegions = true;
                 //this.DebugSettings.IsOverdrawHeatMapEnabled = true;
-                //this.DebugSettings.IsTextPerformanceVisualizationEnabled = true;
+                this.DebugSettings.IsTextPerformanceVisualizationEnabled = true;
             }
 #endif
             var view = ApplicationView.GetForCurrentView();

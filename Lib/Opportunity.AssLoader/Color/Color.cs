@@ -11,13 +11,7 @@ namespace Opportunity.AssLoader
     /// </summary>
     public struct Color : IEquatable<Color>
     {
-        internal static Color FromUInt32(uint color)
-        {
-            return new Color
-            {
-                data = color
-            };
-        }
+        internal static Color FromUInt32(uint color) => new Color { data = color };
 
         /// <summary>
         /// Red channel of the <see cref="Color"/>.
@@ -166,19 +160,12 @@ namespace Opportunity.AssLoader
             throw new FormatException($"\"{value}\" is not a valid color string.");
         }
 
-        #region IEquatable<Color> 成员
-
         /// <summary>
         /// Returns whatever two <see cref="Color"/> are equal.
         /// </summary>
         /// <param name="other">The <see cref="Color"/> to compare with this <see cref="Color"/>.</param>
         /// <returns>True if the two <see cref="Color"/> are equal.</returns>
-        public bool Equals(Color other)
-        {
-            return this == other;
-        }
-
-        #endregion
+        public bool Equals(Color other) => this == other;
 
         /// <summary>
         /// Returns the hash code of this <see cref="Color"/>.
@@ -195,10 +182,7 @@ namespace Opportunity.AssLoader
         /// <param name="left">The first <see cref="Color"/> to compare.</param>
         /// <param name="right">The second <see cref="Color"/> to compare.</param>
         /// <returns>True if the two <see cref="Color"/> are equal.</returns>
-        public static bool operator ==(Color left, Color right)
-        {
-            return left.data == right.data;
-        }
+        public static bool operator ==(Color left, Color right) => left.data == right.data;
 
         /// <summary>
         /// Returns whatever two <see cref="Color"/> are not equal.
@@ -206,22 +190,14 @@ namespace Opportunity.AssLoader
         /// <param name="left">The first <see cref="Color"/> to compare.</param>
         /// <param name="right">The second <see cref="Color"/> to compare.</param>
         /// <returns>True if the two <see cref="Color"/> are not equal.</returns>
-        public static bool operator !=(Color left, Color right)
-        {
-            return left.data != right.data;
-        }
+        public static bool operator !=(Color left, Color right) => left.data != right.data;
 
         /// <summary>
         /// Returns whatever two <see cref="Color"/> are equal.
         /// </summary>
         /// <param name="obj">The <see cref="object"/> to compare with this <see cref="Color"/>.</param>
         /// <returns>True if the two <see cref="Color"/> are equal.</returns>
-        public override bool Equals(object obj)
-        {
-            if (obj is Color c)
-                return this.Equals(c);
-            return false;
-        }
+        public override bool Equals(object obj) => obj is Color c && Equals(c);
 
         /// <summary>
         /// Get a <see cref="Color"/> with given values of channels.

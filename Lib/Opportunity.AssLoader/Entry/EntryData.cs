@@ -13,30 +13,30 @@ namespace Opportunity.AssLoader
 
         internal EntryData(string fields, int count)
         {
-            this.fields = fields.Split(splitChar, count);
-            for (var i = 0; i < this.fields.Length; i++)
-                this.fields[i] = this.fields[i].Trim();
+            this.Fields = fields.Split(splitChar, count);
+            for (var i = 0; i < this.Fields.Length; i++)
+                this.Fields[i] = this.Fields[i].Trim();
         }
 
         internal EntryData(params string[] fields)
         {
-            this.fields = fields;
-            for (var i = 0; i < this.fields.Length; i++)
-                FormatHelper.SingleLineStringValueValid(ref this.fields[i]);
+            this.Fields = fields;
+            for (var i = 0; i < this.Fields.Length; i++)
+                FormatHelper.SingleLineStringValueValid(ref this.Fields[i]);
         }
 
-        private string[] fields;
+        internal readonly string[] Fields;
 
         public override string ToString()
         {
-            return string.Join(",", this.fields);
+            return string.Join(",", this.Fields);
         }
 
         #region IReadOnlyCollection<string> 成员
 
-        public string this[int index] => this.fields[index];
+        public string this[int index] => this.Fields[index];
 
-        public int Count => this.fields.Length;
+        public int Count => this.Fields.Length;
 
         #endregion
 
@@ -44,7 +44,7 @@ namespace Opportunity.AssLoader
 
         public IEnumerator<string> GetEnumerator()
         {
-            return ((IEnumerable<string>)this.fields).GetEnumerator();
+            return ((IEnumerable<string>)this.Fields).GetEnumerator();
         }
 
         #endregion
@@ -53,7 +53,7 @@ namespace Opportunity.AssLoader
 
         IEnumerator IEnumerable.GetEnumerator()
         {
-            return this.fields.GetEnumerator();
+            return this.Fields.GetEnumerator();
         }
 
         #endregion

@@ -1,58 +1,68 @@
-﻿using System;
+﻿using Opportunity.AssLoader.Serializer;
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Reflection;
-using System.IO;
 using System.Collections.ObjectModel;
-using Opportunity.AssLoader.Serializer;
 using System.Collections.Specialized;
 using System.ComponentModel;
+using System.IO;
+using System.Linq;
+using System.Reflection;
 using System.Runtime.CompilerServices;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace Opportunity.AssLoader.Collections
 {
     /// <summary>
     /// Container of the "script info" section.
     /// </summary>
-    public abstract class ScriptInfoCollection : IDictionary<string, string>, INotifyPropertyChanged
+    public abstract class ScriptInfoCollection : IDictionary<string, string>
     {
-        /// <summary>
-        /// Create new instance of <see cref="ScriptInfoCollection"/>.
-        /// </summary>
-        protected ScriptInfoCollection()
+        private static readonly Dictionary<Type, Dictionary<string, ScriptInfoSerializeHelper>> scriptInfoCache = new Dictionary<Type, Dictionary<string, ScriptInfoSerializeHelper>>();
+
+        private Dictionary<string, ScriptInfoSerializeHelper> getScriptInfoFields()
         {
             var type = this.GetType();
-            if(!scriptInfoCache.TryGetValue(type, out this.scriptInfoFields))
+            if (!scriptInfoCache.TryGetValue(type, out var scriptInfoFields))
             {
                 var temp = new List<Dictionary<string, ScriptInfoSerializeHelper>>();
                 do
                 {
                     var dict = new Dictionary<string, ScriptInfoSerializeHelper>(StringComparer.OrdinalIgnoreCase);
-                    foreach(var fInfo in type.GetRuntimeFields())
+                    foreach (var fInfo in type.GetRuntimeFields())
                     {
                         var att = fInfo.GetCustomAttribute<ScriptInfoAttribute>();
-                        if(att == null)
+                        if (att == null)
                             continue;
                         var ser = fInfo.GetCustomAttribute<SerializeAttribute>();
                         dict.Add(att.FieldName, new ScriptInfoSerializeHelper(fInfo, att, ser));
                     }
                     temp.Add(dict);
-                } while((type = type.GetTypeInfo().BaseType) != typeof(ScriptInfoCollection));
-                this.scriptInfoFields = (from dict in temp.Reverse<Dictionary<string, ScriptInfoSerializeHelper>>()
+                } while ((type = type.GetTypeInfo().BaseType) != typeof(ScriptInfoCollection));
+                scriptInfoFields = (from dict in temp.Reverse<Dictionary<string, ScriptInfoSerializeHelper>>()
                                     from entry in dict
                                     select entry).ToDictionary(item => item.Key, item => item.Value, StringComparer.OrdinalIgnoreCase);
-                scriptInfoCache.Add(this.GetType(), this.scriptInfoFields);
+                lock (scriptInfoCache)
+                {
+                    scriptInfoCache[type] = scriptInfoFields;
+                }
             }
+            return scriptInfoFields;
+        }
+
+        /// <summary>
+        /// Create new instance of <see cref="ScriptInfoCollection"/>.
+        /// </summary>
+        protected ScriptInfoCollection()
+        {
             this.UndefinedFields = new ReadOnlyDictionary<string, string>(this.undefinedFields);
         }
 
         internal void ParseLine(string value)
         {
-            if(FormatHelper.TryPraseLine(out var k, out var v, value))
+            if (FormatHelper.TryPraseLine(out var k, out var v, value))
             {
-                if(this.scriptInfoFields.TryGetValue(k, out var helper))
+                if (getScriptInfoFields().TryGetValue(k, out var helper))
                     helper.Deserialize(this, v);
                 else
                     this.undefinedFields[k] = v;
@@ -61,9 +71,9 @@ namespace Opportunity.AssLoader.Collections
 
         internal void ParseLineExact(string value)
         {
-            if(FormatHelper.TryPraseLine(out var k, out var v, value))
+            if (FormatHelper.TryPraseLine(out var k, out var v, value))
             {
-                if(this.scriptInfoFields.TryGetValue(k, out var helper))
+                if (getScriptInfoFields().TryGetValue(k, out var helper))
                     helper.DeserializeExact(this, v);
                 else
                     this.undefinedFields[k] = v;
@@ -75,39 +85,31 @@ namespace Opportunity.AssLoader.Collections
         /// </summary>
         /// <param name="writer">A <see cref="TextWriter"/> to write into.</param>
         /// <exception cref="ArgumentNullException"><paramref name="writer"/> is null.</exception>
-        public void Serialize(TextWriter writer)
+        public virtual void Serialize(TextWriter writer)
         {
-            if(writer == null)
+            if (writer == null)
                 throw new ArgumentNullException(nameof(writer));
-            foreach(var item in this.scriptInfoFields.Values)
+            foreach (var item in getScriptInfoFields().Values)
             {
                 var toWrite = item.Serialize(this);
-                if(toWrite != null)
+                if (toWrite != null)
                     writer.WriteLine(toWrite);
             }
-            if(this.undefinedFields.Count == 0)
+            if (this.undefinedFields.Count == 0)
                 return;
 
             //unknown script info entries.
             writer.WriteLine();
-            foreach(var item in this.undefinedFields)
+            foreach (var item in this.undefinedFields)
                 writer.WriteLine($"{item.Key}: {item.Value}");
         }
 
-        private static Dictionary<Type, Dictionary<string, ScriptInfoSerializeHelper>> scriptInfoCache = new Dictionary<Type, Dictionary<string, ScriptInfoSerializeHelper>>();
-
-        private Dictionary<string, ScriptInfoSerializeHelper> scriptInfoFields;
-
-        private Dictionary<string, string> undefinedFields = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
+        private readonly Dictionary<string, string> undefinedFields = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
 
         /// <summary>
         /// Fields that undifined in this <see cref="ScriptInfoCollection"/>.
         /// </summary>
-        public IReadOnlyDictionary<string, string> UndefinedFields
-        {
-            get;
-            private set;
-        }
+        public IReadOnlyDictionary<string, string> UndefinedFields { get; }
 
         /// <summary>
         /// Add a key-value pair into <see cref="UndefinedFields"/>.
@@ -118,7 +120,7 @@ namespace Opportunity.AssLoader.Collections
         /// <exception cref="ArgumentException"><paramref name="key"/> is in the <see cref="ScriptInfoCollection"/>.</exception>
         public void Add(string key, string value)
         {
-            if(this.ContainsKey(key))
+            if (this.ContainsKey(key))
                 throw new ArgumentException("Key contains in the collection.", nameof(key));
             this.undefinedFields[key] = value;
         }
@@ -130,7 +132,7 @@ namespace Opportunity.AssLoader.Collections
         /// <returns>True if <paramref name="key"/> found in defined fields or <see cref="UndefinedFields"/>.</returns>
         public bool ContainsKey(string key)
         {
-            return this.undefinedFields.ContainsKey(key) || this.scriptInfoFields.ContainsKey(key);
+            return this.undefinedFields.ContainsKey(key) || getScriptInfoFields().ContainsKey(key);
         }
 
         /// <summary>
@@ -152,12 +154,12 @@ namespace Opportunity.AssLoader.Collections
         /// <returns>True if <paramref name="key"/> found in the <see cref="ScriptInfoCollection"/>.</returns>
         public bool TryGetValue(string key, out string value)
         {
-            if(this.undefinedFields.TryGetValue(key, out var s))
+            if (this.undefinedFields.TryGetValue(key, out var s))
             {
                 value = s;
                 return true;
             }
-            if(this.scriptInfoFields.TryGetValue(key, out var ssi))
+            if (getScriptInfoFields().TryGetValue(key, out var ssi))
             {
                 value = ssi.Serialize(this);
                 return true;
@@ -181,13 +183,13 @@ namespace Opportunity.AssLoader.Collections
         {
             get
             {
-                if(this.TryGetValue(key, out var va))
+                if (this.TryGetValue(key, out var va))
                     return va;
                 throw new KeyNotFoundException($"\"{key}\" not found.");
             }
             set
             {
-                if(this.scriptInfoFields.ContainsKey(key))
+                if (getScriptInfoFields().ContainsKey(key))
                     throw new InvalidOperationException("The key has defined, please use property.");
                 else
                     this.undefinedFields[key] = value;
@@ -208,7 +210,7 @@ namespace Opportunity.AssLoader.Collections
         {
             get
             {
-                if(this.keys == null)
+                if (this.keys == null)
                     return this.keys = new Collection(this, true);
                 return this.keys;
             }
@@ -218,7 +220,7 @@ namespace Opportunity.AssLoader.Collections
         {
             get
             {
-                if(this.values == null)
+                if (this.values == null)
                     return this.values = new Collection(this, false);
                 return this.values;
             }
@@ -252,7 +254,7 @@ namespace Opportunity.AssLoader.Collections
 
             public bool Contains(string item)
             {
-                if(this.isKey)
+                if (this.isKey)
                     return this.collection.ContainsKey(item);
                 else
                     return this.collection.Any(i => i.Value == item);
@@ -260,12 +262,13 @@ namespace Opportunity.AssLoader.Collections
 
             public void CopyTo(string[] array, int arrayIndex)
             {
-                if(this.isKey)
-                    this.collection.scriptInfoFields.Keys
+                var f = this.collection.getScriptInfoFields();
+                if (this.isKey)
+                    f.Keys
                         .Concat(this.collection.undefinedFields.Keys)
                         .ToArray().CopyTo(array, arrayIndex);
                 else
-                    this.collection.scriptInfoFields.Values
+                    f.Values
                         .Select(item => item.Serialize(this))
                         .Concat(this.collection.undefinedFields.Values)
                         .ToArray().CopyTo(array, arrayIndex);
@@ -286,11 +289,12 @@ namespace Opportunity.AssLoader.Collections
 
             public IEnumerator<string> GetEnumerator()
             {
-                if(this.isKey)
-                    return this.collection.scriptInfoFields.Keys
+                var f = this.collection.getScriptInfoFields();
+                if (this.isKey)
+                    return f.Keys
                         .Concat(this.collection.undefinedFields.Keys).GetEnumerator();
                 else
-                    return this.collection.scriptInfoFields.Values
+                    return f.Values
                         .Select(item => item.Serialize(this))
                         .Concat(this.collection.undefinedFields.Values).GetEnumerator();
             }
@@ -323,18 +327,18 @@ namespace Opportunity.AssLoader.Collections
 
         void ICollection<KeyValuePair<string, string>>.CopyTo(KeyValuePair<string, string>[] array, int arrayIndex)
         {
-            this.scriptInfoFields
+            getScriptInfoFields()
                 .Select(item => new KeyValuePair<string, string>(item.Key, item.Value.Serialize(this)))
                 .Concat(this.undefinedFields).ToArray().CopyTo(array, arrayIndex);
         }
 
-        int ICollection<KeyValuePair<string, string>>.Count => this.scriptInfoFields.Count + this.undefinedFields.Count;
+        int ICollection<KeyValuePair<string, string>>.Count => getScriptInfoFields().Count + this.undefinedFields.Count;
 
         bool ICollection<KeyValuePair<string, string>>.IsReadOnly => false;
 
         bool ICollection<KeyValuePair<string, string>>.Remove(KeyValuePair<string, string> item)
         {
-            if(this.undefinedFields.ContainsKey(item.Key))
+            if (this.undefinedFields.ContainsKey(item.Key))
                 return this.undefinedFields.Remove(item.Key);
             return false;
         }
@@ -345,7 +349,7 @@ namespace Opportunity.AssLoader.Collections
 
         IEnumerator<KeyValuePair<string, string>> IEnumerable<KeyValuePair<string, string>>.GetEnumerator()
         {
-            return this.scriptInfoFields
+            return getScriptInfoFields()
                  .Select(item => new KeyValuePair<string, string>(item.Key, item.Value.Serialize(this)))
                  .Concat(this.undefinedFields).GetEnumerator();
         }
@@ -357,46 +361,6 @@ namespace Opportunity.AssLoader.Collections
         System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
         {
             return ((IEnumerable<KeyValuePair<string, string>>)this).GetEnumerator();
-        }
-
-        #endregion
-
-        #region INotifyPropertyChanged 成员
-
-        /// <summary>
-        /// Occurs when the property changes.
-        /// </summary>
-        /// <remarks>
-        /// The event handler receives an argument of type
-        /// <seealso cref="PropertyChangedEventHandler" />
-        /// containing data related to this event.
-        /// </remarks>
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        /// <summary>
-        /// Raise the event <see cref="PropertyChanged"/>.
-        /// </summary>
-        /// <param name="propertyName">The name of the changing property.</param>
-        protected virtual void RaisePropertyChanged([CallerMemberName]string propertyName = "")
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-
-        /// <summary>
-        /// Set the field and raise the event <see cref="PropertyChanged"/> if needed.
-        /// </summary>
-        /// <param name="propertyName">The name of the changing property.</param>
-        /// <typeparam name="T">The type of the property.</typeparam>
-        /// <param name="field">The field to set.</param>
-        /// <param name="value">The value to set.</param>
-        protected void Set<T>(ref T field, T value, [CallerMemberName]string propertyName = "")
-        {
-            if(Equals(field, value))
-            {
-                return;
-            }
-            field = value;
-            this.RaisePropertyChanged(propertyName);
         }
 
         #endregion

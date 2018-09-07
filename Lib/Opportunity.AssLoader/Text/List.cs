@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Collections.ObjectModel;
 
 namespace Opportunity.AssLoader
 {
@@ -12,10 +12,10 @@ namespace Opportunity.AssLoader
         /// <summary>
         /// The list of texts of a <see cref="TextContent"/>.
         /// </summary>
-        public struct TextList : IReadOnlyList<string>
+        public readonly struct TextList : IReadOnlyList<string>
         {
-            private string[] texts;
-            private int max;
+            private readonly string[] texts;
+            private readonly int max;
 
             internal TextList(string[] texts)
             {
@@ -35,7 +35,7 @@ namespace Opportunity.AssLoader
             {
                 get
                 {
-                    if(ThrowHelper.IsLessThanZeroOrOutOfRange(this.max, index))
+                    if (ThrowHelper.IsLessThanZeroOrOutOfRange(this.max, index))
                         throw new ArgumentOutOfRangeException(nameof(index));
                     return this.texts[index * 2];
                 }
@@ -60,7 +60,7 @@ namespace Opportunity.AssLoader
             /// <returns>A enumerator of texts of the <see cref="TextContent"/>.</returns>
             public IEnumerator<string> GetEnumerator()
             {
-                for(var i = 0; i < this.texts.Length; i += 2)
+                for (var i = 0; i < this.texts.Length; i += 2)
                     yield return this.texts[i];
             }
 
@@ -68,7 +68,7 @@ namespace Opportunity.AssLoader
 
             #region IEnumerable 成员
 
-            System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator() 
+            System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
                 => this.GetEnumerator();
 
             #endregion
@@ -77,10 +77,10 @@ namespace Opportunity.AssLoader
         /// <summary>
         /// The list of tags of a <see cref="TextContent"/>.
         /// </summary>
-        public struct TagList : IReadOnlyList<string>
+        public readonly struct TagList : IReadOnlyList<string>
         {
-            private string[] texts;
-            private int max;
+            private readonly string[] texts;
+            private readonly int max;
 
             internal TagList(string[] texts)
             {
@@ -100,7 +100,7 @@ namespace Opportunity.AssLoader
             {
                 get
                 {
-                    if(ThrowHelper.IsLessThanZeroOrOutOfRange(this.max, index))
+                    if (ThrowHelper.IsLessThanZeroOrOutOfRange(this.max, index))
                         throw new ArgumentOutOfRangeException(nameof(index));
                     return this.texts[index * 2 + 1];
                 }
@@ -125,7 +125,7 @@ namespace Opportunity.AssLoader
             /// <returns>A enumerator of tags of the <see cref="TextContent"/>.</returns>
             public IEnumerator<string> GetEnumerator()
             {
-                for(var i = 1; i < this.texts.Length; i += 2)
+                for (var i = 1; i < this.texts.Length; i += 2)
                     yield return this.texts[i];
             }
 
@@ -133,7 +133,7 @@ namespace Opportunity.AssLoader
 
             #region IEnumerable 成员
 
-            System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator() 
+            System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
                 => this.GetEnumerator();
 
             #endregion

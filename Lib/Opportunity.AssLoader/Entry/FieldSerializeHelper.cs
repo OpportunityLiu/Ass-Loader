@@ -1,10 +1,10 @@
-﻿using System;
+﻿using Opportunity.AssLoader.Serializer;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
-using System.Reflection;
-using Opportunity.AssLoader.Serializer;
 
 namespace Opportunity.AssLoader
 {
@@ -12,42 +12,22 @@ namespace Opportunity.AssLoader
     {
         private object defaultValue;
 
-        public GetValueDelegate GetValue
-        {
-            private set;
-            get;
-        }
+        public GetValueDelegate GetValue { get; }
 
-        public SetValueDelegate SetValue
-        {
-            private set;
-            get;
-        }
+        public SetValueDelegate SetValue { get; }
 
-        public DeserializeDelegate Deserialize
-        {
-            get;
-            private set;
-        }
+        public DeserializeDelegate Deserialize { get; }
 
-        public DeserializeDelegate DeserializeExact
-        {
-            get;
-            private set;
-        }
+        public DeserializeDelegate DeserializeExact { get; }
 
-        public SerializeDelegate Serialize
-        {
-            get;
-            private set;
-        }
+        public SerializeDelegate Serialize { get; }
 
         public FieldSerializeHelper(FieldInfo info, EntryFieldAttribute fieldInfo, SerializeAttribute serializer)
         {
             this.defaultValue = fieldInfo.DefaultValue;
             this.GetValue = info.GetValue;
             this.SetValue = info.SetValue;
-            if(serializer != null)
+            if (serializer != null)
             {
                 this.Serialize = serializeCustom(this, serializer.Serialize);
                 this.Deserialize = deserializeCustom(this, serializer.Deserialize);
@@ -55,7 +35,7 @@ namespace Opportunity.AssLoader
                 return;
             }
             this.Serialize = serializeDefault(this, fieldInfo.Format);
-            if(info.FieldType.GetTypeInfo().IsEnum)
+            if (info.FieldType.GetTypeInfo().IsEnum)
             {
                 this.Deserialize = deserializeEnum(this, info.FieldType);
                 this.DeserializeExact = deserializeEnumExact(this, info.FieldType);
@@ -75,7 +55,7 @@ namespace Opportunity.AssLoader
                 {
                     field.SetValue(obj, deserializer(value));
                 }
-                catch(FormatException)
+                catch (FormatException)
                 {
                     field.SetValue(obj, field.defaultValue);
                 }
@@ -90,7 +70,7 @@ namespace Opportunity.AssLoader
                 {
                     field.SetValue(obj, Convert.ChangeType(value, fieldType, FormatHelper.DefaultFormat));
                 }
-                catch(FormatException)
+                catch (FormatException)
                 {
                     field.SetValue(obj, field.defaultValue);
                 }
@@ -105,7 +85,7 @@ namespace Opportunity.AssLoader
                 {
                     field.SetValue(obj, Enum.Parse(fieldType, value, true));
                 }
-                catch(FormatException)
+                catch (FormatException)
                 {
                     field.SetValue(obj, field.defaultValue);
                 }

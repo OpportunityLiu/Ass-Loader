@@ -1,15 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace Opportunity.AssLoader
-{    
+{
     /// <summary>
-     /// Infomation of field of <see cref="Entry"/>.
-     /// </summary>
+    /// Infomation of field of <see cref="Entry"/>.
+    /// </summary>
     [AttributeUsage(AttributeTargets.Field, Inherited = false, AllowMultiple = false)]
+    [DebuggerDisplay(@"[{Name,nq}({Alias,nq})] = {DefaultValue}")]
     public sealed class EntryFieldAttribute : Attribute
     {
         /// <summary>
@@ -24,51 +26,23 @@ namespace Opportunity.AssLoader
         /// <summary>
         /// Name of the field in the ass file, which is defined at the "Format" line.
         /// </summary>
-        public string Name
-        {
-            get;
-            private set;
-        }
+        public string Name { get; }
 
         /// <summary>
         /// Alias of the field in the ass file, which is defined at the "Format" line.
         /// </summary>
-        public string Alias
-        {
-            get;
-            set;
-        }
+        public string Alias { get; set; }
 
         /// <summary>
         /// The default value of the field in <see cref="Entry"/>.
         /// If the field equals null, this value will be used to serialize.
         /// </summary>
-        public object DefaultValue
-        {
-            get;
-            set;
-        }
+        public object DefaultValue { get; set; }
 
         /// <summary>
         /// Will be used as format string if a custom serializer is not provided.
         /// </summary>
-        public string Format
-        {
-            get;
-            set;
-        }
-        = "";
-
-#if DEBUG
-        /// <summary>
-        /// Returns <see cref="Name"/>.
-        /// </summary>
-        /// <returns><see cref="Name"/> of this <see cref="EntryFieldAttribute"/>.</returns>
-        public override string ToString()
-        {
-            return Name;
-        }
-#endif
+        public string Format { get; set; } = "";
     }
 }
 

@@ -1,15 +1,18 @@
-﻿using System;
+﻿using Opportunity.AssLoader.Serializer;
+using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Opportunity.AssLoader.Serializer;
 
 namespace Opportunity.AssLoader
 {
     /// <summary>
     /// Entry of "styles" section.
     /// </summary>
+    [DebuggerDisplay(@"Style: {name}")]
     public class Style : Entry
     {
         /// <summary>
@@ -23,9 +26,13 @@ namespace Opportunity.AssLoader
         /// Create new instance of <see cref="Style"/> with the name.
         /// </summary>
         /// <param name="name">Name of the <see cref="Style"/>.</param>
+        /// <exception cref="ArgumentNullException"><paramref name="name"/> is null or white space.</exception>
+        /// <exception cref="ArgumentException"><paramref name="name"/> contains line breaks.</exception>
         public Style(string name)
         {
-            this.Name = name;
+            if (!FormatHelper.FieldStringValueValid(ref name))
+                throw new ArgumentNullException(nameof(name));
+            this.name = name;
         }
 
         /// <summary>
@@ -66,21 +73,15 @@ namespace Opportunity.AssLoader
         /// </summary>
         /// <param name="newName">New <see cref="Name"/> of <see cref="Style"/></param>
         /// <returns>A copy of this <see cref="Style"/>.</returns>
-        /// <exception cref="ArgumentNullException"><paramref name="newName"/> is not a valid <see cref="Name"/>.</exception>
+        /// <exception cref="ArgumentNullException"><paramref name="newName"/> is null or white space.</exception>
+        /// <exception cref="ArgumentException"><paramref name="newName"/> contains line breaks.</exception>
         public Style Clone(string newName)
         {
+            if (!FormatHelper.FieldStringValueValid(ref newName))
+                throw new ArgumentNullException(nameof(newName));
             var n = this.Clone(() => new Style());
-            n.Name = newName;
+            n.name = newName;
             return n;
-        }
-
-        /// <summary>
-        /// Return a string form of this <see cref="Style"/> with its <see cref="Name"/>.
-        /// </summary>
-        /// <returns>A string form of this <see cref="Style"/>.</returns>
-        public override string ToString()
-        {
-            return "Style: " + this.name;
         }
 
         #region Fields
@@ -91,21 +92,7 @@ namespace Opportunity.AssLoader
         /// <summary>
         /// The name of the Style. Case insensitive. ',' will be replaced by ';'.
         /// </summary>
-        /// <exception cref="ArgumentNullException"><paramref name="value"/> is null or white space.</exception>
-        /// <exception cref="ArgumentException"><paramref name="value"/> contains line breaks.</exception>
-        public string Name
-        {
-            get => this.name;
-            protected set
-            {
-                if(FormatHelper.FieldStringValueValid(ref value))
-                {
-                    this.Set(ref this.name, value);
-                }
-                else
-                    throw new ArgumentNullException(nameof(value));
-            }
-        }
+        public string Name => this.name;
 
         [EntryField("Fontname")]
         private string fontName = "Arial";
@@ -120,12 +107,9 @@ namespace Opportunity.AssLoader
             get => this.fontName;
             set
             {
-                if(FormatHelper.FieldStringValueValid(ref value))
-                {
-                    this.Set(ref this.fontName, value);
-                }
-                else
+                if (!FormatHelper.FieldStringValueValid(ref value))
                     throw new ArgumentNullException(nameof(value));
+                this.fontName = value;
             }
         }
 
@@ -146,11 +130,11 @@ namespace Opportunity.AssLoader
             get => this.fontSize;
             set
             {
-                if(ThrowHelper.IsInvalidDouble(value))
+                if (ThrowHelper.IsInvalidDouble(value))
                     throw new ArgumentException("value should be a valid number", nameof(value));
-                if(value < 0)
+                if (value < 0)
                     throw new ArgumentOutOfRangeException(nameof(value));
-                this.Set(ref this.fontSize, value);
+                this.fontSize = value;
             }
         }
 
@@ -164,7 +148,7 @@ namespace Opportunity.AssLoader
         public Color PrimaryColor
         {
             get => this.primaryColor;
-            set => this.Set(ref this.primaryColor, value);
+            set => this.primaryColor = value;
         }
 
         [ColorSerialize]
@@ -177,7 +161,7 @@ namespace Opportunity.AssLoader
         public Color SecondaryColor
         {
             get => this.secondaryColor;
-            set => this.Set(ref this.secondaryColor, value);
+            set => this.secondaryColor = value;
         }
 
         [ColorSerialize]
@@ -190,7 +174,7 @@ namespace Opportunity.AssLoader
         public Color OutlineColor
         {
             get => this.outlineColor;
-            set => this.Set(ref this.outlineColor, value);
+            set => this.outlineColor = value;
         }
 
         [ColorSerialize]
@@ -203,7 +187,7 @@ namespace Opportunity.AssLoader
         public Color ShadowColor
         {
             get => this.shadowColor;
-            set => this.Set(ref this.shadowColor, value);
+            set => this.shadowColor = value;
         }
 
         [EntryField("Bold")]
@@ -215,7 +199,7 @@ namespace Opportunity.AssLoader
         public bool Bold
         {
             get => this.bold == -1;
-            set => this.Set(ref this.bold, value ? -1 : 0);
+            set => this.bold = value ? -1 : 0;
         }
 
         [EntryField("Italic")]
@@ -227,7 +211,7 @@ namespace Opportunity.AssLoader
         public bool Italic
         {
             get => this.italic == -1;
-            set => this.Set(ref this.italic, value ? -1 : 0);
+            set => this.italic = value ? -1 : 0;
         }
 
         [EntryField("Underline")]
@@ -239,7 +223,7 @@ namespace Opportunity.AssLoader
         public bool Underline
         {
             get => this.underline == -1;
-            set => this.Set(ref this.underline, value ? -1 : 0);
+            set => this.underline = value ? -1 : 0;
         }
 
         [EntryField("Strikeout")]
@@ -251,7 +235,7 @@ namespace Opportunity.AssLoader
         public bool Strikeout
         {
             get => this.strikeout == -1;
-            set => this.Set(ref this.strikeout, value ? -1 : 0);
+            set => this.strikeout = value ? -1 : 0;
         }
 
         [EntryField("ScaleX")]
@@ -271,11 +255,11 @@ namespace Opportunity.AssLoader
             get => this.scaleX;
             set
             {
-                if(ThrowHelper.IsInvalidDouble(value))
+                if (ThrowHelper.IsInvalidDouble(value))
                     throw new ArgumentException("value should be a valid number", nameof(value));
-                if(value < 0)
+                if (value < 0)
                     throw new ArgumentOutOfRangeException(nameof(value));
-                this.Set(ref this.scaleX, value);
+                this.scaleX = value;
             }
         }
 
@@ -296,11 +280,11 @@ namespace Opportunity.AssLoader
             get => this.scaleY;
             set
             {
-                if(ThrowHelper.IsInvalidDouble(value))
+                if (ThrowHelper.IsInvalidDouble(value))
                     throw new ArgumentException("value should be a valid number", nameof(value));
-                if(value < 0)
+                if (value < 0)
                     throw new ArgumentOutOfRangeException(nameof(value));
-                this.Set(ref this.scaleY, value);
+                this.scaleY = value;
             }
         }
 
@@ -316,9 +300,9 @@ namespace Opportunity.AssLoader
             get => this.spacing;
             set
             {
-                if(ThrowHelper.IsInvalidDouble(value))
+                if (ThrowHelper.IsInvalidDouble(value))
                     throw new ArgumentException("value should be a valid number", nameof(value));
-                this.Set(ref this.spacing, value);
+                this.spacing = value;
             }
         }
 
@@ -334,14 +318,14 @@ namespace Opportunity.AssLoader
             get => this.rotation;
             set
             {
-                if(ThrowHelper.IsInvalidDouble(value))
+                if (ThrowHelper.IsInvalidDouble(value))
                     throw new ArgumentException("value should be a valid number", nameof(value));
                 value = value % 360;
-                if(value > 180)
+                if (value > 180)
                     value -= 360;
-                else if(value < -180)
+                else if (value < -180)
                     value += 360;
-                this.Set(ref this.rotation, value);
+                this.rotation = value;
             }
         }
 
@@ -359,15 +343,9 @@ namespace Opportunity.AssLoader
             get => (BorderStyle)this.borderStyle;
             set
             {
-                switch(value)
-                {
-                case BorderStyle.OutlineAndDropShadow:
-                case BorderStyle.OpaqueBox:
-                    this.Set(ref this.borderStyle, (int)value);
-                    break;
-                default:
+                if (!value.IsDefined())
                     throw new ArgumentOutOfRangeException(nameof(value));
-                }
+                this.borderStyle = (int)value;
             }
         }
 
@@ -388,11 +366,11 @@ namespace Opportunity.AssLoader
             get => this.outline;
             set
             {
-                if(ThrowHelper.IsInvalidDouble(value))
+                if (ThrowHelper.IsInvalidDouble(value))
                     throw new ArgumentException("value should be a valid number", nameof(value));
-                if(value < 0)
+                if (value < 0)
                     throw new ArgumentOutOfRangeException(nameof(value));
-                this.Set(ref this.outline, value);
+                this.outline = value;
             }
         }
 
@@ -413,11 +391,11 @@ namespace Opportunity.AssLoader
             get => this.shadow;
             set
             {
-                if(ThrowHelper.IsInvalidDouble(value))
+                if (ThrowHelper.IsInvalidDouble(value))
                     throw new ArgumentException("value should be a valid number", nameof(value));
-                if(value < 0)
+                if (value < 0)
                     throw new ArgumentOutOfRangeException(nameof(value));
-                this.Set(ref this.shadow, value);
+                this.shadow = value;
             }
         }
 
@@ -435,22 +413,9 @@ namespace Opportunity.AssLoader
             get => (AlignmentStyle)this.alignment;
             set
             {
-                switch(value)
-                {
-                case AlignmentStyle.BottomLeft:
-                case AlignmentStyle.BottomCenter:
-                case AlignmentStyle.BottomRight:
-                case AlignmentStyle.MiddleLeft:
-                case AlignmentStyle.MiddleCenter:
-                case AlignmentStyle.MiddleRight:
-                case AlignmentStyle.TopLeft:
-                case AlignmentStyle.TopCenter:
-                case AlignmentStyle.TopRight:
-                    this.Set(ref this.alignment, (int)value);
-                    break;
-                default:
+                if (!value.IsDefined())
                     throw new ArgumentOutOfRangeException(nameof(value));
-                }
+                this.alignment = (int)value;
             }
         }
 
@@ -466,9 +431,9 @@ namespace Opportunity.AssLoader
             get => this.marginL;
             set
             {
-                if(value < 0)
+                if (value < 0)
                     throw new ArgumentOutOfRangeException(nameof(value));
-                this.Set(ref this.marginL, value);
+                this.marginL = value;
             }
         }
 
@@ -484,9 +449,9 @@ namespace Opportunity.AssLoader
             get => this.marginR;
             set
             {
-                if(value < 0)
+                if (value < 0)
                     throw new ArgumentOutOfRangeException(nameof(value));
-                this.Set(ref this.marginR, value);
+                this.marginR = value;
             }
         }
 
@@ -502,9 +467,9 @@ namespace Opportunity.AssLoader
             get => this.marginV;
             set
             {
-                if(value < 0)
+                if (value < 0)
                     throw new ArgumentOutOfRangeException(nameof(value));
-                this.Set(ref this.marginV, value);
+                this.marginV = value;
             }
         }
 
@@ -521,14 +486,15 @@ namespace Opportunity.AssLoader
         /// On other systems and renderers, Freetype2 provides the proper mappings.
         /// If you didn't understand a word of the above, pretend this setting doesn't exist, as it is rarely important.
         /// </remarks>
+        [EditorBrowsable(EditorBrowsableState.Advanced)]
         public int Encoding
         {
             get => this.encoding;
             set
             {
-                if(value < 0)
+                if (value < 0)
                     throw new ArgumentOutOfRangeException(nameof(value));
-                this.Set(ref this.encoding, value);
+                this.encoding = value;
             }
         }
 

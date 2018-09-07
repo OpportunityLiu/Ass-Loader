@@ -16,14 +16,11 @@
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <RepositoryUrl>https://github.com/OpportunityLiu/Ass-Loader.git</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
   </PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <DocumentationFile>C:\Users\lzy\Documents\Source\Ass-Loader\Lib\Opportunity.AssLoader\Opportunity.AssLoader.xml</DocumentationFile>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DocumentationFile>C:\Users\lzy\Documents\Source\Ass-Loader\Lib\Opportunity.AssLoader\Opportunity.AssLoader.xml</DocumentationFile>
-  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Opportunity.Helpers" Version="1.3.15" />
+  </ItemGroup>
 
 </Project>

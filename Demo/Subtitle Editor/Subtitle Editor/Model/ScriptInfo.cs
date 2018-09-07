@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace SubtitleEditor.Model
 {
-    internal class ScriptInfo : AssScriptInfo
+    internal sealed class ScriptInfo : AssScriptInfo
     {
         [ScriptInfo(nameof(SubtitleEditorConfig), IsOptional = true)]
         [JsonSerializer(typeof(ProjectConfig))]

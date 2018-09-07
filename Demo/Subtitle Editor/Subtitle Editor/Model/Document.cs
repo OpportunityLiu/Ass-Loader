@@ -1,5 +1,6 @@
-﻿using GalaSoft.MvvmLight;
-using Opportunity.AssLoader;
+﻿using Opportunity.AssLoader;
+using Opportunity.MvvmUniverse;
+using Opportunity.MvvmUniverse.Views;
 using SubtitleEditor.Model;
 using System;
 using System.Collections.Concurrent;
@@ -16,7 +17,7 @@ using Windows.UI.Xaml;
 
 namespace SubtitleEditor.Model
 {
-    internal class Document : ViewModelBase
+    internal class Document : ObservableObject
     {
         public Document()
         {
@@ -114,7 +115,7 @@ namespace SubtitleEditor.Model
             private set
             {
                 this.Set(ref this.subtitle, value);
-                if (value.ScriptInfo.SubtitleEditorConfig == null)
+                if (value.ScriptInfo.SubtitleEditorConfig is null)
                     value.ScriptInfo.SubtitleEditorConfig = new ProjectConfig();
                 this.RaisePropertyChanged(nameof(this.CanSave));
                 this.updateTitle();

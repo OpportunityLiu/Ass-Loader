@@ -1,10 +1,10 @@
-﻿using System;
+﻿using Opportunity.AssLoader.Collections;
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.IO;
+using System.Linq;
 using System.Reflection;
-using Opportunity.AssLoader.Collections;
+using System.Text;
 
 namespace Opportunity.AssLoader
 {
@@ -22,11 +22,12 @@ namespace Opportunity.AssLoader
         /// <param name="scriptInfo">
         /// The <typeparamref name="TScriptInfo"/>of the <see cref="Subtitle{TScriptInfo}"/>
         /// </param>
+        /// <exception cref="ArgumentNullException"><paramref name="scriptInfo"/> is <see langword="null"/>.</exception>
         public Subtitle(TScriptInfo scriptInfo)
         {
+            this.ScriptInfo = scriptInfo ?? throw new ArgumentNullException(nameof(scriptInfo));
             this.EventCollection = new EventCollection();
             this.StyleSet = new StyleSet();
-            this.ScriptInfo = scriptInfo;
         }
 
         /// <summary>
@@ -36,14 +37,10 @@ namespace Opportunity.AssLoader
         /// <exception cref="ArgumentNullException"><paramref name="writer"/> is null.</exception>
         public void Serialize(TextWriter writer)
         {
-            if(writer == null)
+            if (writer is null)
                 throw new ArgumentNullException(nameof(writer));
 
             writer.WriteLine("[Script Info]");
-            foreach(var line in Subtitle.EditorInfo)
-            {
-                writer.WriteLine(line);
-            }
             this.ScriptInfo.Serialize(writer);
             writer.WriteLine();
 
@@ -59,16 +56,24 @@ namespace Opportunity.AssLoader
 
         private void saveStyle(TextWriter writer)
         {
-            writer.WriteLine(Subtitle.DefaultStyleFormat.ToString());
-            foreach(var item in this.StyleSet)
-                writer.WriteLine(item.Serialize(Subtitle.DefaultStyleFormat));
+            Subtitle.DefaultStyleFormat.Serialize(writer);
+            writer.WriteLine();
+            foreach (var item in this.StyleSet)
+            {
+                item.Serialize(Subtitle.DefaultStyleFormat, writer);
+                writer.WriteLine();
+            }
         }
 
         private void saveEvent(TextWriter writer)
         {
-            writer.WriteLine(Subtitle.DefaultEventFormat.ToString());
-            foreach(var item in this.EventCollection)
-                writer.WriteLine(item.Serialize(Subtitle.DefaultEventFormat));
+            Subtitle.DefaultEventFormat.Serialize(writer);
+            writer.WriteLine();
+            foreach (var item in this.EventCollection)
+            {
+                item.Serialize(Subtitle.DefaultEventFormat, writer);
+                writer.WriteLine();
+            }
         }
 
         /// <summary>
@@ -77,7 +82,7 @@ namespace Opportunity.AssLoader
         /// <returns>A <see cref="string"/> presents the ass file.</returns>
         public string Serialize()
         {
-            using(var writer = new StringWriter(FormatHelper.DefaultFormat))
+            using (var writer = new StringWriter(FormatHelper.DefaultFormat))
             {
                 this.Serialize(writer);
                 return writer.ToString();
@@ -87,28 +92,16 @@ namespace Opportunity.AssLoader
         /// <summary>
         /// Container of information of the "script info" section.
         /// </summary>
-        public TScriptInfo ScriptInfo
-        {
-            get;
-            private set;
-        }
+        public TScriptInfo ScriptInfo { get; }
 
         /// <summary>
         /// Container of information of the "style" section.
         /// </summary>
-        public StyleSet StyleSet
-        {
-            get;
-            private set;
-        }
+        public StyleSet StyleSet { get; }
 
         /// <summary>
         /// Container of information of the "event" section.
         /// </summary>
-        public EventCollection EventCollection
-        {
-            get;
-            private set;
-        }
+        public EventCollection EventCollection { get; }
     }
 }

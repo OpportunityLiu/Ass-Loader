@@ -1,25 +1,23 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
+using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
-using System.Collections.ObjectModel;
+using System.Linq;
 
 namespace Opportunity.AssLoader.Collections
 {
     /// <summary>
-    /// Observable collection of <see cref="Style"/>, will delete repeted <see cref="Style"/>s autometically.
+    /// Collection of <see cref="Style"/>, will delete repeted <see cref="Style"/>s autometically.
     /// </summary>
-    public class StyleSet : ObservableCollection<Style>
+    public class StyleSet : Collection<Style>
     {
         /// <summary>
         /// Create new instance of <see cref="StyleSet"/>.
         /// </summary>
-        public StyleSet() : base()
-        {
-        }
+        public StyleSet() : base() { }
 
-        private HashSet<string> styleNameSet = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+        private readonly HashSet<string> styleNameSet = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
 
         /// <summary>
         /// Check whether the <see cref="Style"/> with the <see cref="Style.Name"/> is presented in the <see cref="StyleSet"/>.
@@ -31,12 +29,15 @@ namespace Opportunity.AssLoader.Collections
         /// </returns>
         public bool ContainsName(string name)
         {
-            if(FormatHelper.FieldStringValueValid(ref name))
+            try
             {
-                return this.styleNameSet.Contains(name);
+                if (FormatHelper.FieldStringValueValid(ref name))
+                {
+                    return this.styleNameSet.Contains(name);
+                }
             }
-            else
-                throw new ArgumentNullException(nameof(name));
+            catch { }
+            return false;
         }
 
         /// <summary>
@@ -48,13 +49,18 @@ namespace Opportunity.AssLoader.Collections
         /// </returns>
         public int IndexOf(string name)
         {
-            if(!FormatHelper.FieldStringValueValid(ref name))
-                throw new ArgumentNullException(nameof(name));
-            for(var i = 0; i < this.Count; i++)
+            try
             {
-                if(string.Equals(this[i].Name, name, StringComparison.OrdinalIgnoreCase))
-                    return i;
+                if (FormatHelper.FieldStringValueValid(ref name))
+                {
+                    for (var i = 0; i < this.Count; i++)
+                    {
+                        if (string.Equals(this[i].Name, name, StringComparison.OrdinalIgnoreCase))
+                            return i;
+                    }
+                }
             }
+            catch { }
             return -1;
         }
 
@@ -74,7 +80,7 @@ namespace Opportunity.AssLoader.Collections
         /// <param name="item">The <see cref="Style"/> to insert.</param>
         protected sealed override void InsertItem(int index, Style item)
         {
-            if(this.styleNameSet.Add(item.Name))
+            if (this.styleNameSet.Add(item.Name))
             {
                 base.InsertItem(index, item);
             }
@@ -92,7 +98,7 @@ namespace Opportunity.AssLoader.Collections
         protected sealed override void SetItem(int index, Style item)
         {
             this.styleNameSet.Remove(this[index].Name);
-            if(this.styleNameSet.Add(item.Name))
+            if (this.styleNameSet.Add(item.Name))
             {
                 base.SetItem(index, item);
             }
@@ -111,16 +117,6 @@ namespace Opportunity.AssLoader.Collections
         {
             this.styleNameSet.Remove(this[index].Name);
             base.RemoveItem(index);
-        }
-
-        /// <summary>
-        /// Move the item to a new index.
-        /// </summary>
-        /// <param name="oldIndex">The index of the item to move.</param>
-        /// <param name="newIndex">The new index of the item.</param>
-        protected sealed override void MoveItem(int oldIndex, int newIndex)
-        {
-            base.MoveItem(oldIndex, newIndex);
         }
     }
 }

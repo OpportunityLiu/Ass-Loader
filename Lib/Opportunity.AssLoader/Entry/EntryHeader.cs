@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -9,6 +11,7 @@ namespace Opportunity.AssLoader
     /// <summary>
     /// A list of entry names for serializing and deserializing.
     /// </summary>
+    [DebuggerDisplay(@"Format: {string.Join("","", data), nq}")]
     public sealed class EntryHeader : IEquatable<EntryHeader>, IReadOnlyList<string>
     {
         /// <summary>
@@ -20,12 +23,12 @@ namespace Opportunity.AssLoader
         /// <exception cref="FormatException"><paramref name="format"/> contains repeated entry names.</exception>
         public EntryHeader(string format)
         {
-            if(string.IsNullOrEmpty(format))
+            if (string.IsNullOrEmpty(format))
                 throw new ArgumentNullException(nameof(format));
-            this.data = new EntryData(format, int.MaxValue);
-            if(this.data.Contains(string.Empty))
+            this.data = new EntryData(format, int.MaxValue).Fields;
+            if (this.data.Contains(string.Empty))
                 throw new ArgumentException("Header can't contains string.Empty.", nameof(format));
-            if(this.data.Distinct().Count() != this.data.Count)
+            if (this.data.Distinct().Count() != this.data.Length)
                 throw new FormatException("Header can't contains repeated strings.");
         }
 
@@ -36,23 +39,24 @@ namespace Opportunity.AssLoader
         /// <exception cref="ArgumentNullException"><paramref name="format"/> is null.</exception>
         public EntryHeader(IEnumerable<string> format)
         {
-            if(format == null)
+            if (format is null)
                 throw new ArgumentNullException(nameof(format));
-            this.data = format.Distinct(StringComparer.OrdinalIgnoreCase).Select(s => s.Trim()).ToList();
+            this.data = format.Distinct(StringComparer.OrdinalIgnoreCase).Select(s => s.Trim()).ToArray();
         }
 
-        /// <summary>
-        /// Returns the ass format of this <see cref="EntryHeader"/>.
-        /// </summary>
-        /// <returns>A <see cref="string"/> presents the ass format of this <see cref="EntryHeader"/>.</returns>
-        public override string ToString()
+        internal void Serialize(TextWriter writer)
         {
-            return string.Format(FormatHelper.DefaultFormat, "Format: {0}", this.data.ToString());
+            var f = this.data;
+            writer.Write("Format: ");
+            for (var i = 0; i < f.Length; i++)
+            {
+                if (i != 0)
+                    writer.Write(',');
+                writer.Write(f[i]);
+            }
         }
 
-        private IReadOnlyList<string> data;
-
-        #region IEquatable<FormatEntry> 成员
+        private readonly string[] data;
 
         /// <summary>
         /// Returns whatever two <see cref="EntryHeader"/> are equal, ignore differences of the order of entry names.
@@ -61,16 +65,14 @@ namespace Opportunity.AssLoader
         /// <returns>True if the two <see cref="EntryHeader"/> are equal.</returns>
         public bool Equals(EntryHeader other)
         {
-            if(other == null)
+            if (other is null)
                 return false;
-            if(ReferenceEquals(this, other))
+            if (ReferenceEquals(this, other))
                 return true;
-            if(this.data.Count != other.data.Count)
+            if (this.data.Length != other.data.Length)
                 return false;
-            return this.data.Count == Enumerable.Join(this.data, other.data, s => s, s => s, (o, i) => 0, StringComparer.OrdinalIgnoreCase).Count();
+            return this.data.Length == Enumerable.Join(this.data, other.data, s => s, s => s, (o, i) => 0, StringComparer.OrdinalIgnoreCase).Count();
         }
-
-        #endregion
 
         /// <summary>
         /// Returns whatever two <see cref="EntryHeader"/> are equal, ignore differences of the order of entry names.
@@ -78,29 +80,14 @@ namespace Opportunity.AssLoader
         /// <param name="obj">The <see cref="object"/> to compare with this <see cref="EntryHeader"/>.</param>
         /// <returns>True if the two <see cref="EntryHeader"/> are equal.</returns>
         public override bool Equals(object obj)
-        {
-            return this.Equals(obj as EntryHeader);
-        }
+            => obj is EntryHeader other && Equals(other);
 
         /// <summary>
         /// Get hash code of this <see cref="EntryHeader"/>, ignore differences of the order of entry names.
         /// </summary>
         /// <returns></returns>
         public override int GetHashCode()
-        {
-            return this.data.Aggregate(0, (o, n) => o ^ StringComparer.OrdinalIgnoreCase.GetHashCode(n));
-        }
-
-        #region IEnumerable 成员
-
-        System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
-        {
-            return this.data.GetEnumerator();
-        }
-
-        #endregion
-
-        #region IReadOnlyList<string> 成员
+            => this.data.Aggregate(0, (o, n) => o ^ StringComparer.OrdinalIgnoreCase.GetHashCode(n));
 
         /// <summary>
         /// Get the entry name with the given index.
@@ -110,28 +97,17 @@ namespace Opportunity.AssLoader
         /// <exception cref="ArgumentOutOfRangeException"><paramref name="index"/> out of range.</exception>
         public string this[int index] => this.data[index];
 
-        #endregion
-
-        #region IReadOnlyCollection<string> 成员
-
         /// <summary>
         /// Get the number of entry names of this <see cref="EntryHeader"/>.
         /// </summary>
-        public int Count => this.data.Count;
-
-        #endregion
-
-        #region IEnumerable<string> 成员
+        public int Count => this.data.Length;
 
         /// <summary>
         /// Get the enumerator of entry names of this <see cref="EntryHeader"/>.
         /// </summary>
         /// <returns>The enumerator of entry names of this <see cref="EntryHeader"/>.</returns>
-        public IEnumerator<string> GetEnumerator()
-        {
-            return this.data.GetEnumerator();
-        }
+        public IEnumerator<string> GetEnumerator() => ((IEnumerable<string>)this.data).GetEnumerator();
 
-        #endregion
+        System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator() => this.data.GetEnumerator();
     }
 }

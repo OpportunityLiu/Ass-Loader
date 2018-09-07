@@ -1,6 +1,6 @@
-﻿using System;
+﻿using Opportunity.AssLoader.Serializer;
+using System;
 using System.Linq;
-using Opportunity.AssLoader.Serializer;
 
 namespace Opportunity.AssLoader.Collections
 {
@@ -12,16 +12,14 @@ namespace Opportunity.AssLoader.Collections
         /// <summary>
         /// Create a new instance of <see cref="AssScriptInfo"/> with default values of properties.
         /// </summary>
-        public AssScriptInfo()
-        {
-        }
+        public AssScriptInfo() { }
 
         /// <summary>
         /// Create a new instance of <see cref="AssScriptInfo"/> with given properties.
         /// </summary>
         /// <param name="originalScript">The original author(s) of the script.</param>
         /// <param name="title">This is a description of the script.</param>
-        public AssScriptInfo(string title,string originalScript)
+        public AssScriptInfo(string title, string originalScript)
         {
             this.Title = title;
             this.OriginalScript = originalScript;
@@ -48,9 +46,9 @@ namespace Opportunity.AssLoader.Collections
             get => this.title;
             set
             {
-                if(!FormatHelper.SingleLineStringValueValid(ref value))
+                if (!FormatHelper.SingleLineStringValueValid(ref value))
                     value = null;
-                this.Set(ref this.title, value);
+                this.title = value;
             }
         }
 
@@ -67,9 +65,9 @@ namespace Opportunity.AssLoader.Collections
             get => this.originalScript;
             set
             {
-                if(!FormatHelper.SingleLineStringValueValid(ref value))
+                if (!FormatHelper.SingleLineStringValueValid(ref value))
                     value = null;
-                this.Set(ref this.originalScript, value);
+                this.originalScript = value;
             }
         }
 
@@ -86,9 +84,9 @@ namespace Opportunity.AssLoader.Collections
             get => this.originalTranslation;
             set
             {
-                if(!FormatHelper.SingleLineStringValueValid(ref value))
+                if (!FormatHelper.SingleLineStringValueValid(ref value))
                     value = null;
-                this.Set(ref this.originalTranslation, value);
+                this.originalTranslation = value;
             }
         }
 
@@ -106,9 +104,9 @@ namespace Opportunity.AssLoader.Collections
             get => this.originalEditing;
             set
             {
-                if(!FormatHelper.SingleLineStringValueValid(ref value))
+                if (!FormatHelper.SingleLineStringValueValid(ref value))
                     value = null;
-                this.Set(ref this.originalEditing, value);
+                this.originalEditing = value;
             }
         }
 
@@ -125,9 +123,9 @@ namespace Opportunity.AssLoader.Collections
             get => this.originalTiming;
             set
             {
-                if(!FormatHelper.SingleLineStringValueValid(ref value))
+                if (!FormatHelper.SingleLineStringValueValid(ref value))
                     value = null;
-                this.Set(ref this.originalTiming, value);
+                this.originalTiming = value;
             }
         }
 
@@ -144,9 +142,9 @@ namespace Opportunity.AssLoader.Collections
             get => this.synchPoint;
             set
             {
-                if(!FormatHelper.SingleLineStringValueValid(ref value))
+                if (!FormatHelper.SingleLineStringValueValid(ref value))
                     value = null;
-                this.Set(ref this.synchPoint, value);
+                this.synchPoint = value;
             }
         }
 
@@ -163,9 +161,9 @@ namespace Opportunity.AssLoader.Collections
             get => this.scriptUpdatedBy;
             set
             {
-                if(!FormatHelper.SingleLineStringValueValid(ref value))
+                if (!FormatHelper.SingleLineStringValueValid(ref value))
                     value = null;
-                this.Set(ref this.scriptUpdatedBy, value);
+                this.scriptUpdatedBy = value;
             }
         }
 
@@ -182,9 +180,9 @@ namespace Opportunity.AssLoader.Collections
             get => this.updateDetails;
             set
             {
-                if(!FormatHelper.SingleLineStringValueValid(ref value))
+                if (!FormatHelper.SingleLineStringValueValid(ref value))
                     value = null;
-                this.Set(ref this.updateDetails, value);
+                this.updateDetails = value;
             }
         }
 
@@ -194,10 +192,18 @@ namespace Opportunity.AssLoader.Collections
         /// <summary>
         /// This determines how subtitles are moved, when automatically preventing onscreen collisions.
         /// </summary>
+        /// <exception cref="ArgumentOutOfRangeException">
+        /// <paramref name="value"/> is not one of the valid value.
+        /// </exception>
         public CollisionStyle Collisions
         {
             get => this.collisions;
-            set => this.Set(ref this.collisions, value);
+            set
+            {
+                if (!value.IsDefined())
+                    throw new ArgumentOutOfRangeException(nameof(value));
+                this.collisions = value;
+            }
         }
 
 
@@ -216,9 +222,9 @@ namespace Opportunity.AssLoader.Collections
             get => this.playResY;
             set
             {
-                if(value < 0)
+                if (value < 0)
                     throw new ArgumentOutOfRangeException(nameof(value), "value is less than 0.");
-                this.Set(ref this.playResY, value);
+                this.playResY = value;
             }
         }
 
@@ -237,9 +243,9 @@ namespace Opportunity.AssLoader.Collections
             get => this.playResX;
             set
             {
-                if(value < 0)
+                if (value < 0)
                     throw new ArgumentOutOfRangeException(nameof(value), "value is less than 0.");
-                this.Set(ref this.playResX, value);
+                this.playResX = value;
             }
         }
 
@@ -257,12 +263,9 @@ namespace Opportunity.AssLoader.Collections
             get => this.playDepth;
             set
             {
-                if(value.HasValue)
-                {
-                    if(value.Value <= 0)
-                        throw new ArgumentOutOfRangeException(nameof(value), "value must be greater than 0.");
-                }
-                this.Set(ref this.playDepth, value);
+                if (value.HasValue && value.Value <= 0)
+                    throw new ArgumentOutOfRangeException(nameof(value), "value must be greater than 0.");
+                this.playDepth = value;
             }
         }
 
@@ -297,14 +300,14 @@ namespace Opportunity.AssLoader.Collections
             get => this.timer;
             set
             {
-                if(value.HasValue)
+                if (value.HasValue)
                 {
-                    if(ThrowHelper.IsInvalidDouble(value.Value))
+                    if (ThrowHelper.IsInvalidDouble(value.Value))
                         throw new ArgumentException("value should be a valid number", nameof(value));
-                    if(value.Value <= 0)
+                    if (value.Value <= 0)
                         throw new ArgumentOutOfRangeException(nameof(value), "value must be greater than 0.");
                 }
-                this.Set(ref this.timer, value);
+                this.timer = value;
             }
         }
 
@@ -322,10 +325,9 @@ namespace Opportunity.AssLoader.Collections
             get => (WrapStyle)this.wrapStyle;
             set
             {
-                var num = (int)value;
-                if(ThrowHelper.IsLessThanZeroOrOutOfRange(4, num))
+                if (!value.IsDefined())
                     throw new ArgumentOutOfRangeException(nameof(value));
-                this.Set(ref this.wrapStyle, num);
+                this.wrapStyle = (int)value;
             }
         }
 
@@ -339,7 +341,7 @@ namespace Opportunity.AssLoader.Collections
         public bool ScaledBorderAndShadow
         {
             get => this.scaledBorderAndShadow;
-            set => this.Set(ref this.scaledBorderAndShadow, value);
+            set => this.scaledBorderAndShadow = value;
         }
     }
 }

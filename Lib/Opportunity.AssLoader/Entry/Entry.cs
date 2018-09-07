@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.CompilerServices;
@@ -14,17 +15,26 @@ namespace Opportunity.AssLoader
     /// <summary>
     /// Entry of ass file.
     /// </summary>
-    public abstract class Entry : INotifyPropertyChanged
+    public abstract class Entry
     {
-        /// <summary>
-        /// Create new instance of <see cref="Entry"/>.
-        /// </summary>
-        protected Entry()
+        private static readonly Dictionary<Type, Dictionary<string, FieldSerializeHelper>> fieldInfoCache
+            = new Dictionary<Type, Dictionary<string, FieldSerializeHelper>>();
+
+        private static Dictionary<string, FieldSerializeHelper> getFieldInfo(Type entryType)
         {
-            var type = this.GetType();
-            if (!fieldInfoCache.TryGetValue(type, out this.fieldInfo))
+            if (!fieldInfoCache.TryGetValue(entryType, out var info))
             {
-                this.fieldInfo = new Dictionary<string, FieldSerializeHelper>(StringComparer.OrdinalIgnoreCase);
+                info = initInfo(entryType);
+                lock (fieldInfoCache)
+                {
+                    fieldInfoCache[entryType] = info;
+                }
+            }
+            return info;
+
+            Dictionary<string, FieldSerializeHelper> initInfo(Type type)
+            {
+                var fieldInfo = new Dictionary<string, FieldSerializeHelper>(StringComparer.OrdinalIgnoreCase);
                 do
                 {
                     foreach (var fInfo in type.GetRuntimeFields())
@@ -34,39 +44,48 @@ namespace Opportunity.AssLoader
                             continue;
                         var ser = fInfo.GetCustomAttribute<SerializeAttribute>();
                         var helper = new FieldSerializeHelper(fInfo, att, ser);
-                        this.fieldInfo.Add(att.Name, helper);
+                        fieldInfo.Add(att.Name, helper);
                         if (!string.IsNullOrEmpty(att.Alias))
-                            this.fieldInfo.Add(att.Alias, helper);
+                            fieldInfo.Add(att.Alias, helper);
                     }
                 } while ((type = type.GetTypeInfo().BaseType) != typeof(Entry));
-                fieldInfoCache.Add(this.GetType(), this.fieldInfo);
+                return fieldInfo;
             }
         }
 
-        private static Dictionary<Type, Dictionary<string, FieldSerializeHelper>> fieldInfoCache = new Dictionary<Type, Dictionary<string, FieldSerializeHelper>>();
-
-        private Dictionary<string, FieldSerializeHelper> fieldInfo;
+        /// <summary>
+        /// Create new instance of <see cref="Entry"/>.
+        /// </summary>
+        protected Entry() { }
 
         /// <summary>
         /// Name of this <see cref="Entry"/>.
         /// </summary>
-        protected abstract string EntryName
-        {
-            get;
-        }
+        protected abstract string EntryName { get; }
 
         /// <summary>
-        /// Returns the ass form of this <see cref="Entry"/>, with the given <paramref name="format"/>.
+        /// Serilaize this <see cref="Entry"/> to the ass form, with the given <paramref name="format"/>.
         /// </summary>
         /// <param name="format">The <see cref="EntryHeader"/> presents its format.</param>
-        /// <returns>The <see cref="string"/> presents this <see cref="Entry"/>.</returns>
-        /// <exception cref="ArgumentNullException"><paramref name="format"/> is null.</exception>
-        public string Serialize(EntryHeader format)
+        /// <param name="writer">A <see cref="TextWriter"/> to write into.</param>
+        /// <exception cref="ArgumentNullException">
+        /// <paramref name="format"/> or <paramref name="writer"/> is <see langword="null"/>.
+        /// </exception>
+        public virtual void Serialize(EntryHeader format, TextWriter writer)
         {
-            if (format == null)
-                throw new ArgumentNullException(nameof(format));
-            var r = new EntryData(format.Select(key => this.fieldInfo[key].Serialize(this)).ToArray());
-            return string.Format(FormatHelper.DefaultFormat, "{0}: {1}", this.EntryName, r.ToString());
+            if (format is null) throw new ArgumentNullException(nameof(format));
+            if (writer is null) throw new ArgumentNullException(nameof(writer));
+
+            var fieldInfo = getFieldInfo(GetType());
+            var f = new EntryData(format.Select(key => fieldInfo[key].Serialize(this)).ToArray()).Fields;
+            writer.Write(this.EntryName);
+            writer.Write(": ");
+            for (var i = 0; i < f.Length; i++)
+            {
+                if (i != 0)
+                    writer.Write(',');
+                writer.Write(f[i]);
+            }
         }
 
         /// <summary>
@@ -83,9 +102,10 @@ namespace Opportunity.AssLoader
             if (string.IsNullOrEmpty(fields))
                 throw new ArgumentNullException(nameof(fields));
             var data = new EntryData(fields, format.Count);
+            var fieldInfo = getFieldInfo(GetType());
             for (var i = 0; i < format.Count; i++)
             {
-                if (!this.fieldInfo.TryGetValue(format[i], out var target))
+                if (!fieldInfo.TryGetValue(format[i], out var target))
                     continue;
                 target.Deserialize(this, data[i]);
             }
@@ -108,8 +128,9 @@ namespace Opportunity.AssLoader
             if (string.IsNullOrEmpty(fields))
                 throw new ArgumentNullException(nameof(fields));
             var data = new EntryData(fields, format.Count);
+            var fieldInfo = getFieldInfo(GetType());
             for (var i = 0; i < format.Count; i++)
-                this.fieldInfo[format[i]].DeserializeExact(this, data[i]);
+                fieldInfo[format[i]].DeserializeExact(this, data[i]);
         }
 
         /// <summary>
@@ -120,7 +141,8 @@ namespace Opportunity.AssLoader
         protected T Clone<T>() where T : Entry, new()
         {
             var re = new T();
-            foreach (var item in this.fieldInfo.Values)
+            var fieldInfo = getFieldInfo(GetType());
+            foreach (var item in fieldInfo.Values)
                 item.SetValue(re, item.GetValue(this));
             return re;
         }
@@ -132,7 +154,8 @@ namespace Opportunity.AssLoader
         protected Entry Clone()
         {
             var re = (Entry)Activator.CreateInstance(this.GetType());
-            foreach (var item in this.fieldInfo.Values)
+            var fieldInfo = getFieldInfo(GetType());
+            foreach (var item in fieldInfo.Values)
                 item.SetValue(re, item.GetValue(this));
             return re;
         }
@@ -145,10 +168,11 @@ namespace Opportunity.AssLoader
         /// <returns>A copy of this <typeparamref name="T"/>.</returns>
         protected T Clone<T>(Func<T> factory) where T : Entry
         {
-            if (factory == null)
+            if (factory is null)
                 throw new ArgumentNullException(nameof(factory));
             var re = factory();
-            foreach (var item in this.fieldInfo.Values)
+            var fieldInfo = getFieldInfo(GetType());
+            foreach (var item in fieldInfo.Values)
                 item.SetValue(re, item.GetValue(this));
             return re;
         }
@@ -160,49 +184,13 @@ namespace Opportunity.AssLoader
         /// <returns>A copy of this <see cref="Entry"/>.</returns>
         protected Entry Clone(Func<Entry> factory)
         {
-            if (factory == null)
+            if (factory is null)
                 throw new ArgumentNullException(nameof(factory));
             var re = factory();
-            foreach (var item in this.fieldInfo.Values)
+            var fieldInfo = getFieldInfo(GetType());
+            foreach (var item in fieldInfo.Values)
                 item.SetValue(re, item.GetValue(this));
             return re;
         }
-
-        #region INotifyPropertyChanged 成员
-        /// <summary>
-        /// Occurs when the property changes.
-        /// </summary>
-        /// <remarks>
-        /// The event handler receives an argument of type
-        /// <seealso cref="PropertyChangedEventHandler" />
-        /// containing data related to this event.
-        /// </remarks>
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        /// <summary>
-        /// Raise the event <see cref="PropertyChanged"/>.
-        /// </summary>
-        /// <param name="propertyName">The name of the changing property.</param>
-        protected virtual void RaisePropertyChanged([CallerMemberName]string propertyName = "")
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-
-        /// <summary>
-        /// Set the field and raise the event <see cref="PropertyChanged"/> if needed.
-        /// </summary>
-        /// <param name="propertyName">The name of the changing property.</param>
-        /// <typeparam name="T">The type of the property.</typeparam>
-        /// <param name="field">The field to set.</param>
-        /// <param name="value">The value to set.</param>
-        protected void Set<T>(ref T field, T value, [CallerMemberName]string propertyName = "")
-        {
-            if (Equals(field, value))
-                return;
-            field = value;
-            this.RaisePropertyChanged(propertyName);
-        }
-
-        #endregion
     }
 }

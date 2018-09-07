@@ -12,27 +12,25 @@ namespace Opportunity.AssLoader
 
         public static bool SingleLineStringValueValid(ref string value)
         {
-            if(value == null)
+            if (value is null)
                 return false;
             value = value.Trim();
-            if(value.Length == 0)
+            if (value.Length == 0)
                 return false;
-            if(value.IndexOfAny(retChar) != -1)
+            if (value.IndexOfAny(retChar) != -1)
                 throw new ArgumentException("value must be single line.", nameof(value));
             return true;
         }
 
         public static bool FieldStringValueValid(ref string value)
         {
-            if(SingleLineStringValueValid(ref value))
+            if (SingleLineStringValueValid(ref value))
             {
                 value = value.Replace(',', ';');
                 return true;
             }
             else
-            {
                 return false;
-            }
         }
 
         public static IFormatProvider DefaultFormat { get; } = System.Globalization.CultureInfo.InvariantCulture;
@@ -41,7 +39,7 @@ namespace Opportunity.AssLoader
 
         public static bool TryPraseLine(out string key, out string value, string rawString)
         {
-            if(string.IsNullOrEmpty(rawString) || rawString.IndexOf(':') == -1)
+            if (string.IsNullOrEmpty(rawString) || rawString.IndexOf(':') == -1)
             {
                 key = value = null;
                 return false;
