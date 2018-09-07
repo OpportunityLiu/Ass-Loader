@@ -12,8 +12,8 @@ namespace Opportunity.AssLoader.Test
     {
         public TestContext TestContext
         {
-            get => helper.Context;
-            set => helper = new TestHelper(value);
+            get => this.helper.Context;
+            set => this.helper = new TestHelper(value);
         }
 
         private TestHelper helper;

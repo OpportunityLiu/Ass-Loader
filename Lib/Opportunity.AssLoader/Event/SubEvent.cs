@@ -62,7 +62,7 @@ namespace Opportunity.AssLoader
         /// <returns>A copy of this <see cref="SubEvent"/>.</returns>
         public new SubEvent Clone()
         {
-            var re = Clone<SubEvent>();
+            var re = this.Clone<SubEvent>();
             return re;
         }
 
@@ -72,7 +72,7 @@ namespace Opportunity.AssLoader
         /// <returns>A string form of this <see cref="SubEvent"/>.</returns>
         public override string ToString()
         {
-            return EntryName + ": " + this.text.ToString();
+            return this.EntryName + ": " + this.text.ToString();
         }
 
         /// <summary>
@@ -82,7 +82,7 @@ namespace Opportunity.AssLoader
         {
             get
             {
-                if(IsComment)
+                if(this.IsComment)
                     return "Comment";
                 else
                     return "Dialogue";
@@ -99,8 +99,8 @@ namespace Opportunity.AssLoader
             get => this.iscomment;
             set
             {
-                Set(ref this.iscomment, value);
-                RaisePropertyChanged("EntryName");
+                this.Set(ref this.iscomment, value);
+                this.RaisePropertyChanged("EntryName");
             }
         }
 
@@ -125,7 +125,7 @@ namespace Opportunity.AssLoader
             {
                 if(value < 0)
                     throw new ArgumentOutOfRangeException(nameof(value));
-                Set(ref this.layer, value);
+                this.Set(ref this.layer, value);
             }
         }
 
@@ -147,7 +147,7 @@ namespace Opportunity.AssLoader
                 if(value > this.endTime)
                     throw new ArgumentOutOfRangeException(nameof(value), "StartTime must earlier than EndTime.");
                 else
-                Set(ref this.startTime, value);
+                    this.Set(ref this.startTime, value);
             }
         }
 
@@ -163,13 +163,13 @@ namespace Opportunity.AssLoader
         /// </exception>
         public TimeSpan EndTime
         {
-            get => endTime;
+            get => this.endTime;
             set
             {
                 if(value < this.startTime)
                     throw new ArgumentOutOfRangeException(nameof(value), "StartTime must earlier than EndTime.");
                 else
-                Set(ref this.endTime, value);
+                    this.Set(ref this.endTime, value);
             }
         }
 
@@ -182,12 +182,12 @@ namespace Opportunity.AssLoader
         /// <exception cref="ArgumentException"><paramref name="value"/> contains line breaks.</exception>
         public string Style
         {
-            get => style;
+            get => this.style;
             set
             {
                 if(!FormatHelper.FieldStringValueValid(ref value))
                     value = null;
-                Set(ref this.style, value);
+                this.Set(ref this.style, value);
             }
         }
 
@@ -203,12 +203,12 @@ namespace Opportunity.AssLoader
         /// </remarks>
         public string Name
         {
-            get => name;
+            get => this.name;
             set
             {
                 if(!FormatHelper.FieldStringValueValid(ref value))
                     value = null;
-                Set(ref this.name, value);
+                this.Set(ref this.name, value);
             }
         }
 
@@ -224,12 +224,12 @@ namespace Opportunity.AssLoader
         /// </exception>
         public int MarginL
         {
-            get => marginL;
+            get => this.marginL;
             set
             {
                 if(value < 0)
                     throw new ArgumentOutOfRangeException(nameof(value));
-                Set(ref this.marginL, value);
+                this.Set(ref this.marginL, value);
             }
         }
 
@@ -245,12 +245,12 @@ namespace Opportunity.AssLoader
         /// </exception>
         public int MarginR
         {
-            get => marginR;
+            get => this.marginR;
             set
             {
                 if(value < 0)
                     throw new ArgumentOutOfRangeException(nameof(value));
-                Set(ref this.marginR, value);
+                this.Set(ref this.marginR, value);
             }
         }
 
@@ -266,12 +266,12 @@ namespace Opportunity.AssLoader
         /// </exception>
         public int MarginV
         {
-            get => marginV;
+            get => this.marginV;
             set
             {
                 if(value < 0)
                     throw new ArgumentOutOfRangeException(nameof(value));
-                Set(ref this.marginV, value);
+                this.Set(ref this.marginV, value);
             }
         }
 
@@ -289,12 +289,12 @@ namespace Opportunity.AssLoader
         /// </remarks>
         public string Effect
         {
-            get => effect;
+            get => this.effect;
             set
             {
                 if(!FormatHelper.FieldStringValueValid(ref value))
                     value = null;
-                Set(ref this.effect, value);
+                this.Set(ref this.effect, value);
             }
         }
 
@@ -307,8 +307,8 @@ namespace Opportunity.AssLoader
         /// </summary>
         public TextContent Text
         {
-            get => text;
-            set => Set(ref text, value);
+            get => this.text;
+            set => this.Set(ref this.text, value);
         }
 
         #endregion

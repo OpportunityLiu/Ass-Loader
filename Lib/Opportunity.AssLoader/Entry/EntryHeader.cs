@@ -79,7 +79,7 @@ namespace Opportunity.AssLoader
         /// <returns>True if the two <see cref="EntryHeader"/> are equal.</returns>
         public override bool Equals(object obj)
         {
-            return Equals(obj as EntryHeader);
+            return this.Equals(obj as EntryHeader);
         }
 
         /// <summary>

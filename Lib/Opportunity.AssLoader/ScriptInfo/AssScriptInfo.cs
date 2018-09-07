@@ -23,8 +23,8 @@ namespace Opportunity.AssLoader.Collections
         /// <param name="title">This is a description of the script.</param>
         public AssScriptInfo(string title,string originalScript)
         {
-            Title = title;
-            OriginalScript = originalScript;
+            this.Title = title;
+            this.OriginalScript = originalScript;
         }
 
         [ScriptInfo("ScriptType", DefaultValue = "v4.00+")]
@@ -50,7 +50,7 @@ namespace Opportunity.AssLoader.Collections
             {
                 if(!FormatHelper.SingleLineStringValueValid(ref value))
                     value = null;
-                Set(ref this.title, value);
+                this.Set(ref this.title, value);
             }
         }
 
@@ -69,7 +69,7 @@ namespace Opportunity.AssLoader.Collections
             {
                 if(!FormatHelper.SingleLineStringValueValid(ref value))
                     value = null;
-                Set(ref this.originalScript, value);
+                this.Set(ref this.originalScript, value);
             }
         }
 
@@ -88,7 +88,7 @@ namespace Opportunity.AssLoader.Collections
             {
                 if(!FormatHelper.SingleLineStringValueValid(ref value))
                     value = null;
-                Set(ref this.originalTranslation, value);
+                this.Set(ref this.originalTranslation, value);
             }
         }
 
@@ -108,7 +108,7 @@ namespace Opportunity.AssLoader.Collections
             {
                 if(!FormatHelper.SingleLineStringValueValid(ref value))
                     value = null;
-                Set(ref this.originalEditing, value);
+                this.Set(ref this.originalEditing, value);
             }
         }
 
@@ -127,7 +127,7 @@ namespace Opportunity.AssLoader.Collections
             {
                 if(!FormatHelper.SingleLineStringValueValid(ref value))
                     value = null;
-                Set(ref this.originalTiming, value);
+                this.Set(ref this.originalTiming, value);
             }
         }
 
@@ -146,7 +146,7 @@ namespace Opportunity.AssLoader.Collections
             {
                 if(!FormatHelper.SingleLineStringValueValid(ref value))
                     value = null;
-                Set(ref this.synchPoint, value);
+                this.Set(ref this.synchPoint, value);
             }
         }
 
@@ -165,7 +165,7 @@ namespace Opportunity.AssLoader.Collections
             {
                 if(!FormatHelper.SingleLineStringValueValid(ref value))
                     value = null;
-                Set(ref this.scriptUpdatedBy, value);
+                this.Set(ref this.scriptUpdatedBy, value);
             }
         }
 
@@ -184,7 +184,7 @@ namespace Opportunity.AssLoader.Collections
             {
                 if(!FormatHelper.SingleLineStringValueValid(ref value))
                     value = null;
-                Set(ref this.updateDetails, value);
+                this.Set(ref this.updateDetails, value);
             }
         }
 
@@ -197,7 +197,7 @@ namespace Opportunity.AssLoader.Collections
         public CollisionStyle Collisions
         {
             get => this.collisions;
-            set => Set(ref this.collisions, value);
+            set => this.Set(ref this.collisions, value);
         }
 
 
@@ -218,7 +218,7 @@ namespace Opportunity.AssLoader.Collections
             {
                 if(value < 0)
                     throw new ArgumentOutOfRangeException(nameof(value), "value is less than 0.");
-                Set(ref this.playResY, value);
+                this.Set(ref this.playResY, value);
             }
         }
 
@@ -239,7 +239,7 @@ namespace Opportunity.AssLoader.Collections
             {
                 if(value < 0)
                     throw new ArgumentOutOfRangeException(nameof(value), "value is less than 0.");
-                Set(ref this.playResX, value);
+                this.Set(ref this.playResX, value);
             }
         }
 
@@ -262,7 +262,7 @@ namespace Opportunity.AssLoader.Collections
                     if(value.Value <= 0)
                         throw new ArgumentOutOfRangeException(nameof(value), "value must be greater than 0.");
                 }
-                Set(ref this.playDepth, value);
+                this.Set(ref this.playDepth, value);
             }
         }
 
@@ -304,7 +304,7 @@ namespace Opportunity.AssLoader.Collections
                     if(value.Value <= 0)
                         throw new ArgumentOutOfRangeException(nameof(value), "value must be greater than 0.");
                 }
-                Set(ref this.timer, value);
+                this.Set(ref this.timer, value);
             }
         }
 
@@ -325,7 +325,7 @@ namespace Opportunity.AssLoader.Collections
                 var num = (int)value;
                 if(ThrowHelper.IsLessThanZeroOrOutOfRange(4, num))
                     throw new ArgumentOutOfRangeException(nameof(value));
-                Set(ref this.wrapStyle, num);
+                this.Set(ref this.wrapStyle, num);
             }
         }
 
@@ -339,7 +339,7 @@ namespace Opportunity.AssLoader.Collections
         public bool ScaledBorderAndShadow
         {
             get => this.scaledBorderAndShadow;
-            set => Set(ref this.scaledBorderAndShadow, value);
+            set => this.Set(ref this.scaledBorderAndShadow, value);
         }
     }
 }

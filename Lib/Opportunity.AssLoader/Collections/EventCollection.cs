@@ -45,7 +45,7 @@ namespace Opportunity.AssLoader.Collections
 
             }
             this.OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
-            this.OnPropertyChanged(new PropertyChangedEventArgs(nameof(Items)));
+            this.OnPropertyChanged(new PropertyChangedEventArgs(nameof(this.Items)));
         }
 
         /// <summary>
@@ -57,7 +57,7 @@ namespace Opportunity.AssLoader.Collections
         {
             if(comparison == null)
                 throw new ArgumentNullException(nameof(comparison));
-            Sort(Comparer<SubEvent>.Create(comparison));
+            this.Sort(Comparer<SubEvent>.Create(comparison));
         }
 
         /// <summary>
@@ -65,7 +65,7 @@ namespace Opportunity.AssLoader.Collections
         /// </summary>
         public void SortByTime()
         {
-            Sort((a, b) =>
+            this.Sort((a, b) =>
             {
                 var c1 = TimeSpan.Compare(a.StartTime, b.StartTime);
                 if(c1 != 0)
@@ -82,7 +82,7 @@ namespace Opportunity.AssLoader.Collections
         /// </summary>
         public void SortByStyle()
         {
-            Sort((a, b) =>
+            this.Sort((a, b) =>
             {
                 var c2 = string.Compare(a.Style, b.Style);
                 if(c2 != 0)

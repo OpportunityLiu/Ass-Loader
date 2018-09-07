@@ -181,7 +181,7 @@ namespace Opportunity.AssLoader.Collections
         {
             get
             {
-                if(TryGetValue(key, out var va))
+                if(this.TryGetValue(key, out var va))
                     return va;
                 throw new KeyNotFoundException($"\"{key}\" not found.");
             }
@@ -396,7 +396,7 @@ namespace Opportunity.AssLoader.Collections
                 return;
             }
             field = value;
-            RaisePropertyChanged(propertyName);
+            this.RaisePropertyChanged(propertyName);
         }
 
         #endregion

@@ -36,7 +36,7 @@ namespace Opportunity.AssLoader
                 else
                     this.Value = string.Join(@"\N", s);
             }
-            init();
+            this.init();
         }
 
         private void init()
@@ -44,15 +44,15 @@ namespace Opportunity.AssLoader
             var stext = new List<string>();
             var start = 0;
             var b = false;
-            for(var i = 0; i < Value.Length; i++)
+            for(var i = 0; i < this.Value.Length; i++)
             {
-                switch(Value[i])
+                switch(this.Value[i])
                 {
                 case '{':
                     if(!b)
                     {
                         b = true;
-                        stext.Add(Value.Substring(start, i - start));
+                        stext.Add(this.Value.Substring(start, i - start));
                         start = i + 1;
                     }
                     break;
@@ -60,16 +60,16 @@ namespace Opportunity.AssLoader
                     if(b)
                     {
                         b = false;
-                        stext.Add(Value.Substring(start, i - start));
+                        stext.Add(this.Value.Substring(start, i - start));
                         start = i + 1;
                     }
                     break;
                 }
             }
             if(b)
-                stext[stext.Count - 1] += Value.Substring(start - 1);
+                stext[stext.Count - 1] += this.Value.Substring(start - 1);
             else
-                stext.Add(Value.Substring(start));
+                stext.Add(this.Value.Substring(start));
             this.splitedTexts = stext.ToArray();
             this.Tags = new TagList(this.splitedTexts);
             this.Texts = new TextList(this.splitedTexts);
@@ -122,7 +122,7 @@ namespace Opportunity.AssLoader
         /// <returns><see cref="Value"/> of this <see cref="TextContent"/>.</returns>
         public override string ToString()
         {
-            return Value;
+            return this.Value;
         }
 
         /// <summary>
@@ -133,7 +133,7 @@ namespace Opportunity.AssLoader
         {
             if(this.splitedTexts.Length == 1)
                 return this;
-            var builder = new StringBuilder(Value.Length);
+            var builder = new StringBuilder(this.Value.Length);
             for(var i = 0; i < this.splitedTexts.Length; i += 2)
                 builder.Append(this.splitedTexts[i]);
             return builder.ToString();
@@ -147,7 +147,7 @@ namespace Opportunity.AssLoader
         {
             if(this.splitedTexts.Length == 1)
                 return Empty;
-            var builder = new StringBuilder(Value.Length);
+            var builder = new StringBuilder(this.Value.Length);
             builder.Append('{');
             for(var i = 1; i < this.splitedTexts.Length; i += 2)
                 builder.Append(this.splitedTexts[i]);
@@ -165,10 +165,10 @@ namespace Opportunity.AssLoader
         public TextContent ReplaceText(int index, string newText)
         {
             newText = newText ?? "";
-            if(newText == Texts[index])
+            if(newText == this.Texts[index])
                 return this;
             index = index * 2;
-            var builder = new StringBuilder(Value.Length + newText.Length);
+            var builder = new StringBuilder(this.Value.Length + newText.Length);
             for(var i = 0; i < this.splitedTexts.Length; i++)
             {
                 if(i == index)
@@ -195,10 +195,10 @@ namespace Opportunity.AssLoader
         public TextContent ReplaceTag(int index, string newTag)
         {
             newTag = newTag ?? "";
-            if(newTag == Tags[index])
+            if(newTag == this.Tags[index])
                 return this;
             index = index * 2 + 1;
-            var builder = new StringBuilder(Value.Length + newTag.Length);
+            var builder = new StringBuilder(this.Value.Length + newTag.Length);
             for(var i = 0; i < this.splitedTexts.Length; i++)
             {
                 builder.Append(this.splitedTexts[i]);
@@ -270,13 +270,13 @@ namespace Opportunity.AssLoader
         /// </summary>
         /// <param name="obj">The <see cref="object"/> to compare with this <see cref="TextContent"/>.</param>
         /// <returns>True if the two <see cref="TextContent"/> are equal.</returns>
-        public override bool Equals(object obj) => Equals(obj as TextContent);
+        public override bool Equals(object obj) => this.Equals(obj as TextContent);
 
         /// <summary>
         /// Returns the hash code of the <see cref="TextContent"/>.
         /// </summary>
         /// <returns>The hash code of the <see cref="TextContent"/>.</returns>
-        public override int GetHashCode() => Value.GetHashCode();
+        public override int GetHashCode() => this.Value.GetHashCode();
 
         /// <summary>
         /// Empty <see cref="TextContent"/>, whose <see cref="Value"/> is <see cref="string.Empty"/>.

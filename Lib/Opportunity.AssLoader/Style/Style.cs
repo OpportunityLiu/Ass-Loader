@@ -25,7 +25,7 @@ namespace Opportunity.AssLoader
         /// <param name="name">Name of the <see cref="Style"/>.</param>
         public Style(string name)
         {
-            Name = name;
+            this.Name = name;
         }
 
         /// <summary>
@@ -69,7 +69,7 @@ namespace Opportunity.AssLoader
         /// <exception cref="ArgumentNullException"><paramref name="newName"/> is not a valid <see cref="Name"/>.</exception>
         public Style Clone(string newName)
         {
-            var n = Clone(() => new Style());
+            var n = this.Clone(() => new Style());
             n.Name = newName;
             return n;
         }
@@ -95,12 +95,12 @@ namespace Opportunity.AssLoader
         /// <exception cref="ArgumentException"><paramref name="value"/> contains line breaks.</exception>
         public string Name
         {
-            get => name;
+            get => this.name;
             protected set
             {
                 if(FormatHelper.FieldStringValueValid(ref value))
                 {
-                    Set(ref this.name, value);
+                    this.Set(ref this.name, value);
                 }
                 else
                     throw new ArgumentNullException(nameof(value));
@@ -117,12 +117,12 @@ namespace Opportunity.AssLoader
         /// <exception cref="ArgumentException"><paramref name="value"/> contains line breaks.</exception>
         public string FontName
         {
-            get => fontName;
+            get => this.fontName;
             set
             {
                 if(FormatHelper.FieldStringValueValid(ref value))
                 {
-                    Set(ref this.fontName, value);
+                    this.Set(ref this.fontName, value);
                 }
                 else
                     throw new ArgumentNullException(nameof(value));
@@ -143,14 +143,14 @@ namespace Opportunity.AssLoader
         /// </exception>
         public double FontSize
         {
-            get => fontSize;
+            get => this.fontSize;
             set
             {
                 if(ThrowHelper.IsInvalidDouble(value))
                     throw new ArgumentException("value should be a valid number", nameof(value));
                 if(value < 0)
                     throw new ArgumentOutOfRangeException(nameof(value));
-                Set(ref this.fontSize, value);
+                this.Set(ref this.fontSize, value);
             }
         }
 
@@ -163,8 +163,8 @@ namespace Opportunity.AssLoader
         /// </summary>
         public Color PrimaryColor
         {
-            get => primaryColor;
-            set => Set(ref primaryColor, value);
+            get => this.primaryColor;
+            set => this.Set(ref this.primaryColor, value);
         }
 
         [ColorSerialize]
@@ -176,8 +176,8 @@ namespace Opportunity.AssLoader
         /// </summary>
         public Color SecondaryColor
         {
-            get => secondaryColor;
-            set => Set(ref secondaryColor, value);
+            get => this.secondaryColor;
+            set => this.Set(ref this.secondaryColor, value);
         }
 
         [ColorSerialize]
@@ -189,8 +189,8 @@ namespace Opportunity.AssLoader
         /// </summary>
         public Color OutlineColor
         {
-            get => outlineColor;
-            set => Set(ref outlineColor, value);
+            get => this.outlineColor;
+            set => this.Set(ref this.outlineColor, value);
         }
 
         [ColorSerialize]
@@ -202,8 +202,8 @@ namespace Opportunity.AssLoader
         /// </summary>
         public Color ShadowColor
         {
-            get => shadowColor;
-            set => Set(ref shadowColor, value);
+            get => this.shadowColor;
+            set => this.Set(ref this.shadowColor, value);
         }
 
         [EntryField("Bold")]
@@ -214,8 +214,8 @@ namespace Opportunity.AssLoader
         /// </summary>
         public bool Bold
         {
-            get => bold == -1;
-            set => Set(ref bold, value ? -1 : 0);
+            get => this.bold == -1;
+            set => this.Set(ref this.bold, value ? -1 : 0);
         }
 
         [EntryField("Italic")]
@@ -226,8 +226,8 @@ namespace Opportunity.AssLoader
         /// </summary>
         public bool Italic
         {
-            get => italic == -1;
-            set => Set(ref italic, value ? -1 : 0);
+            get => this.italic == -1;
+            set => this.Set(ref this.italic, value ? -1 : 0);
         }
 
         [EntryField("Underline")]
@@ -238,8 +238,8 @@ namespace Opportunity.AssLoader
         /// </summary>
         public bool Underline
         {
-            get => underline == -1;
-            set => Set(ref underline, value ? -1 : 0);
+            get => this.underline == -1;
+            set => this.Set(ref this.underline, value ? -1 : 0);
         }
 
         [EntryField("Strikeout")]
@@ -250,8 +250,8 @@ namespace Opportunity.AssLoader
         /// </summary>
         public bool Strikeout
         {
-            get => strikeout == -1;
-            set => Set(ref strikeout, value ? -1 : 0);
+            get => this.strikeout == -1;
+            set => this.Set(ref this.strikeout, value ? -1 : 0);
         }
 
         [EntryField("ScaleX")]
@@ -268,14 +268,14 @@ namespace Opportunity.AssLoader
         /// </exception>
         public double ScaleX
         {
-            get => scaleX;
+            get => this.scaleX;
             set
             {
                 if(ThrowHelper.IsInvalidDouble(value))
                     throw new ArgumentException("value should be a valid number", nameof(value));
                 if(value < 0)
                     throw new ArgumentOutOfRangeException(nameof(value));
-                Set(ref this.scaleX, value);
+                this.Set(ref this.scaleX, value);
             }
         }
 
@@ -293,14 +293,14 @@ namespace Opportunity.AssLoader
         /// </exception>
         public double ScaleY
         {
-            get => scaleY;
+            get => this.scaleY;
             set
             {
                 if(ThrowHelper.IsInvalidDouble(value))
                     throw new ArgumentException("value should be a valid number", nameof(value));
                 if(value < 0)
                     throw new ArgumentOutOfRangeException(nameof(value));
-                Set(ref this.scaleY, value);
+                this.Set(ref this.scaleY, value);
             }
         }
 
@@ -313,12 +313,12 @@ namespace Opportunity.AssLoader
         /// <exception cref="ArgumentException"><paramref name="value"/> is <see cref="double.IsNaN(double)"/> or <see cref="double.IsInfinity(double)"/></exception>
         public double Spacing
         {
-            get => spacing;
+            get => this.spacing;
             set
             {
                 if(ThrowHelper.IsInvalidDouble(value))
                     throw new ArgumentException("value should be a valid number", nameof(value));
-                Set(ref this.spacing, value);
+                this.Set(ref this.spacing, value);
             }
         }
 
@@ -331,7 +331,7 @@ namespace Opportunity.AssLoader
         /// <exception cref="ArgumentException"><paramref name="value"/> is <see cref="double.IsNaN(double)"/> or <see cref="double.IsInfinity(double)"/></exception>
         public double Rotation
         {
-            get => rotation;
+            get => this.rotation;
             set
             {
                 if(ThrowHelper.IsInvalidDouble(value))
@@ -341,7 +341,7 @@ namespace Opportunity.AssLoader
                     value -= 360;
                 else if(value < -180)
                     value += 360;
-                Set(ref this.rotation, value);
+                this.Set(ref this.rotation, value);
             }
         }
 
@@ -356,14 +356,14 @@ namespace Opportunity.AssLoader
         /// </exception>
         public BorderStyle BorderStyle
         {
-            get => (BorderStyle)borderStyle;
+            get => (BorderStyle)this.borderStyle;
             set
             {
                 switch(value)
                 {
                 case BorderStyle.OutlineAndDropShadow:
                 case BorderStyle.OpaqueBox:
-                    Set(ref this.borderStyle, (int)value);
+                    this.Set(ref this.borderStyle, (int)value);
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(value));
@@ -385,14 +385,14 @@ namespace Opportunity.AssLoader
         /// </exception>
         public double Outline
         {
-            get => outline;
+            get => this.outline;
             set
             {
                 if(ThrowHelper.IsInvalidDouble(value))
                     throw new ArgumentException("value should be a valid number", nameof(value));
                 if(value < 0)
                     throw new ArgumentOutOfRangeException(nameof(value));
-                Set(ref this.outline, value);
+                this.Set(ref this.outline, value);
             }
         }
 
@@ -410,14 +410,14 @@ namespace Opportunity.AssLoader
         /// </exception>
         public double Shadow
         {
-            get => shadow;
+            get => this.shadow;
             set
             {
                 if(ThrowHelper.IsInvalidDouble(value))
                     throw new ArgumentException("value should be a valid number", nameof(value));
                 if(value < 0)
                     throw new ArgumentOutOfRangeException(nameof(value));
-                Set(ref this.shadow, value);
+                this.Set(ref this.shadow, value);
             }
         }
 
@@ -432,7 +432,7 @@ namespace Opportunity.AssLoader
         /// </exception>
         public AlignmentStyle Alignment
         {
-            get => (AlignmentStyle)alignment;
+            get => (AlignmentStyle)this.alignment;
             set
             {
                 switch(value)
@@ -446,7 +446,7 @@ namespace Opportunity.AssLoader
                 case AlignmentStyle.TopLeft:
                 case AlignmentStyle.TopCenter:
                 case AlignmentStyle.TopRight:
-                    Set(ref this.alignment, (int)value);
+                    this.Set(ref this.alignment, (int)value);
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(value));
@@ -463,12 +463,12 @@ namespace Opportunity.AssLoader
         /// <exception cref="ArgumentOutOfRangeException"><paramref name="value"/> is less than 0.</exception>
         public int MarginL
         {
-            get => marginL;
+            get => this.marginL;
             set
             {
                 if(value < 0)
                     throw new ArgumentOutOfRangeException(nameof(value));
-                Set(ref this.marginL, value);
+                this.Set(ref this.marginL, value);
             }
         }
 
@@ -481,12 +481,12 @@ namespace Opportunity.AssLoader
         /// <exception cref="ArgumentOutOfRangeException"><paramref name="value"/> is less than 0.</exception>
         public int MarginR
         {
-            get => marginR;
+            get => this.marginR;
             set
             {
                 if(value < 0)
                     throw new ArgumentOutOfRangeException(nameof(value));
-                Set(ref this.marginR, value);
+                this.Set(ref this.marginR, value);
             }
         }
 
@@ -499,12 +499,12 @@ namespace Opportunity.AssLoader
         /// <exception cref="ArgumentOutOfRangeException"><paramref name="value"/> is less than 0.</exception>
         public int MarginV
         {
-            get => marginV;
+            get => this.marginV;
             set
             {
                 if(value < 0)
                     throw new ArgumentOutOfRangeException(nameof(value));
-                Set(ref this.marginV, value);
+                this.Set(ref this.marginV, value);
             }
         }
 
@@ -523,12 +523,12 @@ namespace Opportunity.AssLoader
         /// </remarks>
         public int Encoding
         {
-            get => encoding;
+            get => this.encoding;
             set
             {
                 if(value < 0)
                     throw new ArgumentOutOfRangeException(nameof(value));
-                Set(ref this.encoding, value);
+                this.Set(ref this.encoding, value);
             }
         }
 

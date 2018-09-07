@@ -219,7 +219,7 @@ namespace Opportunity.AssLoader
         public override bool Equals(object obj)
         {
             if (obj is Color c)
-                return Equals(c);
+                return this.Equals(c);
             return false;
         }
 

@@ -80,7 +80,7 @@ namespace Opportunity.AssLoader.Collections
             }
             else
             {
-                base.SetItem(IndexOf(item.Name), item);
+                base.SetItem(this.IndexOf(item.Name), item);
             }
         }
 
@@ -99,7 +99,7 @@ namespace Opportunity.AssLoader.Collections
             else
             {
                 base.RemoveItem(index);
-                base.SetItem(IndexOf(item.Name), item);
+                base.SetItem(this.IndexOf(item.Name), item);
             }
         }
 

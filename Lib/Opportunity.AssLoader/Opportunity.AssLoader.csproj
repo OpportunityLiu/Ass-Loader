@@ -18,4 +18,12 @@
     <RepositoryType>git</RepositoryType>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DocumentationFile>C:\Users\lzy\Documents\Source\Ass-Loader\Lib\Opportunity.AssLoader\Opportunity.AssLoader.xml</DocumentationFile>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DocumentationFile>C:\Users\lzy\Documents\Source\Ass-Loader\Lib\Opportunity.AssLoader\Opportunity.AssLoader.xml</DocumentationFile>
+  </PropertyGroup>
+
 </Project>

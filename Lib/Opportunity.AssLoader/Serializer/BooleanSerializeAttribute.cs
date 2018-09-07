@@ -49,9 +49,9 @@ namespace Opportunity.AssLoader.Serializer
         public override string Serialize(object value)
         {
             if((bool)value)
-                return TrueString;
+                return this.TrueString;
             else
-                return FalseString;
+                return this.FalseString;
         }
 
         /// <summary>
@@ -62,11 +62,11 @@ namespace Opportunity.AssLoader.Serializer
         /// <exception cref="FormatException"><paramref name="value"/> doesn't match <see cref="TrueString"/> or <see cref="FalseString"/> while <see cref="ThrowOnDeserializing"/> is true.</exception>
         public override object Deserialize(string value)
         {
-            if(string.Equals(value, FalseString, StringComparison.OrdinalIgnoreCase))
+            if(string.Equals(value, this.FalseString, StringComparison.OrdinalIgnoreCase))
                 return false;
-            else if(string.Equals(value, TrueString, StringComparison.OrdinalIgnoreCase))
+            else if(string.Equals(value, this.TrueString, StringComparison.OrdinalIgnoreCase))
                 return true;
-            else if(ThrowOnDeserializing)
+            else if(this.ThrowOnDeserializing)
                 throw new FormatException($"Convert failed, the string to deserialize is:\n{value}");
             else
                 return false;

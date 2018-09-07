@@ -66,7 +66,7 @@ namespace Opportunity.AssLoader
             if (format == null)
                 throw new ArgumentNullException(nameof(format));
             var r = new EntryData(format.Select(key => this.fieldInfo[key].Serialize(this)).ToArray());
-            return string.Format(FormatHelper.DefaultFormat, "{0}: {1}", EntryName, r.ToString());
+            return string.Format(FormatHelper.DefaultFormat, "{0}: {1}", this.EntryName, r.ToString());
         }
 
         /// <summary>
@@ -200,7 +200,7 @@ namespace Opportunity.AssLoader
             if (Equals(field, value))
                 return;
             field = value;
-            RaisePropertyChanged(propertyName);
+            this.RaisePropertyChanged(propertyName);
         }
 
         #endregion

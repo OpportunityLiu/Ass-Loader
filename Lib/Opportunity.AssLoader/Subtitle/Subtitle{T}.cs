@@ -24,8 +24,8 @@ namespace Opportunity.AssLoader
         /// </param>
         public Subtitle(TScriptInfo scriptInfo)
         {
-            EventCollection = new EventCollection();
-            StyleSet = new StyleSet();
+            this.EventCollection = new EventCollection();
+            this.StyleSet = new StyleSet();
             this.ScriptInfo = scriptInfo;
         }
 
@@ -48,11 +48,11 @@ namespace Opportunity.AssLoader
             writer.WriteLine();
 
             writer.WriteLine("[V4+ Styles]");
-            saveStyle(writer);
+            this.saveStyle(writer);
             writer.WriteLine();
 
             writer.WriteLine("[Events]");
-            saveEvent(writer);
+            this.saveEvent(writer);
 
             writer.Flush();
         }
@@ -60,14 +60,14 @@ namespace Opportunity.AssLoader
         private void saveStyle(TextWriter writer)
         {
             writer.WriteLine(Subtitle.DefaultStyleFormat.ToString());
-            foreach(var item in StyleSet)
+            foreach(var item in this.StyleSet)
                 writer.WriteLine(item.Serialize(Subtitle.DefaultStyleFormat));
         }
 
         private void saveEvent(TextWriter writer)
         {
             writer.WriteLine(Subtitle.DefaultEventFormat.ToString());
-            foreach(var item in EventCollection)
+            foreach(var item in this.EventCollection)
                 writer.WriteLine(item.Serialize(Subtitle.DefaultEventFormat));
         }
 

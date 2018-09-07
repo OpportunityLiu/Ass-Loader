@@ -67,13 +67,13 @@ namespace Opportunity.AssLoader
                             switch(sec)
                             {
                             case Section.ScriptInfo:
-                                initScriptInfo(temp);
+                                this.initScriptInfo(temp);
                                 break;
                             case Section.Styles:
-                                initStyle(temp);
+                                this.initStyle(temp);
                                 break;
                             case Section.Events:
-                                initEvent(temp);
+                                this.initEvent(temp);
                                 break;
                             default:
                                 if(this.isExact)
@@ -98,7 +98,7 @@ Content of the line:
 
             public Task<Subtitle<T>> GetResultAsync()
             {
-                return Task.Run(() => GetResult());
+                return Task.Run(() => this.GetResult());
             }
 
             private enum Section

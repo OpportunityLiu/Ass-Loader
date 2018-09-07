@@ -18,7 +18,7 @@ namespace Opportunity.AssLoader
         /// <param name="name">name of the field in the ass file.</param>
         public EntryFieldAttribute(string name)
         {
-            Name = name;
+            this.Name = name;
         }
 
         /// <summary>

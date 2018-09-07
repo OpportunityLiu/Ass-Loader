@@ -48,7 +48,7 @@ namespace Opportunity.AssLoader.Test
 
         public KeyValuePair<string, TextReader> LoadTestFile()
         {
-            return new KeyValuePair<string, TextReader>(testfiles[0].Name, new StringReader(TestFile));
+            return new KeyValuePair<string, TextReader>(testfiles[0].Name, new StringReader(this.TestFile));
         }
 
         public TestContext Context
@@ -66,18 +66,18 @@ namespace Opportunity.AssLoader.Test
 
         public void WriteResult(string format, params object[] values)
         {
-            Context.WriteLine(format, values);
+            this.Context.WriteLine(format, values);
         }
 
         public async Task SaveResultAsync(string fileName, string result)
         {
-            using (var writer = SaveResult(fileName))
+            using (var writer = this.SaveResult(fileName))
                 await writer.WriteAsync(result);
         }
 
         public TextWriter SaveResult(string fileName)
         {
-            var directoryPath = Path.Combine("../../../../TestResults/", Context.FullyQualifiedTestClassName + "." + Context.TestName);
+            var directoryPath = Path.Combine("../../../../TestResults/", this.Context.FullyQualifiedTestClassName + "." + this.Context.TestName);
             var filePath = Path.Combine(directoryPath, fileName);
             Directory.CreateDirectory(directoryPath);
             return File.CreateText(filePath);
@@ -85,13 +85,13 @@ namespace Opportunity.AssLoader.Test
 
         public async Task SaveResultAsync(string result)
         {
-            using (var writer = SaveResult())
+            using (var writer = this.SaveResult())
                 await writer.WriteAsync(result);
         }
 
         public TextWriter SaveResult()
         {
-            return SaveResult("TestResult");
+            return this.SaveResult("TestResult");
         }
 
         public static Random Random { get; } = new Random();
@@ -134,7 +134,7 @@ namespace Opportunity.AssLoader.Test
         public void EndTimer()
         {
             this.watch.Stop();
-            WriteResult("Run time: {0} ms.", this.watch.Elapsed.TotalMilliseconds);
+            this.WriteResult("Run time: {0} ms.", this.watch.Elapsed.TotalMilliseconds);
             this.watch.Reset();
         }
     }
