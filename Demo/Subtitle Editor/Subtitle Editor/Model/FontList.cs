@@ -35,7 +35,7 @@ namespace SubtitleEditor.Model
 
         private FontList()
         {
-            Refresh();
+            this.Refresh();
         }
 
         public void Refresh()
@@ -50,7 +50,7 @@ namespace SubtitleEditor.Model
                 }
             }
             localNames.AddRange(ApplicationLanguages.Languages);
-            gdiFontFaces = new List<GdiInterop.LogFont>();
+            this.gdiFontFaces = new List<GdiInterop.LogFont>();
             using(var factory = new Factory())
             using(var gdiInterop = factory.GdiInterop)
             using(var fontCollection = factory.GetSystemFontCollection(true))
@@ -72,7 +72,7 @@ namespace SubtitleEditor.Model
                                     if(gdiInterop.ToLogFont(face, logF))
                                     {
                                         fonts.Add(logF.lfFaceName);
-                                        gdiFontFaces.Add(logF);
+                                        this.gdiFontFaces.Add(logF);
                                     }
                                 }
 

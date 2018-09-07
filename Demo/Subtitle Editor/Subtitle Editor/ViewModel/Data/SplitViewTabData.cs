@@ -14,56 +14,32 @@ namespace SubtitleEditor.ViewModel
 
         public string Icon
         {
-            get
-            {
-                return icon;
-            }
-            set
-            {
-                Set(ref icon, value);
-            }
+            get => this.icon;
+            set => this.Set(ref this.icon, value);
         }
 
         private string content;
 
         public string Content
         {
-            get
-            {
-                return content;
-            }
-            set
-            {
-                Set(ref content, value);
-            }
+            get => this.content;
+            set => this.Set(ref this.content, value);
         }
 
         private Type pageType;
 
         public Type PageType
         {
-            get
-            {
-                return pageType;
-            }
-            set
-            {
-                Set(ref pageType, value);
-            }
+            get => this.pageType;
+            set => this.Set(ref this.pageType, value);
         }
 
         private bool isChecked = false;
 
         public bool IsChecked
         {
-            get
-            {
-                return isChecked;
-            }
-            set
-            {
-                Set(ref isChecked, value);
-            }
+            get => this.isChecked;
+            set => this.Set(ref this.isChecked, value);
         }
     }
 }

@@ -24,7 +24,7 @@ namespace SubtitleEditor
     /// <summary>
     /// 提供特定于应用程序的行为，以补充默认的应用程序类。
     /// </summary>
-    sealed partial class App : Application
+    public sealed partial class App : Application
     {
         /// <summary>
         /// 初始化单一实例应用程序对象。这是执行的创作代码的第一行，
@@ -32,15 +32,14 @@ namespace SubtitleEditor
         /// </summary>
         public App()
         {
-            Microsoft.ApplicationInsights.WindowsAppInitializer.InitializeAsync(Microsoft.ApplicationInsights.WindowsCollectors.Metadata | Microsoft.ApplicationInsights.WindowsCollectors.Session | Microsoft.ApplicationInsights.WindowsCollectors.UnhandledException);
             this.InitializeComponent();
-            this.Suspending += OnSuspending;
+            this.Suspending += this.OnSuspending;
         }
 
         private void initView(IActivatedEventArgs args)
         {
 #if DEBUG
-            if(System.Diagnostics.Debugger.IsAttached)
+            if (System.Diagnostics.Debugger.IsAttached)
             {
                 this.DebugSettings.EnableFrameRateCounter = true;
                 //this.DebugSettings.EnableRedrawRegions = true;
@@ -50,25 +49,25 @@ namespace SubtitleEditor
 #endif
             var view = ApplicationView.GetForCurrentView();
 
-             var mainView = ViewModel.ViewModelLocator.GetForView(view.Id).MainView;
-            System.ComponentModel.PropertyChangedEventHandler titleUpdater = (sender, e) =>
+            var mainView = ViewModel.ViewModelLocator.GetForView(view.Id).MainView;
+            void titleUpdater(object sender, System.ComponentModel.PropertyChangedEventArgs e)
             {
-                if(string.IsNullOrEmpty(e.PropertyName) || e.PropertyName == nameof(ViewModel.MainViewModel.Title))
+                if (string.IsNullOrEmpty(e.PropertyName) || e.PropertyName == nameof(ViewModel.MainViewModel.Title))
                 {
                     var mv = (ViewModel.MainViewModel)sender;
                     view.Title = mv.Title;
                 }
-            };
+            }
             mainView.PropertyChanged += titleUpdater;
             titleUpdater(mainView, new System.ComponentModel.PropertyChangedEventArgs(null));
 
             view.SetPreferredMinSize(new Size(10000, 10000));
 
-            Frame rootFrame = new Frame();
+            var rootFrame = new Frame();
 
-            rootFrame.NavigationFailed += OnNavigationFailed;
+            rootFrame.NavigationFailed += this.OnNavigationFailed;
 
-            if(args.PreviousExecutionState == ApplicationExecutionState.Terminated || args.PreviousExecutionState == ApplicationExecutionState.ClosedByUser)
+            if (args.PreviousExecutionState == ApplicationExecutionState.Terminated || args.PreviousExecutionState == ApplicationExecutionState.ClosedByUser)
             {
                 //TODO: 从之前挂起的应用程序加载状态
             }
@@ -92,28 +91,28 @@ namespace SubtitleEditor
         /// <param name="args">有关启动请求和过程的详细信息。</param>
         protected override async void OnLaunched(LaunchActivatedEventArgs args)
         {
-            await createNewViewIfNeeded(() =>
+            await this.createNewViewIfNeeded(() =>
             {
                 var ioc = ViewModel.ViewModelLocator.GetForCurrentView();
                 ioc.Document.NewSubtitle();
-                initView(args);
+                this.initView(args);
             });
         }
 
         protected override async void OnFileActivated(FileActivatedEventArgs args)
         {
-            await createNewViewIfNeeded(async () =>
+            await this.createNewViewIfNeeded(async () =>
             {
                 var ioc = ViewModel.ViewModelLocator.GetForCurrentView();
                 var toOpen = (StorageFile)args.Files.First(f => f is StorageFile);
                 await ioc.Document.OpenFileAsync(toOpen);
-                initView(args);
+                this.initView(args);
             });
         }
 
         private async Task createNewViewIfNeeded(Windows.UI.Core.DispatchedHandler initAction)
         {
-            if(Window.Current.Content == null)
+            if (Window.Current.Content == null)
             {
                 await Window.Current.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, initAction);
                 return;
@@ -128,8 +127,7 @@ namespace SubtitleEditor
                 newAppView.Consolidated += (sender, e) =>
                 {
                     ViewModel.ViewModelLocator.ClearForView(newViewId);
-                    Window window = null;
-                    if(WindowDictionary.TryRemove(newViewId, out window))
+                    if (this.WindowDictionary.TryRemove(newViewId, out var window))
                     {
                         window.Content = null;
                     }
@@ -143,20 +141,20 @@ namespace SubtitleEditor
         {
             base.OnWindowCreated(args);
             var window = args.Window;
-            WindowDictionary.TryAdd(ApplicationView.GetApplicationViewIdForWindow(window.CoreWindow), window);
+            this.WindowDictionary.TryAdd(ApplicationView.GetApplicationViewIdForWindow(window.CoreWindow), window);
         }
 
         public System.Collections.Concurrent.ConcurrentDictionary<int, Window> WindowDictionary
         {
             get;
-        } = new System.Collections.Concurrent.ConcurrentDictionary<int,Window>();
+        } = new System.Collections.Concurrent.ConcurrentDictionary<int, Window>();
 
         /// <summary>
         /// 导航到特定页失败时调用
         /// </summary>
         ///<param name="sender">导航失败的框架</param>
         ///<param name="e">有关导航失败的详细信息</param>
-        void OnNavigationFailed(object sender, NavigationFailedEventArgs e)
+        private void OnNavigationFailed(object sender, NavigationFailedEventArgs e)
         {
             throw new Exception("Failed to load Page " + e.SourcePageType.FullName);
         }

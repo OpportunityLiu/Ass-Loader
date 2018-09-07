@@ -1,25 +1,25 @@
-﻿using System;
+﻿using Opportunity.AssLoader;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml;
-using AssLoader;
+using Windows.UI.Xaml.Data;
 
 namespace SubtitleEditor.Converters
 {
-    abstract class EnumConverter<T> : IValueConverter
-        where T :struct
+    internal abstract class EnumConverter<T> : IValueConverter
+        where T : struct
     {
         public object Convert(object value, Type targetType, object parameter, string language)
         {
-            return ConvertDictionary[(T)value];
+            return this.ConvertDictionary[(T)value];
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, string language)
         {
-            return ConvertDictionary.FirstOrDefault(kv => kv.Value == value).Key;
+            return this.ConvertDictionary.FirstOrDefault(kv => kv.Value == value).Key;
         }
 
         protected abstract Dictionary<T, object> ConvertDictionary
@@ -28,7 +28,7 @@ namespace SubtitleEditor.Converters
         }
     }
 
-    class WrapStyleConverter : EnumConverter<WrapStyle>
+    internal class WrapStyleConverter : EnumConverter<WrapStyle>
     {
         protected override Dictionary<WrapStyle, object> ConvertDictionary
         {
@@ -42,7 +42,7 @@ namespace SubtitleEditor.Converters
         };
     }
 
-    class CollisionStyleConverter : EnumConverter<CollisionStyle>
+    internal class CollisionStyleConverter : EnumConverter<CollisionStyle>
     {
         protected override Dictionary<CollisionStyle, object> ConvertDictionary
         {

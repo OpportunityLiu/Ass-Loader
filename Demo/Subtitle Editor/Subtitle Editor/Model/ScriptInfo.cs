@@ -1,14 +1,14 @@
-﻿using System;
+﻿using Opportunity.AssLoader;
+using Opportunity.AssLoader.Collections;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using AssLoader;
-using AssLoader.Collections;
 
 namespace SubtitleEditor.Model
 {
-    class ScriptInfo : AssScriptInfo
+    internal class ScriptInfo : AssScriptInfo
     {
         [ScriptInfo(nameof(SubtitleEditorConfig), IsOptional = true)]
         [JsonSerializer(typeof(ProjectConfig))]
@@ -16,14 +16,8 @@ namespace SubtitleEditor.Model
 
         public ProjectConfig SubtitleEditorConfig
         {
-            get
-            {
-                return subtitleEditorConfig;
-            }
-            set
-            {
-                Set(ref subtitleEditorConfig, value);
-            }
+            get => this.subtitleEditorConfig;
+            set => this.Set(ref this.subtitleEditorConfig, value);
         }
     }
 }

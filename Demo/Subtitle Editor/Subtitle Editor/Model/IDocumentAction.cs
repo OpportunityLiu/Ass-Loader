@@ -1,16 +1,17 @@
-﻿using System;
+﻿using Opportunity.AssLoader;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using AssLoader;
 
 namespace SubtitleEditor.Model
 {
-    delegate void DocumentActionDo(Subtitle<ScriptInfo> subtitle);
-    delegate void DocumentActionUndo(Subtitle<ScriptInfo> subtitle);
+    internal delegate void DocumentActionDo(Subtitle<ScriptInfo> subtitle);
 
-    interface IDocumentAction
+    internal delegate void DocumentActionUndo(Subtitle<ScriptInfo> subtitle);
+
+    internal interface IDocumentAction
     {
         void Do(Subtitle<ScriptInfo> subtitle);
 
@@ -22,17 +23,17 @@ namespace SubtitleEditor.Model
         }
     }
 
-    class DocumentAction : IDocumentAction
+    internal class DocumentAction : IDocumentAction
     {
         public DocumentAction(string name, DocumentActionDo doAction, DocumentActionUndo undoAction)
         {
-            ActionFriendlyName = name;
+            this.ActionFriendlyName = name;
             this.doAction = doAction;
             this.undoAction = undoAction;
         }
 
-        private DocumentActionDo doAction;
-        private DocumentActionUndo undoAction;
+        private readonly DocumentActionDo doAction;
+        private readonly DocumentActionUndo undoAction;
 
         public string ActionFriendlyName
         {
@@ -42,12 +43,12 @@ namespace SubtitleEditor.Model
 
         public void Do(Subtitle<ScriptInfo> subtitle)
         {
-            doAction(subtitle);
+            this.doAction(subtitle);
         }
 
         public void Undo(Subtitle<ScriptInfo> subtitle)
         {
-            undoAction(subtitle);
+            this.undoAction(subtitle);
         }
     }
 }

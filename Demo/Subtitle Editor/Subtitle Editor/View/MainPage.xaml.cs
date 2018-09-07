@@ -32,23 +32,23 @@ namespace SubtitleEditor.View
         {
             this.InitializeComponent();
             this.ViewModel = ViewModelLocator.GetForCurrentView().MainView;
-            this.checkedTab = ViewModel.DocumentTabs.First();
+            this.checkedTab = this.ViewModel.DocumentTabs.First();
         }
 
         private void MainPage_Loading(FrameworkElement sender, object args)
         {
-            pane = InputPane.GetForCurrentView();
-            navigationManager = SystemNavigationManager.GetForCurrentView();
-            navigationManager.BackRequested += backRequested;
-            pane.Showing += inputPaneChanged;
-            pane.Hiding += inputPaneChanged;
+            this.pane = InputPane.GetForCurrentView();
+            this.navigationManager = SystemNavigationManager.GetForCurrentView();
+            this.navigationManager.BackRequested += this.backRequested;
+            this.pane.Showing += this.inputPaneChanged;
+            this.pane.Hiding += this.inputPaneChanged;
         }
 
         private void MainPage_Unloaded(object sender, RoutedEventArgs e)
         {
-            navigationManager.BackRequested -= backRequested;
-            pane.Showing -= inputPaneChanged;
-            pane.Hiding -= inputPaneChanged;
+            this.navigationManager.BackRequested -= this.backRequested;
+            this.pane.Showing -= this.inputPaneChanged;
+            this.pane.Hiding -= this.inputPaneChanged;
         }
 
         private SystemNavigationManager navigationManager;
@@ -61,24 +61,18 @@ namespace SubtitleEditor.View
             var height = args.OccludedRect.Height;
             if(height < 1)
             {
-                inputPane.Visibility = Visibility.Collapsed;
+                this.inputPane.Visibility = Visibility.Collapsed;
                 return;
             }
 
-            inputPane.Height = height;
-            inputPane.Visibility = Visibility.Visible;
+            this.inputPane.Height = height;
+            this.inputPane.Visibility = Visibility.Visible;
         }
 
         public MainViewModel ViewModel
         {
-            get
-            {
-                return (MainViewModel)GetValue(ViewModelProperty);
-            }
-            set
-            {
-                SetValue(ViewModelProperty, value);
-            }
+            get => (MainViewModel)this.GetValue(ViewModelProperty);
+            set => this.SetValue(ViewModelProperty, value);
         }
 
         // Using a DependencyProperty as the backing store for ViewModel.  This enables animation, styling, binding, etc...
@@ -88,115 +82,115 @@ namespace SubtitleEditor.View
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
-            navigating(ViewModel.DocumentTabs.First(tab => tab.IsChecked));
+            this.navigating(this.ViewModel.DocumentTabs.First(tab => tab.IsChecked));
         }
 
         private void SplitViewButton_Click(object sender, RoutedEventArgs e)
         {
-            commandBar.IsOpen = false;
-            var to = !splitView.IsPaneOpen;
-            splitView.IsPaneOpen = to;
+            this.commandBar.IsOpen = false;
+            var to = !this.splitView.IsPaneOpen;
+            this.splitView.IsPaneOpen = to;
             if(to)
             {
-                splitViewExpand.Begin();
-                if(splitView.DisplayMode == SplitViewDisplayMode.CompactInline)
-                    splitViewExpand.SkipToFill();
+                this.splitViewExpand.Begin();
+                if(this.splitView.DisplayMode == SplitViewDisplayMode.CompactInline)
+                    this.splitViewExpand.SkipToFill();
             }
         }
 
         private void closePaneIfNeeded()
         {
-            if(splitView.IsPaneOpen == false)
+            if(this.splitView.IsPaneOpen == false)
                 return;
-            if(splitView.DisplayMode == SplitViewDisplayMode.CompactInline)
+            if(this.splitView.DisplayMode == SplitViewDisplayMode.CompactInline)
                 return;
-            splitView.IsPaneOpen = false;
+            this.splitView.IsPaneOpen = false;
         }
 
         private void navigating(SplitViewTabData to)
         {
-            if(to == checkedTab && frameInner.Content != null)
+            if(to == this.checkedTab && this.frameInner.Content != null)
                 return;
-            checkedTab.IsChecked = false;
-            checkedTab = to;
-            playNavigationAnimation(true);
+            this.checkedTab.IsChecked = false;
+            this.checkedTab = to;
+            this.playNavigationAnimation(true);
             to.IsChecked = true;
-            frameInner.Navigate(to.PageType);
+            this.frameInner.Navigate(to.PageType);
             ((Page)this.frameInner.Content).Focus(FocusState.Programmatic);
         }
 
         private void playNavigationAnimation(bool aniamtion)
         {
-            var index = ViewModel.DocumentTabs.IndexOf(checkedTab);
+            var index = this.ViewModel.DocumentTabs.IndexOf(this.checkedTab);
             if(index < 0)
             {
-                tabTagTransform.To = ViewModel.DocumentTabs.Count * 48 + splitViewGrid.RowDefinitions[3].ActualHeight + splitViewGrid.RowDefinitions[4].ActualHeight;
+                this.tabTagTransform.To = this.ViewModel.DocumentTabs.Count * 48 + this.splitViewGrid.RowDefinitions[3].ActualHeight + this.splitViewGrid.RowDefinitions[4].ActualHeight;
             }
             else
             {
-                tabTagTransform.To = index * 48;
+                this.tabTagTransform.To = index * 48;
             }
-            Navigating.Begin();
+            this.Navigating.Begin();
             if(!aniamtion)
-                Navigating.SkipToFill();
+                this.Navigating.SkipToFill();
         }
 
         private SplitViewTabData checkedTab;
 
         private void SplitViewTabButton_Click(object sender, RoutedEventArgs e)
         {
-            closePaneIfNeeded();
+            this.closePaneIfNeeded();
             var checkedTabTemp = (SplitViewTabData)((FrameworkElement)sender).DataContext;
-            navigating(checkedTabTemp);
+            this.navigating(checkedTabTemp);
         }
 
         private void SplitViewCommand_Click(object sender, RoutedEventArgs e)
         {
-            closePaneIfNeeded();
+            this.closePaneIfNeeded();
         }
 
         private void splitView_SizeChanged(object sender, SizeChangedEventArgs e)
         {
             if(e.NewSize.Width < 720)
             {
-                splitView.DisplayMode = SplitViewDisplayMode.Overlay;
+                this.splitView.DisplayMode = SplitViewDisplayMode.Overlay;
             }
             else
             {
                 if(e.NewSize.Width < 1280)
                 {
-                    splitView.DisplayMode = SplitViewDisplayMode.CompactOverlay;
+                    this.splitView.DisplayMode = SplitViewDisplayMode.CompactOverlay;
                 }
                 else
                 {
-                    splitView.DisplayMode = SplitViewDisplayMode.CompactInline;
+                    this.splitView.DisplayMode = SplitViewDisplayMode.CompactInline;
                 }
             }
         }
 
         private void splitView_PaneClosing(SplitView sender, SplitViewPaneClosingEventArgs args)
         {
-            splitViewClose.Begin();
-            if(splitView.DisplayMode == SplitViewDisplayMode.CompactInline)
-                splitViewClose.SkipToFill();
+            this.splitViewClose.Begin();
+            if(this.splitView.DisplayMode == SplitViewDisplayMode.CompactInline)
+                this.splitViewClose.SkipToFill();
         }
 
         private void splitViewGrid_SizeChanged(object sender, SizeChangedEventArgs e)
         {
             if(e.PreviousSize.Height != e.NewSize.Height)
-                playNavigationAnimation(false);
+                this.playNavigationAnimation(false);
         }
 
         private void frameInner_Navigated(object sender, NavigationEventArgs e)
         {
-            if(innerContent != null)
+            if(this.innerContent != null)
             {
-                innerContent.CanGoBackChanged -= InnerContent_CanGoBackChanged;
+                this.innerContent.CanGoBackChanged -= this.InnerContent_CanGoBackChanged;
             }
-            innerContent= e.Content as IGoBack;
-            if(innerContent != null)
+            this.innerContent = e.Content as IGoBack;
+            if(this.innerContent != null)
             {
-                innerContent.CanGoBackChanged += InnerContent_CanGoBackChanged;
+                this.innerContent.CanGoBackChanged += this.InnerContent_CanGoBackChanged;
             }
         }
 
@@ -204,14 +198,14 @@ namespace SubtitleEditor.View
 
         private void InnerContent_CanGoBackChanged(IGoBack sender, EventArgs e)
         {
-            navigationManager.AppViewBackButtonVisibility = sender.CanGoBack ? AppViewBackButtonVisibility.Visible : AppViewBackButtonVisibility.Collapsed;
+            this.navigationManager.AppViewBackButtonVisibility = sender.CanGoBack ? AppViewBackButtonVisibility.Visible : AppViewBackButtonVisibility.Collapsed;
         }
 
         private void backRequested(object sender, BackRequestedEventArgs e)
         {
-            if(innerContent?.CanGoBack == true)
+            if(this.innerContent?.CanGoBack == true)
             {
-                innerContent.GoBack();
+                this.innerContent.GoBack();
                 e.Handled = true;
             }
         }

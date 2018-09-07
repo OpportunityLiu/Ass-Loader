@@ -21,20 +21,14 @@ namespace SubtitleEditor.Controls
     {
         public SplitViewButton()
         {
-            DefaultStyleKey = typeof(SplitViewButton);
+            this.DefaultStyleKey = typeof(SplitViewButton);
             //this.InitializeComponent();
         }
 
         public IconElement Icon
         {
-            get
-            {
-                return (IconElement)GetValue(IconProperty);
-            }
-            set
-            {
-                SetValue(IconProperty, value);
-            }
+            get => (IconElement)this.GetValue(IconProperty);
+            set => this.SetValue(IconProperty, value);
         }
 
         // Using a DependencyProperty as the backing store for Icon.  This enables animation, styling, binding, etc...

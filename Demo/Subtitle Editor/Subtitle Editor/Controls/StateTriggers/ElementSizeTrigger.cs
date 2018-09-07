@@ -15,14 +15,8 @@ namespace SubtitleEditor.Controls.StateTriggers
 
         public double MinElementWidth
         {
-            get
-            {
-                return (double)GetValue(MinElementWidthProperty);
-            }
-            set
-            {
-                SetValue(MinElementWidthProperty, value);
-            }
+            get => (double)this.GetValue(MinElementWidthProperty);
+            set => this.SetValue(MinElementWidthProperty, value);
         }
 
         // Using a DependencyProperty as the backing store for MinElementWidth.  This enables animation, styling, binding, etc...
@@ -31,14 +25,8 @@ namespace SubtitleEditor.Controls.StateTriggers
 
         public double MinElementHeight
         {
-            get
-            {
-                return (double)GetValue(MinElementHeightProperty);
-            }
-            set
-            {
-                SetValue(MinElementHeightProperty, value);
-            }
+            get => (double)this.GetValue(MinElementHeightProperty);
+            set => this.SetValue(MinElementHeightProperty, value);
         }
 
         // Using a DependencyProperty as the backing store for MinElementHeight.  This enables animation, styling, binding, etc...
@@ -62,14 +50,8 @@ namespace SubtitleEditor.Controls.StateTriggers
 
         public FrameworkElement Target
         {
-            get
-            {
-                return (FrameworkElement)GetValue(TargetProperty);
-            }
-            set
-            {
-                SetValue(TargetProperty, value);
-            }
+            get => (FrameworkElement)this.GetValue(TargetProperty);
+            set => this.SetValue(TargetProperty, value);
         }
 
         // Using a DependencyProperty as the backing store for Target.  This enables animation, styling, binding, etc...
@@ -82,39 +64,39 @@ namespace SubtitleEditor.Controls.StateTriggers
         {
             public triggerHelper(FrameworkElement target)
             {
-                Target = target;
-                target.SizeChanged += Target_SizeChanged;
+                this.Target = target;
+                target.SizeChanged += this.Target_SizeChanged;
             }
 
             private void Target_SizeChanged(object sender, SizeChangedEventArgs e)
             {
-                if(NeedRefresh)
-                    reorderTriggers();
-                for(int i = 0; i < triggers.Count; i++)
+                if(this.NeedRefresh)
+                    this.reorderTriggers();
+                for(int i = 0; i < this.triggers.Count; i++)
                 {
-                    if(!triggers[i].GetState(e))
+                    if(!this.triggers[i].GetState(e))
                     {
-                        for(int j = 0; j < triggers.Count; j++)
+                        for(int j = 0; j < this.triggers.Count; j++)
                         {
-                            triggers[j].SetActive(j == i - 1);
+                            this.triggers[j].SetActive(j == i - 1);
                         }
                         return;
                     }
                 }
-                for(int j = 0; j < triggers.Count - 1; j++)
+                for(int j = 0; j < this.triggers.Count - 1; j++)
                 {
-                    triggers[j].SetActive(false);
+                    this.triggers[j].SetActive(false);
                 }
-                triggers[triggers.Count - 1].SetActive(true);
+                this.triggers[this.triggers.Count - 1].SetActive(true);
             }
 
             private void reorderTriggers()
             {
-                var newOrder = from trigger in triggers
+                var newOrder = from trigger in this.triggers
                                orderby trigger.MinElementWidth, trigger.MinElementHeight
                                select trigger;
-                triggers = newOrder.ToList();
-                NeedRefresh = false;
+                this.triggers = newOrder.ToList();
+                this.NeedRefresh = false;
             }
 
             public FrameworkElement Target
@@ -137,39 +119,39 @@ namespace SubtitleEditor.Controls.StateTriggers
             // override object.GetHashCode
             public override int GetHashCode()
             {
-                checkState();
+                this.checkState();
                 return this.Target.GetHashCode();
             }
 
             public void Dispose()
             {
-                if(Disposed)
+                if(this.Disposed)
                     return;
-                Target.SizeChanged -= Target_SizeChanged;
-                Target = null;
-                Disposed = true;
+                this.Target.SizeChanged -= this.Target_SizeChanged;
+                this.Target = null;
+                this.Disposed = true;
             }
 
             public void Add(ElementSizeTrigger trigger)
             {
-                checkState();
-                triggers.Add(trigger);
-                NeedRefresh = true;
+                this.checkState();
+                this.triggers.Add(trigger);
+                this.NeedRefresh = true;
             }
 
             public void Remove(ElementSizeTrigger trigger)
             {
-                checkState();
-                triggers.Remove(trigger);
-                if(triggers.Count == 0)
-                    Dispose();
+                this.checkState();
+                this.triggers.Remove(trigger);
+                if(this.triggers.Count == 0)
+                    this.Dispose();
                 else
-                    NeedRefresh = true;
+                    this.NeedRefresh = true;
             }
 
             private void checkState()
             {
-                if(Disposed)
+                if(this.Disposed)
                     throw new InvalidOperationException("helper disposed.");
             }
 
@@ -218,7 +200,7 @@ namespace SubtitleEditor.Controls.StateTriggers
 
         private bool GetState(SizeChangedEventArgs e)
         {
-            return e.NewSize.Height >= MinElementHeight && e.NewSize.Width >= MinElementWidth;
+            return e.NewSize.Height >= this.MinElementHeight && e.NewSize.Width >= this.MinElementWidth;
         }
     }
 }

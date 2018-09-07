@@ -7,9 +7,6 @@
       mc:Ignorable="d"
       xmlns:vm="using:SubtitleEditor.ViewModel"
       NavigationCacheMode="Enabled">
-    <StackPanel Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <MediaElement x:Name="media" AutoPlay="True" IsLooping="True"/>
-        <Button Content="set"
-                Click="Button_Click" />
-    </StackPanel>
+  <StackPanel Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+  </StackPanel>
 </Page>

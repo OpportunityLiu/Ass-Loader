@@ -22,14 +22,8 @@ namespace SubtitleEditor.Controls
 
         public bool IsChecked
         {
-            get
-            {
-                return (bool)GetValue(IsCheckedProperty);
-            }
-            set
-            {
-                SetValue(IsCheckedProperty, value);
-            }
+            get => (bool)this.GetValue(IsCheckedProperty);
+            set => this.SetValue(IsCheckedProperty, value);
         }
 
         // Using a DependencyProperty as the backing store for IsChecked.  This enables animation, styling, binding, etc...
@@ -57,7 +51,7 @@ namespace SubtitleEditor.Controls
         protected override void OnApplyTemplate()
         {
             base.OnApplyTemplate();
-            updateState(false);
+            this.updateState(false);
         }
     }
 }

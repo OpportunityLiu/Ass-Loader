@@ -23,23 +23,20 @@ namespace SubtitleEditor.ViewModel
         public PreferencesViewModel()
         {
             instances.Add(new WeakReference<PreferencesViewModel>(this));
-            if(NotInit)
+            if(this.NotInit)
                 return;
-            NotInit = true;
-            init(ElementTheme.Light, nameof(Theme));
+            this.NotInit = true;
+            init(ElementTheme.Light, nameof(this.Theme));
         }
 
         private CoreDispatcher dispatcher = Window.Current?.Dispatcher;
 
         public ElementTheme Theme
         {
-            get
-            {
-                return Load<ElementTheme>();
-            }
+            get => Load<ElementTheme>();
             set
             {
-                foreach(var item in ((App)Application.Current).WindowDictionary)
+                foreach (var item in ((App)Application.Current).WindowDictionary)
                 {
                     item.Value.LoadWindowPreferences();
                 }
@@ -49,14 +46,8 @@ namespace SubtitleEditor.ViewModel
 
         public bool NotInit
         {
-            get
-            {
-                return Load<bool>();
-            }
-            private set
-            {
-                Save(value);
-            }
+            get => Load<bool>();
+            private set => Save(value);
         }
 
         public static async void Save<T>(T value, [CallerMemberName]string propertyName = null)
@@ -174,18 +165,18 @@ namespace SubtitleEditor.ViewModel
             {
                 if(titlebar == null)
                     return;
-                titlebar.BackgroundColor = BackgroundColor;
-                titlebar.ForegroundColor = ForegroundColor;
-                titlebar.InactiveBackgroundColor = InactiveBackgroundColor;
-                titlebar.InactiveForegroundColor = InactiveForegroundColor;
-                titlebar.ButtonBackgroundColor = ButtonBackgroundColor;
-                titlebar.ButtonForegroundColor = ButtonForegroundColor;
-                titlebar.ButtonPressedBackgroundColor = ButtonPressedBackgroundColor;
-                titlebar.ButtonPressedForegroundColor = ButtonPressedForegroundColor;
-                titlebar.ButtonHoverBackgroundColor = ButtonHoverBackgroundColor;
-                titlebar.ButtonHoverForegroundColor = ButtonHoverForegroundColor;
-                titlebar.ButtonInactiveBackgroundColor = ButtonInactiveBackgroundColor;
-                titlebar.ButtonInactiveForegroundColor = ButtonInactiveForegroundColor;
+                titlebar.BackgroundColor = this.BackgroundColor;
+                titlebar.ForegroundColor = this.ForegroundColor;
+                titlebar.InactiveBackgroundColor = this.InactiveBackgroundColor;
+                titlebar.InactiveForegroundColor = this.InactiveForegroundColor;
+                titlebar.ButtonBackgroundColor = this.ButtonBackgroundColor;
+                titlebar.ButtonForegroundColor = this.ButtonForegroundColor;
+                titlebar.ButtonPressedBackgroundColor = this.ButtonPressedBackgroundColor;
+                titlebar.ButtonPressedForegroundColor = this.ButtonPressedForegroundColor;
+                titlebar.ButtonHoverBackgroundColor = this.ButtonHoverBackgroundColor;
+                titlebar.ButtonHoverForegroundColor = this.ButtonHoverForegroundColor;
+                titlebar.ButtonInactiveBackgroundColor = this.ButtonInactiveBackgroundColor;
+                titlebar.ButtonInactiveForegroundColor = this.ButtonInactiveForegroundColor;
             }
 
             public void SetColors(StatusBar statusBar)
@@ -193,8 +184,8 @@ namespace SubtitleEditor.ViewModel
                 if(statusBar == null)
                     return;
                 statusBar.BackgroundOpacity = 1;
-                statusBar.BackgroundColor = BackgroundColor;
-                statusBar.ForegroundColor = ForegroundColor;
+                statusBar.BackgroundColor = this.BackgroundColor;
+                statusBar.ForegroundColor = this.ForegroundColor;
             }
 
             public static TitleBarColor Dark

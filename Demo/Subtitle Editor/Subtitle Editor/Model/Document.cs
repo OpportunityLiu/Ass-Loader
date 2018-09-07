@@ -1,7 +1,8 @@
-﻿using AssLoader;
-using GalaSoft.MvvmLight;
+﻿using GalaSoft.MvvmLight;
+using Opportunity.AssLoader;
 using SubtitleEditor.Model;
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -12,121 +13,111 @@ using Windows.Storage.AccessCache;
 using Windows.UI.Popups;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
-using System.Collections.Concurrent;
 
 namespace SubtitleEditor.Model
 {
-    class Document : ViewModelBase
+    internal class Document : ViewModelBase
     {
         public Document()
         {
-            Application.Current.Suspending += onSuspending;
-            reset();
+            Application.Current.Suspending += this.onSuspending;
+            this.reset();
         }
 
         private void updateTitle()
         {
-            Title = SubtitleFile?.Name ?? Subtitle?.ScriptInfo.Title;
+            this.Title = this.SubtitleFile?.Name ?? this.Subtitle?.ScriptInfo.Title;
         }
 
         private string title;
 
         public string Title
         {
-            get
-            {
-                return title;
-            }
-            private set
-            {
-                Set(nameof(Title),ref title, value);
-            }
+            get => this.title;
+            private set => this.Set(nameof(this.Title), ref this.title, value);
         }
 
-        private LinkedList<IDocumentAction> actionList = new LinkedList<IDocumentAction>();
+        private readonly LinkedList<IDocumentAction> actionList = new LinkedList<IDocumentAction>();
         private LinkedListNode<IDocumentAction> currentAction, savedAction;
 
         private void onSuspending(object sender, Windows.ApplicationModel.SuspendingEventArgs e)
         {
-            
+
         }
 
         public bool TryDo(IDocumentAction action)
         {
-            if(subtitle == null)
+            if (this.subtitle == null)
                 return false;
             try
             {
-                action.Do(subtitle);
+                action.Do(this.subtitle);
             }
-            catch(Exception)
+            catch (Exception)
             {
                 return false;
             }
-            while(actionList.First.Next != currentAction)
-                actionList.Remove(actionList.First.Next);
-            actionList.AddAfter(actionList.First, action);
-            currentAction = actionList.First.Next;
-            modified();
+            while (this.actionList.First.Next != this.currentAction)
+                this.actionList.Remove(this.actionList.First.Next);
+            this.actionList.AddAfter(this.actionList.First, action);
+            this.currentAction = this.actionList.First.Next;
+            this.modified();
             return true;
         }
 
         public void Do(IDocumentAction action)
         {
-            if(subtitle == null)
-                throw new InvalidOperationException($"{nameof(Subtitle)} is null");
-            action.Do(subtitle);
-            while(actionList.First.Next != currentAction)
-                actionList.Remove(actionList.First.Next);
-            actionList.AddAfter(actionList.First, action);
-            currentAction = actionList.First.Next;
-            modified();
+            if (this.subtitle == null)
+                throw new InvalidOperationException($"{nameof(this.Subtitle)} is null");
+            action.Do(this.subtitle);
+            while (this.actionList.First.Next != this.currentAction)
+                this.actionList.Remove(this.actionList.First.Next);
+            this.actionList.AddAfter(this.actionList.First, action);
+            this.currentAction = this.actionList.First.Next;
+            this.modified();
         }
 
         public void Undo()
         {
-            currentAction.Value.Undo(subtitle);
-            currentAction = currentAction.Next;
-            modified();
+            this.currentAction.Value.Undo(this.subtitle);
+            this.currentAction = this.currentAction.Next;
+            this.modified();
         }
 
         public void Redo()
         {
-            currentAction = currentAction.Previous;
-            currentAction.Value.Do(subtitle);
-            modified();
+            this.currentAction = this.currentAction.Previous;
+            this.currentAction.Value.Do(this.subtitle);
+            this.modified();
         }
 
         private void modified()
         {
-            RaisePropertyChanged(nameof(CanSave));
-            RaisePropertyChanged(nameof(UndoAction));
-            RaisePropertyChanged(nameof(RedoAction));
-            RaisePropertyChanged(nameof(IsModified));
-            updateTitle();
+            this.RaisePropertyChanged(nameof(this.CanSave));
+            this.RaisePropertyChanged(nameof(this.UndoAction));
+            this.RaisePropertyChanged(nameof(this.RedoAction));
+            this.RaisePropertyChanged(nameof(this.IsModified));
+            this.updateTitle();
         }
 
-        public IDocumentAction UndoAction => currentAction.Value;
+        public IDocumentAction UndoAction => this.currentAction.Value;
 
-        public IDocumentAction RedoAction => currentAction.Previous.Value;
+        public IDocumentAction RedoAction => this.currentAction.Previous.Value;
 
-        public bool IsModified => currentAction != savedAction;
+        public bool IsModified => this.currentAction != this.savedAction;
 
         private Subtitle<ScriptInfo> subtitle;
 
         public Subtitle<ScriptInfo> Subtitle
         {
-            get
-            {
-                return subtitle;
-            }
+            get => this.subtitle;
             private set
             {
-                Set(ref subtitle, value);
-                if(value.ScriptInfo.SubtitleEditorConfig == null)
+                this.Set(ref this.subtitle, value);
+                if (value.ScriptInfo.SubtitleEditorConfig == null)
                     value.ScriptInfo.SubtitleEditorConfig = new ProjectConfig();
-                RaisePropertyChanged(nameof(CanSave));
-                updateTitle();
+                this.RaisePropertyChanged(nameof(this.CanSave));
+                this.updateTitle();
             }
         }
 
@@ -134,88 +125,81 @@ namespace SubtitleEditor.Model
 
         public StorageFile SubtitleFile
         {
-            get
-            {
-                return subtitleFile;
-            }
+            get => this.subtitleFile;
             private set
             {
-                Set(ref subtitleFile, value);
-                RaisePropertyChanged(nameof(CanSave));
-                if(value != null)
+                this.Set(ref this.subtitleFile, value);
+                this.RaisePropertyChanged(nameof(this.CanSave));
+                if (value != null)
                     StorageApplicationPermissions.MostRecentlyUsedList.Add(value, value.Name, RecentStorageItemVisibility.AppAndSystem);
-                updateTitle();
+                this.updateTitle();
             }
         }
 
         private void reset()
         {
-            actionList.Clear();
-            actionList.AddFirst((IDocumentAction)null);
-            actionList.AddLast((IDocumentAction)null);
-            currentAction = savedAction = actionList.Last;
+            this.actionList.Clear();
+            this.actionList.AddFirst((IDocumentAction)null);
+            this.actionList.AddLast((IDocumentAction)null);
+            this.currentAction = this.savedAction = this.actionList.Last;
         }
 
         public void NewSubtitle()
         {
-            SubtitleFile = null;
-            Subtitle = new Subtitle<ScriptInfo>(new ScriptInfo());
-            currentAction = null;
-            savedAction = null;
-            reset();
-            modified();
+            this.SubtitleFile = null;
+            this.Subtitle = new Subtitle<ScriptInfo>(new ScriptInfo());
+            this.currentAction = null;
+            this.savedAction = null;
+            this.reset();
+            this.modified();
         }
 
         public async Task OpenFileAsync(StorageFile file)
         {
-            if(file == null)
-                throw new ArgumentNullException(nameof(file));
-            SubtitleFile = file;
-            using(var stream = await SubtitleFile.OpenStreamForReadAsync())
-            using(var reader = new StreamReader(stream))
-                Subtitle = AssLoader.Subtitle.Parse<ScriptInfo>(reader);
-            reset();
-            modified();
+            this.SubtitleFile = file ?? throw new ArgumentNullException(nameof(file));
+            using (var stream = await this.SubtitleFile.OpenStreamForReadAsync())
+            using (var reader = new StreamReader(stream))
+                this.Subtitle = Opportunity.AssLoader.Subtitle.Parse<ScriptInfo>(reader);
+            this.reset();
+            this.modified();
         }
 
-        public bool CanSave => subtitle != null && subtitleFile != null && IsModified;
+        public bool CanSave => this.subtitle != null && this.subtitleFile != null && this.IsModified;
 
         public async Task SaveAsync()
         {
-            if(!CanSave)
+            if (!this.CanSave)
                 throw new InvalidOperationException("Can't save now.");
             try
             {
-                using(var stream = await SubtitleFile.OpenStreamForWriteAsync())
+                using (var stream = await this.SubtitleFile.OpenStreamForWriteAsync())
                 {
                     stream.SetLength(0);
-                    using(var writer = new StreamWriter(stream))
-                        subtitle.Serialize(writer);
+                    using (var writer = new StreamWriter(stream))
+                        this.subtitle.Serialize(writer);
                 }
             }
-            catch(Exception)
+            catch (Exception)
             {
-                SubtitleFile = null;
+                this.SubtitleFile = null;
                 throw;
             }
-            savedAction = currentAction;
-            RaisePropertyChanged(nameof(IsModified));
+            this.savedAction = this.currentAction;
+            this.RaisePropertyChanged(nameof(this.IsModified));
         }
 
         public async Task SaveFileAsync(StorageFile file)
         {
-            if(file == null)
-                throw new ArgumentNullException(nameof(file));
-            SubtitleFile = file;
-            await SaveAsync();
+            this.SubtitleFile = file ?? throw new ArgumentNullException(nameof(file));
+            await this.SaveAsync();
         }
 
         public override void Cleanup()
         {
-            Application.Current.Suspending -= onSuspending;
-            reset();
-            subtitle = null;
-            subtitleFile = null;
+            Application.Current.Suspending -= this.onSuspending;
+            this.reset();
+            this.subtitle = null;
+            this.subtitleFile = null;
             base.Cleanup();
         }
     }

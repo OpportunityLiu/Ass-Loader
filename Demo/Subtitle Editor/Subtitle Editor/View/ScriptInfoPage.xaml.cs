@@ -1,4 +1,6 @@
-﻿using SubtitleEditor.ViewModel;
+﻿using Opportunity.AssLoader;
+using SubtitleEditor.Converters;
+using SubtitleEditor.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -14,10 +16,8 @@ using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Navigation;
 using Windows.UI.Xaml.Media.Animation;
-using SubtitleEditor.Converters;
-using AssLoader;
+using Windows.UI.Xaml.Navigation;
 
 // “空白页”项模板在 http://go.microsoft.com/fwlink/?LinkId=234238 上提供
 
@@ -26,7 +26,7 @@ namespace SubtitleEditor.View
     /// <summary>
     /// 可用于自身或导航至 Frame 内部的空白页。
     /// </summary>
-    sealed partial class ScriptInfoPage : Page
+    internal sealed partial class ScriptInfoPage : Page
     {
         public ScriptInfoPage()
         {
@@ -47,40 +47,40 @@ namespace SubtitleEditor.View
 
         private void page_Loaded(object sender, RoutedEventArgs e)
         {
-            InputPane.GetForCurrentView().Showing += paneShowing;
+            InputPane.GetForCurrentView().Showing += this.paneShowing;
         }
 
         private void page_Unloaded(object sender, RoutedEventArgs e)
         {
-            InputPane.GetForCurrentView().Showing -= paneShowing;
+            InputPane.GetForCurrentView().Showing -= this.paneShowing;
         }
 
         private bool needFocus;
 
         private void ScriptInfoPage_SizeChanged(object sender, SizeChangedEventArgs e)
         {
-            if(!needFocus || focus == null)
+            if (!this.needFocus || this.focus == null)
                 return;
             var max = 12.0;
             FrameworkElement found = null;
-            foreach(FrameworkElement item in stackPanelMetaData.Children)
+            foreach (FrameworkElement item in this.stackPanelMetaData.Children)
             {
-                if(item == focus)
+                if (item == this.focus)
                 {
                     found = item;
                     break;
                 }
                 max += item.ActualHeight + 16.0;
             }
-            if(found == null)
+            if (found == null)
             {
-                if(e.NewSize.Width >= 1096)
+                if (e.NewSize.Width >= 1096)
                     max = 12.0;
                 else
                     max += 24.0;
-                foreach(FrameworkElement item in stackPanelScriptData.Children)
+                foreach (FrameworkElement item in this.stackPanelScriptData.Children)
                 {
-                    if(item == focus)
+                    if (item == this.focus)
                     {
                         found = item;
                         break;
@@ -88,35 +88,29 @@ namespace SubtitleEditor.View
                     max += item.ActualHeight + 16.0;
                 }
             }
-            if(found != null)
+            if (found != null)
             {
                 var min = max - e.NewSize.Height + found.ActualHeight + 16.0;
-                var current = root.VerticalOffset;
-                if(current < min)
-                    root.ChangeView(null, min, null);
-                else if(current > max)
-                    root.ChangeView(null, max, null);
+                var current = this.root.VerticalOffset;
+                if (current < min)
+                    this.root.ChangeView(null, min, null);
+                else if (current > max)
+                    this.root.ChangeView(null, max, null);
             }
-            needFocus = false;
+            this.needFocus = false;
         }
 
         private void paneShowing(InputPane sender, InputPaneVisibilityEventArgs args)
         {
-            needFocus = true;
+            this.needFocus = true;
         }
 
         private object focus;
 
         public ScriptInfoViewModel ViewModel
         {
-            get
-            {
-                return (ScriptInfoViewModel)GetValue(ViewModelProperty);
-            }
-            set
-            {
-                SetValue(ViewModelProperty, value);
-            }
+            get => (ScriptInfoViewModel)this.GetValue(ViewModelProperty);
+            set => this.SetValue(ViewModelProperty, value);
         }
 
         // Using a DependencyProperty as the backing store for ViewModel.  This enables animation, styling, binding, etc...
@@ -125,13 +119,13 @@ namespace SubtitleEditor.View
 
         private void field_GotFocus(object sender, RoutedEventArgs e)
         {
-            focus = sender;
+            this.focus = sender;
         }
 
         private void field_LostFocus(object sender, RoutedEventArgs e)
         {
-            if(!needFocus)
-                focus = null;
+            if (!this.needFocus)
+                this.focus = null;
         }
 
         private void numberedTextBox_LostFocus(object sender, RoutedEventArgs args)

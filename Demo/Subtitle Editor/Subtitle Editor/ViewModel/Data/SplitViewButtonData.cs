@@ -14,42 +14,24 @@ namespace SubtitleEditor.ViewModel
 
         public string Icon
         {
-            get
-            {
-                return icon;
-            }
-            set
-            {
-                Set(ref icon, value);
-            }
+            get => this.icon;
+            set => this.Set(ref this.icon, value);
         }
 
         private string content;
 
         public string Content
         {
-            get
-            {
-                return content;
-            }
-            set
-            {
-                Set(ref content, value);
-            }
+            get => this.content;
+            set => this.Set(ref this.content, value);
         }
 
         private ICommand command;
 
         public ICommand Command
         {
-            get
-            {
-                return command;
-            }
-            set
-            {
-                Set(ref command, value);
-            }
+            get => this.command;
+            set => this.Set(ref this.command, value);
         }
     }
 }

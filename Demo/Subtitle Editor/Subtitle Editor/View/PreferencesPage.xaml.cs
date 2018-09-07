@@ -33,25 +33,19 @@ namespace SubtitleEditor.View
 
         public PreferencesViewModel ViewModel
         {
-            get
-            {
-                return (PreferencesViewModel)GetValue(ViewModelProperty);
-            }
-            set
-            {
-                SetValue(ViewModelProperty, value);
-            }
+            get => (PreferencesViewModel)this.GetValue(ViewModelProperty);
+            set => this.SetValue(ViewModelProperty, value);
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            Bindings.Initialize();
+            this.Bindings.Initialize();
             base.OnNavigatedTo(e);
         }
 
         protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
         {
-            Bindings.StopTracking();
+            this.Bindings.StopTracking();
             base.OnNavigatingFrom(e);
         }
 

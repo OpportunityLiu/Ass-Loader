@@ -1,52 +1,49 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using GalaSoft.MvvmLight;
+﻿using GalaSoft.MvvmLight;
+using Opportunity.AssLoader;
 using SubtitleEditor.Model;
-using System.Reflection;
+using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using AssLoader;
+using System.Linq;
+using System.Reflection;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace SubtitleEditor.ViewModel
 {
-    class ScriptInfoViewModel : EditorViewModelBase
+    internal class ScriptInfoViewModel : EditorViewModelBase
     {
         protected override void Document_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            if(string.IsNullOrEmpty(e.PropertyName) || e.PropertyName == nameof(Document.Subtitle))
+            if (string.IsNullOrEmpty(e.PropertyName) || e.PropertyName == nameof(this.Document.Subtitle))
             {
-                if(info != null)
-                    info.PropertyChanged -= Info_PropertyChanged;
-                info = Document.Subtitle?.ScriptInfo;
-                if(info != null)
-                    info.PropertyChanged += Info_PropertyChanged;
-                RaisePropertyChanged(null);
+                if (this.info != null)
+                    this.info.PropertyChanged -= this.Info_PropertyChanged;
+                this.info = this.Document.Subtitle?.ScriptInfo;
+                if (this.info != null)
+                    this.info.PropertyChanged += this.Info_PropertyChanged;
+                this.RaisePropertyChanged(null);
             }
         }
 
         private void Info_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            RaisePropertyChanged(e.PropertyName);
+            this.RaisePropertyChanged(e.PropertyName);
         }
 
         private ScriptInfo info;
 
         public string Title
         {
-            get
-            {
-                return info.Title;
-            }
+            get => this.info.Title;
             set
             {
-                var oldValue = info.Title;
+                var oldValue = this.info.Title;
                 value = stringFormat(value);
-                if(value == oldValue)
+                if (value == oldValue)
                     return;
-                Document.Do(new ScriptInfoAction(LocalizedStrings.Resources.ScriptInfoTitle,
+                this.Document.Do(new ScriptInfoAction(LocalizedStrings.Resources.ScriptInfoTitle,
                     sub => sub.ScriptInfo.Title = value,
                     sub => sub.ScriptInfo.Title = oldValue));
             }
@@ -54,17 +51,14 @@ namespace SubtitleEditor.ViewModel
 
         public string OriginalEditing
         {
-            get
-            {
-                return info.OriginalEditing;
-            }
+            get => this.info.OriginalEditing;
             set
             {
-                var oldValue = info.OriginalEditing;
+                var oldValue = this.info.OriginalEditing;
                 value = stringFormat(value);
-                if(value == oldValue)
+                if (value == oldValue)
                     return;
-                Document.Do(new ScriptInfoAction(LocalizedStrings.Resources.ScriptInfoOriginalEditing,
+                this.Document.Do(new ScriptInfoAction(LocalizedStrings.Resources.ScriptInfoOriginalEditing,
                     sub => sub.ScriptInfo.OriginalEditing = value,
                     sub => sub.ScriptInfo.OriginalEditing = oldValue));
             }
@@ -72,17 +66,14 @@ namespace SubtitleEditor.ViewModel
 
         public string OriginalScript
         {
-            get
-            {
-                return info.OriginalScript;
-            }
+            get => this.info.OriginalScript;
             set
             {
-                var oldValue = info.OriginalScript;
+                var oldValue = this.info.OriginalScript;
                 value = stringFormat(value);
-                if(value == oldValue)
+                if (value == oldValue)
                     return;
-                Document.Do(new ScriptInfoAction(LocalizedStrings.Resources.ScriptInfoOriginalScript,
+                this.Document.Do(new ScriptInfoAction(LocalizedStrings.Resources.ScriptInfoOriginalScript,
                     sub => sub.ScriptInfo.OriginalScript = value,
                     sub => sub.ScriptInfo.OriginalScript = oldValue));
             }
@@ -90,17 +81,14 @@ namespace SubtitleEditor.ViewModel
 
         public string OriginalTiming
         {
-            get
-            {
-                return info.OriginalTiming;
-            }
+            get => this.info.OriginalTiming;
             set
             {
-                var oldValue = info.OriginalTiming;
+                var oldValue = this.info.OriginalTiming;
                 value = stringFormat(value);
-                if(value == oldValue)
+                if (value == oldValue)
                     return;
-                Document.Do(new ScriptInfoAction(LocalizedStrings.Resources.ScriptInfoOriginalTiming,
+                this.Document.Do(new ScriptInfoAction(LocalizedStrings.Resources.ScriptInfoOriginalTiming,
                     sub => sub.ScriptInfo.OriginalTiming = value,
                     sub => sub.ScriptInfo.OriginalTiming = oldValue));
             }
@@ -108,17 +96,14 @@ namespace SubtitleEditor.ViewModel
 
         public string OriginalTranslation
         {
-            get
-            {
-                return info.OriginalTranslation;
-            }
+            get => this.info.OriginalTranslation;
             set
             {
-                var oldValue = info.OriginalTranslation;
+                var oldValue = this.info.OriginalTranslation;
                 value = stringFormat(value);
-                if(value == oldValue)
+                if (value == oldValue)
                     return;
-                Document.Do(new ScriptInfoAction(LocalizedStrings.Resources.ScriptInfoOriginalTranslation,
+                this.Document.Do(new ScriptInfoAction(LocalizedStrings.Resources.ScriptInfoOriginalTranslation,
                     sub => sub.ScriptInfo.OriginalTranslation = value,
                     sub => sub.ScriptInfo.OriginalTranslation = oldValue));
             }
@@ -126,17 +111,14 @@ namespace SubtitleEditor.ViewModel
 
         public string ScriptUpdatedBy
         {
-            get
-            {
-                return info.ScriptUpdatedBy;
-            }
+            get => this.info.ScriptUpdatedBy;
             set
             {
-                var oldValue = info.ScriptUpdatedBy;
+                var oldValue = this.info.ScriptUpdatedBy;
                 value = stringFormat(value);
-                if(value == oldValue)
+                if (value == oldValue)
                     return;
-                Document.Do(new ScriptInfoAction(LocalizedStrings.Resources.ScriptInfoScriptUpdatedBy,
+                this.Document.Do(new ScriptInfoAction(LocalizedStrings.Resources.ScriptInfoScriptUpdatedBy,
                     sub => sub.ScriptInfo.ScriptUpdatedBy = value,
                     sub => sub.ScriptInfo.ScriptUpdatedBy = oldValue));
             }
@@ -144,17 +126,14 @@ namespace SubtitleEditor.ViewModel
 
         public string UpdateDetails
         {
-            get
-            {
-                return info.UpdateDetails;
-            }
+            get => this.info.UpdateDetails;
             set
             {
-                var oldValue = info.UpdateDetails;
+                var oldValue = this.info.UpdateDetails;
                 value = stringFormat(value);
-                if(value == oldValue)
+                if (value == oldValue)
                     return;
-                Document.Do(new ScriptInfoAction(LocalizedStrings.Resources.ScriptInfoUpdateDetails,
+                this.Document.Do(new ScriptInfoAction(LocalizedStrings.Resources.ScriptInfoUpdateDetails,
                     sub => sub.ScriptInfo.UpdateDetails = value,
                     sub => sub.ScriptInfo.UpdateDetails = oldValue));
             }
@@ -162,17 +141,14 @@ namespace SubtitleEditor.ViewModel
 
         public string SynchPoint
         {
-            get
-            {
-                return info.SynchPoint;
-            }
+            get => this.info.SynchPoint;
             set
             {
-                var oldValue = info.SynchPoint;
+                var oldValue = this.info.SynchPoint;
                 value = stringFormat(value);
-                if(value == oldValue)
+                if (value == oldValue)
                     return;
-                Document.Do(new ScriptInfoAction(LocalizedStrings.Resources.ScriptInfoSynchPoint,
+                this.Document.Do(new ScriptInfoAction(LocalizedStrings.Resources.ScriptInfoSynchPoint,
                     sub => sub.ScriptInfo.SynchPoint = value,
                     sub => sub.ScriptInfo.SynchPoint = oldValue));
             }
@@ -197,16 +173,13 @@ namespace SubtitleEditor.ViewModel
 
         public CollisionStyle Collisions
         {
-            get
-            {
-                return info.Collisions;
-            }
+            get => this.info.Collisions;
             set
             {
-                var oldValue = info.Collisions;
-                if(value == oldValue)
+                var oldValue = this.info.Collisions;
+                if (value == oldValue)
                     return;
-                Document.Do(new ScriptInfoAction(LocalizedStrings.Resources.ScriptInfoCollisions,
+                this.Document.Do(new ScriptInfoAction(LocalizedStrings.Resources.ScriptInfoCollisions,
                     sub => sub.ScriptInfo.Collisions = value,
                     sub => sub.ScriptInfo.Collisions = oldValue));
             }
@@ -214,16 +187,13 @@ namespace SubtitleEditor.ViewModel
 
         public WrapStyle WrapStyle
         {
-            get
-            {
-                return info.WrapStyle;
-            }
+            get => this.info.WrapStyle;
             set
             {
-                var oldValue = info.WrapStyle;
-                if(value == oldValue)
+                var oldValue = this.info.WrapStyle;
+                if (value == oldValue)
                     return;
-                Document.Do(new ScriptInfoAction(LocalizedStrings.Resources.ScriptInfoWrapStyle,
+                this.Document.Do(new ScriptInfoAction(LocalizedStrings.Resources.ScriptInfoWrapStyle,
                     sub => sub.ScriptInfo.WrapStyle = value,
                     sub => sub.ScriptInfo.WrapStyle = oldValue));
             }
@@ -248,16 +218,13 @@ namespace SubtitleEditor.ViewModel
 
         public int PlayResX
         {
-            get
-            {
-                return info.PlayResX;
-            }
+            get => this.info.PlayResX;
             set
             {
-                var oldValue = info.PlayResX;
-                if(value == oldValue)
+                var oldValue = this.info.PlayResX;
+                if (value == oldValue)
                     return;
-                Document.Do(new ScriptInfoAction(LocalizedStrings.Resources.ScriptInfoPlayResX,
+                this.Document.Do(new ScriptInfoAction(LocalizedStrings.Resources.ScriptInfoPlayResX,
                     sub => sub.ScriptInfo.PlayResX = value,
                     sub => sub.ScriptInfo.PlayResX = oldValue));
             }
@@ -265,16 +232,13 @@ namespace SubtitleEditor.ViewModel
 
         public int PlayResY
         {
-            get
-            {
-                return info.PlayResY;
-            }
+            get => this.info.PlayResY;
             set
             {
-                var oldValue = info.PlayResY;
-                if(value == oldValue)
+                var oldValue = this.info.PlayResY;
+                if (value == oldValue)
                     return;
-                Document.Do(new ScriptInfoAction(LocalizedStrings.Resources.ScriptInfoPlayResY,
+                this.Document.Do(new ScriptInfoAction(LocalizedStrings.Resources.ScriptInfoPlayResY,
                     sub => sub.ScriptInfo.PlayResY = value,
                     sub => sub.ScriptInfo.PlayResY = oldValue));
             }
@@ -282,16 +246,13 @@ namespace SubtitleEditor.ViewModel
 
         public bool ScaledBorderAndShadow
         {
-            get
-            {
-                return info.ScaledBorderAndShadow;
-            }
+            get => this.info.ScaledBorderAndShadow;
             set
             {
-                var oldValue = info.ScaledBorderAndShadow;
-                if(value == oldValue)
+                var oldValue = this.info.ScaledBorderAndShadow;
+                if (value == oldValue)
                     return;
-                Document.Do(new ScriptInfoAction(LocalizedStrings.Resources.ScriptInfoScaledBorderAndShadow,
+                this.Document.Do(new ScriptInfoAction(LocalizedStrings.Resources.ScriptInfoScaledBorderAndShadow,
                     sub => sub.ScriptInfo.ScaledBorderAndShadow = value,
                     sub => sub.ScriptInfo.ScaledBorderAndShadow = oldValue));
             }
@@ -300,7 +261,7 @@ namespace SubtitleEditor.ViewModel
         private static string stringFormat(string value)
         {
             value = value.Trim();
-            if(string.IsNullOrEmpty(value))
+            if (string.IsNullOrEmpty(value))
                 return null;
             return value;
         }
@@ -315,9 +276,9 @@ namespace SubtitleEditor.ViewModel
 
         public override void Cleanup()
         {
-            if(info != null)
-                info.PropertyChanged -= Info_PropertyChanged;
-            info = null;
+            if (this.info != null)
+                this.info.PropertyChanged -= this.Info_PropertyChanged;
+            this.info = null;
             base.Cleanup();
         }
     }

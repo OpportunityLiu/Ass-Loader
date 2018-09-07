@@ -9,18 +9,12 @@ namespace SubtitleEditor.Controls.StateTriggers
 {
     public class DeviceFamilyTrigger : StateTriggerBase
     {
-        private static string current = Windows.System.Profile.AnalyticsInfo.VersionInfo.DeviceFamily;
+        private static readonly string current = Windows.System.Profile.AnalyticsInfo.VersionInfo.DeviceFamily;
 
         public string DeviceFamily
         {
-            get
-            {
-                return (string)GetValue(DeviceFamilyProperty);
-            }
-            set
-            {
-                SetValue(DeviceFamilyProperty, value);
-            }
+            get => (string)this.GetValue(DeviceFamilyProperty);
+            set => this.SetValue(DeviceFamilyProperty, value);
         }
 
         // Using a DependencyProperty as the backing store for DeviceFamily.  This enables animation, styling, binding, etc...
@@ -29,14 +23,8 @@ namespace SubtitleEditor.Controls.StateTriggers
 
         public bool ActiveIfMatch
         {
-            get
-            {
-                return (bool)GetValue(ActiveIfMatchProperty);
-            }
-            set
-            {
-                SetValue(ActiveIfMatchProperty, value);
-            }
+            get => (bool)this.GetValue(ActiveIfMatchProperty);
+            set => this.SetValue(ActiveIfMatchProperty, value);
         }
 
         // Using a DependencyProperty as the backing store for ActiveIfMatch.  This enables animation, styling, binding, etc...

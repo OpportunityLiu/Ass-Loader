@@ -14,7 +14,6 @@
 
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Ioc;
-using Microsoft.Practices.ServiceLocation;
 using SubtitleEditor.Model;
 using System.Collections.Generic;
 using Windows.UI.ViewManagement;
@@ -25,14 +24,13 @@ namespace SubtitleEditor.ViewModel
     /// This class contains static references to all the view models in the
     /// application and provides an entry point for the bindings.
     /// </summary>
-    class ViewModelLocator
+    internal class ViewModelLocator
     {
         public static ViewModelLocator GetForView(int viewId)
         {
             lock (syncRoot)
             {
-                ViewModelLocator value;
-                if(locators.TryGetValue(viewId, out value))
+                if (locators.TryGetValue(viewId, out var value))
                     return value;
                 value = new ViewModelLocator();
                 locators[viewId] = value;
@@ -44,8 +42,7 @@ namespace SubtitleEditor.ViewModel
         {
             lock (syncRoot)
             {
-                ViewModelLocator value;
-                if(locators.TryGetValue(viewId, out value))
+                if (locators.TryGetValue(viewId, out var value))
                     value.Cleanup();
                 locators.Remove(viewId);
             }
@@ -63,48 +60,48 @@ namespace SubtitleEditor.ViewModel
 
         private static Dictionary<int, ViewModelLocator> locators = new Dictionary<int, ViewModelLocator>();
 
-        private static object syncRoot = new object();
+        private static readonly object syncRoot = new object();
 
         /// <summary>
         /// Initializes a new instance of the ViewModelLocator class.
         /// </summary>
         public ViewModelLocator()
         {
-            ioc.Register<MainViewModel>();
-            ioc.Register<ScriptInfoViewModel>();
-            ioc.Register<StyleViewModel>();
-            ioc.Register<SubEventViewModel>();
-            ioc.Register<PreferencesViewModel>();
-            ioc.Register<DocumentViewModel>();
-            ioc.Register<Document>();
+            this.ioc.Register<MainViewModel>();
+            this.ioc.Register<ScriptInfoViewModel>();
+            this.ioc.Register<StyleViewModel>();
+            this.ioc.Register<SubEventViewModel>();
+            this.ioc.Register<PreferencesViewModel>();
+            this.ioc.Register<DocumentViewModel>();
+            this.ioc.Register<Document>();
         }
 
-        private SimpleIoc ioc = new SimpleIoc();
+        private readonly SimpleIoc ioc = new SimpleIoc();
 
-        public MainViewModel MainView => ioc.GetInstance<MainViewModel>();
+        public MainViewModel MainView => this.ioc.GetInstance<MainViewModel>();
 
-        public ScriptInfoViewModel ScriptInfoView => ioc.GetInstance<ScriptInfoViewModel>();
+        public ScriptInfoViewModel ScriptInfoView => this.ioc.GetInstance<ScriptInfoViewModel>();
 
-        public StyleViewModel StyleView => ioc.GetInstance<StyleViewModel>();
+        public StyleViewModel StyleView => this.ioc.GetInstance<StyleViewModel>();
 
-        public SubEventViewModel SubEventView => ioc.GetInstance<SubEventViewModel>();
+        public SubEventViewModel SubEventView => this.ioc.GetInstance<SubEventViewModel>();
 
-        public PreferencesViewModel PreferencesView => ioc.GetInstance<PreferencesViewModel>();
+        public PreferencesViewModel PreferencesView => this.ioc.GetInstance<PreferencesViewModel>();
 
-        public DocumentViewModel DocumentView => ioc.GetInstance<DocumentViewModel>();
+        public DocumentViewModel DocumentView => this.ioc.GetInstance<DocumentViewModel>();
 
-        public Document Document => ioc.GetInstance<Document>();
+        public Document Document => this.ioc.GetInstance<Document>();
 
         public void Cleanup()
         {
-            MainView.Cleanup();
-            ScriptInfoView.Cleanup();
-            StyleView.Cleanup();
-            SubEventView.Cleanup();
-            PreferencesView.Cleanup();
-            DocumentView.Cleanup();
-            Document.Cleanup();
-            ioc.Reset();
+            this.MainView.Cleanup();
+            this.ScriptInfoView.Cleanup();
+            this.StyleView.Cleanup();
+            this.SubEventView.Cleanup();
+            this.PreferencesView.Cleanup();
+            this.DocumentView.Cleanup();
+            this.Document.Cleanup();
+            this.ioc.Reset();
         }
     }
 }

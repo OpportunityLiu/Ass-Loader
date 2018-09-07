@@ -14,10 +14,10 @@ namespace SubtitleEditor.ViewModel
         public EditorViewModelBase()
         {
             var ioc = ViewModelLocator.GetForCurrentView();
-            Document = ioc.Document;
-            Document.PropertyChanged += Document_PropertyChanged;
-            DocumentView = ioc.DocumentView;
-            Document_PropertyChanged(Document, new PropertyChangedEventArgs(null));
+            this.Document = ioc.Document;
+            this.Document.PropertyChanged += this.Document_PropertyChanged;
+            this.DocumentView = ioc.DocumentView;
+            this.Document_PropertyChanged(this.Document, new PropertyChangedEventArgs(null));
         }
 
         protected virtual void Document_PropertyChanged(object sender, PropertyChangedEventArgs e)
@@ -38,10 +38,10 @@ namespace SubtitleEditor.ViewModel
 
         public override void Cleanup()
         {
-            if(Document != null)
-                Document.PropertyChanged -= Document_PropertyChanged;
-            Document = null;
-            DocumentView = null;
+            if(this.Document != null)
+                this.Document.PropertyChanged -= this.Document_PropertyChanged;
+            this.Document = null;
+            this.DocumentView = null;
             base.Cleanup();
         }
     }

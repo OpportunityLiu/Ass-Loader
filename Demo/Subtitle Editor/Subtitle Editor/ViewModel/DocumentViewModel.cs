@@ -14,9 +14,9 @@ namespace SubtitleEditor.ViewModel
     {
         public DocumentViewModel()
         {
-            doc.PropertyChanged += document_PropertyChanged;
-            Redo = new RelayCommand(() => doc.Redo(), () => doc.RedoAction != null);
-            Undo = new RelayCommand(() => doc.Undo(), () => doc.UndoAction != null);
+            this.doc.PropertyChanged += this.document_PropertyChanged;
+            this.Redo = new RelayCommand(() => this.doc.Redo(), () => this.doc.RedoAction != null);
+            this.Undo = new RelayCommand(() => this.doc.Undo(), () => this.doc.UndoAction != null);
         }
 
         private Document doc = ViewModelLocator.GetForCurrentView().Document;
@@ -25,28 +25,28 @@ namespace SubtitleEditor.ViewModel
         {
             if(string.IsNullOrEmpty(e.PropertyName))
             {
-                Redo.RaiseCanExecuteChanged();
-                Undo.RaiseCanExecuteChanged();
+                this.Redo.RaiseCanExecuteChanged();
+                this.Undo.RaiseCanExecuteChanged();
                 return;
             }
             switch(e.PropertyName)
             {
             case nameof(Document.UndoAction):
-                RaisePropertyChanged(nameof(UndoHint));
-                Undo.RaiseCanExecuteChanged();
+                this.RaisePropertyChanged(nameof(this.UndoHint));
+                this.Undo.RaiseCanExecuteChanged();
                 break;
             case nameof(Document.RedoAction):
-                Redo.RaiseCanExecuteChanged();
-                RaisePropertyChanged(nameof(RedoHint));
+                this.Redo.RaiseCanExecuteChanged();
+                this.RaisePropertyChanged(nameof(this.RedoHint));
                 break;
             default:
                 break;
             }
         }
 
-        public string UndoHint => string.Format(System.Globalization.CultureInfo.CurrentCulture, LocalizedStrings.Resources.DocumentUndo, doc.UndoAction?.ActionFriendlyName);
+        public string UndoHint => string.Format(System.Globalization.CultureInfo.CurrentCulture, LocalizedStrings.Resources.DocumentUndo, this.doc.UndoAction?.ActionFriendlyName);
 
-        public string RedoHint => string.Format(System.Globalization.CultureInfo.CurrentCulture, LocalizedStrings.Resources.DocumentRedo, doc.RedoAction?.ActionFriendlyName);
+        public string RedoHint => string.Format(System.Globalization.CultureInfo.CurrentCulture, LocalizedStrings.Resources.DocumentRedo, this.doc.RedoAction?.ActionFriendlyName);
 
         public RelayCommand Redo
         {
@@ -62,9 +62,9 @@ namespace SubtitleEditor.ViewModel
 
         public override void Cleanup()
         {
-            if(doc != null)
-                doc.PropertyChanged += document_PropertyChanged;
-            doc = null;
+            if(this.doc != null)
+                this.doc.PropertyChanged += this.document_PropertyChanged;
+            this.doc = null;
             base.Cleanup();
         }
     }

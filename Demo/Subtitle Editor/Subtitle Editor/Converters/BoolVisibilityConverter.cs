@@ -18,7 +18,7 @@ namespace SubtitleEditor.Converters
 
         public object Convert(object value, Type targetType, object parameter, string language)
         {
-            return (bool)value == VisibleBoolValue ? Visibility.Visible : Visibility.Collapsed;
+            return (bool)value == this.VisibleBoolValue ? Visibility.Visible : Visibility.Collapsed;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, string language)
@@ -26,9 +26,9 @@ namespace SubtitleEditor.Converters
             switch((Visibility)value)
             {
             case Visibility.Visible:
-                return VisibleBoolValue;
+                return this.VisibleBoolValue;
             case Visibility.Collapsed:
-                return !VisibleBoolValue;
+                return !this.VisibleBoolValue;
             default:
                 throw new ArgumentOutOfRangeException(nameof(value));
             }

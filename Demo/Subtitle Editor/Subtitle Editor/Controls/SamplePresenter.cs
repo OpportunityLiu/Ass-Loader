@@ -21,15 +21,15 @@ namespace SubtitleEditor.Controls
             this.DefaultStyleKey = typeof(SamplePresenter);
             this.Loaded += (o, e) =>
             {   // listen for size changes after control is loaded
-                this.SizeChanged += new SizeChangedEventHandler(SamplePresenter_SizeChanged);
+                this.SizeChanged += new SizeChangedEventHandler(this.SamplePresenter_SizeChanged);
             };
         }
 
         protected override void OnApplyTemplate()
         {
             base.OnApplyTemplate();
-            this.BackgroundImage = (ImageBrush)GetTemplateChild("BackgroundImage");
-            if(BackgroundImage != null)
+            this.BackgroundImage = (ImageBrush)this.GetTemplateChild("BackgroundImage");
+            if(this.BackgroundImage != null)
                 this.BackgroundImage.Stretch = Windows.UI.Xaml.Media.Stretch.None;
         }
 
@@ -37,14 +37,8 @@ namespace SubtitleEditor.Controls
 
         public string ImageSource
         {
-            get
-            {
-                return (string)GetValue(ImageSourceProperty);
-            }
-            set
-            {
-                SetValue(ImageSourceProperty, value);
-            }
+            get => (string)this.GetValue(ImageSourceProperty);
+            set => this.SetValue(ImageSourceProperty, value);
         }
 
         private static async void OnImageSourceUriChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
@@ -63,20 +57,20 @@ namespace SubtitleEditor.Controls
 
         private async void SamplePresenter_SizeChanged(object sender, SizeChangedEventArgs e)
         {
-            await UpdateBackground(false);
+            await this.UpdateBackground(false);
         }
 
         private async Task UpdateImageSource()
         {
-            StorageFile file = await StorageFile.GetFileFromApplicationUriAsync(new Uri(ImageSource));
+            StorageFile file = await StorageFile.GetFileFromApplicationUriAsync(new Uri(this.ImageSource));
             using(IRandomAccessStream fileStream = await file.OpenAsync(FileAccessMode.Read))
             {
                 BitmapDecoder decoder = await BitmapDecoder.CreateAsync(fileStream);
                 PixelDataProvider framePixelProvider = await decoder.GetPixelDataAsync(BitmapPixelFormat.Bgra8, BitmapAlphaMode.Premultiplied, new BitmapTransform(), ExifOrientationMode.RespectExifOrientation, ColorManagementMode.DoNotColorManage);
 
-                _sourcePixelWidth = (int)decoder.PixelWidth;
-                _sourcePixelHeight = (int)decoder.PixelHeight;
-                _sourceFramePixels = framePixelProvider.DetachPixelData();
+                this._sourcePixelWidth = (int)decoder.PixelWidth;
+                this._sourcePixelHeight = (int)decoder.PixelHeight;
+                this._sourceFramePixels = framePixelProvider.DetachPixelData();
             }
         }
 
@@ -84,36 +78,36 @@ namespace SubtitleEditor.Controls
 
         private async Task UpdateBackground(bool forcedRedraw)
         {
-            if(BackgroundImage == null)
+            if(this.BackgroundImage == null)
                 return;
-            var width = Convert.ToInt32(Math.Ceiling(this.ActualWidth / _sourcePixelWidth));
-            var height = Convert.ToInt32(Math.Ceiling(this.ActualHeight / _sourcePixelHeight));
+            var width = Convert.ToInt32(Math.Ceiling(this.ActualWidth / this._sourcePixelWidth));
+            var height = Convert.ToInt32(Math.Ceiling(this.ActualHeight / this._sourcePixelHeight));
             if(width <= 0 || height <= 0)
             {
-                BackgroundImage.ImageSource = null;
+                this.BackgroundImage.ImageSource = null;
                 return;
             }
-            var drawHeight = height * _sourcePixelHeight;
-            var drawWidth = width * _sourcePixelWidth;
-            if(!forcedRedraw && bitmap != null && bitmap.PixelHeight >= drawHeight && bitmap.PixelWidth >= drawWidth)
+            var drawHeight = height * this._sourcePixelHeight;
+            var drawWidth = width * this._sourcePixelWidth;
+            if(!forcedRedraw && this.bitmap != null && this.bitmap.PixelHeight >= drawHeight && this.bitmap.PixelWidth >= drawWidth)
                 return;
-            if(_sourceFramePixels == null)
-                await UpdateImageSource();
-            bitmap = new WriteableBitmap(drawWidth, drawHeight);
-            using(var targetStream = bitmap.PixelBuffer.AsStream())
+            if(this._sourceFramePixels == null)
+                await this.UpdateImageSource();
+            this.bitmap = new WriteableBitmap(drawWidth, drawHeight);
+            using(var targetStream = this.bitmap.PixelBuffer.AsStream())
             {
                 int currentSourceY = 0;
                 for(int targetY = 0; targetY < drawHeight; targetY++)
                 {
-                    var offset = currentSourceY * _sourcePixelWidth * 4;
+                    var offset = currentSourceY * this._sourcePixelWidth * 4;
                     for(int targetX = 0; targetX < width; targetX++)
                     {
-                        targetStream.Write(_sourceFramePixels, offset, _sourcePixelWidth * 4);
+                        targetStream.Write(this._sourceFramePixels, offset, this._sourcePixelWidth * 4);
                     }
-                    currentSourceY = (currentSourceY + 1) % _sourcePixelHeight;
+                    currentSourceY = (currentSourceY + 1) % this._sourcePixelHeight;
                 }
             }
-            BackgroundImage.ImageSource = bitmap;
+            this.BackgroundImage.ImageSource = this.bitmap;
         }
     }
 }

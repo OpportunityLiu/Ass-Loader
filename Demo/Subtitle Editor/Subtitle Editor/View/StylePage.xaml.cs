@@ -27,11 +27,11 @@ namespace SubtitleEditor.View
         public StylePage()
         {
             this.InitializeComponent();
-            gridDetail.Visibility = Visibility.Collapsed;
+            this.gridDetail.Visibility = Visibility.Collapsed;
             this.ViewModel = ViewModelLocator.GetForCurrentView().StyleView;
-            gridDetail.Opacity = 0;
-            this.leftWidth = (double)Resources["LeftSubPageWidth"];
-            this.onePageMinWidth = (double)Resources["OnePageMinWidth"];
+            this.gridDetail.Opacity = 0;
+            this.leftWidth = (double)this.Resources["LeftSubPageWidth"];
+            this.onePageMinWidth = (double)this.Resources["OnePageMinWidth"];
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
@@ -46,17 +46,11 @@ namespace SubtitleEditor.View
 
         public StyleViewModel ViewModel
         {
-            get
-            {
-                return (StyleViewModel)GetValue(ViewModelProperty);
-            }
-            set
-            {
-                SetValue(ViewModelProperty, value);
-            }
+            get => (StyleViewModel)this.GetValue(ViewModelProperty);
+            set => this.SetValue(ViewModelProperty, value);
         }
 
-        public bool CanGoBack => state == pageState.r;
+        public bool CanGoBack => this.state == pageState.r;
 
         // Using a DependencyProperty as the backing store for ViewModel.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty ViewModelProperty =
@@ -76,63 +70,63 @@ namespace SubtitleEditor.View
 
         private void Page_SizeChanged(object sender, SizeChangedEventArgs e)
         {
-            if(e.NewSize.Width <= onePageMinWidth)
+            if(e.NewSize.Width <= this.onePageMinWidth)
             {
-                if(state == pageState.l || state == pageState.r)
+                if(this.state == pageState.l || this.state == pageState.r)
                     return;
-                state = listView.SelectedItem == null ? pageState.l : pageState.r;
-                listView.ClearValue(WidthProperty);
-                listView.ClearValue(HorizontalAlignmentProperty);
-                borderDetail.ClearValue(MarginProperty);
-                toSubPageAnmation(false);
+                this.state = this.listView.SelectedItem == null ? pageState.l : pageState.r;
+                this.listView.ClearValue(WidthProperty);
+                this.listView.ClearValue(HorizontalAlignmentProperty);
+                this.borderDetail.ClearValue(MarginProperty);
+                this.toSubPageAnmation(false);
                 CanGoBackChanged?.Invoke(this, EventArgs.Empty);
             }
             else
             {
-                if(state == pageState.lr)
+                if(this.state == pageState.lr)
                     return;
-                state = pageState.lr;
-                listView.Width = leftWidth;
-                listView.HorizontalAlignment = HorizontalAlignment.Left;
-                borderDetail.Margin = new Thickness(leftWidth + 4, 0, 0, 0);
-                toSubPageAnmation(false);
+                this.state = pageState.lr;
+                this.listView.Width = this.leftWidth;
+                this.listView.HorizontalAlignment = HorizontalAlignment.Left;
+                this.borderDetail.Margin = new Thickness(this.leftWidth + 4, 0, 0, 0);
+                this.toSubPageAnmation(false);
                 CanGoBackChanged?.Invoke(this, EventArgs.Empty);
             }
         }
 
         private void toSubPageAnmation(bool useAnmation)
         {
-            listView.Visibility = Visibility.Visible;
-            borderDetail.Visibility = Visibility.Visible;
-            switch(state)
+            this.listView.Visibility = Visibility.Visible;
+            this.borderDetail.Visibility = Visibility.Visible;
+            switch(this.state)
             {
             case pageState.lr:
-                leftAnimation.To = 0;
-                rightAnimation.To = 0;
-                showLeft.Begin();
+                this.leftAnimation.To = 0;
+                this.rightAnimation.To = 0;
+                this.showLeft.Begin();
                 if(!useAnmation)
-                    showLeft.SkipToFill();
+                    this.showLeft.SkipToFill();
                 break;
             case pageState.l:
-                leftAnimation.To = 0;
-                rightAnimation.To = root.ActualWidth;
-                showLeft.Begin();
+                this.leftAnimation.To = 0;
+                this.rightAnimation.To = this.root.ActualWidth;
+                this.showLeft.Begin();
                 if(!useAnmation)
-                    showLeft.SkipToFill();
+                    this.showLeft.SkipToFill();
                 break;
             case pageState.r:
-                leftAnimation.To = -root.ActualWidth;
-                rightAnimation.To = 0;
-                hideLeft.Begin();
+                this.leftAnimation.To = -this.root.ActualWidth;
+                this.rightAnimation.To = 0;
+                this.hideLeft.Begin();
                 if(!useAnmation)
-                    hideLeft.SkipToFill();
+                    this.hideLeft.SkipToFill();
                 break;
             default:
                 break;
             }
-            toPage.Begin();
+            this.toPage.Begin();
             if(!useAnmation)
-                toPage.SkipToFill();
+                this.toPage.SkipToFill();
         }
 
         private bool previousIsNull = true;
@@ -141,47 +135,47 @@ namespace SubtitleEditor.View
 
         private void listView_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if(listView.SelectedItem == null && !previousIsNull)
+            if(this.listView.SelectedItem == null && !this.previousIsNull)
             {
-                hideRight.Begin();
-                previousIsNull = true;
+                this.hideRight.Begin();
+                this.previousIsNull = true;
             }
-            else if(previousIsNull)
+            else if(this.previousIsNull)
             {
-                gridDetail.Visibility = Visibility.Visible;
-                showRight.Begin();
-                previousIsNull = false;
+                this.gridDetail.Visibility = Visibility.Visible;
+                this.showRight.Begin();
+                this.previousIsNull = false;
             }
-            if(state == pageState.lr)
+            if(this.state == pageState.lr)
             {
                 return;
             }
             else
             {
-                state = listView.SelectedItem == null ? pageState.l : pageState.r;
-                toSubPageAnmation(true);
+                this.state = this.listView.SelectedItem == null ? pageState.l : pageState.r;
+                this.toSubPageAnmation(true);
                 CanGoBackChanged?.Invoke(this, EventArgs.Empty);
             }
         }
 
         private void toPage_Completed(object sender, object e)
         {
-            switch(state)
+            switch(this.state)
             {
             case pageState.lr:
-                listView.Visibility = Visibility.Visible;
-                borderDetail.Visibility = Visibility.Visible;
-                rectangleSplit.Visibility = Visibility.Visible;
+                this.listView.Visibility = Visibility.Visible;
+                this.borderDetail.Visibility = Visibility.Visible;
+                this.rectangleSplit.Visibility = Visibility.Visible;
                 break;
             case pageState.l:
-                listView.Visibility = Visibility.Visible;
-                borderDetail.Visibility = Visibility.Collapsed;
-                rectangleSplit.Visibility = Visibility.Collapsed;
+                this.listView.Visibility = Visibility.Visible;
+                this.borderDetail.Visibility = Visibility.Collapsed;
+                this.rectangleSplit.Visibility = Visibility.Collapsed;
                 break;
             case pageState.r:
-                listView.Visibility = Visibility.Collapsed;
-                borderDetail.Visibility = Visibility.Visible;
-                rectangleSplit.Visibility = Visibility.Collapsed;
+                this.listView.Visibility = Visibility.Collapsed;
+                this.borderDetail.Visibility = Visibility.Visible;
+                this.rectangleSplit.Visibility = Visibility.Collapsed;
                 break;
             default:
                 break;
@@ -190,14 +184,14 @@ namespace SubtitleEditor.View
 
         private void hideRight_Completed(object sender, object e)
         {
-            if(ViewModel.SelectedStyle == null)
-                gridDetail.Visibility = Visibility.Collapsed;
+            if(this.ViewModel.SelectedStyle == null)
+                this.gridDetail.Visibility = Visibility.Collapsed;
         }
 
         public void GoBack()
         {
-            listView.Focus(FocusState.Programmatic);
-            listView.SelectedItem = null;
+            this.listView.Focus(FocusState.Programmatic);
+            this.listView.SelectedItem = null;
         }
     }
 }
