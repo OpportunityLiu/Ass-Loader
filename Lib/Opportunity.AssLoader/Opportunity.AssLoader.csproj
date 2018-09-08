@@ -9,7 +9,7 @@
   </PropertyGroup>
 
   <PropertyGroup>
-    <Version>1.0.0</Version>
+    <Version>1.1.0</Version>
     <Authors>Opportunity</Authors>
     <Company>Opportunity</Company>
     <Description>Ass Loader is a library based on .NET to parse, modify and serialize Advanced Substation Alpha format (*.ass file).</Description>
