@@ -15,7 +15,7 @@ namespace Opportunity.AssLoader.Universal.Test
         public void ColorExtention()
         {
             var ra = new Random();
-            Func<Color> raCo = () => Color.Parse("&H" + Convert.ToString((uint)ra.Next(int.MinValue, int.MaxValue), 16).PadLeft(8, '0'));
+            Color raCo() => Color.Parse("&H" + Convert.ToString((uint)ra.Next(int.MinValue, int.MaxValue), 16).PadLeft(8, '0'));
             for (var i = 0; i < 65536; i++)
             {
                 var ca = raCo();

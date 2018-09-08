@@ -109,11 +109,11 @@ Content of the line:
                 Events
             }
 
-            private TextReader reader;
+            private readonly TextReader reader;
 
-            private Subtitle<T> subtitle;
+            private readonly Subtitle<T> subtitle;
 
-            private bool isExact;
+            private readonly bool isExact;
 
             private EntryHeader styleFormat, eventFormat;
 

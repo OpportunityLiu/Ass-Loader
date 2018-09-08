@@ -9,6 +9,8 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using FieldSerializeHelper
+    = Opportunity.AssLoader.SerializeHelper<Opportunity.AssLoader.Entry, Opportunity.AssLoader.EntryFieldAttribute>;
 
 namespace Opportunity.AssLoader
 {
@@ -76,15 +78,17 @@ namespace Opportunity.AssLoader
             if (format is null) throw new ArgumentNullException(nameof(format));
             if (writer is null) throw new ArgumentNullException(nameof(writer));
 
-            var fieldInfo = getFieldInfo(GetType());
-            var f = new EntryData(format.Select(key => fieldInfo[key].Serialize(this)).ToArray()).Fields;
             writer.Write(this.EntryName);
             writer.Write(": ");
+
+            var fieldInfo = getFieldInfo(GetType());
+            var f = format.Data;
+
             for (var i = 0; i < f.Length; i++)
             {
                 if (i != 0)
                     writer.Write(',');
-                writer.Write(f[i]);
+                writer.Write(fieldInfo[f[i]].Serialize(this));
             }
         }
 

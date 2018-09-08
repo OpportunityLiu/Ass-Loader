@@ -15,12 +15,11 @@ namespace Opportunity.AssLoader
         public readonly struct TextList : IReadOnlyList<string>
         {
             private readonly string[] texts;
-            private readonly int max;
 
             internal TextList(string[] texts)
             {
                 this.texts = texts;
-                this.max = texts.Length / 2 + 1;
+                this.Count = texts.Length / 2 + 1;
             }
 
             #region IReadOnlyList<string> 成员
@@ -35,7 +34,7 @@ namespace Opportunity.AssLoader
             {
                 get
                 {
-                    if (ThrowHelper.IsLessThanZeroOrOutOfRange(this.max, index))
+                    if (ThrowHelper.IsLessThanZeroOrOutOfRange(this.Count, index))
                         throw new ArgumentOutOfRangeException(nameof(index));
                     return this.texts[index * 2];
                 }
@@ -48,7 +47,7 @@ namespace Opportunity.AssLoader
             /// <summary>
             /// Count of texts in the <see cref="TextContent"/>.
             /// </summary>
-            public int Count => this.max;
+            public int Count { get; }
 
             #endregion
 
@@ -80,12 +79,11 @@ namespace Opportunity.AssLoader
         public readonly struct TagList : IReadOnlyList<string>
         {
             private readonly string[] texts;
-            private readonly int max;
 
             internal TagList(string[] texts)
             {
                 this.texts = texts;
-                this.max = texts.Length / 2;
+                this.Count = texts.Length / 2;
             }
 
             #region IReadOnlyList<string> 成员
@@ -100,7 +98,7 @@ namespace Opportunity.AssLoader
             {
                 get
                 {
-                    if (ThrowHelper.IsLessThanZeroOrOutOfRange(this.max, index))
+                    if (ThrowHelper.IsLessThanZeroOrOutOfRange(this.Count, index))
                         throw new ArgumentOutOfRangeException(nameof(index));
                     return this.texts[index * 2 + 1];
                 }
@@ -113,7 +111,7 @@ namespace Opportunity.AssLoader
             /// <summary>
             /// Count of tags in the <see cref="TextContent"/>.
             /// </summary>
-            public int Count => this.max;
+            public int Count { get; }
 
             #endregion
 

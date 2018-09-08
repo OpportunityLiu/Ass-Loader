@@ -1,6 +1,6 @@
-﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Opportunity.AssLoader;
+using System;
 
 namespace Opportunity.AssLoader.Test
 {
@@ -10,7 +10,7 @@ namespace Opportunity.AssLoader.Test
         [TestMethod]
         public void ParseRgba()
         {
-            for(var i = 0; i < 0xffff; i++)
+            for (var i = 0; i < 0xffff; i++)
             {
                 var va = TestHelper.RandomReader.ReadUInt32();
                 var str = "&H" + Convert.ToString(va, 16).PadLeft(8, '0');
@@ -22,7 +22,7 @@ namespace Opportunity.AssLoader.Test
         [TestMethod]
         public void ParseRgb()
         {
-            for(var i = 0; i < 0xffff; i++)
+            for (var i = 0; i < 0xffff; i++)
             {
                 var va = TestHelper.Random.Next(0x1000000);
                 var c = Color.Parse("&H" + Convert.ToString(va, 16).PadLeft(6, '0'));
@@ -33,8 +33,8 @@ namespace Opportunity.AssLoader.Test
         [TestMethod]
         public void ChangeRgba()
         {
-            Func<Color> raCo = () => Color.Parse("&H" + Convert.ToString(TestHelper.RandomReader.ReadUInt32(), 16).PadLeft(8, '0'));
-            for(var i = 0; i < 256; i++)
+            Color raCo() => Color.Parse("&H" + Convert.ToString(TestHelper.RandomReader.ReadUInt32(), 16).PadLeft(8, '0'));
+            for (var i = 0; i < 256; i++)
             {
                 var va = (byte)i;
                 var c = raCo();
@@ -46,7 +46,7 @@ namespace Opportunity.AssLoader.Test
                 Assert.AreEqual(t, c.Transparency);
                 Assert.AreEqual(255, c.Transparency + c.Alpha);
             }
-            for(var i = 0; i < 256; i++)
+            for (var i = 0; i < 256; i++)
             {
                 var va = (byte)i;
                 var c = raCo();
@@ -58,7 +58,7 @@ namespace Opportunity.AssLoader.Test
                 Assert.AreEqual(t, c.Transparency);
                 Assert.AreEqual(255, c.Transparency + c.Alpha);
             }
-            for(var i = 0; i < 256; i++)
+            for (var i = 0; i < 256; i++)
             {
                 var va = (byte)i;
                 var c = raCo();
@@ -70,7 +70,7 @@ namespace Opportunity.AssLoader.Test
                 Assert.AreEqual(t, c.Transparency);
                 Assert.AreEqual(255, c.Transparency + c.Alpha);
             }
-            for(var i = 0; i < 256; i++)
+            for (var i = 0; i < 256; i++)
             {
                 var va = (byte)i;
                 var c = raCo();
@@ -82,7 +82,7 @@ namespace Opportunity.AssLoader.Test
                 Assert.AreEqual(va, c.Transparency);
                 Assert.AreEqual(255, c.Transparency + c.Alpha);
             }
-            for(var i = 0; i < 256; i++)
+            for (var i = 0; i < 256; i++)
             {
                 var va = (byte)i;
                 var c = raCo();
@@ -99,7 +99,7 @@ namespace Opportunity.AssLoader.Test
         [TestMethod]
         public void FromArgb()
         {
-            for(var i = 0; i < 0xFFFFF; i++)
+            for (var i = 0; i < 0xFFFFF; i++)
             {
                 var b = TestHelper.RandomReader.ReadBytes(4);
                 var c = Color.FromArgb(b[0], b[1], b[2], b[3]);

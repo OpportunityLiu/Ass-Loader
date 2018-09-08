@@ -8,11 +8,11 @@ using System.Threading.Tasks;
 namespace Opportunity.AssLoader
 {
     /// <summary>
-    /// Infomation of field of <see cref="Entry"/>.
+    /// Serialization infomation of field of <see cref="Entry"/>.
     /// </summary>
-    [AttributeUsage(AttributeTargets.Field, Inherited = false, AllowMultiple = false)]
+    [AttributeUsage(AttributeTargets.Field | AttributeTargets.Property, Inherited = false, AllowMultiple = false)]
     [DebuggerDisplay(@"[{Name,nq}({Alias,nq})] = {DefaultValue}")]
-    public sealed class EntryFieldAttribute : Attribute
+    public sealed class EntryFieldAttribute : SerializableFieldAttribute
     {
         /// <summary>
         /// Create new instance of <see cref="EntryFieldAttribute"/>.
@@ -32,17 +32,6 @@ namespace Opportunity.AssLoader
         /// Alias of the field in the ass file, which is defined at the "Format" line.
         /// </summary>
         public string Alias { get; set; }
-
-        /// <summary>
-        /// The default value of the field in <see cref="Entry"/>.
-        /// If the field equals null, this value will be used to serialize.
-        /// </summary>
-        public object DefaultValue { get; set; }
-
-        /// <summary>
-        /// Will be used as format string if a custom serializer is not provided.
-        /// </summary>
-        public string Format { get; set; } = "";
     }
 }
 

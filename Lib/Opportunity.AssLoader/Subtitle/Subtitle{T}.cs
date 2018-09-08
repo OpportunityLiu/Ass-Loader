@@ -26,8 +26,6 @@ namespace Opportunity.AssLoader
         public Subtitle(TScriptInfo scriptInfo)
         {
             this.ScriptInfo = scriptInfo ?? throw new ArgumentNullException(nameof(scriptInfo));
-            this.EventCollection = new EventCollection();
-            this.StyleSet = new StyleSet();
         }
 
         /// <summary>
@@ -82,7 +80,7 @@ namespace Opportunity.AssLoader
         /// <returns>A <see cref="string"/> presents the ass file.</returns>
         public string Serialize()
         {
-            using (var writer = new StringWriter(FormatHelper.DefaultFormat))
+            using (var writer = new StringWriter(new StringBuilder((StyleSet.Count + EventCollection.Count) * 50), FormatHelper.DefaultFormat))
             {
                 this.Serialize(writer);
                 return writer.ToString();
@@ -97,11 +95,11 @@ namespace Opportunity.AssLoader
         /// <summary>
         /// Container of information of the "style" section.
         /// </summary>
-        public StyleSet StyleSet { get; }
+        public StyleSet StyleSet { get; } = new StyleSet();
 
         /// <summary>
         /// Container of information of the "event" section.
         /// </summary>
-        public EventCollection EventCollection { get; }
+        public EventCollection EventCollection { get; } = new EventCollection();
     }
 }

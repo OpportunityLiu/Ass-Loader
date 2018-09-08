@@ -98,7 +98,7 @@ namespace Opportunity.AssLoader.Test
 
         private static MemoryStream randomCache = new MemoryStream(65536);
 
-        private static BinaryReader randomReader = new BinaryReader(randomCache);
+        private static readonly BinaryReader randomReader = new BinaryReader(randomCache);
 
         static TestHelper()
         {
@@ -124,7 +124,7 @@ namespace Opportunity.AssLoader.Test
             randomCache.Position = 0;
         }
 
-        private Stopwatch watch = new Stopwatch();
+        private readonly Stopwatch watch = new Stopwatch();
 
         public void StartTimer()
         {

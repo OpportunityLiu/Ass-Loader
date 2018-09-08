@@ -1,7 +1,7 @@
-﻿using System;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Opportunity.AssLoader;
 using Opportunity.AssLoader.Collections;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
 
 namespace Opportunity.AssLoader.Test
 {

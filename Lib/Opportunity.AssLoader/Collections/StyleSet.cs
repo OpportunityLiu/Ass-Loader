@@ -10,12 +10,12 @@ namespace Opportunity.AssLoader.Collections
     /// <summary>
     /// Collection of <see cref="Style"/>, will delete repeted <see cref="Style"/>s autometically.
     /// </summary>
-    public class StyleSet : Collection<Style>
+    public sealed class StyleSet : Collection<Style>
     {
         /// <summary>
         /// Create new instance of <see cref="StyleSet"/>.
         /// </summary>
-        public StyleSet() : base() { }
+        internal StyleSet() : base() { }
 
         private readonly HashSet<string> styleNameSet = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
 

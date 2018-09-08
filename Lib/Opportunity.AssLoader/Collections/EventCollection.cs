@@ -10,14 +10,14 @@ using System.Threading.Tasks;
 namespace Opportunity.AssLoader.Collections
 {
     /// <summary>
-    /// Observable collection of <see cref="SubEvent"/>.
+    /// Collection of <see cref="SubEvent"/>.
     /// </summary>
-    public class EventCollection : List<SubEvent>
+    public sealed class EventCollection : List<SubEvent>
     {
         /// <summary>
         /// Create new instance of <see cref="EventCollection"/>.
         /// </summary>
-        public EventCollection() : base() { }
+        internal EventCollection() : base() { }
 
         /// <summary>
         /// Reorder the items in this <see cref="EventCollection"/> by <see cref="SubEvent.StartTime"/>.

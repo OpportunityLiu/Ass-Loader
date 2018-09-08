@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Reflection;
 using System.Resources;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
 // 有关程序集的常规信息通过以下特性集
@@ -15,6 +16,8 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTrademark("AssLoader")]
 [assembly: AssemblyCulture("")]
 [assembly: NeutralResourcesLanguage("")]
+
+[assembly: InternalsVisibleTo("Opportunity.AssLoader.Universal.Test")]
 
 // 程序集的版本信息由以下四个值组成: 
 //
@@ -33,3 +36,4 @@ internal class AssemblyInfoConsts
 {
     public const string Version = "1.0.0.0";
 }
+

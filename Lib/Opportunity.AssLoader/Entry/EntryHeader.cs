@@ -25,10 +25,10 @@ namespace Opportunity.AssLoader
         {
             if (string.IsNullOrEmpty(format))
                 throw new ArgumentNullException(nameof(format));
-            this.data = new EntryData(format, int.MaxValue).Fields;
-            if (this.data.Contains(string.Empty))
+            this.Data = new EntryData(format, int.MaxValue).Fields;
+            if (this.Data.Contains(string.Empty))
                 throw new ArgumentException("Header can't contains string.Empty.", nameof(format));
-            if (this.data.Distinct().Count() != this.data.Length)
+            if (this.Data.Distinct().Count() != this.Data.Length)
                 throw new FormatException("Header can't contains repeated strings.");
         }
 
@@ -41,12 +41,12 @@ namespace Opportunity.AssLoader
         {
             if (format is null)
                 throw new ArgumentNullException(nameof(format));
-            this.data = format.Distinct(StringComparer.OrdinalIgnoreCase).Select(s => s.Trim()).ToArray();
+            this.Data = format.Distinct(StringComparer.OrdinalIgnoreCase).Select(s => s.Trim()).ToArray();
         }
 
         internal void Serialize(TextWriter writer)
         {
-            var f = this.data;
+            var f = this.Data;
             writer.Write("Format: ");
             for (var i = 0; i < f.Length; i++)
             {
@@ -56,7 +56,7 @@ namespace Opportunity.AssLoader
             }
         }
 
-        private readonly string[] data;
+        internal readonly string[] Data;
 
         /// <summary>
         /// Returns whatever two <see cref="EntryHeader"/> are equal, ignore differences of the order of entry names.
@@ -69,9 +69,9 @@ namespace Opportunity.AssLoader
                 return false;
             if (ReferenceEquals(this, other))
                 return true;
-            if (this.data.Length != other.data.Length)
+            if (this.Data.Length != other.Data.Length)
                 return false;
-            return this.data.Length == Enumerable.Join(this.data, other.data, s => s, s => s, (o, i) => 0, StringComparer.OrdinalIgnoreCase).Count();
+            return this.Data.Length == Enumerable.Join(this.Data, other.Data, s => s, s => s, (o, i) => 0, StringComparer.OrdinalIgnoreCase).Count();
         }
 
         /// <summary>
@@ -87,7 +87,7 @@ namespace Opportunity.AssLoader
         /// </summary>
         /// <returns></returns>
         public override int GetHashCode()
-            => this.data.Aggregate(0, (o, n) => o ^ StringComparer.OrdinalIgnoreCase.GetHashCode(n));
+            => this.Data.Aggregate(0, (o, n) => o ^ StringComparer.OrdinalIgnoreCase.GetHashCode(n));
 
         /// <summary>
         /// Get the entry name with the given index.
@@ -95,19 +95,19 @@ namespace Opportunity.AssLoader
         /// <param name="index">The index of entry names, starts from 0.</param>
         /// <returns>The entry name with the given index.</returns>
         /// <exception cref="ArgumentOutOfRangeException"><paramref name="index"/> out of range.</exception>
-        public string this[int index] => this.data[index];
+        public string this[int index] => this.Data[index];
 
         /// <summary>
         /// Get the number of entry names of this <see cref="EntryHeader"/>.
         /// </summary>
-        public int Count => this.data.Length;
+        public int Count => this.Data.Length;
 
         /// <summary>
         /// Get the enumerator of entry names of this <see cref="EntryHeader"/>.
         /// </summary>
         /// <returns>The enumerator of entry names of this <see cref="EntryHeader"/>.</returns>
-        public IEnumerator<string> GetEnumerator() => ((IEnumerable<string>)this.data).GetEnumerator();
+        public IEnumerator<string> GetEnumerator() => ((IEnumerable<string>)this.Data).GetEnumerator();
 
-        System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator() => this.data.GetEnumerator();
+        System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator() => this.Data.GetEnumerator();
     }
 }
