@@ -1,10 +1,10 @@
-﻿using System;
-using System.IO;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Opportunity.AssLoader;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.Linq;
-using System.Collections.Generic;
 using Opportunity.AssLoader.Collections;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 
 namespace Opportunity.AssLoader.Test
 {
@@ -27,7 +27,7 @@ namespace Opportunity.AssLoader.Test
         [TestMethod]
         public void FormatHash()
         {
-            var s=new string[]
+            var s = new string[]
             {
                 "Name,Fontsize,Fontname,PrimaryColour, SecondaryColour, OutlineColour, BackColour, Bold, Italic, Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV, Encoding",
                 "Name, Fontsize,  Fontname,PrimaryColour, SecondaryColour, OutlineColour, BackColour, Bold, Italic, Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV, Encoding",
@@ -36,7 +36,7 @@ namespace Opportunity.AssLoader.Test
                 "Name, Fontsize  ,  Fontname,PrimaryColour\t, SecondaryColour, OutlineColour, BackColour, Bold, Italic, Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV, \nEncoding"
             };
             var f = new List<EntryHeader>();
-            foreach(var item in s)
+            foreach (var item in s)
             {
                 f.Add(new EntryHeader(item));
                 f.Add(new EntryHeader(item.ToUpper()));
@@ -53,11 +53,11 @@ namespace Opportunity.AssLoader.Test
         public void LoadAndSave()
         {
             Subtitle<AssScriptInfo> t;
-            foreach(var item in this.helper.LoadTestFiles())
+            foreach (var item in this.helper.LoadTestFiles())
             {
-                using(var r = item.Value)
+                using (var r = item.Value)
                     t = Subtitle.Parse<AssScriptInfo>(r);
-                using(var savefile = this.helper.SaveResult(item.Key))
+                using (var savefile = this.helper.SaveResult(item.Key))
                     t.Serialize(savefile);
             }
         }
@@ -67,7 +67,7 @@ namespace Opportunity.AssLoader.Test
         {
             this.helper.LoadTestFiles().AsParallel().Select(item =>
             {
-                using(var r = item.Value)
+                using (var r = item.Value)
                     return new
                     {
                         Key = item.Key,
@@ -75,7 +75,7 @@ namespace Opportunity.AssLoader.Test
                     };
             }).ForAll(item =>
             {
-                using(var savefile = this.helper.SaveResult(item.Key))
+                using (var savefile = this.helper.SaveResult(item.Key))
                     item.Value.Serialize(savefile);
             });
         }
@@ -83,10 +83,10 @@ namespace Opportunity.AssLoader.Test
         [TestMethod]
         public void CommentAll()
         {
-            foreach(var file in this.helper.LoadTestFiles())
+            foreach (var file in this.helper.LoadTestFiles())
             {
                 var t = Subtitle.Parse<AssScriptInfo>(file.Value);
-                foreach(var item in t.EventCollection)
+                foreach (var item in t.EventCollection)
                     item.IsComment = true;
                 var x = Subtitle.Parse<AssScriptInfo>(t.Serialize());
                 var c = from ev in x.EventCollection
@@ -100,7 +100,7 @@ namespace Opportunity.AssLoader.Test
         {
             this.helper.LoadTestFiles().AsParallel().Select(item =>
             {
-                using(var r = item.Value)
+                using (var r = item.Value)
                     return Subtitle.Parse<AssScriptInfo>(r);
             }).ForAll(t =>
             {
@@ -115,10 +115,10 @@ namespace Opportunity.AssLoader.Test
         [TestMethod]
         public void DecommentAll()
         {
-            foreach(var file in this.helper.LoadTestFiles())
+            foreach (var file in this.helper.LoadTestFiles())
             {
                 var t = Subtitle.Parse<AssScriptInfo>(file.Value);
-                foreach(var item in t.EventCollection)
+                foreach (var item in t.EventCollection)
                     item.IsComment = false;
                 var x = Subtitle.Parse<AssScriptInfo>(t.Serialize());
                 var c = from ev in x.EventCollection
@@ -137,7 +137,7 @@ namespace Opportunity.AssLoader.Test
         public void Clone()
         {
             var sub = Subtitle.Parse<AssScriptInfo>(this.helper.TestFile);
-            foreach(var style in sub.StyleSet)
+            foreach (var style in sub.StyleSet)
             {
                 var clone = style.Clone("Default");
                 Assert.AreEqual("Default", clone.Name);
@@ -147,7 +147,7 @@ namespace Opportunity.AssLoader.Test
                 Assert.AreEqual(style.FontSize, clone.FontSize);
                 Assert.AreEqual(style.Italic, clone.Italic);
             }
-            foreach(var subeve in sub.EventCollection)
+            foreach (var subeve in sub.EventCollection)
             {
                 var clone = subeve.Clone();
                 Assert.AreEqual(subeve.StartTime, clone.StartTime);

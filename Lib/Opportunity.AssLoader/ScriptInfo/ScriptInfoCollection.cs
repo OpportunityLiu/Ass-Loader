@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -11,7 +12,7 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Opportunity.AssLoader.Collections
+namespace Opportunity.AssLoader
 {
     /// <summary>
     /// Container of the "script info" section.
@@ -29,10 +30,10 @@ namespace Opportunity.AssLoader.Collections
                 do
                 {
                     var dict = new Dictionary<string, ScriptInfoSerializeHelper>(StringComparer.OrdinalIgnoreCase);
-                    foreach (var fInfo in type.GetRuntimeFields())
+                    foreach (var fInfo in type.GetRuntimeFields().Concat<MemberInfo>(type.GetRuntimeProperties()))
                     {
                         var att = fInfo.GetCustomAttribute<ScriptInfoAttribute>();
-                        if (att == null)
+                        if (att is null)
                             continue;
                         var ser = fInfo.GetCustomAttribute<SerializeAttribute>();
                         dict.Add(att.FieldName, new ScriptInfoSerializeHelper(fInfo, att, ser));
@@ -87,13 +88,17 @@ namespace Opportunity.AssLoader.Collections
         /// <exception cref="ArgumentNullException"><paramref name="writer"/> is null.</exception>
         public virtual void Serialize(TextWriter writer)
         {
-            if (writer == null)
+            if (writer is null)
                 throw new ArgumentNullException(nameof(writer));
+
             foreach (var item in getScriptInfoFields().Values)
             {
-                var toWrite = item.Serialize(this);
-                if (toWrite != null)
-                    writer.WriteLine(toWrite);
+                var str = item.Serialize(this);
+                if (str is null)
+                    continue;
+                writer.Write(item.Info.FieldName);
+                writer.Write(": ");
+                writer.WriteLine(str);
             }
             if (this.undefinedFields.Count == 0)
                 return;
@@ -104,6 +109,7 @@ namespace Opportunity.AssLoader.Collections
                 writer.WriteLine($"{item.Key}: {item.Value}");
         }
 
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         private readonly Dictionary<string, string> undefinedFields = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
 
         /// <summary>
@@ -206,6 +212,7 @@ namespace Opportunity.AssLoader.Collections
 
         #region IDictionary<string,string> 成员
 
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         ICollection<string> IDictionary<string, string>.Keys
         {
             get
@@ -216,6 +223,7 @@ namespace Opportunity.AssLoader.Collections
             }
         }
 
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         ICollection<string> IDictionary<string, string>.Values
         {
             get
@@ -226,6 +234,7 @@ namespace Opportunity.AssLoader.Collections
             }
         }
 
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         private ICollection<string> keys, values;
 
         private class Collection : ICollection<string>
@@ -269,7 +278,7 @@ namespace Opportunity.AssLoader.Collections
                         .ToArray().CopyTo(array, arrayIndex);
                 else
                     f.Values
-                        .Select(item => item.Serialize(this))
+                        .Select(item => item.Serialize(this.collection))
                         .Concat(this.collection.undefinedFields.Values)
                         .ToArray().CopyTo(array, arrayIndex);
             }
@@ -295,7 +304,7 @@ namespace Opportunity.AssLoader.Collections
                         .Concat(this.collection.undefinedFields.Keys).GetEnumerator();
                 else
                     return f.Values
-                        .Select(item => item.Serialize(this))
+                        .Select(item => item.Serialize(this.collection))
                         .Concat(this.collection.undefinedFields.Values).GetEnumerator();
             }
 
@@ -332,8 +341,10 @@ namespace Opportunity.AssLoader.Collections
                 .Concat(this.undefinedFields).ToArray().CopyTo(array, arrayIndex);
         }
 
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         int ICollection<KeyValuePair<string, string>>.Count => getScriptInfoFields().Count + this.undefinedFields.Count;
 
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         bool ICollection<KeyValuePair<string, string>>.IsReadOnly => false;
 
         bool ICollection<KeyValuePair<string, string>>.Remove(KeyValuePair<string, string> item)

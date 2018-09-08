@@ -11,7 +11,7 @@ namespace Opportunity.AssLoader
     /// <summary>
     /// Infomation of field of <see cref="ScriptInfoCollection"/>.
     /// </summary>
-    [AttributeUsage(AttributeTargets.Field, AllowMultiple = false)]
+    [AttributeUsage(AttributeTargets.Field | AttributeTargets.Property, AllowMultiple = false)]
     [DebuggerDisplay(@"[{FieldName,nq}]")]
     public sealed class ScriptInfoAttribute : Attribute
     {

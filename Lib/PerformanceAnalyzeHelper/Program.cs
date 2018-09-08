@@ -1,4 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Opportunity.AssLoader;
+using Opportunity.AssLoader.Collections;
 using Opportunity.AssLoader.Test;
 using System;
 using System.Collections.Generic;
@@ -13,9 +15,9 @@ namespace PerformanceAnalyzeHelper
     {
         private static void Main(string[] args)
         {
-            //var f = System.IO.File.OpenText(@"C:\Users\Opportunity\Desktop\Upotte[02].ass");
-            //var t = AssLoader.Subtitle.Parse<AssLoader.AssScriptInfo>(f);
-            //f.Dispose();
+            var f = System.IO.File.OpenText(@"..\..\..\..\TestFiles\Upotte[02].ass");
+            var t = Subtitle.ParseExact<AssScriptInfo>(f);
+            f.Dispose();
             //foreach(var item in t.StyleDictionary)
             //{
             //    item.Underline = false;

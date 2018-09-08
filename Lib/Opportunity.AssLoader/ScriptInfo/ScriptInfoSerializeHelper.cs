@@ -1,230 +1,130 @@
-﻿using System;
+﻿using Opportunity.AssLoader.Serializer;
+using Opportunity.Helpers;
+using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
-using Opportunity.AssLoader.Serializer;
 
 namespace Opportunity.AssLoader
 {
     internal sealed class ScriptInfoSerializeHelper
     {
-        private string format;
+        public ScriptInfoAttribute Info { get; }
+        public SerializeAttribute Serializer { get; }
+        public TypeInfo FieldType { get; }
+        public bool FieldCanBeNull { get; }
 
-        private object defaultValue;
+        public GetValueDelegate GetValue { get; }
+        public SetValueDelegate SetValue { get; }
 
-        public GetValueDelegate GetValue
+        public void Deserialize(ScriptInfoCollection obj, string value)
         {
-            private set;
-            get;
-        }
-
-        public SetValueDelegate SetValue
-        {
-            private set;
-            get;
-        }
-
-        public DeserializeDelegate Deserialize
-        {
-            get;
-            private set;
-        }
-
-        public DeserializeDelegate DeserializeExact
-        {
-            get;
-            private set;
-        }
-
-        public SerializeDelegate Serialize
-        {
-            get;
-            private set;
-        }
-
-        public ScriptInfoSerializeHelper(FieldInfo info, ScriptInfoAttribute fieldInfo, SerializeAttribute serializer)
-        {
-            this.GetValue = info.GetValue;
-            this.SetValue = info.SetValue;
-            this.defaultValue = fieldInfo.DefaultValue;
-            if(serializer != null)
+            try
             {
-                //custom
-                this.Deserialize = deserializeCustom(this, serializer.Deserialize);
-                this.DeserializeExact = deserializeCustomExact(this, serializer.Deserialize);
-                if(fieldInfo.IsOptional)
-                    this.Serialize = serializeOptional(this, serializer.Serialize);
-                else
-                    this.Serialize = serialize(this, serializer.Serialize);
-                this.format = fieldInfo.FieldName + ": {0}";
-                return;
+                DeserializeExact(obj, value);
             }
-            //enum, nullable and others
-            if(fieldInfo.IsOptional)
-                this.Serialize = serializeOptional(this);
+            catch (Exception)
+            {
+                SetValue(obj, Info.DefaultValue);
+            }
+        }
+
+        public void DeserializeExact(ScriptInfoCollection obj, string value)
+        {
+            var va = default(object);
+
+            if (Serializer is null)
+            {
+                if (FieldCanBeNull && value.IsNullOrEmpty())
+                    va = null;
+                else if (FieldType.IsEnum)
+                    va = Enum.Parse(FieldType.AsType(), value, true);
+                else
+                    va = Convert.ChangeType(value, FieldType.AsType(), FormatHelper.DefaultFormat);
+            }
             else
-                this.Serialize = serialize(this);
-            var fieldType = info.FieldType;
-            this.format = fieldInfo.FieldName + ": {0:" + fieldInfo.Format + "}";
-            Type nullableInner;
-            if((nullableInner = Nullable.GetUnderlyingType(fieldType)) != null)
+                va = Serializer.Deserialize(value);
+            SetValue(obj, va);
+        }
+
+        public string Serialize(ScriptInfoCollection obj)
+        {
+            var value = GetValue(obj);
+            if (Info.IsOptional && (value is null || Equals(value, Info.DefaultValue)))
+                return null;
+            if (value is null)
+                value = Info.DefaultValue;
+            if (Serializer is null)
             {
-                //nullable
-                if(this.defaultValue?.GetType() == nullableInner)
-                    this.defaultValue = Activator.CreateInstance(fieldType, new[] { this.defaultValue });
-                this.Deserialize = deserializeNullable(this, fieldType, nullableInner);
-                this.DeserializeExact = deserializeNullableExact(this, fieldType, nullableInner);
-                return;
-            }
-            if(fieldType.GetTypeInfo().IsEnum)
-            {
-                //enum
-                this.Deserialize = deserializeEnum(this, fieldType);
-                this.DeserializeExact = deserializeEnumExact(this, fieldType);
-                return;
-            }
-            //default
-            this.Deserialize = deserializeDefault(this, fieldType);
-            this.DeserializeExact = deserializeDefaultExact(this, fieldType);
-        }
-
-        private static DeserializeDelegate deserializeDefault(ScriptInfoSerializeHelper target, Type fieldType)
-        {
-            return (obj, value) =>
-            {
-                try
-                {
-                    target.SetValue(obj, Convert.ChangeType(value, fieldType, FormatHelper.DefaultFormat));
-                }
-                catch(FormatException)
-                {
-                    target.SetValue(obj, target.defaultValue);
-                }
-            };
-        }
-
-        private static DeserializeDelegate deserializeCustom(ScriptInfoSerializeHelper target, DeserializerDelegate deserializer)
-        {
-            return (obj, value) =>
-            {
-                try
-                {
-                    target.SetValue(obj, deserializer(value));
-                }
-                catch(FormatException)
-                {
-                    target.SetValue(obj, target.defaultValue);
-                }
-            };
-        }
-
-        private static DeserializeDelegate deserializeEnum(ScriptInfoSerializeHelper target, Type fieldType)
-        {
-            return (obj, value) =>
-            {
-                try
-                {
-                    target.SetValue(obj, Enum.Parse(fieldType, value, true));
-                }
-                catch(FormatException)
-                {
-                    target.SetValue(obj, target.defaultValue);
-                }
-            };
-        }
-
-        private static DeserializeDelegate deserializeNullable(ScriptInfoSerializeHelper target, Type fieldType, Type innerType)
-        {
-            return (obj, value) =>
-            {
-                try
-                {
-                    if(string.IsNullOrWhiteSpace(value))
-                        target.SetValue(obj, target.defaultValue);
-                    else
-                    {
-                        var innerValue = Convert.ChangeType(value, innerType, FormatHelper.DefaultFormat);
-                        var nullable = Activator.CreateInstance(fieldType, new object[] { innerValue });
-                        target.SetValue(obj, nullable);
-                    }
-                }
-                catch(FormatException)
-                {
-                    target.SetValue(obj, target.defaultValue);
-                }
-            };
-        }
-
-        private static DeserializeDelegate deserializeDefaultExact(ScriptInfoSerializeHelper target, Type fieldType)
-        {
-            return (obj, value) => target.SetValue(obj, Convert.ChangeType(value, fieldType, FormatHelper.DefaultFormat));
-        }
-
-        private static DeserializeDelegate deserializeCustomExact(ScriptInfoSerializeHelper target, DeserializerDelegate deserializer)
-        {
-            return (obj, value) => target.SetValue(obj, deserializer(value));
-        }
-
-        private static DeserializeDelegate deserializeEnumExact(ScriptInfoSerializeHelper target, Type fieldType)
-        {
-            return (obj, value) => target.SetValue(obj, Enum.Parse(fieldType, value, true));
-        }
-
-        private static DeserializeDelegate deserializeNullableExact(ScriptInfoSerializeHelper target, Type fieldType, Type innerType)
-        {
-            return (obj, value) =>
-            {
-                if(string.IsNullOrWhiteSpace(value))
-                    target.SetValue(obj, target.defaultValue);
+                var f = value as IFormattable;
+                if (Info.Format.IsNullOrWhiteSpace() || f is null)
+                    return value.ToString();
                 else
-                {
-                    var innerValue = Convert.ChangeType(value, innerType, FormatHelper.DefaultFormat);
-                    var nullable = Activator.CreateInstance(fieldType, new object[] { innerValue });
-                    target.SetValue(obj, nullable);
-                }
-            };
+                    return f.ToString(Info.Format, FormatHelper.DefaultFormat);
+            }
+            else
+                return Serializer.Serialize(value);
         }
 
-        private static SerializeDelegate serialize(ScriptInfoSerializeHelper target)
+        public ScriptInfoSerializeHelper(MemberInfo info, ScriptInfoAttribute fieldInfo, SerializeAttribute serializer)
         {
-            return obj =>
+            Info = fieldInfo;
+            Serializer = serializer;
+            if (info is FieldInfo fi)
             {
-                var value = target.GetValue(obj) ?? target.defaultValue;
-                return string.Format(FormatHelper.DefaultFormat, target.format, value);
-            };
+                if (fi.IsInitOnly)
+                    throw new ArgumentException("Do not support readonly fields.");
+                this.GetValue = fi.GetValue;
+                this.SetValue = fi.SetValue;
+                this.FieldType = fi.FieldType.GetTypeInfo();
+            }
+            else if (info is PropertyInfo pi)
+            {
+                if (!(pi.CanRead && pi.CanWrite))
+                    throw new ArgumentException("Do not support readonly or writeonly properties.");
+                this.GetValue = pi.GetValue;
+                this.SetValue = pi.SetValue;
+                this.FieldType = pi.PropertyType.GetTypeInfo();
+            }
+            else
+                throw new ArgumentException("Unsupproted member.");
+
+            FieldCanBeNull = TypeTraits.Of(FieldType.AsType()).CanBeNull;
+            if (Nullable.GetUnderlyingType(FieldType.AsType()) is Type nuType)
+                FieldType = nuType.GetTypeInfo();
         }
 
-        private static SerializeDelegate serialize(ScriptInfoSerializeHelper target, SerializerDelegate serializer)
-        {
-            return obj =>
-            {
-                var value = target.GetValue(obj) ?? target.defaultValue;
-                return string.Format(FormatHelper.DefaultFormat, target.format, serializer(value));
-            };
-        }
+        //private static DeserializeDelegate deserializeDefaultExact(ScriptInfoSerializeHelper target, Type fieldType)
+        //{
+        //    return (obj, value) => target.SetValue(obj, Convert.ChangeType(value, fieldType, FormatHelper.DefaultFormat));
+        //}
 
-        private static SerializeDelegate serializeOptional(ScriptInfoSerializeHelper target)
-        {
-            return obj =>
-            {
-                var value = target.GetValue(obj);
-                if(value == null || value == target.defaultValue)
-                    return null;
-                return string.Format(FormatHelper.DefaultFormat, target.format, value);
-            };
-        }
+        //private static DeserializeDelegate deserializeCustomExact(ScriptInfoSerializeHelper target, DeserializerDelegate deserializer)
+        //{
+        //    return (obj, value) => target.SetValue(obj, deserializer(value));
+        //}
 
-        private static SerializeDelegate serializeOptional(ScriptInfoSerializeHelper target, SerializerDelegate serializer)
-        {
-            return obj =>
-            {
-                var value = target.GetValue(obj);
-                if(value == null || value == target.defaultValue)
-                    return null;
-                return string.Format(FormatHelper.DefaultFormat, target.format, serializer(value));
-            };
-        }
+        //private static DeserializeDelegate deserializeEnumExact(ScriptInfoSerializeHelper target, Type fieldType)
+        //{
+        //    return (obj, value) => target.SetValue(obj, Enum.Parse(fieldType, value, true));
+        //}
+
+        //private static DeserializeDelegate deserializeNullableExact(ScriptInfoSerializeHelper target, Type fieldType, Type innerType)
+        //{
+        //    return (obj, value) =>
+        //    {
+        //        if (string.IsNullOrWhiteSpace(value))
+        //            target.SetValue(obj, target.defaultValue);
+        //        else
+        //        {
+        //            var innerValue = Convert.ChangeType(value, innerType, FormatHelper.DefaultFormat);
+        //            var nullable = Activator.CreateInstance(fieldType, new object[] { innerValue });
+        //            target.SetValue(obj, nullable);
+        //        }
+        //    };
+        //}
     }
 }

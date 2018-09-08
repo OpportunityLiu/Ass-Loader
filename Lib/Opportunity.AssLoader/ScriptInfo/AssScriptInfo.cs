@@ -1,8 +1,9 @@
 ﻿using Opportunity.AssLoader.Serializer;
 using System;
+using System.Diagnostics;
 using System.Linq;
 
-namespace Opportunity.AssLoader.Collections
+namespace Opportunity.AssLoader
 {
     /// <summary>
     /// Container of the "script info" section which provides access to common properties of script info.
@@ -25,15 +26,21 @@ namespace Opportunity.AssLoader.Collections
             this.OriginalScript = originalScript;
         }
 
-        [ScriptInfo("ScriptType", DefaultValue = "v4.00+")]
-        private string scriptType = "v4.00+";
-
         /// <summary>
         /// This is the SSA script fields version.
         /// </summary>
-        public string ScriptType => this.scriptType;
+        [ScriptInfo("ScriptType", DefaultValue = "v4.00+")]
+        public string ScriptType
+        {
+            get => "v4.00+";
+            private set
+            {
+                if (!string.IsNullOrWhiteSpace(value) && !string.Equals(value.Trim(), "v4.00+", StringComparison.OrdinalIgnoreCase))
+                    throw new ArgumentException("value MUST be \"v4.00+\" for AssScriptInfo.");
+            }
+        }
 
-        [ScriptInfo("Title", DefaultValue = "untitled")]
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         private string title;
 
         /// <summary>
@@ -41,6 +48,7 @@ namespace Opportunity.AssLoader.Collections
         /// If the original author(s) did not provide this information then "untitled" is automatically substituted.
         /// </summary>
         /// <exception cref="ArgumentException"><paramref name="value"/> contains line breaks.</exception>
+        [ScriptInfo("Title", DefaultValue = "untitled")]
         public string Title
         {
             get => this.title;
@@ -52,7 +60,7 @@ namespace Opportunity.AssLoader.Collections
             }
         }
 
-        [ScriptInfo("Original Script", DefaultValue = "unknown")]
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         private string originalScript;
 
         /// <summary>
@@ -60,6 +68,7 @@ namespace Opportunity.AssLoader.Collections
         /// If the original author(s) did not provide this information then "unknown" is automatically substituted.
         /// </summary>
         /// <exception cref="ArgumentException"><paramref name="value"/> contains line breaks.</exception>
+        [ScriptInfo("Original Script", DefaultValue = "unknown")]
         public string OriginalScript
         {
             get => this.originalScript;
@@ -71,7 +80,7 @@ namespace Opportunity.AssLoader.Collections
             }
         }
 
-        [ScriptInfo("Original Translation", IsOptional = true)]
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         private string originalTranslation;
 
         /// <summary>
@@ -79,6 +88,7 @@ namespace Opportunity.AssLoader.Collections
         /// This entry does not appear if no information was entered by the author.
         /// </summary>
         /// <exception cref="ArgumentException"><paramref name="value"/> contains line breaks.</exception>
+        [ScriptInfo("Original Translation", IsOptional = true)]
         public string OriginalTranslation
         {
             get => this.originalTranslation;
@@ -90,7 +100,7 @@ namespace Opportunity.AssLoader.Collections
             }
         }
 
-        [ScriptInfo("Original Editing", IsOptional = true)]
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         private string originalEditing;
 
         /// <summary>
@@ -99,6 +109,7 @@ namespace Opportunity.AssLoader.Collections
         /// This entry does not appear if no information was entered by the author.
         /// </summary>
         /// <exception cref="ArgumentException"><paramref name="value"/> contains line breaks.</exception>
+        [ScriptInfo("Original Editing", IsOptional = true)]
         public string OriginalEditing
         {
             get => this.originalEditing;
@@ -110,7 +121,7 @@ namespace Opportunity.AssLoader.Collections
             }
         }
 
-        [ScriptInfo("Original Timing", IsOptional = true)]
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         private string originalTiming;
 
         /// <summary>
@@ -118,6 +129,7 @@ namespace Opportunity.AssLoader.Collections
         /// This entry does not appear if no information was entered by the author.
         /// </summary>
         /// <exception cref="ArgumentException"><paramref name="value"/> contains line breaks.</exception>
+        [ScriptInfo("Original Timing", IsOptional = true)]
         public string OriginalTiming
         {
             get => this.originalTiming;
@@ -129,7 +141,7 @@ namespace Opportunity.AssLoader.Collections
             }
         }
 
-        [ScriptInfo("Synch Point", IsOptional = true)]
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         private string synchPoint;
 
         /// <summary>
@@ -137,6 +149,7 @@ namespace Opportunity.AssLoader.Collections
         /// This entry does not appear if no information was entered by the author.
         /// </summary>
         /// <exception cref="ArgumentException"><paramref name="value"/> contains line breaks.</exception>
+        [ScriptInfo("Synch Point", IsOptional = true)]
         public string SynchPoint
         {
             get => this.synchPoint;
@@ -148,7 +161,7 @@ namespace Opportunity.AssLoader.Collections
             }
         }
 
-        [ScriptInfo("Script Updated By", IsOptional = true)]
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         private string scriptUpdatedBy;
 
         /// <summary>
@@ -156,6 +169,7 @@ namespace Opportunity.AssLoader.Collections
         /// This entry does not appear if subsequent editors did not enter the information.
         /// </summary>
         /// <exception cref="ArgumentException"><paramref name="value"/> contains line breaks.</exception>
+        [ScriptInfo("Script Updated By", IsOptional = true)]
         public string ScriptUpdatedBy
         {
             get => this.scriptUpdatedBy;
@@ -167,7 +181,7 @@ namespace Opportunity.AssLoader.Collections
             }
         }
 
-        [ScriptInfo("Update Details", IsOptional = true)]
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         private string updateDetails;
 
         /// <summary>
@@ -175,6 +189,7 @@ namespace Opportunity.AssLoader.Collections
         /// This entry does not appear if subsequent editors did not enter any information.
         /// </summary>
         /// <exception cref="ArgumentException"><paramref name="value"/> contains line breaks.</exception>
+        [ScriptInfo("Update Details", IsOptional = true)]
         public string UpdateDetails
         {
             get => this.updateDetails;
@@ -186,7 +201,7 @@ namespace Opportunity.AssLoader.Collections
             }
         }
 
-        [ScriptInfo("Collisions", DefaultValue = CollisionStyle.Normal, IsOptional = true)]
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         private CollisionStyle collisions;
 
         /// <summary>
@@ -195,6 +210,7 @@ namespace Opportunity.AssLoader.Collections
         /// <exception cref="ArgumentOutOfRangeException">
         /// <paramref name="value"/> is not one of the valid value.
         /// </exception>
+        [ScriptInfo("Collisions", DefaultValue = CollisionStyle.Normal, IsOptional = true)]
         public CollisionStyle Collisions
         {
             get => this.collisions;
@@ -207,7 +223,7 @@ namespace Opportunity.AssLoader.Collections
         }
 
 
-        [ScriptInfo("PlayResY", DefaultValue = 360)]
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         private int playResY = 360;
 
         /// <summary>
@@ -217,6 +233,7 @@ namespace Opportunity.AssLoader.Collections
         /// <paramref name="value"/> is less than 0.
         /// </exception>
         /// <seealso cref="PlayResX"/>
+        [ScriptInfo("PlayResY", DefaultValue = 360)]
         public int PlayResY
         {
             get => this.playResY;
@@ -228,7 +245,7 @@ namespace Opportunity.AssLoader.Collections
             }
         }
 
-        [ScriptInfo("PlayResX", DefaultValue = 640)]
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         private int playResX = 640;
 
         /// <summary>
@@ -238,6 +255,7 @@ namespace Opportunity.AssLoader.Collections
         /// <paramref name="value"/> is less than 0.
         /// </exception>
         /// <seealso cref="PlayResY"/>
+        [ScriptInfo("PlayResX", DefaultValue = 640)]
         public int PlayResX
         {
             get => this.playResX;
@@ -249,7 +267,7 @@ namespace Opportunity.AssLoader.Collections
             }
         }
 
-        [ScriptInfo("PlayDepth", IsOptional = true)]
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         private int? playDepth;
 
         /// <summary>
@@ -258,6 +276,7 @@ namespace Opportunity.AssLoader.Collections
         /// <exception cref="ArgumentOutOfRangeException">
         /// <paramref name="value"/> is not greater than 0.
         /// </exception>
+        [ScriptInfo("PlayDepth", IsOptional = true)]
         public int? PlayDepth
         {
             get => this.playDepth;
@@ -269,7 +288,7 @@ namespace Opportunity.AssLoader.Collections
             }
         }
 
-        [ScriptInfo("Timer", DefaultValue = 100d, IsOptional = true, Format = "F4")]
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         private double? timer;
 
         /// <summary>
@@ -295,6 +314,7 @@ namespace Opportunity.AssLoader.Collections
         /// Check the SSA user guide if you want to know why "Timer Speed" is more powerful than "Ramp Time", 
         /// even though they both achieve the same result.
         /// </remarks>
+        [ScriptInfo("Timer", DefaultValue = 100d, IsOptional = true, Format = "F4")]
         public double? Timer
         {
             get => this.timer;
@@ -311,7 +331,6 @@ namespace Opportunity.AssLoader.Collections
             }
         }
 
-        [ScriptInfo("WrapStyle", DefaultValue = 0)]
         private int wrapStyle = 0;
 
         /// <summary>
@@ -320,6 +339,8 @@ namespace Opportunity.AssLoader.Collections
         /// <exception cref="ArgumentOutOfRangeException">
         /// <paramref name="value"/> is not one of the valid value.
         /// </exception>
+        [ScriptInfo("WrapStyle", DefaultValue = 0)]
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public WrapStyle WrapStyle
         {
             get => (WrapStyle)this.wrapStyle;
@@ -331,13 +352,14 @@ namespace Opportunity.AssLoader.Collections
             }
         }
 
-        [BooleanSerialize(TrueString = "Yes", FalseString = "No", ThrowOnDeserializing = false)]
-        [ScriptInfo("ScaledBorderAndShadow")]
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         private bool scaledBorderAndShadow;
 
         /// <summary>
         /// if true, script resolution is used for <see cref="Style.Outline"/> and <see cref="Style.Shadow"/>, if false, video resolution is used. 
         /// </summary>
+        [BooleanSerialize(TrueString = "Yes", FalseString = "No", ThrowOnDeserializing = false)]
+        [ScriptInfo("ScaledBorderAndShadow")]
         public bool ScaledBorderAndShadow
         {
             get => this.scaledBorderAndShadow;

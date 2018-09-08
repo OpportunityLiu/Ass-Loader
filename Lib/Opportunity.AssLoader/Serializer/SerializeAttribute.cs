@@ -9,7 +9,7 @@ namespace Opportunity.AssLoader.Serializer
     /// <summary>
     /// Provides custom methods to serialize and deserialize fields of ass file.
     /// </summary>
-    [AttributeUsage(AttributeTargets.Field, AllowMultiple = false, Inherited = true)]
+    [AttributeUsage(AttributeTargets.Field | AttributeTargets.Property, AllowMultiple = false, Inherited = true)]
     public abstract class SerializeAttribute : Attribute
     {
         /// <summary>
