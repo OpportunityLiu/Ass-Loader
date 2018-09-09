@@ -1,4 +1,5 @@
-﻿using GalaSoft.MvvmLight;
+﻿using Opportunity.Helpers.ObjectModel;
+using Opportunity.MvvmUniverse.Views;
 using SubtitleEditor.Model;
 using System;
 using System.Collections.Generic;
@@ -9,14 +10,11 @@ using System.Threading.Tasks;
 
 namespace SubtitleEditor.ViewModel
 {
-    abstract class EditorViewModelBase : ViewModelBase
+    internal abstract class EditorViewModelBase : ViewModelBase
     {
         public EditorViewModelBase()
         {
-            var ioc = ViewModelLocator.GetForCurrentView();
-            this.Document = ioc.Document;
             this.Document.PropertyChanged += this.Document_PropertyChanged;
-            this.DocumentView = ioc.DocumentView;
             this.Document_PropertyChanged(this.Document, new PropertyChangedEventArgs(null));
         }
 
@@ -24,25 +22,8 @@ namespace SubtitleEditor.ViewModel
         {
         }
 
-        protected Document Document
-        {
-            get;
-            private set;
-        }
+        protected Document Document { get; } = ThreadLocalSingleton.GetOrCreate<Document>();
 
-        public DocumentViewModel DocumentView
-        {
-            get;
-            private set;
-        }
-
-        public override void Cleanup()
-        {
-            if(this.Document != null)
-                this.Document.PropertyChanged -= this.Document_PropertyChanged;
-            this.Document = null;
-            this.DocumentView = null;
-            base.Cleanup();
-        }
+        public DocumentViewModel DocumentView { get; } = ThreadLocalSingleton.GetOrCreate<DocumentViewModel>();
     }
 }

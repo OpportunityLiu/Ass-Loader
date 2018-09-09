@@ -14,7 +14,21 @@ namespace Opportunity.AssLoader
     [AttributeUsage(AttributeTargets.Field | AttributeTargets.Property, Inherited = false, AllowMultiple = false)]
     public abstract class SerializableFieldAttribute : Attribute
     {
-        internal SerializableFieldAttribute() { }
+        /// <summary>
+        /// Create new instance of <see cref="ScriptInfoAttribute"/>.
+        /// </summary>
+        /// <param name="fieldName">name of the field in the ass file.</param>
+        internal SerializableFieldAttribute(string fieldName)
+        {
+            if (string.IsNullOrWhiteSpace(fieldName))
+                throw new ArgumentNullException(nameof(fieldName));
+            this.FieldName = fieldName;
+        }
+
+        /// <summary>
+        /// Name of the field in the ass file.
+        /// </summary>
+        public string FieldName { get; }
 
         /// <summary>
         /// The default value of the field,

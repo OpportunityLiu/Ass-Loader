@@ -13,6 +13,53 @@ namespace Opportunity.AssLoader
     internal sealed class SerializeHelper<TObj, TFieldInfo>
         where TFieldInfo : SerializableFieldAttribute
     {
+        private static readonly Dictionary<Type, Dictionary<string, SerializeHelper<TObj, TFieldInfo>>> fieldInfoCache
+            = new Dictionary<Type, Dictionary<string, SerializeHelper<TObj, TFieldInfo>>>();
+
+        public static Dictionary<string, SerializeHelper<TObj, TFieldInfo>> GetScriptInfoFields(Type containerType)
+        {
+            if (!fieldInfoCache.TryGetValue(containerType, out var fieldInfo))
+            {
+                var temp = new List<Dictionary<string, SerializeHelper<TObj, TFieldInfo>>>();
+                var ti = containerType.GetTypeInfo();
+                do
+                {
+                    var dict = new Dictionary<string, SerializeHelper<TObj, TFieldInfo>>(StringComparer.OrdinalIgnoreCase);
+                    foreach (var fInfo in ti.DeclaredFields)
+                    {
+                        if (fInfo.IsStatic)
+                            continue;
+                        var att = fInfo.GetCustomAttribute<TFieldInfo>();
+                        if (att is null)
+                            continue;
+                        var ser = fInfo.GetCustomAttribute<SerializeAttribute>();
+                        dict.Add(att.FieldName, new SerializeHelper<TObj, TFieldInfo>(fInfo, att, ser));
+                    }
+                    foreach (var pInfo in ti.DeclaredProperties)
+                    {
+                        if ((pInfo.GetMethod ?? pInfo.SetMethod).IsStatic)
+                            continue;
+                        var att = pInfo.GetCustomAttribute<TFieldInfo>();
+                        if (att is null)
+                            continue;
+                        var ser = pInfo.GetCustomAttribute<SerializeAttribute>();
+                        dict.Add(att.FieldName, new SerializeHelper<TObj, TFieldInfo>(pInfo, att, ser));
+                    }
+                    temp.Add(dict);
+                    containerType = ti.BaseType;
+                    ti = containerType.GetTypeInfo();
+                } while (containerType != typeof(object));
+                fieldInfo = (from dict in temp.Reverse<Dictionary<string, SerializeHelper<TObj, TFieldInfo>>>()
+                             from entry in dict
+                             select entry).ToDictionary(item => item.Key, item => item.Value, StringComparer.OrdinalIgnoreCase);
+                lock (fieldInfoCache)
+                {
+                    fieldInfoCache[containerType] = fieldInfo;
+                }
+            }
+            return fieldInfo;
+        }
+
         public TFieldInfo Info { get; }
         public SerializeAttribute Serializer { get; }
         public TypeInfo FieldType { get; }
@@ -77,7 +124,7 @@ namespace Opportunity.AssLoader
             if (info is FieldInfo fi)
             {
                 if (fi.IsInitOnly)
-                    throw new ArgumentException("Do not support readonly fields.");
+                    throw new ArgumentException($"Do not support readonly fields.\nField name: `{fi.Name}`\nType name: `{fi.DeclaringType}`");
                 this.GetValue = fi.GetValue;
                 this.SetValue = fi.SetValue;
                 this.FieldType = fi.FieldType.GetTypeInfo();
@@ -85,13 +132,13 @@ namespace Opportunity.AssLoader
             else if (info is PropertyInfo pi)
             {
                 if (!(pi.CanRead && pi.CanWrite))
-                    throw new ArgumentException("Do not support readonly or writeonly properties.");
+                    throw new ArgumentException($"Do not support readonly or writeonly properties.\nProperty name: `{pi.Name}`\nType name: `{pi.DeclaringType}`");
                 this.GetValue = pi.GetValue;
                 this.SetValue = pi.SetValue;
                 this.FieldType = pi.PropertyType.GetTypeInfo();
             }
             else
-                throw new ArgumentException("Unsupproted member.");
+                throw new ArgumentException($"Unsupproted member.\nMember name: `{info.Name}`\nType name: `{info.DeclaringType}`");
 
             FieldCanBeNull = TypeTraits.Of(FieldType.AsType()).CanBeNull;
             if (Nullable.GetUnderlyingType(FieldType.AsType()) is Type nuType)

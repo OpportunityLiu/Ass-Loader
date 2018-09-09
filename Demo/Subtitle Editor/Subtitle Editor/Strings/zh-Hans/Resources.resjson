@@ -1,0 +1,85 @@
+﻿{
+  "App": {
+    "Name": "Subtitle Editor",
+    "Description": "一个 ASS 字幕编辑软件。",
+    "Author": "Opportunity",
+    "AssFileName": "ASS 字幕文件"
+
+  },
+  "ViewModel": {
+    "Document": {
+      "$Redo": "重做 {action}",
+      "$Undo": "撤销 {action}"
+    },
+    "ScriptInfo": {
+      "$SetScriptInfo": "修改{value}",
+
+      "Collisions": "冲突处理",
+      "OriginalEditing": "编辑",
+      "OriginalScript": "脚本",
+      "OriginalTiming": "时间轴",
+      "OriginalTranslation": "翻译",
+      "PlayDepth": "色彩深度",
+      "PlayResX": "水平分辨率",
+      "PlayResY": "垂直分辨率",
+      "ScaledBorderAndShadow": "缩放边框和阴影",
+      "ScriptUpdatedBy": "修订",
+      "SynchPoint": "同步点",
+      "Timer": "播放速度",
+      "Title": "标题",
+      "UpdateDetails": "修订信息",
+      "WrapStyle": "换行方式"
+    },
+    "Main": {
+      "Untitled": "无标题",
+      "SplitView": {
+        "Button": {
+          "New": "新建",
+          "Open": "打开",
+          "Save": "保存"
+        },
+        "Tab": {
+          "Event": "字幕",
+          "Preferences": "设置",
+          "ScriptInfo": "脚本信息",
+          "Style": "样式"
+        }
+      }
+    }
+  },
+  "View": {
+    "Main": {
+      "Redo/Label": "重做",
+      "Undo/Label": "撤销",
+      "Menu/ToolTipService/ToolTip": "菜单"
+    },
+    "ScriptInfo": {
+      "Collisions/Header": "冲突处理",
+      "WrapStyle/Header": "换行方式",
+      "UpdateDetails/Header": "修订信息",
+      "SynchPoint/Header": "同步点",
+      "MetaData/Text": "元数据",
+      "OriginalEditing/Header": "编辑",
+      "OriginalScript/Header": "脚本",
+      "OriginalTiming/Header": "时间轴",
+      "OriginalTranslation/Header": "翻译",
+      "PlayDepth/Header": "色彩深度",
+      "PlayRes/Text": "脚本分辨率",
+      "ScaledBorderAndShadow/Header": "缩放边框和阴影",
+      "ScriptData/Text": "脚本配置",
+      "ScriptUpdatedBy/Header": "修订",
+      "Timer/Header": "播放速度",
+      "Title/Header": "标题"
+
+    }
+  },
+  "Dialog": {
+    "Save": {
+      "Cancel": "取消",
+      "Content": "是否需要保存对当前文档的更改？",
+      "No": "不保存",
+      "Title": "未保存的更改",
+      "Yes": "保存"
+    }
+  }
+}

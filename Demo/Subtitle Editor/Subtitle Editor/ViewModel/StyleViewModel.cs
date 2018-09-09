@@ -1,7 +1,7 @@
-﻿using GalaSoft.MvvmLight;
-using GalaSoft.MvvmLight.Command;
-using Opportunity.AssLoader;
+﻿using Opportunity.AssLoader;
 using Opportunity.AssLoader.Collections;
+using Opportunity.MvvmUniverse.Commands;
+using Opportunity.MvvmUniverse.Views;
 using SubtitleEditor.Model;
 using System;
 using System.Collections.Generic;
@@ -30,23 +30,6 @@ namespace SubtitleEditor.ViewModel
             }
         }
 
-        public void Delete(Style style)
-        {
-            if (style == null)
-                throw new ArgumentNullException(nameof(style));
-            var index = this.styles.IndexOf(style);
-            if (index == -1)
-                throw new ArgumentException("The value is not in the set.");
-            this.Document.Do(new DocumentAction("Delete style.", sub => sub.StyleSet.Remove(style), sub => sub.StyleSet.Insert(index, style)));
-        }
-
-        public void Add(Style style)
-        {
-            if (style == null)
-                throw new ArgumentNullException(nameof(style));
-            this.Document.Do(new DocumentAction("Add style.", sub => sub.StyleSet.Add(style), sub => sub.StyleSet.Remove(style)));
-        }
-
         public StyleSet Styles
         {
             get => this.styles;
@@ -58,48 +41,65 @@ namespace SubtitleEditor.ViewModel
         public Style SelectedStyle
         {
             get => this.selected;
-            set => Set(ref this.selected, value);
+            set
+            {
+                if (Set(ref this.selected, value))
+                    this.SelectedStyleEditor.SelectedStyle = value;
+            }
         }
 
         private Style selected;
+
+        public Command<Style> Add => Commands.GetOrAdd(() => Command<Style>.Create((c, style) =>
+        {
+            this.Document.Do(new DocumentAction("Add style.", sub => sub.StyleSet.Add(style), sub => sub.StyleSet.Remove(style)));
+        }, (c, style) => style != null && !this.styles.ContainsName(style.Name)));
+
+        public Command<Style> Remove => Commands.GetOrAdd(() => Command<Style>.Create((c, style) =>
+        {
+            var i = this.styles.IndexOf(style);
+            if (i < 0)
+                return;
+            this.Document.Do(new DocumentAction("Remove style.", sub => sub.StyleSet.Remove(style), sub => sub.StyleSet.Insert(i, style)));
+        }, (c, style) => style != null && this.styles.Contains(style)));
 
         public class SelectedStyleViewModel : ViewModelBase
         {
             private static readonly Style defaultStyle = new Style("*Default");
 
-            private StyleViewModel parent;
-            private Style selectedStyle;
-            private int selectedIndex;
+            private readonly StyleViewModel parent;
 
-            public override void Cleanup()
+            private Style selectedStyle;
+            public Style SelectedStyle
             {
-                if (this.selectedStyle != null)
-                    this.selectedStyle.PropertyChanged -= SelectedStyle_PropertyChanged;
-                this.selectedStyle = null;
-                this.parent.PropertyChanged -= this.Parent_PropertyChanged;
-                this.parent = null;
-                base.Cleanup();
+                get => this.selectedStyle;
+                set
+                {
+                    if (Set(ref this.selectedStyle, value))
+                    {
+                        this.selectedIndex = this.parent.Styles.IndexOf(this.selectedStyle);
+                        this.Rename.OnCanExecuteChanged();
+                        this.OnObjectReset();
+                    }
+                }
             }
+            private int selectedIndex;
 
             public SelectedStyleViewModel(StyleViewModel parent)
             {
                 this.parent = parent;
-                this.selectedStyle = parent.SelectedStyle;
-                parent.PropertyChanged += this.Parent_PropertyChanged;
-                if (this.selectedStyle != null)
-                {
-                    this.selectedStyle.PropertyChanged += SelectedStyle_PropertyChanged;
-                    this.selectedIndex = parent.Styles.IndexOf(this.selectedStyle);
-                }
-                this.Delete = new RelayCommand(() => this.parent.Delete(this.selectedStyle), () => this.selectedStyle != null);
-                this.Rename = new RelayCommand(this.rename, () => this.newName != null);
+                this.SelectedStyle = parent.SelectedStyle;
             }
 
-            private void rename()
+            public Command<string> Rename => Commands.GetOrAdd(() => Command<string>.Create((c, newName) =>
             {
                 var index = this.selectedIndex;
+                var aName = newName;
+                var addIndex = 2;
+                while (this.parent.styles.ContainsName(aName))
+                    aName = $"{newName} ({addIndex++})";
                 var oldValue = this.selectedStyle;
-                var newValue = oldValue.Clone(this.newName);
+                var newValue = oldValue.Clone(aName);
                 this.parent.Document.Do(new DocumentAction("Change Name", sub =>
                 {
                     var temp = this.parent.SelectedStyle == oldValue;
@@ -113,75 +113,22 @@ namespace SubtitleEditor.ViewModel
                     if (temp)
                         this.parent.SelectedStyle = oldValue;
                 }));
-            }
+                this.OnPropertyChanged(nameof(Name));
+            }, (c, newName) => this.selectedStyle != null && !newName.IsNullOrEmpty()));
 
-            private void Parent_PropertyChanged(object sender, PropertyChangedEventArgs e)
-            {
-                if (string.IsNullOrEmpty(e.PropertyName) || e.PropertyName == nameof(SelectedStyle))
-                {
-                    if (this.selectedStyle != null)
-                        this.selectedStyle.PropertyChanged -= SelectedStyle_PropertyChanged;
-                    this.selectedStyle = this.parent.SelectedStyle;
-                    if (this.selectedStyle != null)
-                    {
-                        this.selectedStyle.PropertyChanged += SelectedStyle_PropertyChanged;
-                        this.selectedIndex = this.parent.Styles.IndexOf(this.selectedStyle);
-                        this.RaisePropertyChanged("");
-                    }
-                    this.newName = null;
-                    this.Delete.RaiseCanExecuteChanged();
-                    this.Rename.RaiseCanExecuteChanged();
-                }
-            }
-
-            private void SelectedStyle_PropertyChanged(object sender, PropertyChangedEventArgs e)
-            {
-                this.RaisePropertyChanged(e.PropertyName);
-            }
-
-            public RelayCommand Delete
-            {
-                get;
-                private set;
-            }
-
-            public RelayCommand Rename
-            {
-                get;
-                private set;
-            }
-
-            public string Name
-            {
-                get => (this.selectedStyle ?? defaultStyle).Name;
-                set
-                {
-                    if (this.selectedStyle != null && !string.IsNullOrWhiteSpace(value) && !this.parent.Styles.ContainsName(value) && this.selectedStyle.Name != value)
-                    {
-                        this.newName = value;
-                    }
-                    else
-                    {
-                        this.newName = null;
-                    }
-                    this.RaisePropertyChanged(nameof(this.Name));
-                    this.Rename.RaiseCanExecuteChanged();
-                }
-            }
-
-            private string newName;
+            public string Name => (this.selectedStyle ?? defaultStyle).Name;
 
             public AlignmentStyle Alignment
             {
                 get => (this.selectedStyle ?? defaultStyle).Alignment;
                 set
                 {
-                    if (this.selectedStyle == null)
+                    if (this.selectedStyle is null)
                         return;
                     var index = this.selectedIndex;
                     var oldValue = this.selectedStyle.Alignment;
                     if (!this.parent.Document.TryDo(new DocumentAction("Change Alignment", sub => sub.StyleSet[index].Alignment = value, sub => sub.StyleSet[index].Alignment = oldValue)))
-                        this.RaisePropertyChanged(nameof(this.Alignment));
+                        this.OnPropertyChanged(nameof(this.Alignment));
                 }
             }
 
@@ -195,7 +142,7 @@ namespace SubtitleEditor.ViewModel
                     var index = this.selectedIndex;
                     var oldValue = this.selectedStyle.Bold;
                     if (!this.parent.Document.TryDo(new DocumentAction("Change Bold", sub => sub.StyleSet[index].Bold = value, sub => sub.StyleSet[index].Bold = oldValue)))
-                        this.RaisePropertyChanged(nameof(this.Bold));
+                        this.OnPropertyChanged(nameof(this.Bold));
                 }
             }
 
@@ -209,7 +156,7 @@ namespace SubtitleEditor.ViewModel
                     var index = this.selectedIndex;
                     var oldValue = this.selectedStyle.BorderStyle;
                     if (!this.parent.Document.TryDo(new DocumentAction("Change BorderStyle", sub => sub.StyleSet[index].BorderStyle = value, sub => sub.StyleSet[index].BorderStyle = oldValue)))
-                        this.RaisePropertyChanged(nameof(this.BorderStyle));
+                        this.OnPropertyChanged(nameof(this.BorderStyle));
                 }
             }
 
@@ -242,7 +189,7 @@ namespace SubtitleEditor.ViewModel
                     var index = this.selectedIndex;
                     var oldValue = this.selectedStyle.FontName;
                     if (!this.parent.Document.TryDo(new DocumentAction("Change FontName", sub => sub.StyleSet[index].FontName = value, sub => sub.StyleSet[index].FontName = oldValue)))
-                        this.RaisePropertyChanged(nameof(this.FontName));
+                        this.OnPropertyChanged(nameof(this.FontName));
                 }
             }
 
@@ -256,7 +203,7 @@ namespace SubtitleEditor.ViewModel
                     var index = this.selectedIndex;
                     var oldValue = this.selectedStyle.FontSize;
                     if (!this.parent.Document.TryDo(new DocumentAction("Change FontSize", sub => sub.StyleSet[index].FontSize = value, sub => sub.StyleSet[index].FontSize = oldValue)))
-                        this.RaisePropertyChanged(nameof(this.FontSize));
+                        this.OnPropertyChanged(nameof(this.FontSize));
                 }
             }
 
@@ -270,7 +217,7 @@ namespace SubtitleEditor.ViewModel
                     var index = this.selectedIndex;
                     var oldValue = this.selectedStyle.Italic;
                     if (!this.parent.Document.TryDo(new DocumentAction("Change Italic", sub => sub.StyleSet[index].Italic = value, sub => sub.StyleSet[index].Italic = oldValue)))
-                        this.RaisePropertyChanged(nameof(this.Italic));
+                        this.OnPropertyChanged(nameof(this.Italic));
                 }
             }
 
@@ -284,7 +231,7 @@ namespace SubtitleEditor.ViewModel
                     var index = this.selectedIndex;
                     var oldValue = this.selectedStyle.MarginL;
                     if (!this.parent.Document.TryDo(new DocumentAction("Change MarginL", sub => sub.StyleSet[index].MarginL = value, sub => sub.StyleSet[index].MarginL = oldValue)))
-                        this.RaisePropertyChanged(nameof(this.MarginL));
+                        this.OnPropertyChanged(nameof(this.MarginL));
                 }
             }
 
@@ -298,7 +245,7 @@ namespace SubtitleEditor.ViewModel
                     var index = this.selectedIndex;
                     var oldValue = this.selectedStyle.MarginR;
                     if (!this.parent.Document.TryDo(new DocumentAction("Change MarginR", sub => sub.StyleSet[index].MarginR = value, sub => sub.StyleSet[index].MarginR = oldValue)))
-                        this.RaisePropertyChanged(nameof(this.MarginR));
+                        this.OnPropertyChanged(nameof(this.MarginR));
                 }
             }
 
@@ -312,7 +259,7 @@ namespace SubtitleEditor.ViewModel
                     var index = this.selectedIndex;
                     var oldValue = this.selectedStyle.MarginV;
                     if (!this.parent.Document.TryDo(new DocumentAction("Change MarginV", sub => sub.StyleSet[index].MarginV = value, sub => sub.StyleSet[index].MarginV = oldValue)))
-                        this.RaisePropertyChanged(nameof(this.MarginV));
+                        this.OnPropertyChanged(nameof(this.MarginV));
                 }
             }
 
@@ -326,7 +273,7 @@ namespace SubtitleEditor.ViewModel
                     var index = this.selectedIndex;
                     var oldValue = this.selectedStyle.Outline;
                     if (!this.parent.Document.TryDo(new DocumentAction("Change Outline", sub => sub.StyleSet[index].Outline = value, sub => sub.StyleSet[index].Outline = oldValue)))
-                        this.RaisePropertyChanged(nameof(this.Outline));
+                        this.OnPropertyChanged(nameof(this.Outline));
                 }
             }
 
@@ -340,7 +287,7 @@ namespace SubtitleEditor.ViewModel
                     var index = this.selectedIndex;
                     var oldValue = this.selectedStyle.OutlineColor;
                     if (!this.parent.Document.TryDo(new DocumentAction("Change OutlineColor", sub => sub.StyleSet[index].OutlineColor = value, sub => sub.StyleSet[index].OutlineColor = oldValue)))
-                        this.RaisePropertyChanged(nameof(this.OutlineColor));
+                        this.OnPropertyChanged(nameof(this.OutlineColor));
                 }
             }
 
@@ -354,7 +301,7 @@ namespace SubtitleEditor.ViewModel
                     var index = this.selectedIndex;
                     var oldValue = this.selectedStyle.PrimaryColor;
                     if (!this.parent.Document.TryDo(new DocumentAction("Change PrimaryColor", sub => sub.StyleSet[index].PrimaryColor = value, sub => sub.StyleSet[index].PrimaryColor = oldValue)))
-                        this.RaisePropertyChanged(nameof(this.PrimaryColor));
+                        this.OnPropertyChanged(nameof(this.PrimaryColor));
                 }
             }
 
@@ -368,7 +315,7 @@ namespace SubtitleEditor.ViewModel
                     var index = this.selectedIndex;
                     var oldValue = this.selectedStyle.Rotation;
                     if (!this.parent.Document.TryDo(new DocumentAction("Change Rotation", sub => sub.StyleSet[index].Rotation = value, sub => sub.StyleSet[index].Rotation = oldValue)))
-                        this.RaisePropertyChanged(nameof(this.Rotation));
+                        this.OnPropertyChanged(nameof(this.Rotation));
                 }
             }
 
@@ -382,7 +329,7 @@ namespace SubtitleEditor.ViewModel
                     var index = this.selectedIndex;
                     var oldValue = this.selectedStyle.ScaleX;
                     if (!this.parent.Document.TryDo(new DocumentAction("Change ScaleX", sub => sub.StyleSet[index].ScaleX = value, sub => sub.StyleSet[index].ScaleX = oldValue)))
-                        this.RaisePropertyChanged(nameof(this.ScaleX));
+                        this.OnPropertyChanged(nameof(this.ScaleX));
                 }
             }
 
@@ -396,7 +343,7 @@ namespace SubtitleEditor.ViewModel
                     var index = this.selectedIndex;
                     var oldValue = this.selectedStyle.ScaleY;
                     if (!this.parent.Document.TryDo(new DocumentAction("Change ScaleY", sub => sub.StyleSet[index].ScaleY = value, sub => sub.StyleSet[index].ScaleY = oldValue)))
-                        this.RaisePropertyChanged(nameof(this.ScaleY));
+                        this.OnPropertyChanged(nameof(this.ScaleY));
                 }
             }
 
@@ -410,7 +357,7 @@ namespace SubtitleEditor.ViewModel
                     var index = this.selectedIndex;
                     var oldValue = this.selectedStyle.SecondaryColor;
                     if (!this.parent.Document.TryDo(new DocumentAction("Change SecondaryColor", sub => sub.StyleSet[index].SecondaryColor = value, sub => sub.StyleSet[index].SecondaryColor = oldValue)))
-                        this.RaisePropertyChanged(nameof(this.SecondaryColor));
+                        this.OnPropertyChanged(nameof(this.SecondaryColor));
                 }
             }
 
@@ -424,7 +371,7 @@ namespace SubtitleEditor.ViewModel
                     var index = this.selectedIndex;
                     var oldValue = this.selectedStyle.Shadow;
                     if (!this.parent.Document.TryDo(new DocumentAction("Change Shadow", sub => sub.StyleSet[index].Shadow = value, sub => sub.StyleSet[index].Shadow = oldValue)))
-                        this.RaisePropertyChanged(nameof(this.Shadow));
+                        this.OnPropertyChanged(nameof(this.Shadow));
                 }
             }
 
@@ -438,7 +385,7 @@ namespace SubtitleEditor.ViewModel
                     var index = this.selectedIndex;
                     var oldValue = this.selectedStyle.ShadowColor;
                     if (!this.parent.Document.TryDo(new DocumentAction("Change ShadowColor", sub => sub.StyleSet[index].ShadowColor = value, sub => sub.StyleSet[index].ShadowColor = oldValue)))
-                        this.RaisePropertyChanged(nameof(this.ShadowColor));
+                        this.OnPropertyChanged(nameof(this.ShadowColor));
                 }
             }
 
@@ -452,7 +399,7 @@ namespace SubtitleEditor.ViewModel
                     var index = this.selectedIndex;
                     var oldValue = this.selectedStyle.Spacing;
                     if (!this.parent.Document.TryDo(new DocumentAction("Change Spacing", sub => sub.StyleSet[index].Spacing = value, sub => sub.StyleSet[index].Spacing = oldValue)))
-                        this.RaisePropertyChanged(nameof(this.Spacing));
+                        this.OnPropertyChanged(nameof(this.Spacing));
                 }
             }
 
@@ -466,7 +413,7 @@ namespace SubtitleEditor.ViewModel
                     var index = this.selectedIndex;
                     var oldValue = this.selectedStyle.Strikeout;
                     if (!this.parent.Document.TryDo(new DocumentAction("Change Strikeout", sub => sub.StyleSet[index].Strikeout = value, sub => sub.StyleSet[index].Strikeout = oldValue)))
-                        this.RaisePropertyChanged(nameof(this.Strikeout));
+                        this.OnPropertyChanged(nameof(this.Strikeout));
                 }
             }
 
@@ -480,25 +427,11 @@ namespace SubtitleEditor.ViewModel
                     var index = this.selectedIndex;
                     var oldValue = this.selectedStyle.Underline;
                     if (!this.parent.Document.TryDo(new DocumentAction("Change Underline", sub => sub.StyleSet[index].Underline = value, sub => sub.StyleSet[index].Underline = oldValue)))
-                        this.RaisePropertyChanged(nameof(this.Underline));
+                        this.OnPropertyChanged(nameof(this.Underline));
                 }
             }
         }
 
-        public SelectedStyleViewModel SelectedStyleEditor
-        {
-            get;
-            private set;
-        }
-
-        public override void Cleanup()
-        {
-            if (this.SelectedStyleEditor != null)
-                this.SelectedStyleEditor.Cleanup();
-            this.SelectedStyleEditor = null;
-            this.styles = null;
-            this.selected = null;
-            base.Cleanup();
-        }
+        public SelectedStyleViewModel SelectedStyleEditor { get; }
     }
 }

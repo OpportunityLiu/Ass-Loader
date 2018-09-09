@@ -19,46 +19,12 @@ namespace Opportunity.AssLoader
     /// </summary>
     public abstract class Entry
     {
-        private static readonly Dictionary<Type, Dictionary<string, FieldSerializeHelper>> fieldInfoCache
-            = new Dictionary<Type, Dictionary<string, FieldSerializeHelper>>();
-
-        private static Dictionary<string, FieldSerializeHelper> getFieldInfo(Type entryType)
-        {
-            if (!fieldInfoCache.TryGetValue(entryType, out var info))
-            {
-                info = initInfo(entryType);
-                lock (fieldInfoCache)
-                {
-                    fieldInfoCache[entryType] = info;
-                }
-            }
-            return info;
-
-            Dictionary<string, FieldSerializeHelper> initInfo(Type type)
-            {
-                var fieldInfo = new Dictionary<string, FieldSerializeHelper>(StringComparer.OrdinalIgnoreCase);
-                do
-                {
-                    foreach (var fInfo in type.GetRuntimeFields())
-                    {
-                        var att = fInfo.GetCustomAttribute<EntryFieldAttribute>();
-                        if (att == null)
-                            continue;
-                        var ser = fInfo.GetCustomAttribute<SerializeAttribute>();
-                        var helper = new FieldSerializeHelper(fInfo, att, ser);
-                        fieldInfo.Add(att.Name, helper);
-                        if (!string.IsNullOrEmpty(att.Alias))
-                            fieldInfo.Add(att.Alias, helper);
-                    }
-                } while ((type = type.GetTypeInfo().BaseType) != typeof(Entry));
-                return fieldInfo;
-            }
-        }
-
         /// <summary>
         /// Create new instance of <see cref="Entry"/>.
         /// </summary>
         protected Entry() { }
+
+        private Dictionary<string, FieldSerializeHelper> getFieldInfo() => FieldSerializeHelper.GetScriptInfoFields(GetType());
 
         /// <summary>
         /// Name of this <see cref="Entry"/>.
@@ -81,7 +47,7 @@ namespace Opportunity.AssLoader
             writer.Write(this.EntryName);
             writer.Write(": ");
 
-            var fieldInfo = getFieldInfo(GetType());
+            var fieldInfo = getFieldInfo();
             var f = format.Data;
 
             for (var i = 0; i < f.Length; i++)
@@ -106,7 +72,7 @@ namespace Opportunity.AssLoader
             if (string.IsNullOrEmpty(fields))
                 throw new ArgumentNullException(nameof(fields));
             var data = new EntryData(fields, format.Count);
-            var fieldInfo = getFieldInfo(GetType());
+            var fieldInfo = getFieldInfo();
             for (var i = 0; i < format.Count; i++)
             {
                 if (!fieldInfo.TryGetValue(format[i], out var target))
@@ -132,7 +98,7 @@ namespace Opportunity.AssLoader
             if (string.IsNullOrEmpty(fields))
                 throw new ArgumentNullException(nameof(fields));
             var data = new EntryData(fields, format.Count);
-            var fieldInfo = getFieldInfo(GetType());
+            var fieldInfo = getFieldInfo();
             for (var i = 0; i < format.Count; i++)
                 fieldInfo[format[i]].DeserializeExact(this, data[i]);
         }
@@ -145,7 +111,7 @@ namespace Opportunity.AssLoader
         protected T Clone<T>() where T : Entry, new()
         {
             var re = new T();
-            var fieldInfo = getFieldInfo(GetType());
+            var fieldInfo = getFieldInfo();
             foreach (var item in fieldInfo.Values)
                 item.SetValue(re, item.GetValue(this));
             return re;
@@ -158,7 +124,7 @@ namespace Opportunity.AssLoader
         protected Entry Clone()
         {
             var re = (Entry)Activator.CreateInstance(this.GetType());
-            var fieldInfo = getFieldInfo(GetType());
+            var fieldInfo = getFieldInfo();
             foreach (var item in fieldInfo.Values)
                 item.SetValue(re, item.GetValue(this));
             return re;
@@ -175,7 +141,7 @@ namespace Opportunity.AssLoader
             if (factory is null)
                 throw new ArgumentNullException(nameof(factory));
             var re = factory();
-            var fieldInfo = getFieldInfo(GetType());
+            var fieldInfo = getFieldInfo();
             foreach (var item in fieldInfo.Values)
                 item.SetValue(re, item.GetValue(this));
             return re;
@@ -191,7 +157,7 @@ namespace Opportunity.AssLoader
             if (factory is null)
                 throw new ArgumentNullException(nameof(factory));
             var re = factory();
-            var fieldInfo = getFieldInfo(GetType());
+            var fieldInfo = getFieldInfo();
             foreach (var item in fieldInfo.Values)
                 item.SetValue(re, item.GetValue(this));
             return re;

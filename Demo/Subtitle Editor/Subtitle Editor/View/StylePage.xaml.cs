@@ -1,4 +1,6 @@
-﻿using SubtitleEditor.ViewModel;
+﻿using Opportunity.Helpers.ObjectModel;
+using Opportunity.MvvmUniverse.Views;
+using SubtitleEditor.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -22,13 +24,13 @@ namespace SubtitleEditor.View
     /// <summary>
     /// 可用于自身或导航至 Frame 内部的空白页。
     /// </summary>
-    sealed partial class StylePage : Page, IGoBack
+    internal sealed partial class StylePage : MvvmPage, IGoBack
     {
         public StylePage()
         {
+            this.ViewModel = ThreadLocalSingleton.GetOrCreate<StyleViewModel>();
             this.InitializeComponent();
             this.gridDetail.Visibility = Visibility.Collapsed;
-            this.ViewModel = ViewModelLocator.GetForCurrentView().StyleView;
             this.gridDetail.Opacity = 0;
             this.leftWidth = (double)this.Resources["LeftSubPageWidth"];
             this.onePageMinWidth = (double)this.Resources["OnePageMinWidth"];
@@ -44,17 +46,13 @@ namespace SubtitleEditor.View
             base.OnNavigatedFrom(e);
         }
 
-        public StyleViewModel ViewModel
+        public new StyleViewModel ViewModel
         {
-            get => (StyleViewModel)this.GetValue(ViewModelProperty);
-            set => this.SetValue(ViewModelProperty, value);
+            get => (StyleViewModel)base.ViewModel;
+            set => base.ViewModel = value;
         }
 
         public bool CanGoBack => this.state == pageState.r;
-
-        // Using a DependencyProperty as the backing store for ViewModel.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty ViewModelProperty =
-            DependencyProperty.Register("ViewModel", typeof(StyleViewModel), typeof(StylePage), new PropertyMetadata(null));
 
         private enum pageState
         {
@@ -70,9 +68,9 @@ namespace SubtitleEditor.View
 
         private void Page_SizeChanged(object sender, SizeChangedEventArgs e)
         {
-            if(e.NewSize.Width <= this.onePageMinWidth)
+            if (e.NewSize.Width <= this.onePageMinWidth)
             {
-                if(this.state == pageState.l || this.state == pageState.r)
+                if (this.state == pageState.l || this.state == pageState.r)
                     return;
                 this.state = this.listView.SelectedItem == null ? pageState.l : pageState.r;
                 this.listView.ClearValue(WidthProperty);
@@ -83,7 +81,7 @@ namespace SubtitleEditor.View
             }
             else
             {
-                if(this.state == pageState.lr)
+                if (this.state == pageState.lr)
                     return;
                 this.state = pageState.lr;
                 this.listView.Width = this.leftWidth;
@@ -98,34 +96,34 @@ namespace SubtitleEditor.View
         {
             this.listView.Visibility = Visibility.Visible;
             this.borderDetail.Visibility = Visibility.Visible;
-            switch(this.state)
+            switch (this.state)
             {
             case pageState.lr:
                 this.leftAnimation.To = 0;
                 this.rightAnimation.To = 0;
                 this.showLeft.Begin();
-                if(!useAnmation)
+                if (!useAnmation)
                     this.showLeft.SkipToFill();
                 break;
             case pageState.l:
                 this.leftAnimation.To = 0;
                 this.rightAnimation.To = this.root.ActualWidth;
                 this.showLeft.Begin();
-                if(!useAnmation)
+                if (!useAnmation)
                     this.showLeft.SkipToFill();
                 break;
             case pageState.r:
                 this.leftAnimation.To = -this.root.ActualWidth;
                 this.rightAnimation.To = 0;
                 this.hideLeft.Begin();
-                if(!useAnmation)
+                if (!useAnmation)
                     this.hideLeft.SkipToFill();
                 break;
             default:
                 break;
             }
             this.toPage.Begin();
-            if(!useAnmation)
+            if (!useAnmation)
                 this.toPage.SkipToFill();
         }
 
@@ -135,18 +133,18 @@ namespace SubtitleEditor.View
 
         private void listView_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if(this.listView.SelectedItem == null && !this.previousIsNull)
+            if (this.listView.SelectedItem == null && !this.previousIsNull)
             {
                 this.hideRight.Begin();
                 this.previousIsNull = true;
             }
-            else if(this.previousIsNull)
+            else if (this.previousIsNull)
             {
                 this.gridDetail.Visibility = Visibility.Visible;
                 this.showRight.Begin();
                 this.previousIsNull = false;
             }
-            if(this.state == pageState.lr)
+            if (this.state == pageState.lr)
             {
                 return;
             }
@@ -160,7 +158,7 @@ namespace SubtitleEditor.View
 
         private void toPage_Completed(object sender, object e)
         {
-            switch(this.state)
+            switch (this.state)
             {
             case pageState.lr:
                 this.listView.Visibility = Visibility.Visible;
@@ -184,7 +182,7 @@ namespace SubtitleEditor.View
 
         private void hideRight_Completed(object sender, object e)
         {
-            if(this.ViewModel.SelectedStyle == null)
+            if (this.ViewModel.SelectedStyle == null)
                 this.gridDetail.Visibility = Visibility.Collapsed;
         }
 

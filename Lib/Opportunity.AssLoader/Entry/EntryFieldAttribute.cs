@@ -17,16 +17,8 @@ namespace Opportunity.AssLoader
         /// <summary>
         /// Create new instance of <see cref="EntryFieldAttribute"/>.
         /// </summary>
-        /// <param name="name">name of the field in the ass file.</param>
-        public EntryFieldAttribute(string name)
-        {
-            this.Name = name;
-        }
-
-        /// <summary>
-        /// Name of the field in the ass file, which is defined at the "Format" line.
-        /// </summary>
-        public string Name { get; }
+        /// <param name="fieldName">name of the field in the ass file.</param>
+        public EntryFieldAttribute(string fieldName) : base(fieldName) { }
 
         /// <summary>
         /// Alias of the field in the ass file, which is defined at the "Format" line.

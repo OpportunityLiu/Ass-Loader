@@ -1,4 +1,6 @@
-﻿using SubtitleEditor.ViewModel;
+﻿using Opportunity.Helpers.ObjectModel;
+using Opportunity.MvvmUniverse.Views;
+using SubtitleEditor.ViewModel;
 using System;
 using Windows.Storage;
 using Windows.Storage.Pickers;
@@ -13,13 +15,12 @@ namespace SubtitleEditor.View
     /// <summary>
     /// 可用于自身或导航至 Frame 内部的空白页。
     /// </summary>
-    internal sealed partial class SubEventPage : Page
+    internal sealed partial class SubEventPage : MvvmPage
     {
         public SubEventPage()
         {
+            this.ViewModel = ThreadLocalSingleton.GetOrCreate<SubEventViewModel>();
             this.InitializeComponent();
-            var ioc = ViewModelLocator.GetForCurrentView();
-            this.ViewModel = ioc.SubEventView;
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
@@ -32,16 +33,10 @@ namespace SubtitleEditor.View
             base.OnNavigatedFrom(e);
         }
 
-        public SubEventViewModel ViewModel
+        public new SubEventViewModel ViewModel
         {
-            get => (SubEventViewModel)this.GetValue(ViewModelProperty);
-            set => this.SetValue(ViewModelProperty, value);
+            get => (SubEventViewModel)base.ViewModel;
+            set => base.ViewModel = value;
         }
-
-        // Using a DependencyProperty as the backing store for ViewModel.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty ViewModelProperty =
-            DependencyProperty.Register("ViewModel", typeof(SubEventViewModel), typeof(SubEventPage), new PropertyMetadata(null));
-        private FileOpenPicker f = new FileOpenPicker() { SuggestedStartLocation = PickerLocationId.Desktop, ViewMode = PickerViewMode.Thumbnail };
-        private Windows.Media.Editing.MediaComposition comp = new Windows.Media.Editing.MediaComposition();
     }
 }

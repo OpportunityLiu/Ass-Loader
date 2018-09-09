@@ -1,35 +1,23 @@
-﻿using System;
+﻿using SharpDX.DirectWrite;
+using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Threading;
-using SharpDX.DirectWrite;
-using System.Collections;
-using System.Globalization;
+using System.Threading.Tasks;
 using Windows.Globalization;
 
 namespace SubtitleEditor.Model
 {
-    sealed class FontList : IReadOnlyList<Windows.UI.Xaml.Media.FontFamily>
+    internal sealed class FontList : IReadOnlyList<Windows.UI.Xaml.Media.FontFamily>
     {
         public static FontList Instance => LazyInitializer.EnsureInitialized(ref ins, () => new FontList());
 
-        public int Count
-        {
-            get
-            {
-                return this.fonts.Count;
-            }
-        }
+        public int Count => this.fonts.Count;
 
-        public Windows.UI.Xaml.Media.FontFamily this[int index]
-        {
-            get
-            {
-                return this.fonts[index];
-            }
-        }
+        public Windows.UI.Xaml.Media.FontFamily this[int index] => this.fonts[index];
 
         private static FontList ins;
 
@@ -43,7 +31,7 @@ namespace SubtitleEditor.Model
             var localNames = new List<string>();
             {
                 var culture = CultureInfo.CurrentUICulture;
-                while(!string.IsNullOrEmpty(culture?.Name))
+                while (!string.IsNullOrEmpty(culture?.Name))
                 {
                     localNames.Add(culture.Name);
                     culture = culture.Parent;
@@ -51,25 +39,25 @@ namespace SubtitleEditor.Model
             }
             localNames.AddRange(ApplicationLanguages.Languages);
             this.gdiFontFaces = new List<GdiInterop.LogFont>();
-            using(var factory = new Factory())
-            using(var gdiInterop = factory.GdiInterop)
-            using(var fontCollection = factory.GetSystemFontCollection(true))
+            using (var factory = new Factory())
+            using (var gdiInterop = factory.GdiInterop)
+            using (var fontCollection = factory.GetSystemFontCollection(true))
             {
                 var fonts = new List<string>();
                 var count = fontCollection.FontFamilyCount;
-                for(int i = 0; i < count; i++)
+                for (var i = 0; i < count; i++)
                 {
-                    using(var font = fontCollection.GetFontFamily(i))
+                    using (var font = fontCollection.GetFontFamily(i))
                     {
                         var faceCount = font.FontCount;
-                        for(int j = 0; j < faceCount; j++)
+                        for (var j = 0; j < faceCount; j++)
                         {
                             try
                             {
-                                using(var face = font.GetFont(j))
+                                using (var face = font.GetFont(j))
                                 {
                                     var logF = new GdiInterop.LogFont();
-                                    if(gdiInterop.ToLogFont(face, logF))
+                                    if (gdiInterop.ToLogFont(face, logF))
                                     {
                                         fonts.Add(logF.lfFaceName);
                                         this.gdiFontFaces.Add(logF);
@@ -77,7 +65,7 @@ namespace SubtitleEditor.Model
                                 }
 
                             }
-                            catch(Exception)
+                            catch (Exception)
                             {
                             }
                         }

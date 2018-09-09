@@ -1,5 +1,6 @@
 ﻿using Opportunity.AssLoader.Serializer;
 using System;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
 
@@ -142,26 +143,6 @@ namespace Opportunity.AssLoader
         }
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        private string synchPoint;
-
-        /// <summary>
-        /// (optional) Description of where in the video the script should begin playback.
-        /// This entry does not appear if no information was entered by the author.
-        /// </summary>
-        /// <exception cref="ArgumentException"><paramref name="value"/> contains line breaks.</exception>
-        [ScriptInfo("Synch Point", IsOptional = true)]
-        public string SynchPoint
-        {
-            get => this.synchPoint;
-            set
-            {
-                if (!FormatHelper.SingleLineStringValueValid(ref value))
-                    value = null;
-                this.synchPoint = value;
-            }
-        }
-
-        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         private string scriptUpdatedBy;
 
         /// <summary>
@@ -268,69 +249,6 @@ namespace Opportunity.AssLoader
         }
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        private int? playDepth;
-
-        /// <summary>
-        /// (optional) This is the color depth used by the script's author(s) when playing the script.
-        /// </summary>
-        /// <exception cref="ArgumentOutOfRangeException">
-        /// <paramref name="value"/> is not greater than 0.
-        /// </exception>
-        [ScriptInfo("PlayDepth", IsOptional = true)]
-        public int? PlayDepth
-        {
-            get => this.playDepth;
-            set
-            {
-                if (value.HasValue && value.Value <= 0)
-                    throw new ArgumentOutOfRangeException(nameof(value), "value must be greater than 0.");
-                this.playDepth = value;
-            }
-        }
-
-        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        private double? timer;
-
-        /// <summary>
-        /// (optional) This is the Timer Speed for the script, as percentage.
-        /// </summary>
-        /// <example> 
-        /// "100.0000" is exactly 100%. It has four digits following the decimal point.
-        /// </example>
-        /// <exception cref="ArgumentOutOfRangeException">
-        /// <paramref name="value"/> is not greater than 0.
-        /// </exception>
-        /// <exception cref="ArgumentException">
-        /// <paramref name="value"/> is <see cref="double.IsNaN(double)"/> or <see cref="double.IsInfinity(double)"/>
-        /// </exception>
-        /// <remarks> 
-        /// The timer speed is alpha time multiplier applied to SSA's clock to stretch or compress the duration of alpha script.
-        /// A speed greater than 100% will reduce the overall duration, and means that subtitles will progressively appear sooner and sooner.
-        /// A speed less than 100% will increase the overall duration of the script means subtitles will progressively appear later and later 
-        /// (like alpha positive ramp time).
-        /// The stretching or compressing only occurs during script playback 
-        /// - this value does not change the actual timings for each event listed in the script.
-        /// 
-        /// Check the SSA user guide if you want to know why "Timer Speed" is more powerful than "Ramp Time", 
-        /// even though they both achieve the same result.
-        /// </remarks>
-        [ScriptInfo("Timer", DefaultValue = 100d, IsOptional = true, Format = "F4")]
-        public double? Timer
-        {
-            get => this.timer;
-            set
-            {
-                if (value.HasValue)
-                {
-                    if (ThrowHelper.IsInvalidDouble(value.Value))
-                        throw new ArgumentException("value should be a valid number", nameof(value));
-                    if (value.Value <= 0)
-                        throw new ArgumentOutOfRangeException(nameof(value), "value must be greater than 0.");
-                }
-                this.timer = value;
-            }
-        }
-
         private int wrapStyle = 0;
 
         /// <summary>
@@ -339,8 +257,8 @@ namespace Opportunity.AssLoader
         /// <exception cref="ArgumentOutOfRangeException">
         /// <paramref name="value"/> is not one of the valid value.
         /// </exception>
-        [ScriptInfo("WrapStyle", DefaultValue = 0)]
-        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        [ScriptInfo("WrapStyle", DefaultValue = WrapStyle.Smart)]
+        [EnumNumberSerialize(typeof(WrapStyle))]
         public WrapStyle WrapStyle
         {
             get => (WrapStyle)this.wrapStyle;
@@ -364,6 +282,97 @@ namespace Opportunity.AssLoader
         {
             get => this.scaledBorderAndShadow;
             set => this.scaledBorderAndShadow = value;
+        }
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private int? playDepth;
+
+        /// <summary>
+        /// (optional) This is the color depth used by the script's author(s) when playing the script.
+        /// </summary>
+        /// <exception cref="ArgumentOutOfRangeException">
+        /// <paramref name="value"/> is not greater than 0.
+        /// </exception>
+        [ScriptInfo("PlayDepth", IsOptional = true)]
+        [EditorBrowsable(EditorBrowsableState.Advanced)]
+        [Obsolete(Consts.OUTDATED)]
+        public int? PlayDepth
+        {
+            get => this.playDepth;
+            set
+            {
+                if (value.HasValue && value.Value <= 0)
+                    throw new ArgumentOutOfRangeException(nameof(value), "value must be greater than 0.");
+                this.playDepth = value;
+            }
+        }
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private double synchPoint = 0d;
+
+        /// <summary>
+        /// (optional) Description of where in the video the script should begin playback.
+        /// This entry does not appear if no information was entered by the author.
+        /// </summary>
+        /// <exception cref="ArgumentException">
+        /// <paramref name="value"/> is <see cref="double.IsNaN(double)"/> or <see cref="double.IsInfinity(double)"/>
+        /// </exception>
+        [ScriptInfo("Synch Point", IsOptional = true, DefaultValue = 0d)]
+        [EditorBrowsable(EditorBrowsableState.Advanced)]
+        [Obsolete(Consts.OUTDATED)]
+        public double SynchPoint
+        {
+            get => this.synchPoint;
+            set
+            {
+                if (ThrowHelper.IsInvalidDouble(value))
+                    throw new ArgumentException("value should be a valid number", nameof(value));
+                this.synchPoint = value;
+            }
+        }
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private double timer = 100d;
+
+        /// <summary>
+        /// (optional) This is the Timer Speed for the script, as percentage.
+        /// </summary>
+        /// <example> 
+        /// "100.0000" is exactly 100%. It has four digits following the decimal point.
+        /// </example>
+        /// <exception cref="ArgumentOutOfRangeException">
+        /// <paramref name="value"/> is too small or large.
+        /// </exception>
+        /// <exception cref="ArgumentException">
+        /// <paramref name="value"/> is <see cref="double.IsNaN(double)"/> or <see cref="double.IsInfinity(double)"/>
+        /// </exception>
+        /// <remarks> 
+        /// The timer speed is alpha time multiplier applied to SSA's clock to stretch or compress the duration of alpha script.
+        /// A speed greater than 100% will reduce the overall duration, and means that subtitles will progressively appear sooner and sooner.
+        /// A speed less than 100% will increase the overall duration of the script means subtitles will progressively appear later and later 
+        /// (like alpha positive ramp time).
+        /// The stretching or compressing only occurs during script playback 
+        /// - this value does not change the actual timings for each event listed in the script.
+        /// 
+        /// Check the SSA user guide if you want to know why "Timer Speed" is more powerful than "Ramp Time", 
+        /// even though they both achieve the same result.
+        /// </remarks>
+        [EditorBrowsable(EditorBrowsableState.Advanced)]
+        [ScriptInfo("Timer", DefaultValue = 100d, IsOptional = true, Format = "F4")]
+        [Obsolete(Consts.OUTDATED)]
+        public double Timer
+        {
+            get => this.timer;
+            set
+            {
+                if (ThrowHelper.IsInvalidDouble(value))
+                    throw new ArgumentException("value should be a valid number", nameof(value));
+                if (value <= 0.0001)
+                    throw new ArgumentOutOfRangeException(nameof(value), "value must be greater than 0.0001.");
+                if (value >= 1000)
+                    throw new ArgumentOutOfRangeException(nameof(value), "value must be less than 1000.");
+                this.timer = value;
+            }
         }
     }
 }

@@ -1,7 +1,9 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:con="using:SubtitleEditor.Converters"
+                    xmlns:con="using:Opportunity.UWP.Converters"
+                    xmlns:tcon="using:Opportunity.UWP.Converters.Typed"
                     xmlns:assCon="using:Opportunity.AssLoader.Extension">
-    <con:EmptyConverter x:Key="EmptyConverter" />
-    <assCon:ColorConverter x:Key="ColorConverter" />
+  <con:EmptyConverter x:Key="EmptyConverter" />
+  <assCon:ColorConverter x:Key="ColorConverter" />
+  <tcon:EnumToStringConverter x:Key="EnumToStringConverter" />
 </ResourceDictionary>

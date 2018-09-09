@@ -1,7 +1,7 @@
-﻿using GalaSoft.MvvmLight;
-using GalaSoft.MvvmLight.Command;
-using Opportunity.AssLoader;
+﻿using Opportunity.AssLoader;
 using Opportunity.AssLoader.Collections;
+using Opportunity.MvvmUniverse.Collections;
+using Opportunity.MvvmUniverse.Commands;
 using SubtitleEditor.Model;
 using System;
 using System.Collections.ObjectModel;
@@ -11,9 +11,11 @@ using System.Threading.Tasks;
 using Windows.Foundation;
 using Windows.Storage;
 using Windows.Storage.Pickers;
+using Windows.UI.Core;
 using Windows.UI.Popups;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls;
 
 namespace SubtitleEditor.ViewModel
 {
@@ -31,15 +33,13 @@ namespace SubtitleEditor.ViewModel
     /// </summary>
     internal class MainViewModel : EditorViewModelBase
     {
-        private static readonly ViewModelLocator locator = new ViewModelLocator();
+        public static ResourceInfo.Resources.ViewModel.IMain Localizer { get; } = LocalizedStrings.Resources.ViewModel.Main;
 
-        private FileOpenPicker openPicker;
+        private readonly FileOpenPicker openPicker;
         private readonly FileSavePicker savePicker;
-        private readonly MessageDialog saveDialog;
+        private readonly ContentDialog saveDialog;
 
-        private readonly bool isMobile;
-
-        private enum dialogResult
+        private enum DialogResult
         {
             Yes, No, Cancel
         }
@@ -49,80 +49,73 @@ namespace SubtitleEditor.ViewModel
         /// </summary>
         public MainViewModel()
         {
-            if (Windows.System.Profile.AnalyticsInfo.VersionInfo.DeviceFamily == "Windows.Mobile")
-                this.isMobile = true;
             this.openPicker = new FileOpenPicker();
             this.openPicker.FileTypeFilter.Add(".ass");
 
             this.savePicker = new FileSavePicker() { DefaultFileExtension = ".ass" };
-            this.savePicker.FileTypeChoices.Add(LocalizedStrings.Resources.AssFileName, new[] { ".ass" });
+            this.savePicker.FileTypeChoices.Add(LocalizedStrings.Resources.App.AssFileName, new[] { ".ass" });
 
-            this.saveDialog = new MessageDialog(LocalizedStrings.Resources.SaveDialogContent, LocalizedStrings.Resources.SaveDialogTitle);
-            this.saveDialog.Commands.Add(new UICommand(LocalizedStrings.Resources.SaveDialogYes, null, dialogResult.Yes));
-            this.saveDialog.Commands.Add(new UICommand(LocalizedStrings.Resources.SaveDialogNo, null, dialogResult.No));
-            this.saveDialog.DefaultCommandIndex = 0;
-            if (!this.isMobile)
+            var locSaveDialog = LocalizedStrings.Resources.Dialog.Save;
+            this.saveDialog = new ContentDialog
             {
-                this.saveDialog.Commands.Add(new UICommand(LocalizedStrings.Resources.SaveDialogCancel, null, dialogResult.Cancel));
-                this.saveDialog.CancelCommandIndex = 2;
-            }
-
-            this.newFile = new RelayCommand(async () =>
-            {
-                if (!await this.CleanUpBeforeNewOrOpen())
-                    return;
-                this.Document.NewSubtitle();
-            });
-            this.openFile = new RelayCommand(async () =>
-            {
-                if (!await this.CleanUpBeforeNewOrOpen())
-                    return;
-                var file = await this.openPicker.PickSingleFileAsync();
-                if (file == null)
-                    return;
-                await this.Document.OpenFileAsync(file);
-            });
-            this.saveFile = new RelayCommand(async () => await this.Save(), () => this.Document.IsModified);
+                Content = locSaveDialog.Content,
+                Title = locSaveDialog.Title,
+                PrimaryButtonText = locSaveDialog.Yes,
+                SecondaryButtonText = locSaveDialog.No,
+                CloseButtonText = locSaveDialog.Cancel,
+            };
 
             this.SplitViewButtons.Add(new SplitViewButtonData()
             {
                 Icon = "\xE160",
-                Content = LocalizedStrings.Resources.SplitViewButtonNew,
-                Command = newFile
+                Content = Localizer.SplitView.Button.New,
+                Command = AsyncCommand.Create(async c =>
+                {
+                    if (!await this.CleanUpBeforeNewOrOpen())
+                        return;
+                    this.Document.NewSubtitle();
+                })
             });
             this.SplitViewButtons.Add(new SplitViewButtonData()
             {
                 Icon = "\xE8E5",
-                Content = LocalizedStrings.Resources.SplitViewButtonOpen,
-                Command = openFile
+                Content = Localizer.SplitView.Button.Open,
+                Command = AsyncCommand.Create(async c =>
+                {
+                    if (!await this.CleanUpBeforeNewOrOpen())
+                        return;
+                    var file = await this.openPicker.PickSingleFileAsync();
+                    if (file is null)
+                        return;
+                    await this.Document.OpenFileAsync(file);
+                })
             });
             this.SplitViewButtons.Add(new SplitViewButtonData()
             {
                 Icon = "\xE105",
-                Content = LocalizedStrings.Resources.SplitViewButtonSave,
-                Command = saveFile
+                Content = Localizer.SplitView.Button.Save,
+                Command = AsyncCommand.Create(async c => await this.Save()),
             });
 
             this.DocumentTabs.Add(new SplitViewTabData()
             {
                 Icon = "\xE1CB",
-                Content = LocalizedStrings.Resources.SplitViewTabScriptInfo,
+                Content = Localizer.SplitView.Tab.ScriptInfo,
                 PageType = typeof(View.ScriptInfoPage),
                 IsChecked = true
             });
             this.DocumentTabs.Add(new SplitViewTabData()
             {
                 Icon = "\xE2B1",
-                Content = LocalizedStrings.Resources.SplitViewTabStyle,
+                Content = Localizer.SplitView.Tab.Style,
                 PageType = typeof(View.StylePage)
             });
             this.DocumentTabs.Add(new SplitViewTabData()
             {
                 Icon = "\xE292",
-                Content = LocalizedStrings.Resources.SplitViewTabEvent,
+                Content = Localizer.SplitView.Tab.Event,
                 PageType = typeof(View.SubEventPage)
             });
-            this.Document.PropertyChanged += this.documentPropertyChanged;
         }
 
         public async Task<bool> Save()
@@ -136,7 +129,7 @@ namespace SubtitleEditor.ViewModel
                 }
                 catch (Exception) { }
             }
-            this.savePicker.SuggestedFileName = this.Document.Subtitle.ScriptInfo.Title ?? "";//TODO: locolized default new name.
+            this.savePicker.SuggestedFileName = this.Document.Subtitle.ScriptInfo.Title ?? "";
             var file = await this.savePicker.PickSaveFileAsync();
             if (file == null)
                 return false;
@@ -150,76 +143,39 @@ namespace SubtitleEditor.ViewModel
         /// <returns>True if can continue.</returns>
         public async Task<bool> CleanUpBeforeNewOrOpen()
         {
-            if (this.Document.IsModified)
-                switch (await this.showSaveDialog())
-                {
-                case dialogResult.Yes:
-                    return await this.Save();
-                case dialogResult.No:
-                    return true;
-                default:
-                    return false;
-                }
-            return true;
+            if (!this.Document.IsModified)
+                return true;
+
+            switch (await this.saveDialog.ShowAsync())
+            {
+            case ContentDialogResult.Primary:
+                return await this.Save();
+            case ContentDialogResult.Secondary:
+                return true;
+            default:
+                return false;
+            }
         }
 
         public bool NeedCleanUp => this.Document.IsModified;
 
-        private async Task<dialogResult> showSaveDialog()
-        {
-            return (dialogResult)((await this.saveDialog.ShowAsync())?.Id ?? dialogResult.Cancel);
-        }
+        public ObservableList<SplitViewButtonData> SplitViewButtons { get; } = new ObservableList<SplitViewButtonData>();
 
-        private void documentPropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
-        {
-            if (string.IsNullOrEmpty(e.PropertyName))
-            {
-                this.saveFile.RaiseCanExecuteChanged();
-                return;
-            }
-            switch (e.PropertyName)
-            {
-            case nameof(this.Document.IsModified):
-                this.saveFile.RaiseCanExecuteChanged();
-                break;
-            }
-        }
+        public ObservableList<SplitViewTabData> DocumentTabs { get; } = new ObservableList<SplitViewTabData>();
 
-        private RelayCommand newFile, openFile, saveFile;
-
-        public ObservableCollection<SplitViewButtonData> SplitViewButtons
-        {
-            get;
-        } = new ObservableCollection<SplitViewButtonData>();
-
-        public ObservableCollection<SplitViewTabData> DocumentTabs
-        {
-            get;
-        } = new ObservableCollection<SplitViewTabData>();
-
-        public SplitViewTabData Preferences
-        {
-            get;
-        } = new SplitViewTabData()
+        public SplitViewTabData Preferences { get; } = new SplitViewTabData()
         {
             Icon = "\xE115",
-            Content = LocalizedStrings.Resources.SplitViewTabPreferences,
+            Content = Localizer.SplitView.Tab.Preferences,
             PageType = typeof(View.PreferencesPage)
         };
 
         protected override void Document_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             if (string.IsNullOrEmpty(e.PropertyName) || e.PropertyName == nameof(this.Document.Title) || e.PropertyName == nameof(this.Document.IsModified))
-                this.RaisePropertyChanged(nameof(this.Title));
+                this.OnPropertyChanged(nameof(this.Title));
         }
 
-        public string Title => $"{(this.Document.IsModified ? "● " : "")}{this.Document.Title ?? LocalizedStrings.Resources.Untitled}";
-
-        public override void Cleanup()
-        {
-            if (this.Document != null)
-                this.Document.PropertyChanged -= this.documentPropertyChanged;
-            base.Cleanup();
-        }
+        public string Title => $"{(this.Document.IsModified ? "● " : "")}{this.Document.Title ?? Localizer.Untitled}";
     }
 }

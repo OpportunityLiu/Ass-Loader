@@ -12,12 +12,6 @@ namespace SubtitleEditor.Model
     {
         [ScriptInfo(nameof(SubtitleEditorConfig), IsOptional = true)]
         [JsonSerializer(typeof(ProjectConfig))]
-        private ProjectConfig subtitleEditorConfig;
-
-        public ProjectConfig SubtitleEditorConfig
-        {
-            get => this.subtitleEditorConfig;
-            set => this.Set(ref this.subtitleEditorConfig, value);
-        }
+        public ProjectConfig SubtitleEditorConfig { get; set; }
     }
 }

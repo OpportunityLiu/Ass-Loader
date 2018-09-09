@@ -17,10 +17,7 @@ namespace SubtitleEditor.Model
 
         void Undo(Subtitle<ScriptInfo> subtitle);
 
-        string ActionFriendlyName
-        {
-            get;
-        }
+        string ActionFriendlyName { get; }
     }
 
     internal class DocumentAction : IDocumentAction
@@ -35,18 +32,14 @@ namespace SubtitleEditor.Model
         private readonly DocumentActionDo doAction;
         private readonly DocumentActionUndo undoAction;
 
-        public string ActionFriendlyName
-        {
-            get;
-            private set;
-        }
+        public string ActionFriendlyName { get; }
 
-        public void Do(Subtitle<ScriptInfo> subtitle)
+        public virtual void Do(Subtitle<ScriptInfo> subtitle)
         {
             this.doAction(subtitle);
         }
 
-        public void Undo(Subtitle<ScriptInfo> subtitle)
+        public virtual void Undo(Subtitle<ScriptInfo> subtitle)
         {
             this.undoAction(subtitle);
         }

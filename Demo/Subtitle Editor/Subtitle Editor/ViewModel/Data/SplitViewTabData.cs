@@ -1,4 +1,4 @@
-﻿using GalaSoft.MvvmLight;
+﻿using Opportunity.MvvmUniverse;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,10 +8,9 @@ using System.Windows.Input;
 
 namespace SubtitleEditor.ViewModel
 {
-    class SplitViewTabData : ObservableObject
+    internal class SplitViewTabData : ObservableObject
     {
         private string icon;
-
         public string Icon
         {
             get => this.icon;
@@ -19,7 +18,6 @@ namespace SubtitleEditor.ViewModel
         }
 
         private string content;
-
         public string Content
         {
             get => this.content;
@@ -27,7 +25,6 @@ namespace SubtitleEditor.ViewModel
         }
 
         private Type pageType;
-
         public Type PageType
         {
             get => this.pageType;
@@ -35,7 +32,6 @@ namespace SubtitleEditor.ViewModel
         }
 
         private bool isChecked = false;
-
         public bool IsChecked
         {
             get => this.isChecked;

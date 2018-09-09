@@ -1,4 +1,6 @@
-﻿using SubtitleEditor.Model;
+﻿using Opportunity.Helpers.ObjectModel;
+using SubtitleEditor.Model;
+using SubtitleEditor.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -48,19 +50,10 @@ namespace SubtitleEditor
                 this.DebugSettings.IsTextPerformanceVisualizationEnabled = true;
             }
 #endif
-            var view = ApplicationView.GetForCurrentView();
+            ((Opportunity.UWP.Converters.Typed.EnumToStringConverter)this.Resources["EnumToStringConverter"]).NameProvider
+                = enumValue => LocalizedStrings.Enums[enumValue.GetType().Name].GetValue(enumValue.ToString());
 
-            var mainView = ViewModel.ViewModelLocator.GetForView(view.Id).MainView;
-            void titleUpdater(object sender, System.ComponentModel.PropertyChangedEventArgs e)
-            {
-                if (string.IsNullOrEmpty(e.PropertyName) || e.PropertyName == nameof(ViewModel.MainViewModel.Title))
-                {
-                    var mv = (ViewModel.MainViewModel)sender;
-                    view.Title = mv.Title;
-                }
-            }
-            mainView.PropertyChanged += titleUpdater;
-            titleUpdater(mainView, new System.ComponentModel.PropertyChangedEventArgs(null));
+            var view = ApplicationView.GetForCurrentView();
 
             view.SetPreferredMinSize(new Size(10000, 10000));
 
@@ -81,8 +74,7 @@ namespace SubtitleEditor
 
             // 确保当前窗口处于活动状态
             current.Activate();
-
-            ViewModel.PreferencesLoader.LoadWindowPreferences(current);
+            current.SetWindowPreferences(Singleton.GetOrCreate<Preferences>().Theme);
         }
 
         /// <summary>
@@ -94,8 +86,7 @@ namespace SubtitleEditor
         {
             await this.createNewViewIfNeeded(() =>
             {
-                var ioc = ViewModel.ViewModelLocator.GetForCurrentView();
-                ioc.Document.NewSubtitle();
+                ThreadLocalSingleton.GetOrCreate<Document>().NewSubtitle();
                 this.initView(args);
             });
         }
@@ -104,9 +95,8 @@ namespace SubtitleEditor
         {
             await this.createNewViewIfNeeded(async () =>
             {
-                var ioc = ViewModel.ViewModelLocator.GetForCurrentView();
                 var toOpen = (StorageFile)args.Files.First(f => f is StorageFile);
-                await ioc.Document.OpenFileAsync(toOpen);
+                await ThreadLocalSingleton.GetOrCreate<Document>().OpenFileAsync(toOpen);
                 this.initView(args);
             });
         }
@@ -127,7 +117,6 @@ namespace SubtitleEditor
                 newViewId = newAppView.Id;
                 newAppView.Consolidated += (sender, e) =>
                 {
-                    ViewModel.ViewModelLocator.ClearForView(newViewId);
                     if (this.WindowDictionary.TryRemove(newViewId, out var window))
                     {
                         window.Content = null;

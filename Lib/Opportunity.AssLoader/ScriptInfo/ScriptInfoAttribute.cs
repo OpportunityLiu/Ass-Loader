@@ -15,19 +15,10 @@ namespace Opportunity.AssLoader
     [DebuggerDisplay(@"[{FieldName,nq}] = {DefaultValue}")]
     public sealed class ScriptInfoAttribute : SerializableFieldAttribute
     {
-
         /// <summary>
         /// Create new instance of <see cref="ScriptInfoAttribute"/>.
         /// </summary>
         /// <param name="fieldName">name of the field in the ass file.</param>
-        public ScriptInfoAttribute(string fieldName)
-        {
-            this.FieldName = fieldName;
-        }
-
-        /// <summary>
-        /// Name of the field in the ass file.
-        /// </summary>
-        public string FieldName { get; }
+        public ScriptInfoAttribute(string fieldName) : base(fieldName) { }
     }
 }

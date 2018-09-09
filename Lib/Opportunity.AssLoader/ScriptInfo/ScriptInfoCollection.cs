@@ -19,38 +19,24 @@ namespace Opportunity.AssLoader
     /// <summary>
     /// Container of the "script info" section.
     /// </summary>
+    [DebuggerDisplay(@"{DebuggerDisplay,nq}")]
     public abstract class ScriptInfoCollection : IDictionary<string, string>
     {
-        private static readonly Dictionary<Type, Dictionary<string, ScriptInfoSerializeHelper>> scriptInfoCache = new Dictionary<Type, Dictionary<string, ScriptInfoSerializeHelper>>();
-
-        private Dictionary<string, ScriptInfoSerializeHelper> getScriptInfoFields()
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string DebuggerDisplay
         {
-            var type = this.GetType();
-            if (!scriptInfoCache.TryGetValue(type, out var scriptInfoFields))
+            get
             {
-                var temp = new List<Dictionary<string, ScriptInfoSerializeHelper>>();
-                do
+                var d = getScriptInfoFields();
+                var ud = this.undefinedFields;
+                var du = 0;
+                foreach (var item in d.Values)
                 {
-                    var dict = new Dictionary<string, ScriptInfoSerializeHelper>(StringComparer.OrdinalIgnoreCase);
-                    foreach (var fInfo in type.GetRuntimeFields().Concat<MemberInfo>(type.GetRuntimeProperties()))
-                    {
-                        var att = fInfo.GetCustomAttribute<ScriptInfoAttribute>();
-                        if (att is null)
-                            continue;
-                        var ser = fInfo.GetCustomAttribute<SerializeAttribute>();
-                        dict.Add(att.FieldName, new ScriptInfoSerializeHelper(fInfo, att, ser));
-                    }
-                    temp.Add(dict);
-                } while ((type = type.GetTypeInfo().BaseType) != typeof(ScriptInfoCollection));
-                scriptInfoFields = (from dict in temp.Reverse<Dictionary<string, ScriptInfoSerializeHelper>>()
-                                    from entry in dict
-                                    select entry).ToDictionary(item => item.Key, item => item.Value, StringComparer.OrdinalIgnoreCase);
-                lock (scriptInfoCache)
-                {
-                    scriptInfoCache[type] = scriptInfoFields;
+                    if (item.Serialize(this) != null)
+                        du++;
                 }
+                return $"Defined = {du}/{d.Count}, Undefined = {ud.Count}";
             }
-            return scriptInfoFields;
         }
 
         /// <summary>
@@ -60,6 +46,8 @@ namespace Opportunity.AssLoader
         {
             this.UndefinedFields = new ReadOnlyDictionary<string, string>(this.undefinedFields);
         }
+
+        private Dictionary<string, ScriptInfoSerializeHelper> getScriptInfoFields() => ScriptInfoSerializeHelper.GetScriptInfoFields(GetType());
 
         internal void ParseLine(string value)
         {

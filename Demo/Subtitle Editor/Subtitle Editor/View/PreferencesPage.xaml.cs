@@ -1,4 +1,5 @@
-﻿using SubtitleEditor.Converters;
+﻿using Opportunity.Helpers.ObjectModel;
+using Opportunity.MvvmUniverse.Views;
 using SubtitleEditor.ViewModel;
 using System;
 using System.Collections.Generic;
@@ -22,19 +23,19 @@ namespace SubtitleEditor.View
     /// <summary>
     /// 可用于自身或导航至 Frame 内部的空白页。
     /// </summary>
-    sealed partial class PreferencesPage : Page
+    internal sealed partial class PreferencesPage : MvvmPage
     {
         public PreferencesPage()
         {
+            this.ViewModel = ThreadLocalSingleton.GetOrCreate<PreferencesViewModel>();
             this.InitializeComponent();
-            var ioc = ViewModelLocator.GetForCurrentView();
-            this.ViewModel = ioc.PreferencesView;
+            this.cbTheme.ItemsSource = new[] { ElementTheme.Dark, ElementTheme.Light };
         }
 
-        public PreferencesViewModel ViewModel
+        public new PreferencesViewModel ViewModel
         {
-            get => (PreferencesViewModel)this.GetValue(ViewModelProperty);
-            set => this.SetValue(ViewModelProperty, value);
+            get => (PreferencesViewModel)base.ViewModel;
+            set => base.ViewModel = value;
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
@@ -48,21 +49,5 @@ namespace SubtitleEditor.View
             this.Bindings.StopTracking();
             base.OnNavigatingFrom(e);
         }
-
-        // Using a DependencyProperty as the backing store for ViewModel.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty ViewModelProperty =
-            DependencyProperty.Register("ViewModel", typeof(PreferencesViewModel), typeof(PreferencesPage), new PropertyMetadata(null));
-    }
-
-    class ElementThemeConverter : EnumConverter<ElementTheme>
-    {
-        protected override Dictionary<ElementTheme, object> ConvertDictionary
-        {
-            get;
-        } = new Dictionary<ElementTheme, object>()
-        {
-            [ElementTheme.Dark] = LocalizedStrings.Resources.ElementThemeDark,
-            [ElementTheme.Light] = LocalizedStrings.Resources.ElementThemeLight
-        };
     }
 }

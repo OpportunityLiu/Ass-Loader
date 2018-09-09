@@ -11,12 +11,14 @@ using System.Threading.Tasks;
 
 namespace PerformanceAnalyzeHelper
 {
+    internal class ii : AssScriptInfo
+    { }
     internal class Program
     {
         private static void Main(string[] args)
         {
             var f = System.IO.File.OpenText(@"..\..\..\..\TestFiles\Upotte[02].ass");
-            var t = Subtitle.ParseExact<AssScriptInfo>(f);
+            var t = Subtitle.ParseExact<ii>(f);
             f.Dispose();
             //foreach(var item in t.StyleDictionary)
             //{

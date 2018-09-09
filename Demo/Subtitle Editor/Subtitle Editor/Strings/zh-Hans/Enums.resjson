@@ -1,0 +1,17 @@
+﻿{
+  "CollisionStyle": {
+    "Normal": "移动后续字幕。",
+    "Reverse": "为后续字幕预留空间。"
+  },
+  "WrapStyle": {
+    "EndOfLine": "自上而下填充各行，“\\N”换行。",
+    "None": "不自动折行，“\\N”和“\\n”换行。",
+    "Smart": "平均分布各行，上行较宽，“\\N”换行。",
+    "Smart2": "平均分布各行，下行较宽，“\\N”换行。"
+  },
+  "ElementTheme": {
+    "Dark": "深色",
+    "Light": "浅色"
+  }
+
+}

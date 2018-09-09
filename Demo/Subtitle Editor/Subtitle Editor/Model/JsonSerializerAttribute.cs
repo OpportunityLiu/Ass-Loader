@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace SubtitleEditor.Model
 {
-    [AttributeUsage(AttributeTargets.Field, Inherited = false, AllowMultiple = false)]
+    [AttributeUsage(AttributeTargets.Field | AttributeTargets.Property, Inherited = false, AllowMultiple = false)]
     internal sealed class JsonSerializerAttribute : SerializeAttribute
     {
         private static JsonSerializer serializer = JsonSerializer.CreateDefault();

@@ -21,7 +21,6 @@ namespace SubtitleEditor.Model
     {
         public Document()
         {
-            Application.Current.Suspending += this.onSuspending;
             this.reset();
         }
 
@@ -35,7 +34,7 @@ namespace SubtitleEditor.Model
         public string Title
         {
             get => this.title;
-            private set => this.Set(nameof(this.Title), ref this.title, value);
+            private set => this.Set(ref this.title, value);
         }
 
         private readonly LinkedList<IDocumentAction> actionList = new LinkedList<IDocumentAction>();
@@ -68,7 +67,7 @@ namespace SubtitleEditor.Model
 
         public void Do(IDocumentAction action)
         {
-            if (this.subtitle == null)
+            if (this.subtitle is null)
                 throw new InvalidOperationException($"{nameof(this.Subtitle)} is null");
             action.Do(this.subtitle);
             while (this.actionList.First.Next != this.currentAction)
@@ -94,10 +93,7 @@ namespace SubtitleEditor.Model
 
         private void modified()
         {
-            this.RaisePropertyChanged(nameof(this.CanSave));
-            this.RaisePropertyChanged(nameof(this.UndoAction));
-            this.RaisePropertyChanged(nameof(this.RedoAction));
-            this.RaisePropertyChanged(nameof(this.IsModified));
+            OnPropertyChanged(nameof(CanSave), nameof(UndoAction), nameof(RedoAction), nameof(IsModified));
             this.updateTitle();
         }
 
@@ -108,17 +104,18 @@ namespace SubtitleEditor.Model
         public bool IsModified => this.currentAction != this.savedAction;
 
         private Subtitle<ScriptInfo> subtitle;
-
         public Subtitle<ScriptInfo> Subtitle
         {
             get => this.subtitle;
             private set
             {
-                this.Set(ref this.subtitle, value);
-                if (value.ScriptInfo.SubtitleEditorConfig is null)
+                if (value is null)
+                    throw new ArgumentNullException();
+                if (this.Set(nameof(this.CanSave), ref this.subtitle, value) && value.ScriptInfo.SubtitleEditorConfig is null)
+                {
                     value.ScriptInfo.SubtitleEditorConfig = new ProjectConfig();
-                this.RaisePropertyChanged(nameof(this.CanSave));
-                this.updateTitle();
+                    this.updateTitle();
+                }
             }
         }
 
@@ -129,11 +126,11 @@ namespace SubtitleEditor.Model
             get => this.subtitleFile;
             private set
             {
-                this.Set(ref this.subtitleFile, value);
-                this.RaisePropertyChanged(nameof(this.CanSave));
-                if (value != null)
+                if (this.Set(nameof(this.CanSave), ref this.subtitleFile, value) && value != null)
+                {
                     StorageApplicationPermissions.MostRecentlyUsedList.Add(value, value.Name, RecentStorageItemVisibility.AppAndSystem);
-                this.updateTitle();
+                    this.updateTitle();
+                }
             }
         }
 
@@ -165,7 +162,7 @@ namespace SubtitleEditor.Model
             this.modified();
         }
 
-        public bool CanSave => this.subtitle != null && this.subtitleFile != null && this.IsModified;
+        public bool CanSave => this.subtitle != null && this.subtitleFile != null;
 
         public async Task SaveAsync()
         {
@@ -186,22 +183,13 @@ namespace SubtitleEditor.Model
                 throw;
             }
             this.savedAction = this.currentAction;
-            this.RaisePropertyChanged(nameof(this.IsModified));
+            OnPropertyChanged(nameof(this.IsModified));
         }
 
         public async Task SaveFileAsync(StorageFile file)
         {
             this.SubtitleFile = file ?? throw new ArgumentNullException(nameof(file));
             await this.SaveAsync();
-        }
-
-        public override void Cleanup()
-        {
-            Application.Current.Suspending -= this.onSuspending;
-            this.reset();
-            this.subtitle = null;
-            this.subtitleFile = null;
-            base.Cleanup();
         }
     }
 }

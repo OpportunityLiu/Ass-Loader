@@ -1,5 +1,6 @@
 ﻿using Opportunity.AssLoader;
-using SubtitleEditor.Converters;
+using Opportunity.Helpers.ObjectModel;
+using Opportunity.MvvmUniverse.Views;
 using SubtitleEditor.ViewModel;
 using System;
 using System.Collections.Generic;
@@ -26,13 +27,14 @@ namespace SubtitleEditor.View
     /// <summary>
     /// 可用于自身或导航至 Frame 内部的空白页。
     /// </summary>
-    internal sealed partial class ScriptInfoPage : Page
+    internal sealed partial class ScriptInfoPage : MvvmPage
     {
         public ScriptInfoPage()
         {
+            this.ViewModel = ThreadLocalSingleton.GetOrCreate<ScriptInfoViewModel>();
             this.InitializeComponent();
-            var ioc = ViewModelLocator.GetForCurrentView();
-            this.ViewModel = ioc.ScriptInfoView;
+            this.cbCollisions.ItemsSource = Enum.GetValues(typeof(CollisionStyle));
+            this.cbWrapStyle.ItemsSource = Enum.GetValues(typeof(WrapStyle));
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
@@ -107,15 +109,11 @@ namespace SubtitleEditor.View
 
         private object focus;
 
-        public ScriptInfoViewModel ViewModel
+        public new ScriptInfoViewModel ViewModel
         {
-            get => (ScriptInfoViewModel)this.GetValue(ViewModelProperty);
-            set => this.SetValue(ViewModelProperty, value);
+            get => (ScriptInfoViewModel)base.ViewModel;
+            set => base.ViewModel = value;
         }
-
-        // Using a DependencyProperty as the backing store for ViewModel.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty ViewModelProperty =
-            DependencyProperty.Register("ViewModel", typeof(ScriptInfoViewModel), typeof(ScriptInfoPage), new PropertyMetadata(null));
 
         private void field_GotFocus(object sender, RoutedEventArgs e)
         {

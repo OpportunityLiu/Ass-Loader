@@ -1,46 +1,46 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Package xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10" xmlns:mp="http://schemas.microsoft.com/appx/2014/phone/manifest" xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10" IgnorableNamespaces="uap mp">
-    <Identity Name="2289Opportunity.SubtitleEditor" Publisher="CN=22AA5D8B-590F-4C7F-807B-5166B66DDBE0" Version="1.0.0.0" />
-    <mp:PhoneIdentity PhoneProductId="7be02f16-9670-4cb2-86c4-6ccacff5e226" PhonePublisherId="00000000-0000-0000-0000-000000000000" />
-    <Properties>
-        <DisplayName>ms-resource:AppName</DisplayName>
-        <PublisherDisplayName>ms-resource:AppAuthor</PublisherDisplayName>
-        <Logo>Assets\StoreLogo.png</Logo>
-    </Properties>
-    <Dependencies>
-        <TargetDeviceFamily Name="Windows.Universal" MinVersion="10.0.0.0" MaxVersionTested="10.0.0.0" />
-    </Dependencies>
-    <Resources>
-        <Resource Language="x-generate" />
-    </Resources>
-    <Applications>
-        <Application Id="App" Executable="$targetnametoken$.exe" EntryPoint="SubtitleEditor.App">
-            <uap:VisualElements DisplayName="ms-resource:AppName" Square150x150Logo="Assets\Square150x150Logo.png" Square44x44Logo="Assets\Square44x44Logo.png" Description="ms-resource:AppDescription" BackgroundColor="transparent">
-                <uap:DefaultTile Wide310x150Logo="Assets\Wide310x150Logo.png" ShortName="ms-resource:AppName">
-                </uap:DefaultTile>
-                <uap:SplashScreen Image="Assets\SplashScreen.png" />
-                <uap:InitialRotationPreference>
-                    <uap:Rotation Preference="portrait" />
-                    <uap:Rotation Preference="landscape" />
-                    <uap:Rotation Preference="landscapeFlipped" />
-                </uap:InitialRotationPreference>
-            </uap:VisualElements>
-            <Extensions>
-                <uap:Extension Category="windows.fileTypeAssociation">
-                    <uap:FileTypeAssociation Name="assfile" DesiredView="useMore">
-                        <uap:EditFlags OpenIsSafe="true" AlwaysUnsafe="false"/>
-                        <uap:DisplayName>ms-resource:AssFileName</uap:DisplayName>
-                        <uap:InfoTip>ms-resource:AssFileName</uap:InfoTip>
-                        <uap:SupportedFileTypes>
-                            <uap:FileType>.ass</uap:FileType>
-                        </uap:SupportedFileTypes>
-                    </uap:FileTypeAssociation>
-                </uap:Extension>
-            </Extensions>
-        </Application>
-    </Applications>
-    <Capabilities>
-        <Capability Name="internetClient" />
-        <uap:Capability Name="videosLibrary" />
-    </Capabilities>
+  <Identity Name="2289Opportunity.SubtitleEditor" Publisher="CN=22AA5D8B-590F-4C7F-807B-5166B66DDBE0" Version="1.0.0.0" />
+  <mp:PhoneIdentity PhoneProductId="7be02f16-9670-4cb2-86c4-6ccacff5e226" PhonePublisherId="00000000-0000-0000-0000-000000000000" />
+  <Properties>
+    <DisplayName>ms-resource:App/Name</DisplayName>
+    <PublisherDisplayName>ms-resource:App/Author</PublisherDisplayName>
+    <Logo>Assets\StoreLogo.png</Logo>
+  </Properties>
+  <Dependencies>
+    <TargetDeviceFamily Name="Windows.Universal" MinVersion="10.0.0.0" MaxVersionTested="10.0.0.0" />
+  </Dependencies>
+  <Resources>
+    <Resource Language="x-generate" />
+  </Resources>
+  <Applications>
+    <Application Id="App" Executable="$targetnametoken$.exe" EntryPoint="SubtitleEditor.App">
+      <uap:VisualElements DisplayName="ms-resource:App/Name" Square150x150Logo="Assets\Square150x150Logo.png" Square44x44Logo="Assets\Square44x44Logo.png" Description="ms-resource:App/Description" BackgroundColor="transparent">
+        <uap:DefaultTile Wide310x150Logo="Assets\Wide310x150Logo.png" ShortName="ms-resource:AppName">
+        </uap:DefaultTile>
+        <uap:SplashScreen Image="Assets\SplashScreen.png" />
+        <uap:InitialRotationPreference>
+          <uap:Rotation Preference="portrait" />
+          <uap:Rotation Preference="landscape" />
+          <uap:Rotation Preference="landscapeFlipped" />
+        </uap:InitialRotationPreference>
+      </uap:VisualElements>
+      <Extensions>
+        <uap:Extension Category="windows.fileTypeAssociation">
+          <uap:FileTypeAssociation Name="assfile" DesiredView="useMore">
+            <uap:DisplayName>ms-resource:App/AssFileName</uap:DisplayName>
+            <uap:InfoTip>ms-resource:App/AssFileName</uap:InfoTip>
+            <uap:EditFlags OpenIsSafe="true" />
+            <uap:SupportedFileTypes>
+              <uap:FileType>.ass</uap:FileType>
+            </uap:SupportedFileTypes>
+          </uap:FileTypeAssociation>
+        </uap:Extension>
+      </Extensions>
+    </Application>
+  </Applications>
+  <Capabilities>
+    <Capability Name="internetClient" />
+    <uap:Capability Name="videosLibrary" />
+  </Capabilities>
 </Package>
