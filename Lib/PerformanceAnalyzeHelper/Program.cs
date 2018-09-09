@@ -31,7 +31,6 @@ namespace PerformanceAnalyzeHelper
             for (var i = 0; i < 0xff; i++)
             {
                 c.Parse();
-                c.ParseExact();
             }
         }
 

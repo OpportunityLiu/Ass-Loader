@@ -128,12 +128,6 @@ namespace Opportunity.AssLoader.Test
         }
 
         [TestMethod]
-        public void Parse()
-        {
-            var t = Subtitle.Parse<AssScriptInfo>("");
-        }
-
-        [TestMethod]
         public void Clone()
         {
             var sub = Subtitle.Parse<AssScriptInfo>(this.helper.TestFile);

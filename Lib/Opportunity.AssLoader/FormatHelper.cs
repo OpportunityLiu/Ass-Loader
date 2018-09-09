@@ -10,6 +10,10 @@ namespace Opportunity.AssLoader
     {
         private static readonly char[] retChar = new char[] { '\n', '\r' };
 
+        /// <summary>
+        /// Trim input string, returns <see langword="false"/> if it's <see langword="null"/> or whitespace, throw if contains crlf.
+        /// </summary>
+        /// <exception cref="ArgumentException"><paramref name="value"/> contains line breaks.</exception>
         public static bool SingleLineStringValueValid(ref string value)
         {
             if (value is null)
@@ -22,6 +26,10 @@ namespace Opportunity.AssLoader
             return true;
         }
 
+        /// <summary>
+        /// Trim input string and replace ',' with ';', returns <see langword="false"/> if it's <see langword="null"/> or whitespace, throw if contains crlf.
+        /// </summary>
+        /// <exception cref="ArgumentException"><paramref name="value"/> contains line breaks.</exception>
         public static bool FieldStringValueValid(ref string value)
         {
             if (SingleLineStringValueValid(ref value))

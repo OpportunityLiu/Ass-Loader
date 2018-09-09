@@ -33,7 +33,10 @@ namespace Opportunity.AssLoader
                         if (att is null)
                             continue;
                         var ser = fInfo.GetCustomAttribute<SerializeAttribute>();
-                        dict.Add(att.FieldName, new SerializeHelper<TObj, TFieldInfo>(fInfo, att, ser));
+                        var helper = new SerializeHelper<TObj, TFieldInfo>(fInfo, att, ser);
+                        dict.Add(att.FieldName, helper);
+                        if (!string.IsNullOrEmpty(att.Alias))
+                            dict.Add(att.Alias, helper);
                     }
                     foreach (var pInfo in ti.DeclaredProperties)
                     {
@@ -43,7 +46,10 @@ namespace Opportunity.AssLoader
                         if (att is null)
                             continue;
                         var ser = pInfo.GetCustomAttribute<SerializeAttribute>();
-                        dict.Add(att.FieldName, new SerializeHelper<TObj, TFieldInfo>(pInfo, att, ser));
+                        var helper = new SerializeHelper<TObj, TFieldInfo>(pInfo, att, ser);
+                        dict.Add(att.FieldName, helper);
+                        if (!string.IsNullOrEmpty(att.Alias))
+                            dict.Add(att.Alias, helper);
                     }
                     temp.Add(dict);
                     containerType = ti.BaseType;

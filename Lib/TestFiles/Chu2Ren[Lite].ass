@@ -13,8 +13,8 @@ PlayResX: 1280
 PlayResY: 720
 Timer: 100.0000
 Synch Point: 
-WrapStyle: 0
-ScaledBorderAndShadow: yes
+WrapStyle: 
+ScaledBorderAndShadow: 
 
 [Aegisub Project Garbage]
 Last Style Storage: Default

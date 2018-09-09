@@ -1,7 +1,9 @@
-﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using static Opportunity.AssLoader.Subtitle;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Opportunity.AssLoader.Collections;
+using System;
+using System.IO;
+using System.Threading.Tasks;
+using static Opportunity.AssLoader.Subtitle;
 
 namespace Opportunity.AssLoader.Test
 {
@@ -22,18 +24,28 @@ namespace Opportunity.AssLoader.Test
         }
 
         [TestMethod]
+        public void ParseEmpty()
+        {
+            var t = Subtitle.Parse<AssScriptInfo>("");
+        }
+
+        [TestMethod]
         public void Parse()
         {
-            foreach(var item in this.helper.LoadTestFiles())
+            foreach (var item in this.helper.LoadTestFiles())
             {
                 try
                 {
-                    using(item.Value)
+                    using (item.Value)
                     {
-                        var ignore = Parse<AssScriptInfo>(item.Value);
+                        var file = Parse<AssScriptInfo>(item.Value);
+                        var str = file.Serialize();
+                        var file2 = ParseExact<AssScriptInfo>(new StringReader(str));
+                        var str2 = file2.Serialize();
+                        Assert.AreEqual(str, str2);
                     }
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
                     throw new Exception(item.Key, ex);
                 }
@@ -41,54 +53,25 @@ namespace Opportunity.AssLoader.Test
         }
 
         [TestMethod]
-        public void ParseExact()
+        public async Task ParseAsync()
         {
-            foreach(var item in this.helper.LoadTestFiles())
+            foreach (var item in this.helper.LoadTestFiles())
             {
                 try
                 {
-                    using(item.Value)
+                    using (item.Value)
                     {
-                        var ignore = ParseExact<AssScriptInfo>(item.Value);
+                        var file = await ParseAsync<AssScriptInfo>(item.Value);
+                        var str = file.Serialize();
+                        var file2 = await ParseExactAsync<AssScriptInfo>(new StringReader(str));
+                        var str2 = file2.Serialize();
+                        Assert.AreEqual(str, str2);
                     }
                 }
-                catch(Exception ex) when (!ex.InnerException.Message.StartsWith("Unknown section"))
+                catch (Exception ex)
                 {
                     throw new Exception(item.Key, ex);
                 }
-                catch(Exception) { }
-            }
-        }
-
-        [TestMethod]
-        public void ParseAsync()
-        {
-            foreach(var item in this.helper.LoadTestFiles())
-            {
-                using(item.Value)
-                {
-                    var ignore = ParseAsync<AssScriptInfo>(item.Value).Result;
-                }
-            }
-        }
-
-        [TestMethod]
-        public void ParseExactAsync()
-        {
-            foreach(var item in this.helper.LoadTestFiles())
-            {
-                try
-                {
-                    using(item.Value)
-                    {
-                        var ignore = ParseExactAsync<AssScriptInfo>(item.Value).Result;
-                    }
-                }
-                catch(AggregateException ex) when (!ex.InnerException.InnerException.Message.StartsWith("Unknown section"))
-                {
-                    throw new Exception(item.Key, ex.InnerException);
-                }
-                catch(AggregateException) { }
             }
         }
     }

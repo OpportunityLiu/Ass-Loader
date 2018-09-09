@@ -19,11 +19,6 @@ namespace Opportunity.AssLoader
         /// </summary>
         /// <param name="fieldName">name of the field in the ass file.</param>
         public EntryFieldAttribute(string fieldName) : base(fieldName) { }
-
-        /// <summary>
-        /// Alias of the field in the ass file, which is defined at the "Format" line.
-        /// </summary>
-        public string Alias { get; set; }
     }
 }
 

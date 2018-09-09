@@ -31,6 +31,11 @@ namespace Opportunity.AssLoader
         public string FieldName { get; }
 
         /// <summary>
+        /// Alias of the field in the ass file.
+        /// </summary>
+        public string Alias { get; set; }
+
+        /// <summary>
         /// The default value of the field,
         /// if the field equals <see langword="null"/>, this value will be used to serialize.
         /// </summary>
