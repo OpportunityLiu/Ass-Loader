@@ -126,12 +126,6 @@
                  GotFocus="field_GotFocus"
                  LostFocus="field_LostFocus"
                  Text="{x:Bind ViewModel.UpdateDetails, Mode=TwoWay}" />
-        <TextBox x:Uid="View/ScriptInfo/SynchPoint"
-                 Margin="0,8"
-                 Header="SynchPoint"
-                 GotFocus="field_GotFocus"
-                 LostFocus="field_LostFocus"
-                 Text="{x:Bind ViewModel.SynchPoint, Mode=TwoWay}" />
       </StackPanel>
       <StackPanel MaxWidth="500"
                   Margin="12"

@@ -20,7 +20,7 @@ namespace Opportunity.AssLoader
     /// Container of the "script info" section.
     /// </summary>
     [DebuggerDisplay(@"{DebuggerDisplay,nq}")]
-    public abstract class ScriptInfoCollection : IDictionary<string, string>
+    public class ScriptInfoCollection : IDictionary<string, string>
     {
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         private string DebuggerDisplay
@@ -42,32 +42,34 @@ namespace Opportunity.AssLoader
         /// <summary>
         /// Create new instance of <see cref="ScriptInfoCollection"/>.
         /// </summary>
-        protected ScriptInfoCollection()
+        public ScriptInfoCollection()
         {
             this.UndefinedFields = new ReadOnlyDictionary<string, string>(this.undefinedFields);
         }
 
         private Dictionary<string, ScriptInfoSerializeHelper> getScriptInfoFields() => ScriptInfoSerializeHelper.GetScriptInfoFields(GetType());
 
-        internal void ParseLine(string value)
+        internal void ParseLine(ReadOnlySpan<char> value)
         {
             if (FormatHelper.TryPraseLine(out var k, out var v, value))
             {
-                if (getScriptInfoFields().TryGetValue(k, out var helper))
+                var key = k.ToString();
+                if (getScriptInfoFields().TryGetValue(key, out var helper))
                     helper.Deserialize(this, v);
                 else
-                    this.undefinedFields[k] = v;
+                    this.undefinedFields[key] = v.ToString();
             }
         }
 
-        internal void ParseLineExact(string value)
+        internal void ParseLineExact(ReadOnlySpan<char> value)
         {
             if (FormatHelper.TryPraseLine(out var k, out var v, value))
             {
-                if (getScriptInfoFields().TryGetValue(k, out var helper))
+                var key = k.ToString();
+                if (getScriptInfoFields().TryGetValue(key, out var helper))
                     helper.DeserializeExact(this, v);
                 else
-                    this.undefinedFields[k] = v;
+                    this.undefinedFields[key] = v.ToString();
             }
         }
 

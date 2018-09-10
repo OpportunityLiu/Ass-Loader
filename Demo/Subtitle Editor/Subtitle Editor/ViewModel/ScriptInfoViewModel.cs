@@ -133,38 +133,6 @@ namespace SubtitleEditor.ViewModel
             }
         }
 
-        public string SynchPoint
-        {
-            get => this.info.SynchPoint;
-            set
-            {
-                var oldValue = this.info.SynchPoint;
-                value = stringFormat(value);
-                if (value == oldValue)
-                    return;
-                this.Document.Do(new ScriptInfoAction(
-                    sub => sub.ScriptInfo.SynchPoint = value,
-                    sub => sub.ScriptInfo.SynchPoint = oldValue));
-            }
-        }
-
-        //public double? Timer
-        //{
-        //    get
-        //    {
-        //        return info.Timer;
-        //    }
-        //    set
-        //    {
-        //        var oldValue = info.Timer;
-        //        if(value == oldValue)
-        //            return;
-        //        Document.Do(new ScriptInfoAction(LocalizedStrings.Resources.ScriptInfoTimer,
-        //            sub => sub.ScriptInfo.Timer = value,
-        //            sub => sub.ScriptInfo.Timer = oldValue));
-        //    }
-        //}
-
         public CollisionStyle Collisions
         {
             get => this.info.Collisions;
@@ -192,23 +160,6 @@ namespace SubtitleEditor.ViewModel
                     sub => sub.ScriptInfo.WrapStyle = oldValue));
             }
         }
-
-        //public int? PlayDepth
-        //{
-        //    get
-        //    {
-        //        return info.PlayDepth;
-        //    }
-        //    set
-        //    {
-        //        var oldValue = info.PlayDepth;
-        //        if(value == oldValue)
-        //            return;
-        //        Document.Do(new ScriptInfoAction(LocalizedStrings.Resources.ScriptInfoPlayDepth,
-        //            sub => sub.ScriptInfo.PlayDepth = value,
-        //            sub => sub.ScriptInfo.PlayDepth = oldValue));
-        //    }
-        //}
 
         public int PlayResX
         {

@@ -69,12 +69,13 @@ namespace Opportunity.AssLoader
         public TFieldInfo Info { get; }
         public SerializeAttribute Serializer { get; }
         public TypeInfo FieldType { get; }
+        public TypeCode FieldTypeCode { get; }
         public bool FieldCanBeNull { get; }
 
         public GetValueDelegate GetValue { get; }
         public SetValueDelegate SetValue { get; }
 
-        public void Deserialize(TObj obj, string value)
+        public void Deserialize(TObj obj, ReadOnlySpan<char> value)
         {
             try
             {
@@ -86,21 +87,21 @@ namespace Opportunity.AssLoader
             }
         }
 
-        public void DeserializeExact(TObj obj, string value)
+        public void DeserializeExact(TObj obj, ReadOnlySpan<char> value)
         {
             var va = default(object);
 
             if (Serializer is null)
             {
-                if (FieldCanBeNull && value.IsNullOrEmpty())
+                if (FieldCanBeNull && value.IsEmpty)
                     va = null;
                 else if (FieldType.IsEnum)
-                    va = Enum.Parse(FieldType.AsType(), value, true);
+                    va = Enum.Parse(FieldType.AsType(), value.ToString(), true);
                 else
-                    va = Convert.ChangeType(value, FieldType.AsType(), FormatHelper.DefaultFormat);
+                    va = Convert.ChangeType(value.ToString(), FieldType.AsType(), FormatHelper.DefaultFormat);
             }
             else
-                va = Serializer.Deserialize(value);
+                va = Serializer.Deserialize(value.ToString());
             SetValue(obj, va);
         }
 
@@ -149,6 +150,39 @@ namespace Opportunity.AssLoader
             FieldCanBeNull = TypeTraits.Of(FieldType.AsType()).CanBeNull;
             if (Nullable.GetUnderlyingType(FieldType.AsType()) is Type nuType)
                 FieldType = nuType.GetTypeInfo();
+            var t = FieldType.AsType();
+            if (t == typeof(int))
+                FieldTypeCode = TypeCode.Int32;
+            else if (t == typeof(uint))
+                FieldTypeCode = TypeCode.UInt32;
+            else if (t == typeof(double))
+                FieldTypeCode = TypeCode.Double;
+            else if (t == typeof(float))
+                FieldTypeCode = TypeCode.Single;
+            else if (t == typeof(bool))
+                FieldTypeCode = TypeCode.Boolean;
+            else if (t == typeof(string))
+                FieldTypeCode = TypeCode.String;
+            else if (t == typeof(char))
+                FieldTypeCode = TypeCode.Char;
+            else if (t == typeof(byte))
+                FieldTypeCode = TypeCode.Byte;
+            else if (t == typeof(sbyte))
+                FieldTypeCode = TypeCode.SByte;
+            else if (t == typeof(long))
+                FieldTypeCode = TypeCode.Int64;
+            else if (t == typeof(ulong))
+                FieldTypeCode = TypeCode.UInt64;
+            else if (t == typeof(short))
+                FieldTypeCode = TypeCode.Int16;
+            else if (t == typeof(ushort))
+                FieldTypeCode = TypeCode.UInt16;
+            else if (t == typeof(decimal))
+                FieldTypeCode = TypeCode.Decimal;
+            else if (t == typeof(DateTime))
+                FieldTypeCode = TypeCode.DateTime;
+            else
+                FieldTypeCode = TypeCode.Object;
         }
     }
 }

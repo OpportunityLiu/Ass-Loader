@@ -27,11 +27,19 @@ namespace Opportunity.AssLoader
         }
     }
 
+    [AttributeUsage(AttributeTargets.Field | AttributeTargets.Property, Inherited = false, AllowMultiple = false)]
+    public sealed class EffectFieldAttribute : SerializableFieldAttribute
+    {
+        public EffectFieldAttribute(string fieldName) : base(fieldName)
+        {
+        }
+    }
+
     public abstract class EffectBase
     {
     }
 
-    internal class ScrollEffect
+    public class ScrollEffect
     {
     }
 }

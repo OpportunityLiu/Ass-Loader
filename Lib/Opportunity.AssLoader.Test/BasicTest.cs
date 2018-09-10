@@ -25,31 +25,6 @@ namespace Opportunity.AssLoader.Test
         }
 
         [TestMethod]
-        public void FormatHash()
-        {
-            var s = new string[]
-            {
-                "Name,Fontsize,Fontname,PrimaryColour, SecondaryColour, OutlineColour, BackColour, Bold, Italic, Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV, Encoding",
-                "Name, Fontsize,  Fontname,PrimaryColour, SecondaryColour, OutlineColour, BackColour, Bold, Italic, Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV, Encoding",
-                "Name, Fontsize  ,  Fontname,PrimaryColour\t, SecondaryColour, OutlineColour, BackColour, Bold, Italic, Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV, Encoding",
-                "Name, Fontsize  ,  Fontname, SecondaryColour, OutlineColour, BackColour, Bold, Italic, Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV, Encoding, PrimaryColour\t\r\n",
-                "Name, Fontsize  ,  Fontname,PrimaryColour\t, SecondaryColour, OutlineColour, BackColour, Bold, Italic, Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV, \nEncoding"
-            };
-            var f = new List<EntryHeader>();
-            foreach (var item in s)
-            {
-                f.Add(new EntryHeader(item));
-                f.Add(new EntryHeader(item.ToUpper()));
-                f.Add(new EntryHeader(item.ToLower()));
-            }
-            var q = (from format in f
-                     select format.GetHashCode()).Distinct();
-            Assert.AreEqual(q.Count(), 1);
-            var e = f.Distinct();
-            Assert.AreEqual(e.Count(), 1);
-        }
-
-        [TestMethod]
         public void LoadAndSave()
         {
             Subtitle<AssScriptInfo> t;

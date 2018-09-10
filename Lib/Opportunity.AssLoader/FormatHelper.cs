@@ -45,16 +45,16 @@ namespace Opportunity.AssLoader
 
         private static readonly char[] split = new char[] { ':' };
 
-        public static bool TryPraseLine(out string key, out string value, string rawString)
+        public static bool TryPraseLine(out ReadOnlySpan<char> key, out ReadOnlySpan<char> value, ReadOnlySpan<char> rawString)
         {
-            if (string.IsNullOrEmpty(rawString) || rawString.IndexOf(':') == -1)
+            var ind = rawString.IndexOf(':');
+            if (ind == -1)
             {
                 key = value = null;
                 return false;
             }
-            var s = rawString.Split(split, 2);
-            key = s[0].TrimEnd(null);
-            value = s[1].TrimStart(null);
+            key = rawString.Slice(0, ind).TrimEnd();
+            value = rawString.Slice(ind + 1).TrimStart(null);
             return true;
         }
     }

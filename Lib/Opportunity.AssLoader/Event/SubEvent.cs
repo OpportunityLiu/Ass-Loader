@@ -1,17 +1,23 @@
 ﻿using Opportunity.AssLoader.Serializer;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using FieldSerializeHelper
+    = Opportunity.AssLoader.SerializeHelper<Opportunity.AssLoader.Entry, Opportunity.AssLoader.EntryFieldAttribute>;
 
 namespace Opportunity.AssLoader
 {
     /// <summary>
     /// Entry of "events" section.
     /// </summary>
-    public class SubEvent : Entry
+    [DebuggerDisplay(@"{EntryName, nq}: {text.ToString(), nq}")]
+    public sealed class SubEvent : Entry
     {
+        internal static readonly Dictionary<string, FieldSerializeHelper> FieldInfo = FieldSerializeHelper.GetScriptInfoFields(typeof(SubEvent));
+
         /// <summary>
         /// Create new instance of <see cref="SubEvent"/>.
         /// </summary>
@@ -20,59 +26,12 @@ namespace Opportunity.AssLoader
         }
 
         /// <summary>
-        /// Parse from <paramref name="fields"/>.
-        /// </summary>
-        /// <param name="fields">A <see cref="string"/> of fields that seperates with ','.</param>
-        /// <param name="format">The <see cref="EntryHeader"/> presents its format.</param>
-        /// <param name="isComment">Whether the <see cref="SubEvent"/> is comment or not.</param>
-        /// <returns><see cref="SubEvent"/> presents the <paramref name="fields"/>.</returns>
-        /// <exception cref="ArgumentNullException">Parameters are null or empty.</exception>
-        /// <exception cref="FormatException">Deserialize failed for some fields.</exception>
-        public static SubEvent Parse(EntryHeader format, bool isComment, string fields)
-        {
-            var re = new SubEvent();
-            re.Parse(fields, format);
-            re.IsComment = isComment;
-            return re;
-        }
-
-        /// <summary>
-        /// Parse exactly from <paramref name="fields"/>.
-        /// </summary>
-        /// <param name="fields">A <see cref="string"/> of fields that seperates with ','.</param>
-        /// <param name="format">The <see cref="EntryHeader"/> presents its format.</param>
-        /// <param name="isComment">Whether the <see cref="SubEvent"/> is comment or not.</param>
-        /// <returns><see cref="SubEvent"/> presents the <paramref name="fields"/>.</returns>
-        /// <exception cref="ArgumentNullException">Parameters are null or empty.</exception>
-        /// <exception cref="FormatException">Deserialize failed for some fields.</exception>
-        /// <exception cref="KeyNotFoundException">
-        /// Fields of <see cref="SubEvent"/> and fields of <paramref name="format"/> doesn't match
-        /// </exception>
-        public static SubEvent ParseExact(EntryHeader format, bool isComment, string fields)
-        {
-            var re = new SubEvent();
-            re.ParseExact(fields, format);
-            re.IsComment = isComment;
-            return re;
-        }
-
-        /// <summary>
         /// Make a copy of this <see cref="SubEvent"/>.
         /// </summary>
         /// <returns>A copy of this <see cref="SubEvent"/>.</returns>
-        public new SubEvent Clone()
+        public SubEvent Clone()
         {
-            var re = this.Clone<SubEvent>();
-            return re;
-        }
-
-        /// <summary>
-        /// Return a string form of this <see cref="SubEvent"/> with <see cref="EntryName"/> and <see cref="Text"/>.
-        /// </summary>
-        /// <returns>A string form of this <see cref="SubEvent"/>.</returns>
-        public override string ToString()
-        {
-            return this.EntryName + ": " + this.text.ToString();
+            return (SubEvent)this.MemberwiseClone();
         }
 
         /// <summary>

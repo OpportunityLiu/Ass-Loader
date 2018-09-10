@@ -26,7 +26,7 @@ namespace Opportunity.AssLoader.Test
         [TestMethod]
         public void ParseEmpty()
         {
-            var t = Subtitle.Parse<AssScriptInfo>("");
+            var t = Parse<AssScriptInfo>("");
         }
 
         [TestMethod]

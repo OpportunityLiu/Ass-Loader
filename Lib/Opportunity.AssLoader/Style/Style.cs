@@ -6,6 +6,8 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using FieldSerializeHelper
+    = Opportunity.AssLoader.SerializeHelper<Opportunity.AssLoader.Entry, Opportunity.AssLoader.EntryFieldAttribute>;
 
 namespace Opportunity.AssLoader
 {
@@ -13,14 +15,11 @@ namespace Opportunity.AssLoader
     /// Entry of "styles" section.
     /// </summary>
     [DebuggerDisplay(@"Style: {name}")]
-    public class Style : Entry
+    public sealed class Style : Entry
     {
-        /// <summary>
-        /// Create new instance of <see cref="Style"/>.
-        /// </summary>
-        protected Style()
-        {
-        }
+        internal static readonly Dictionary<string, FieldSerializeHelper> FieldInfo = FieldSerializeHelper.GetScriptInfoFields(typeof(Style));
+
+        internal Style() { }
 
         /// <summary>
         /// Create new instance of <see cref="Style"/> with the name.
@@ -36,39 +35,6 @@ namespace Opportunity.AssLoader
         }
 
         /// <summary>
-        /// Parse from <paramref name="fields"/>.
-        /// </summary>
-        /// <param name="fields">A <see cref="string"/> of fields that seperates with ','.</param>
-        /// <param name="format">The <see cref="EntryHeader"/> presents its format.</param>
-        /// <returns><see cref="Style"/> presents the <paramref name="fields"/>.</returns>
-        /// <exception cref="ArgumentNullException">Parameters are null or empty.</exception>
-        /// <exception cref="FormatException">Deserialize failed for some fields.</exception>
-        public static Style Parse(EntryHeader format, string fields)
-        {
-            var re = new Style();
-            re.Parse(fields, format);
-            return re;
-        }
-
-        /// <summary>
-        /// Parse exactly from <paramref name="fields"/>.
-        /// </summary>
-        /// <param name="fields">A <see cref="string"/> of fields that seperates with ','.</param>
-        /// <param name="format">The <see cref="EntryHeader"/> presents its format.</param>
-        /// <returns><see cref="Style"/> presents the <paramref name="fields"/>.</returns>
-        /// <exception cref="ArgumentNullException">Parameters are null or empty.</exception>
-        /// <exception cref="FormatException">Deserialize failed for some fields.</exception>
-        /// <exception cref="KeyNotFoundException">
-        /// Fields of <see cref="Style"/> and fields of <paramref name="format"/> doesn't match
-        /// </exception>
-        public static Style ParseExact(EntryHeader format, string fields)
-        {
-            var re = new Style();
-            re.ParseExact(fields, format);
-            return re;
-        }
-
-        /// <summary>
         /// Make a copy with new <see cref="Name"/> of this <see cref="Style"/>.
         /// </summary>
         /// <param name="newName">New <see cref="Name"/> of <see cref="Style"/></param>
@@ -79,7 +45,7 @@ namespace Opportunity.AssLoader
         {
             if (!FormatHelper.FieldStringValueValid(ref newName))
                 throw new ArgumentNullException(nameof(newName));
-            var n = this.Clone(() => new Style());
+            var n = (Style)MemberwiseClone();
             n.name = newName;
             return n;
         }

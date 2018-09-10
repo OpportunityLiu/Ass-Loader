@@ -54,22 +54,22 @@ namespace Opportunity.AssLoader
 
         private void saveStyle(TextWriter writer)
         {
-            Subtitle.DefaultStyleFormat.Serialize(writer);
+            EntryParser.Serialize(Subtitle.DefaultStyleFormat, writer);
             writer.WriteLine();
             foreach (var item in this.StyleSet)
             {
-                item.Serialize(Subtitle.DefaultStyleFormat, writer);
+                item.Serialize(Subtitle.DefaultStyleDef, writer);
                 writer.WriteLine();
             }
         }
 
         private void saveEvent(TextWriter writer)
         {
-            Subtitle.DefaultEventFormat.Serialize(writer);
+            EntryParser.Serialize(Subtitle.DefaultEventFormat, writer);
             writer.WriteLine();
             foreach (var item in this.EventCollection)
             {
-                item.Serialize(Subtitle.DefaultEventFormat, writer);
+                item.Serialize(Subtitle.DefaultEventDef, writer);
                 writer.WriteLine();
             }
         }
