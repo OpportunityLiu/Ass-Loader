@@ -5,6 +5,8 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using ScriptInfoSerializeHelper
+    = Opportunity.AssLoader.SerializeHelper<Opportunity.AssLoader.ScriptInfoCollection, Opportunity.AssLoader.ScriptInfoAttribute>;
 
 namespace Opportunity.AssLoader
 {
@@ -14,8 +16,14 @@ namespace Opportunity.AssLoader
     /// <typeparam name="TScriptInfo">
     /// Type of the container of the "script info" section of the ass file.
     /// </typeparam>
-    public class Subtitle<TScriptInfo> where TScriptInfo : ScriptInfoCollection
+    public class Subtitle<TScriptInfo> : ISubtitle
+        where TScriptInfo : ScriptInfoCollection
     {
+        private static readonly Dictionary<string, ScriptInfoSerializeHelper> ScriptInfoFieldsStatic
+            = ScriptInfoSerializeHelper.GetScriptInfoFields(typeof(TScriptInfo));
+
+        Dictionary<string, ScriptInfoSerializeHelper> ISubtitle.ScriptInfoFields => ScriptInfoFieldsStatic;
+
         /// <summary>
         /// Create a new instance of <see cref="Subtitle{TScriptInfo}"/>.
         /// </summary>
@@ -26,6 +34,7 @@ namespace Opportunity.AssLoader
         public Subtitle(TScriptInfo scriptInfo)
         {
             this.ScriptInfo = scriptInfo ?? throw new ArgumentNullException(nameof(scriptInfo));
+            scriptInfo.Parent = this;
         }
 
         /// <summary>

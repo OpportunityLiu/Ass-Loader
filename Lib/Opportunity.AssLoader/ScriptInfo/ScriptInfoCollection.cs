@@ -27,7 +27,7 @@ namespace Opportunity.AssLoader
         {
             get
             {
-                var d = getScriptInfoFields();
+                var d = this.Parent.ScriptInfoFields;
                 var ud = this.undefinedFields;
                 var du = 0;
                 foreach (var item in d.Values)
@@ -39,6 +39,8 @@ namespace Opportunity.AssLoader
             }
         }
 
+        internal ISubtitle Parent;
+
         /// <summary>
         /// Create new instance of <see cref="ScriptInfoCollection"/>.
         /// </summary>
@@ -47,14 +49,12 @@ namespace Opportunity.AssLoader
             this.UndefinedFields = new ReadOnlyDictionary<string, string>(this.undefinedFields);
         }
 
-        private Dictionary<string, ScriptInfoSerializeHelper> getScriptInfoFields() => ScriptInfoSerializeHelper.GetScriptInfoFields(GetType());
-
         internal void ParseLine(ReadOnlySpan<char> value)
         {
             if (FormatHelper.TryPraseLine(out var k, out var v, value))
             {
                 var key = k.ToString();
-                if (getScriptInfoFields().TryGetValue(key, out var helper))
+                if (this.Parent.ScriptInfoFields.TryGetValue(key, out var helper))
                     helper.Deserialize(this, v);
                 else
                     this.undefinedFields[key] = v.ToString();
@@ -66,7 +66,7 @@ namespace Opportunity.AssLoader
             if (FormatHelper.TryPraseLine(out var k, out var v, value))
             {
                 var key = k.ToString();
-                if (getScriptInfoFields().TryGetValue(key, out var helper))
+                if (this.Parent.ScriptInfoFields.TryGetValue(key, out var helper))
                     helper.DeserializeExact(this, v);
                 else
                     this.undefinedFields[key] = v.ToString();
@@ -83,7 +83,7 @@ namespace Opportunity.AssLoader
             if (writer is null)
                 throw new ArgumentNullException(nameof(writer));
 
-            foreach (var item in getScriptInfoFields().Values)
+            foreach (var item in this.Parent.ScriptInfoFields.Values)
             {
                 var str = item.Serialize(this);
                 if (str is null)
@@ -130,7 +130,7 @@ namespace Opportunity.AssLoader
         /// <returns>True if <paramref name="key"/> found in defined fields or <see cref="UndefinedFields"/>.</returns>
         public bool ContainsKey(string key)
         {
-            return this.undefinedFields.ContainsKey(key) || getScriptInfoFields().ContainsKey(key);
+            return this.undefinedFields.ContainsKey(key) || this.Parent.ScriptInfoFields.ContainsKey(key);
         }
 
         /// <summary>
@@ -157,7 +157,7 @@ namespace Opportunity.AssLoader
                 value = s;
                 return true;
             }
-            if (getScriptInfoFields().TryGetValue(key, out var ssi))
+            if (this.Parent.ScriptInfoFields.TryGetValue(key, out var ssi))
             {
                 value = ssi.Serialize(this);
                 return true;
@@ -187,7 +187,7 @@ namespace Opportunity.AssLoader
             }
             set
             {
-                if (getScriptInfoFields().ContainsKey(key))
+                if (this.Parent.ScriptInfoFields.ContainsKey(key))
                     throw new InvalidOperationException("The key has defined, please use property.");
                 else
                     this.undefinedFields[key] = value;
@@ -263,7 +263,7 @@ namespace Opportunity.AssLoader
 
             public void CopyTo(string[] array, int arrayIndex)
             {
-                var f = this.collection.getScriptInfoFields();
+                var f = this.collection.Parent.ScriptInfoFields;
                 if (this.isKey)
                     f.Keys
                         .Concat(this.collection.undefinedFields.Keys)
@@ -290,7 +290,7 @@ namespace Opportunity.AssLoader
 
             public IEnumerator<string> GetEnumerator()
             {
-                var f = this.collection.getScriptInfoFields();
+                var f = this.collection.Parent.ScriptInfoFields;
                 if (this.isKey)
                     return f.Keys
                         .Concat(this.collection.undefinedFields.Keys).GetEnumerator();
@@ -328,13 +328,13 @@ namespace Opportunity.AssLoader
 
         void ICollection<KeyValuePair<string, string>>.CopyTo(KeyValuePair<string, string>[] array, int arrayIndex)
         {
-            getScriptInfoFields()
+            this.Parent.ScriptInfoFields
                 .Select(item => new KeyValuePair<string, string>(item.Key, item.Value.Serialize(this)))
                 .Concat(this.undefinedFields).ToArray().CopyTo(array, arrayIndex);
         }
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        int ICollection<KeyValuePair<string, string>>.Count => getScriptInfoFields().Count + this.undefinedFields.Count;
+        int ICollection<KeyValuePair<string, string>>.Count => this.Parent.ScriptInfoFields.Count + this.undefinedFields.Count;
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         bool ICollection<KeyValuePair<string, string>>.IsReadOnly => false;
@@ -352,7 +352,7 @@ namespace Opportunity.AssLoader
 
         IEnumerator<KeyValuePair<string, string>> IEnumerable<KeyValuePair<string, string>>.GetEnumerator()
         {
-            return getScriptInfoFields()
+            return this.Parent.ScriptInfoFields
                  .Select(item => new KeyValuePair<string, string>(item.Key, item.Value.Serialize(this)))
                  .Concat(this.undefinedFields).GetEnumerator();
         }

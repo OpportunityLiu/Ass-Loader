@@ -28,13 +28,14 @@ namespace Opportunity.AssLoader
                 {
                     while (true)
                     {
-                        line = this.reader.ReadLine().AsSpan();
-                        lineNumber++;
-                        if (line == null)
+                        var strline = this.reader.ReadLine();
+                        if (strline is null)
                             return this.subtitle;
 
-                        var temp = line.Trim();
+                        line = strline.AsSpan();
+                        lineNumber++;
 
+                        var temp = line.Trim();
                         // Skip empty lines and comment lines.
                         if (temp.Length == 0 || temp[0] == ';')
                             continue;

@@ -19,16 +19,16 @@ namespace Opportunity.AssLoader.Serializer
         /// <returns>The result of convertion.</returns>
         public override string Serialize(object value)
         {
-            if(value == null)
+            if (value == null)
                 return string.Empty;
             return value.ToString();
         }
 
         /// <summary>
-        /// Convert <see cref="string"/> to <see cref="TextContent"/>.
+        /// Convert <see cref="ReadOnlySpan{T}"/> to <see cref="TextContent"/>.
         /// </summary>
         /// <param name="value">The value to convert.</param>
         /// <returns>The result of convertion.</returns>   
-        public override object Deserialize(string value) => TextContent.Parse(value);
+        public override object Deserialize(ReadOnlySpan<char> value) => TextContent.Parse(value);
     }
 }

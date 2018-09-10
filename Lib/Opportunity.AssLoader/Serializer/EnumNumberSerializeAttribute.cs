@@ -41,16 +41,16 @@ namespace Opportunity.AssLoader.Serializer
         }
 
         /// <summary>
-        /// Convert <see cref="string"/> to <see cref="Enum"/>.
+        /// Convert number to <see cref="Enum"/>.
         /// </summary>
         /// <param name="value">The value to convert.</param>
         /// <returns>The result of convertion.</returns>
         /// <exception cref="FormatException">Failed to parse the string.</exception>
-        public override object Deserialize(string value)
+        public override object Deserialize(ReadOnlySpan<char> value)
         {
             try
             {
-                return Enum.Parse(EnumType, value);
+                return Enum.Parse(EnumType, value.ToString());
             }
             catch
             {

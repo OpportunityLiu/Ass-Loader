@@ -40,19 +40,19 @@ namespace Opportunity.AssLoader.Serializer
         }
 
         /// <summary>
-        /// Convert <see cref="string"/> to <see cref="bool"/>.
+        /// Convert <see cref="ReadOnlySpan{T}"/> to <see cref="bool"/>.
         /// </summary>
         /// <param name="value">The value to convert.</param>
         /// <returns>The result of convertion.</returns>
         /// <exception cref="FormatException"><paramref name="value"/> doesn't match <see cref="TrueString"/> or <see cref="FalseString"/> while <see cref="ThrowOnDeserializing"/> is true.</exception>
-        public override object Deserialize(string value)
+        public override object Deserialize(ReadOnlySpan<char> value)
         {
-            if (string.Equals(value, this.FalseString, StringComparison.OrdinalIgnoreCase))
+            if (value.Equals(this.FalseString.AsSpan(), StringComparison.OrdinalIgnoreCase))
                 return false;
-            else if (string.Equals(value, this.TrueString, StringComparison.OrdinalIgnoreCase))
+            else if (value.Equals(this.TrueString.AsSpan(), StringComparison.OrdinalIgnoreCase))
                 return true;
             else if (this.ThrowOnDeserializing)
-                throw new FormatException($"Convert failed, the string to deserialize is:\n{value}");
+                throw new FormatException($"Convert failed, the string to deserialize is:\n{value.ToString()}");
             else
                 return false;
         }

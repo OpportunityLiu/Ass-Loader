@@ -148,16 +148,30 @@ namespace Opportunity.AssLoader
         {
             if (string.IsNullOrEmpty(value))
                 throw new ArgumentNullException(nameof(value));
+            return Parse(value.AsSpan());
+        }
+
+        /// <summary>
+        /// Returns the <see cref="Color"/> of the string form.
+        /// </summary>
+        /// <param name="value">A <see cref="string"/> presents a <see cref="Color"/>.</param>
+        /// <returns>The <see cref="Color"/> of the string form.</returns>
+        /// <exception cref="ArgumentNullException"><paramref name="value"/> is null or <see cref="string.Empty"/>.</exception>
+        /// <exception cref="FormatException"><paramref name="value"/> is not a valid color string.</exception>
+        public static Color Parse(ReadOnlySpan<char> value)
+        {
+            if (value.IsEmpty)
+                throw new ArgumentNullException(nameof(value));
             try
             {
-                if (value.StartsWith("&H", StringComparison.OrdinalIgnoreCase))
-                    return FromUInt32(Convert.ToUInt32(value.Substring(2), 16));
+                if (value.StartsWith("&H".AsSpan(), StringComparison.OrdinalIgnoreCase))
+                    return FromUInt32(Convert.ToUInt32(value.Slice(2).ToString(), 16));
             }
             catch (Exception ex)
             {
-                throw new FormatException($"\"{value}\" is not a valid color string.", ex);
+                throw new FormatException($"\"{value.ToString()}\" is not a valid color string.", ex);
             }
-            throw new FormatException($"\"{value}\" is not a valid color string.");
+            throw new FormatException($"\"{value.ToString()}\" is not a valid color string.");
         }
 
         /// <summary>

@@ -101,7 +101,7 @@ namespace Opportunity.AssLoader
                     va = Convert.ChangeType(value.ToString(), FieldType.AsType(), FormatHelper.DefaultFormat);
             }
             else
-                va = Serializer.Deserialize(value.ToString());
+                va = Serializer.Deserialize(value);
             SetValue(obj, va);
         }
 

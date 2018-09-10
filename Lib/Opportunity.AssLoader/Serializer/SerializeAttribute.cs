@@ -25,6 +25,6 @@ namespace Opportunity.AssLoader.Serializer
         /// <param name="value">The value of ass file field.</param>
         /// <returns>The .Net field.</returns>
         /// <exception cref="FormatException"><paramref name="value"/> can't be deserialize.</exception>
-        public abstract object Deserialize(string value);
+        public abstract object Deserialize(ReadOnlySpan<char> value);
     }
 }

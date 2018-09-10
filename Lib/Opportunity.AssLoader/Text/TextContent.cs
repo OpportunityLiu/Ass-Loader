@@ -26,18 +26,20 @@ namespace Opportunity.AssLoader
         /// <param name="value">The content of text.</param>
         public TextContent(string value)
         {
-            if (string.IsNullOrEmpty(value))
-                this.Value = "";
-            else
+            value = value ?? "";
+            if (value.IndexOf('\n') >= 0 || value.IndexOf('\r') >= 0)
             {
-                var s = value.Trim().Split(sep, StringSplitOptions.None);
-                this.Value = s.Length == 1 ? s[0] : string.Join(@"\N", s);
+                var s = value.Split(sep, StringSplitOptions.None);
+                value = string.Join(@"\N", s);
             }
-            this.init();
+            this.init(value.AsSpan());
         }
 
-        private void init()
+        private void init(ReadOnlySpan<char> value)
         {
+            value = value.Trim();
+            this.Value = value.ToString();
+
             var stext = new List<string>();
             var start = 0;
             var b = false;
@@ -72,15 +74,12 @@ namespace Opportunity.AssLoader
             this.Texts = new TextList(this.splitedTexts);
         }
 
-        internal static TextContent Parse(string value)
+        internal static TextContent Parse(ReadOnlySpan<char> value)
         {
-            if (string.IsNullOrEmpty(value))
+            if (value.IsWhiteSpace())
                 return Empty;
-            var re = new TextContent()
-            {
-                Value = value
-            };
-            re.init();
+            var re = new TextContent();
+            re.init(value);
             return re;
         }
 
