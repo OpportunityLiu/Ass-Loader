@@ -16,6 +16,13 @@ namespace Opportunity.AssLoader.Test
             if (c != 0)
                 throw new AssertFailedException($"The collection contains {c} items, is not empty.");
         }
+        public static void AreMultiLineStringEquals(this Assert t, string except, string actual)
+        {
+            if (string.Equals(except, actual))
+                return;
+            var sp = new[] { "\r\n", "\r", "\n" };
+            CollectionAssert.AreEqual(except.Split(sp, StringSplitOptions.None), actual.Split(sp, StringSplitOptions.None));
+        }
         public static void IsNotEmpty<T>(this CollectionAssert t, IEnumerable<T> enumerable)
         {
             Assert.IsNotNull(enumerable);

@@ -38,18 +38,18 @@ Last Style Storage: Upotte
 Format: Name,Fontname,Fontsize,PrimaryColour,SecondaryColour,OutlineColour,BackColour,Bold,Italic,Underline,StrikeOut,ScaleX,ScaleY,Spacing,Angle,BorderStyle,Outline,Shadow,Alignment,MarginL,MarginR,MarginV,Encoding
 Style: Comment,FZZhunYuan-M02,35,&H00FFFFFF,&H000000FF,&H00F2A5A0,&H00000000,-1,0,0,0,100,100,0,0,1,3,0,8,10,10,20,1
 Style: Default,FZZhunYuan-M02,46,&H00FFFFFF,&H000000FF,&H00F2A5A0,&H00000000,-1,0,0,0,100,100,0,0,1,3,0,2,10,10,20,1
-Style: STAFF,AA Heavy,38,&H00FFFFFF,&H000000FF,&H00000000,&H00000000,0,0,0,0,100,100,0,0,1,2,0,8,10,10,20,1
-Style: OP-CH,BB (P),42,&H00FFFFFF,&H000000FF,&H00E69D50,&H00FFFFFF,0,0,0,0,100,100,0,0,1,3,2,8,20,20,20,1
+Style: STAFF,思源黑体 Heavy,38,&H00FFFFFF,&H000000FF,&H00000000,&H00000000,0,0,0,0,100,100,0,0,1,2,0,8,10,10,20,1
+Style: OP-CH,华康圆体W5(P),42,&H00FFFFFF,&H000000FF,&H00E69D50,&H00FFFFFF,0,0,0,0,100,100,0,0,1,3,2,8,20,20,20,1
 Style: OP-JP,DFPPOPMix-W5,42,&H00FFFFFF,&H000000FF,&H00E69D50,&H00FFFFFF,0,0,0,0,100,100,0,0,1,3,2,2,20,20,20,1
 Style: ED-CH,DFPKaiShuW5-UN,45,&H00FFFFFF,&H000000FF,&H000049FF,&H0000A2FF,0,0,0,0,100,100,0,0,1,2,3,8,10,10,20,1
 Style: ED-JP,DFPKaiSho-Bd,45,&H00FFFFFF,&H000000FF,&H000049FF,&H0000A2FF,0,0,0,0,100,100,0,0,1,2,3,2,10,10,20,1
 
 [Events]
 Format: Layer,Start,End,Style,Name,MarginL,MarginR,MarginV,Effect,Text
-Dialogue: 0,0:00:00.43,0:00:15.85,OP-JP,,0,0,0,aaa;bbb;ccc,{\be5\blur2\fad(150,200)}abv dd
-Dialogue: 0,0:00:00.43,0:00:15.85,OP-CH,,0,0,0,Banner;12.7;1;-1.7,{\be5\blur2\fad(150,200)}12
-Dialogue: 0,0:00:16.35,0:00:19.81,OP-JP,,0,0,0,,{\be5\blur2\fad(150,200)}122, 34
-Dialogue: 0,0:00:16.35,0:00:19.81,OP-CH,,0,0,0,,{\be5\blur2\fad(150,200)}122, 34 {,
+Dialogue: 0,0:00:00.43,0:00:15.85,OP-JP,,0,0,0,aaa;bbb;ccc,{\be5\blur2\fad(150,200)}見上げる空に太陽　どんな今日にも輝く
+Dialogue: 0,0:00:00.43,0:00:15.85,OP-CH,,0,0,0,Banner;12.7;1;-1.7,{\be5\blur2\fad(150,200)}仰望天空的太阳, 今天也无比闪耀
+Dialogue: 0,0:00:16.35,0:00:19.81,OP-JP,,0,0,0,,{\be5\blur2\fad(150,200)}だから Go my way
+Dialogue: 0,0:00:16.35,0:00:19.81,OP-CH,,0,0,0,,{\be5\blur2\fad(150,200)}来吧 Go my way
 ";
 
         [TestMethod]
@@ -85,7 +85,7 @@ Dialogue: 0,0:00:16.35,0:00:19.81,OP-CH,,0,0,0,,{\be5\blur2\fad(150,200)}122, 34
         public void SaveExample()
         {
             var t = Subtitle.Parse<CustomScriptInfo>(DATA).Result;
-            Assert.AreEqual(DATA, t.Serialize());
+            Assert.That.AreMultiLineStringEquals(DATA, t.Serialize());
         }
     }
 

@@ -9,7 +9,9 @@ namespace Opportunity.AssLoader.Test
 {
     public class FileTestMethodAttribute : TestMethodAttribute
     {
-        public static readonly string[] TestFiles = new DirectoryInfo("../../../../TestFiles/").GetFiles().Select(f => File.ReadAllText(f.FullName)).ToArray();
+        public static readonly string[] TestFileNames = new DirectoryInfo("../../../../TestFiles/").GetFiles().Select(f => f.Name).ToArray();
+
+        public static readonly string[] TestFiles = TestFileNames.Select(n => File.ReadAllText("../../../../TestFiles/" + n)).ToArray();
 
         public override TestResult[] Execute(ITestMethod testMethod)
         {
@@ -20,6 +22,7 @@ namespace Opportunity.AssLoader.Test
             for (var i = 0; i < r.Length; i++)
             {
                 r[i] = testMethod.Invoke(new object[] { TestFiles[i] });
+                r[i].DisplayName = TestFileNames[i];
             }
             return r;
         }
@@ -41,6 +44,7 @@ namespace Opportunity.AssLoader.Test
                 submd = submd.MakeGenericMethod(ScriptInfoType);
                 var sub = submd.Invoke(null, new[] { TestFiles[i] });
                 r[i] = testMethod.Invoke(new object[] { sub });
+                r[i].DisplayName = TestFileNames[i];
             }
             return r;
         }
