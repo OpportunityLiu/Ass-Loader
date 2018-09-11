@@ -1,52 +1,33 @@
-﻿using System;
-using System.Text;
-using System.Collections.Generic;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Opportunity.AssLoader;
-using System.IO;
 using Opportunity.AssLoader.Collections;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Text;
 
 namespace Opportunity.AssLoader.Test
 {
     [TestClass]
-    public class PerformenceTest
+    public class PerformenceTest : TestBase
     {
-        public PerformenceTest()
-        {
-            TestHelper.Init();
-        }
-
-        private TestHelper helper;
-
-        private Subtitle<AssScriptInfo> sub;
-
-        public TestContext TestContext
-        {
-            get => this.helper.Context;
-            set
-            {
-                this.helper = new TestHelper(value);
-                this.sub = Subtitle.Parse<AssScriptInfo>(this.helper.TestFile);
-            }
-        }
-
-
         [TestMethod]
         public void Read()
         {
-            this.helper.StartTimer();
-            for(var i = 0; i < 0xff; i++)
-                Subtitle.Parse<AssScriptInfo>(this.helper.TestFile);
-            this.helper.EndTimer();
+            this.TestHelper.StartTimer();
+            for (var i = 0; i < 0xff; i++)
+                Subtitle.Parse<AssScriptInfo>(this.TestHelper.TestFile);
+            this.TestHelper.EndTimer();
         }
 
         [TestMethod]
         public void Write()
         {
-            this.helper.StartTimer();
-            for(var i = 0; i < 0xff; i++)
-                this.sub.Serialize();
-            this.helper.EndTimer();
+            var sub = Subtitle.Parse<AssScriptInfo>(this.TestHelper.TestFile).Result;
+            this.TestHelper.StartTimer();
+            for (var i = 0; i < 0xff; i++)
+                sub.Serialize();
+            this.TestHelper.EndTimer();
         }
     }
 }

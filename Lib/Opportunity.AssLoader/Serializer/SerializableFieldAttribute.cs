@@ -42,12 +42,6 @@ namespace Opportunity.AssLoader
         public object DefaultValue { get; set; }
 
         /// <summary>
-        /// The field is optional or not,
-        /// if true, the field will not be serialized if its value equals <see langword="null"/> or <see cref="DefaultValue"/>.
-        /// </summary>
-        public bool IsOptional { get; set; }
-
-        /// <summary>
         /// Will be used as format string if a custom serializer is not provided.
         /// </summary>
         public string Format { get; set; } = "";

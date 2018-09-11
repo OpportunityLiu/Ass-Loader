@@ -1,17 +1,17 @@
-﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.Linq;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Opportunity.AssLoader;
+using System;
+using System.Linq;
 
 namespace Opportunity.AssLoader.Test
 {
     [TestClass]
-    public class TextContentTest
+    public class TextContentTest : TestBase
     {
         [TestMethod]
         public void CreateTextContent()
         {
-            var t =new TextContent( "df{ghj");
+            var t = new TextContent("df{ghj");
             var tags = t.Tags.ToArray();
             var texts = t.Texts.ToArray();
             Assert.AreEqual(0, tags.Length);

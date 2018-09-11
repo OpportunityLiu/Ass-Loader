@@ -52,15 +52,17 @@ namespace Opportunity.AssLoader
 
         #region Fields
 
-        [EntryField("Name", DefaultValue = "Default")]
+        [EntryField("Name")]
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         private string name;
 
         /// <summary>
-        /// The name of the Style. Case insensitive. ',' will be replaced by ';'.
+        /// The name of the Style.
         /// </summary>
         public string Name => this.name;
 
         [EntryField("Fontname")]
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         private string fontName = "Arial";
 
         /// <summary>
@@ -80,6 +82,7 @@ namespace Opportunity.AssLoader
         }
 
         [EntryField("Fontsize")]
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         private double fontSize = 12;
 
         /// <summary>
@@ -106,6 +109,7 @@ namespace Opportunity.AssLoader
 
         [ColorSerialize]
         [EntryField("PrimaryColour")]
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         private Color primaryColor;
 
         /// <summary>
@@ -119,6 +123,7 @@ namespace Opportunity.AssLoader
 
         [ColorSerialize]
         [EntryField("SecondaryColour")]
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         private Color secondaryColor;
 
         /// <summary>
@@ -132,6 +137,7 @@ namespace Opportunity.AssLoader
 
         [ColorSerialize]
         [EntryField("OutlineColour")]
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         private Color outlineColor;
 
         /// <summary>
@@ -145,6 +151,7 @@ namespace Opportunity.AssLoader
 
         [ColorSerialize]
         [EntryField("BackColour")]
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         private Color shadowColor;
 
         /// <summary>
@@ -157,6 +164,7 @@ namespace Opportunity.AssLoader
         }
 
         [EntryField("Bold")]
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         private int bold;
 
         /// <summary>
@@ -169,6 +177,7 @@ namespace Opportunity.AssLoader
         }
 
         [EntryField("Italic")]
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         private int italic;
 
         /// <summary>
@@ -181,6 +190,7 @@ namespace Opportunity.AssLoader
         }
 
         [EntryField("Underline")]
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         private int underline;
 
         /// <summary>
@@ -192,19 +202,21 @@ namespace Opportunity.AssLoader
             set => this.underline = value ? -1 : 0;
         }
 
-        [EntryField("Strikeout")]
-        private int strikeout;
+        [EntryField("StrikeOut")]
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private int strikeOut;
 
         /// <summary>
         /// Defines whether text has a strikeout (true) or not (false). 
         /// </summary>
-        public bool Strikeout
+        public bool StrikeOut
         {
-            get => this.strikeout == -1;
-            set => this.strikeout = value ? -1 : 0;
+            get => this.strikeOut == -1;
+            set => this.strikeOut = value ? -1 : 0;
         }
 
         [EntryField("ScaleX")]
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         private double scaleX = 100;
 
         /// <summary>
@@ -230,6 +242,7 @@ namespace Opportunity.AssLoader
         }
 
         [EntryField("ScaleY")]
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         private double scaleY = 100;
 
         /// <summary>
@@ -255,6 +268,7 @@ namespace Opportunity.AssLoader
         }
 
         [EntryField("Spacing")]
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         private double spacing;
 
         /// <summary>
@@ -273,6 +287,7 @@ namespace Opportunity.AssLoader
         }
 
         [EntryField("Angle")]
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         private double rotation;
 
         /// <summary>
@@ -296,6 +311,7 @@ namespace Opportunity.AssLoader
         }
 
         [EntryField("BorderStyle")]
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         private int borderStyle = (int)BorderStyle.OutlineAndDropShadow;
 
         /// <summary>
@@ -316,6 +332,7 @@ namespace Opportunity.AssLoader
         }
 
         [EntryField("Outline")]
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         private double outline;
 
         /// <summary>
@@ -341,6 +358,7 @@ namespace Opportunity.AssLoader
         }
 
         [EntryField("Shadow")]
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         private double shadow;
 
         /// <summary>
@@ -366,6 +384,7 @@ namespace Opportunity.AssLoader
         }
 
         [EntryField("Alignment")]
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         private int alignment = (int)AlignmentStyle.BottomCenter;
 
         /// <summary>
@@ -386,6 +405,7 @@ namespace Opportunity.AssLoader
         }
 
         [EntryField("MarginL")]
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         private int marginL;
 
         /// <summary>
@@ -404,6 +424,7 @@ namespace Opportunity.AssLoader
         }
 
         [EntryField("MarginR")]
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         private int marginR;
 
         /// <summary>
@@ -422,6 +443,7 @@ namespace Opportunity.AssLoader
         }
 
         [EntryField("MarginV")]
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         private int marginV;
 
         /// <summary>
@@ -440,6 +462,7 @@ namespace Opportunity.AssLoader
         }
 
         [EntryField("Encoding")]
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         private int encoding = 1;
 
         /// <summary>

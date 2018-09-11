@@ -47,6 +47,7 @@ namespace Opportunity.AssLoader
         #region Fields
 
         [EntryField("Layer")]
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         private int layer = 0;
 
         /// <summary>
@@ -71,6 +72,7 @@ namespace Opportunity.AssLoader
 
         [TimeSerialize]
         [EntryField("Start")]
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         private TimeSpan startTime;
 
         /// <summary>
@@ -92,6 +94,7 @@ namespace Opportunity.AssLoader
 
         [TimeSerialize]
         [EntryField("End")]
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         private TimeSpan endTime;
 
         /// <summary>
@@ -112,6 +115,7 @@ namespace Opportunity.AssLoader
         }
 
         [EntryField("Style", DefaultValue = "*Default")]
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         private string style;
 
         /// <summary>
@@ -129,7 +133,8 @@ namespace Opportunity.AssLoader
             }
         }
 
-        [EntryField("Name", Alias = "Actor", DefaultValue = "")]
+        [EntryField("Name", Alias = "Actor")]
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         private string name;
 
         /// <summary>
@@ -151,6 +156,7 @@ namespace Opportunity.AssLoader
         }
 
         [EntryField("MarginL")]
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         private int marginL;
 
         /// <summary>
@@ -172,6 +178,7 @@ namespace Opportunity.AssLoader
         }
 
         [EntryField("MarginR")]
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         private int marginR;
 
         /// <summary>
@@ -193,6 +200,7 @@ namespace Opportunity.AssLoader
         }
 
         [EntryField("MarginV")]
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         private int marginV;
 
         /// <summary>
@@ -213,8 +221,10 @@ namespace Opportunity.AssLoader
             }
         }
 
-        [EntryField("Effect", DefaultValue = "")]
-        private string effect;
+        [EntryField("Effect")]
+        [EffectSerialize]
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private Effects.Effect effect;
 
         /// <summary>
         /// Effect for this <see cref="SubEvent"/>.
@@ -225,19 +235,15 @@ namespace Opportunity.AssLoader
         /// but renderer support for them is spotty and using override tags is nearly always a better idea.
         /// This is commonly used as a metadata field for automation scripts.
         /// </remarks>
-        public string Effect
+        public Effects.Effect Effect
         {
             get => this.effect;
-            set
-            {
-                if (!FormatHelper.FieldStringValueValid(ref value))
-                    value = null;
-                this.effect = value;
-            }
+            set => this.effect = value;
         }
 
         [TextSerialize]
         [EntryField("Text")]
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         private TextContent text = null;
 
         /// <summary>

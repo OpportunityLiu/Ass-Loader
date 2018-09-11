@@ -30,7 +30,7 @@ namespace Opportunity.AssLoader
         /// <summary>
         /// This is the SSA script fields version.
         /// </summary>
-        [ScriptInfo("ScriptType", DefaultValue = "v4.00+")]
+        [ScriptInfo("ScriptType")]
         public string ScriptType
         {
             get => "v4.00+";
@@ -49,7 +49,7 @@ namespace Opportunity.AssLoader
         /// If the original author(s) did not provide this information then "untitled" is automatically substituted.
         /// </summary>
         /// <exception cref="ArgumentException"><paramref name="value"/> contains line breaks.</exception>
-        [ScriptInfo("Title", DefaultValue = "untitled")]
+        [ScriptInfo("Title")]
         public string Title
         {
             get => this.title;
@@ -69,7 +69,7 @@ namespace Opportunity.AssLoader
         /// If the original author(s) did not provide this information then "unknown" is automatically substituted.
         /// </summary>
         /// <exception cref="ArgumentException"><paramref name="value"/> contains line breaks.</exception>
-        [ScriptInfo("Original Script", DefaultValue = "unknown")]
+        [ScriptInfo("Original Script")]
         public string OriginalScript
         {
             get => this.originalScript;
@@ -89,7 +89,7 @@ namespace Opportunity.AssLoader
         /// This entry does not appear if no information was entered by the author.
         /// </summary>
         /// <exception cref="ArgumentException"><paramref name="value"/> contains line breaks.</exception>
-        [ScriptInfo("Original Translation", IsOptional = true)]
+        [ScriptInfo("Original Translation")]
         public string OriginalTranslation
         {
             get => this.originalTranslation;
@@ -110,7 +110,7 @@ namespace Opportunity.AssLoader
         /// This entry does not appear if no information was entered by the author.
         /// </summary>
         /// <exception cref="ArgumentException"><paramref name="value"/> contains line breaks.</exception>
-        [ScriptInfo("Original Editing", IsOptional = true)]
+        [ScriptInfo("Original Editing")]
         public string OriginalEditing
         {
             get => this.originalEditing;
@@ -130,7 +130,7 @@ namespace Opportunity.AssLoader
         /// This entry does not appear if no information was entered by the author.
         /// </summary>
         /// <exception cref="ArgumentException"><paramref name="value"/> contains line breaks.</exception>
-        [ScriptInfo("Original Timing", IsOptional = true)]
+        [ScriptInfo("Original Timing")]
         public string OriginalTiming
         {
             get => this.originalTiming;
@@ -150,7 +150,7 @@ namespace Opportunity.AssLoader
         /// This entry does not appear if subsequent editors did not enter the information.
         /// </summary>
         /// <exception cref="ArgumentException"><paramref name="value"/> contains line breaks.</exception>
-        [ScriptInfo("Script Updated By", IsOptional = true)]
+        [ScriptInfo("Script Updated By")]
         public string ScriptUpdatedBy
         {
             get => this.scriptUpdatedBy;
@@ -170,7 +170,7 @@ namespace Opportunity.AssLoader
         /// This entry does not appear if subsequent editors did not enter any information.
         /// </summary>
         /// <exception cref="ArgumentException"><paramref name="value"/> contains line breaks.</exception>
-        [ScriptInfo("Update Details", IsOptional = true)]
+        [ScriptInfo("Update Details")]
         public string UpdateDetails
         {
             get => this.updateDetails;
@@ -191,7 +191,7 @@ namespace Opportunity.AssLoader
         /// <exception cref="ArgumentOutOfRangeException">
         /// <paramref name="value"/> is not one of the valid value.
         /// </exception>
-        [ScriptInfo("Collisions", DefaultValue = CollisionStyle.Normal, IsOptional = true)]
+        [ScriptInfo("Collisions", DefaultValue = CollisionStyle.Normal)]
         public CollisionStyle Collisions
         {
             get => this.collisions;
@@ -214,7 +214,7 @@ namespace Opportunity.AssLoader
         /// <paramref name="value"/> is less than 0.
         /// </exception>
         /// <seealso cref="PlayResX"/>
-        [ScriptInfo("PlayResY", DefaultValue = 360)]
+        [ScriptInfo("PlayResY")]
         public int PlayResY
         {
             get => this.playResY;
@@ -236,7 +236,7 @@ namespace Opportunity.AssLoader
         /// <paramref name="value"/> is less than 0.
         /// </exception>
         /// <seealso cref="PlayResY"/>
-        [ScriptInfo("PlayResX", DefaultValue = 640)]
+        [ScriptInfo("PlayResX")]
         public int PlayResX
         {
             get => this.playResX;
@@ -257,7 +257,7 @@ namespace Opportunity.AssLoader
         /// <exception cref="ArgumentOutOfRangeException">
         /// <paramref name="value"/> is not one of the valid value.
         /// </exception>
-        [ScriptInfo("WrapStyle", DefaultValue = WrapStyle.Smart)]
+        [ScriptInfo("WrapStyle")]
         [EnumNumberSerialize(typeof(WrapStyle))]
         public WrapStyle WrapStyle
         {
@@ -276,7 +276,7 @@ namespace Opportunity.AssLoader
         /// <summary>
         /// if true, script resolution is used for <see cref="Style.Outline"/> and <see cref="Style.Shadow"/>, if false, video resolution is used. 
         /// </summary>
-        [BooleanSerialize(TrueString = "Yes", FalseString = "No", ThrowOnDeserializing = false)]
+        [BooleanSerialize(TrueString = "Yes", FalseString = "No")]
         [ScriptInfo("ScaledBorderAndShadow")]
         public bool ScaledBorderAndShadow
         {
@@ -293,7 +293,7 @@ namespace Opportunity.AssLoader
         /// <exception cref="ArgumentOutOfRangeException">
         /// <paramref name="value"/> is not greater than 0.
         /// </exception>
-        [ScriptInfo("PlayDepth", IsOptional = true)]
+        [ScriptInfo("PlayDepth")]
         [EditorBrowsable(EditorBrowsableState.Advanced)]
         [Obsolete(Consts.OUTDATED)]
         public int? PlayDepth
@@ -308,7 +308,7 @@ namespace Opportunity.AssLoader
         }
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        private double synchPoint = 0d;
+        private double? synchPoint;
 
         /// <summary>
         /// (optional) Description of where in the video the script should begin playback.
@@ -317,15 +317,15 @@ namespace Opportunity.AssLoader
         /// <exception cref="ArgumentException">
         /// <paramref name="value"/> is <see cref="double.IsNaN(double)"/> or <see cref="double.IsInfinity(double)"/>
         /// </exception>
-        [ScriptInfo("Synch Point", IsOptional = true, DefaultValue = 0d)]
+        [ScriptInfo("Synch Point")]
         [EditorBrowsable(EditorBrowsableState.Advanced)]
         [Obsolete(Consts.OUTDATED)]
-        public double SynchPoint
+        public double? SynchPoint
         {
             get => this.synchPoint;
             set
             {
-                if (ThrowHelper.IsInvalidDouble(value))
+                if (value != null && ThrowHelper.IsInvalidDouble(value.Value))
                     throw new ArgumentException("value should be a valid number", nameof(value));
                 this.synchPoint = value;
             }
@@ -358,7 +358,7 @@ namespace Opportunity.AssLoader
         /// even though they both achieve the same result.
         /// </remarks>
         [EditorBrowsable(EditorBrowsableState.Advanced)]
-        [ScriptInfo("Timer", DefaultValue = 100d, IsOptional = true, Format = "F4")]
+        [ScriptInfo("Timer", Format = "F4")]
         [Obsolete(Consts.OUTDATED)]
         public double Timer
         {

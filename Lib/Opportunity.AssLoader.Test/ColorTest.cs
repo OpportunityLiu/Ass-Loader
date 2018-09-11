@@ -1,12 +1,29 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Opportunity.AssLoader;
+using Opportunity.AssLoader.Serializer;
 using System;
+using System.IO;
 
 namespace Opportunity.AssLoader.Test
 {
     [TestClass]
-    public class ColorTest
+    public class ColorTest : TestBase
     {
+        [TestMethod]
+        public void Serializer()
+        {
+            var t = new ColorSerializeAttribute();
+            for (var i = 0; i < 0xffff; i++)
+            {
+                var b = TestHelper.RandomReader.ReadBytes(4);
+                var c = Color.FromArgb(b[0], b[1], b[2], b[3]);
+                var w = new StringWriter();
+                t.Serialize(w, c, null);
+                var des = t.Deserialize(w.ToString(), TestSerializeInfo.Throw);
+                Assert.AreEqual(c, des);
+            }
+        }
+
         [TestMethod]
         public void ParseRgba()
         {

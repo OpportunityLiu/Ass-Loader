@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace Opportunity.AssLoader
 {
+
     /// <summary>
     /// Text of <see cref="SubEvent"/>, support methods to modify the text.
     /// This class is immutable.

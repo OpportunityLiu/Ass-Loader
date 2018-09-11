@@ -48,7 +48,7 @@ namespace Opportunity.AssLoader
                 throw new ArgumentNullException(nameof(writer));
 
             writer.WriteLine("[Script Info]");
-            this.ScriptInfo.Serialize(writer);
+            this.ScriptInfo.Serialize(writer, null);
             writer.WriteLine();
 
             writer.WriteLine("[V4+ Styles]");
@@ -67,7 +67,7 @@ namespace Opportunity.AssLoader
             writer.WriteLine();
             foreach (var item in this.StyleSet)
             {
-                item.Serialize(Subtitle.DefaultStyleDef, writer);
+                item.Serialize(writer, Subtitle.DefaultStyleDef, null);
                 writer.WriteLine();
             }
         }
@@ -78,7 +78,7 @@ namespace Opportunity.AssLoader
             writer.WriteLine();
             foreach (var item in this.EventCollection)
             {
-                item.Serialize(Subtitle.DefaultEventDef, writer);
+                item.Serialize(writer, Subtitle.DefaultEventDef, null);
                 writer.WriteLine();
             }
         }

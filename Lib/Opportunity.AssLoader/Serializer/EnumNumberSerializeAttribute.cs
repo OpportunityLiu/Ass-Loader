@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Linq;
 
 namespace Opportunity.AssLoader.Serializer
@@ -25,39 +26,36 @@ namespace Opportunity.AssLoader.Serializer
         public Type EnumType { get; }
 
         /// <summary>
-        /// Whether <see cref="FormatException"/> will be thrown if the enum value doesn't defined.
-        /// </summary>
-        public bool ThrowOnDeserializing { get; set; }
-
-        /// <summary>
         /// Convert <see cref="Enum"/> to <see cref="string"/>.
         /// </summary>
+        /// <param name="writer">The <see cref="TextWriter"/> to write result to.</param>
+        /// <param name="serializeInfo">Helper interface for serializing.</param>
         /// <param name="value">The value to convert.</param>
         /// <returns>The result of convertion.</returns>
-        public override string Serialize(object value)
+        public override void Serialize(TextWriter writer, object value, ISerializeInfo serializeInfo)
         {
             var c = (IConvertible)value;
-            return c.ToDouble(FormatHelper.DefaultFormat).ToString(FormatHelper.DefaultFormat);
+            writer.Write(c.ToDouble(FormatHelper.DefaultFormat).ToString(FormatHelper.DefaultFormat));
         }
 
         /// <summary>
         /// Convert number to <see cref="Enum"/>.
         /// </summary>
         /// <param name="value">The value to convert.</param>
+        /// <param name="deserializeInfo">Helper interface for deserializing.</param>
         /// <returns>The result of convertion.</returns>
         /// <exception cref="FormatException">Failed to parse the string.</exception>
-        public override object Deserialize(ReadOnlySpan<char> value)
+        public override object Deserialize(ReadOnlySpan<char> value, IDeserializeInfo deserializeInfo)
         {
             try
             {
                 return Enum.Parse(EnumType, value.ToString());
             }
-            catch
+            catch (Exception ex)
             {
-                if (ThrowOnDeserializing)
-                    throw;
+                deserializeInfo.AddException(ex);
+                return null;
             }
-            return Enum.GetValues(EnumType).Cast<object>().FirstOrDefault();
         }
     }
 }

@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace Opportunity.AssLoader.Test
 {
-    internal class TestHelper
+    public sealed class TestHelper
     {
         private static readonly FileInfo[] testfiles = new DirectoryInfo("../../../../TestFiles/").GetFiles();
 
@@ -40,15 +40,15 @@ namespace Opportunity.AssLoader.Test
             }
         }
 
-        public IEnumerable<KeyValuePair<string, TextReader>> LoadTestFiles()
+        public IEnumerable<KeyValuePair<string, string>> LoadTestFiles()
         {
             foreach (var item in testfiles)
-                yield return new KeyValuePair<string, TextReader>(item.Name, item.OpenText());
+                yield return new KeyValuePair<string, string>(item.Name, File.ReadAllText(item.FullName));
         }
 
-        public KeyValuePair<string, TextReader> LoadTestFile()
+        public KeyValuePair<string, string> LoadTestFile()
         {
-            return new KeyValuePair<string, TextReader>(testfiles[0].Name, new StringReader(this.TestFile));
+            return new KeyValuePair<string, string>(testfiles[0].Name, this.TestFile);
         }
 
         public TestContext Context

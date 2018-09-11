@@ -10,12 +10,22 @@ namespace Analyzer
 {
     internal class Program
     {
+        private enum a
+        {
+            a
+        }
+        private static int Foo<TEnum>(TEnum value)
+            where TEnum : struct, IConvertible  // C# does not allow enum constraint
+        {
+            return value.ToInt32(null);
+        }
         private static void Main(string[] args)
         {
             var f = File.ReadAllText(@"..\..\..\TestFiles\Upotte[02].ass");
             for (var i = 0; i < 0xffff; i++)
             {
-                var t = Subtitle.ParseExact<AssScriptInfo>(f);
+                var t = Subtitle.Parse<AssScriptInfo>(f);
+                t.Result.Serialize();
             }
         }
     }

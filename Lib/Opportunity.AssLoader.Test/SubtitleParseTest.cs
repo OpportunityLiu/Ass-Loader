@@ -1,28 +1,17 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Opportunity.AssLoader.Collections;
+using Opportunity.AssLoader.Effects;
 using System;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 using static Opportunity.AssLoader.Subtitle;
 
 namespace Opportunity.AssLoader.Test
 {
     [TestClass]
-    public class SubtitleParseTest
+    public class SubtitleParseTest : TestBase
     {
-        public SubtitleParseTest()
-        {
-            TestHelper.Init();
-        }
-
-        private TestHelper helper;
-
-        public TestContext TestContext
-        {
-            get => this.helper.Context;
-            set => this.helper = new TestHelper(value);
-        }
-
         [TestMethod]
         public void ParseEmpty()
         {
@@ -32,41 +21,16 @@ namespace Opportunity.AssLoader.Test
         [TestMethod]
         public void Parse()
         {
-            foreach (var item in this.helper.LoadTestFiles())
+            foreach (var item in this.TestHelper.LoadTestFiles())
             {
                 try
                 {
-                    using (item.Value)
-                    {
-                        var file = Parse<AssScriptInfo>(item.Value);
-                        var str = file.Serialize();
-                        var file2 = ParseExact<AssScriptInfo>(new StringReader(str));
-                        var str2 = file2.Serialize();
-                        Assert.AreEqual(str, str2);
-                    }
-                }
-                catch (Exception ex)
-                {
-                    throw new Exception(item.Key, ex);
-                }
-            }
-        }
-
-        [TestMethod]
-        public async Task ParseAsync()
-        {
-            foreach (var item in this.helper.LoadTestFiles())
-            {
-                try
-                {
-                    using (item.Value)
-                    {
-                        var file = await ParseAsync<AssScriptInfo>(item.Value);
-                        var str = file.Serialize();
-                        var file2 = await ParseExactAsync<AssScriptInfo>(new StringReader(str));
-                        var str2 = file2.Serialize();
-                        Assert.AreEqual(str, str2);
-                    }
+                    var file = Parse<AssScriptInfo>(item.Value).Result;
+                    var str = file.Serialize();
+                    var file2 = Parse<AssScriptInfo>(str);
+                    Assert.AreEqual(file2.Result.ScriptInfo.UndefinedFields.Count + file2.Result.EventCollection.Count(e => e.Effect is UnknownEffect), file2.Exceptions.Count);
+                    var str2 = file2.Result.Serialize();
+                    Assert.AreEqual(str, str2);
                 }
                 catch (Exception ex)
                 {

@@ -1,5 +1,8 @@
 ﻿using Opportunity.AssLoader.Collections;
+using Opportunity.AssLoader.Serializer;
 using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -8,186 +11,211 @@ using FieldSerializeHelper
 
 namespace Opportunity.AssLoader
 {
+    /// <summary>
+    /// Represent result of <see cref="Subtitle.Parse"/>.
+    /// </summary>
+    /// <typeparam name="TScriptInfo">Type of the container of the "script info" section of the ass file.</typeparam>
+    public sealed class ParseResult<TScriptInfo> : IDeserializeInfo
+        where TScriptInfo : ScriptInfoCollection
+    {
+        void IDeserializeInfo.AddException(Exception ex)
+        {
+            if (Freezed)
+                throw new InvalidOperationException();
+            ex.Data["Line Number"] = this.LineNumber;
+            ((IList<Exception>)Exceptions).Add(ex);
+        }
+
+        internal void Freeeze(Subtitle<TScriptInfo> result)
+        {
+            Result = result;
+            this.LineNumber = -1;
+            Exceptions = new ReadOnlyCollection<Exception>((IList<Exception>)Exceptions);
+        }
+
+        internal bool Freezed => Result != null;
+
+        internal int LineNumber;
+
+        /// <summary>
+        /// The <see cref="Subtitle{TScriptInfo}"/> presents the ass file.
+        /// </summary>
+        public Subtitle<TScriptInfo> Result { get; private set; }
+
+        /// <summary>
+        /// Excetions during parsing.
+        /// </summary>
+        public IReadOnlyList<Exception> Exceptions { get; private set; } = new List<Exception>();
+    }
+
     public static partial class Subtitle
     {
-        private class ParseHelper<T> where T : ScriptInfoCollection
+        private ref struct ParseHelper<T>
+            where T : ScriptInfoCollection
         {
-            public ParseHelper(TextReader reader, bool isExact, Func<T> factory)
+            public ParseHelper(string data, Func<T> factory) : this()
             {
-                this.reader = reader;
-                this.isExact = isExact;
+                this.remainData = data.AsSpan();
                 this.subtitle = new Subtitle<T>(factory());
+                this.result = new ParseResult<T>();
             }
 
-            public Subtitle<T> GetResult()
+            public ParseResult<T> GetResult()
             {
-                var lineNumber = 0;
-                ReadOnlySpan<char> line = null;
-                var sec = this.isExact ? Section.Unknown : Section.ScriptInfo;
-                try
+                this.result.LineNumber = 1;
+                var line = default(ReadOnlySpan<char>);
+                while (!this.remainData.IsEmpty)
                 {
-                    while (true)
+                    var brindex = this.remainData.IndexOfAny('\r', '\n');
+                    if (brindex < 0)
                     {
-                        var strline = this.reader.ReadLine();
-                        if (strline is null)
-                            return this.subtitle;
+                        line = this.remainData;
+                        this.remainData = default;
+                    }
+                    else
+                    {
+                        line = this.remainData.Slice(0, brindex);
+                        if (this.remainData.Length > brindex + 1 && this.remainData[brindex] == '\r' && this.remainData[brindex + 1] == '\n')
+                            brindex += 2;
+                        else
+                            brindex += 1;
+                        this.remainData = this.remainData.Slice(brindex);
+                    }
 
-                        line = strline.AsSpan();
-                        lineNumber++;
+                    this.currentData = line.Trim();
+                    this.handleCurrentLine();
+                    this.result.LineNumber++;
+                }
+                this.result.Freeeze(this.subtitle);
+                return this.result;
+            }
 
-                        var temp = line.Trim();
-                        // Skip empty lines and comment lines.
-                        if (temp.Length == 0 || temp[0] == ';')
-                            continue;
+            private void handleCurrentLine()
+            {
+                // Skip empty lines and comment lines.
+                if (this.currentData.IsEmpty || this.currentData[0] == ';')
+                    return;
 
-                        if (temp[0] == '[' && temp[temp.Length - 1] == ']') // Section header
-                        {
-                            var secHeader = temp.ToString().ToLowerInvariant();
-                            switch (secHeader)
-                            {
-                            case "[script info]":
-                            case "[scriptinfo]":
-                                sec = Section.ScriptInfo;
-                                break;
-                            case "[v4+ styles]":
-                            case "[v4 styles+]":
-                            case "[v4+styles]":
-                            case "[v4styles+]":
-                                sec = Section.Styles;
-                                break;
-                            case "[events]":
-                                sec = Section.Events;
-                                break;
-                            default:
-                                sec = Section.Unknown;
-                                var secStr = temp.Slice(1, temp.Length - 2);
-                                if (this.isExact)
-                                    throw new InvalidOperationException($"Unknown section \"{secStr.ToString()}\" found.");
-                                break;
-                            }
-                        }
-                        else // Section content
-                        {
-                            switch (sec)
-                            {
-                            case Section.ScriptInfo:
-                                this.initScriptInfo(temp);
-                                break;
-                            case Section.Styles:
-                                this.initStyle(temp);
-                                break;
-                            case Section.Events:
-                                this.initEvent(temp);
-                                break;
-                            default:
-                                if (this.isExact)
-                                    throw new InvalidOperationException("Content found without a section header.");
-                                break;
-                            }
-                        }
+                if (this.currentData[0] == '[' && this.currentData[this.currentData.Length - 1] == ']') // Section header
+                {
+                    var secHeader = this.currentData.Slice(1, this.currentData.Length - 2).Trim();
+
+                    if (secHeader.Equals("script info".AsSpan(), StringComparison.OrdinalIgnoreCase)
+                        || secHeader.Equals("scriptinfo".AsSpan(), StringComparison.OrdinalIgnoreCase))
+                        this.section = Section.ScriptInfo;
+                    else if (secHeader.Equals("v4+ styles".AsSpan(), StringComparison.OrdinalIgnoreCase)
+                        || secHeader.Equals("v4 styles+".AsSpan(), StringComparison.OrdinalIgnoreCase)
+                        || secHeader.Equals("v4+styles".AsSpan(), StringComparison.OrdinalIgnoreCase)
+                        || secHeader.Equals("v4styles+".AsSpan(), StringComparison.OrdinalIgnoreCase))
+                        this.section = Section.Styles;
+                    else if (secHeader.Equals("events".AsSpan(), StringComparison.OrdinalIgnoreCase))
+                        this.section = Section.Events;
+                    else
+                    {
+                        this.section = Section.Unknown;
+                        ((IDeserializeInfo)this.result).AddException(
+                            new InvalidOperationException($"Unknown section \"{secHeader.ToString()}\" found."));
                     }
                 }
-                catch (Exception ex)
+                else // Section content
                 {
-                    var sline = line.ToString();
-                    var exception = new ArgumentException($@"Error occurs during parsing.
-Line number: {lineNumber}
-Content of the line:
-{sline}", ex);
-                    exception.Data.Add("Line number", lineNumber);
-                    exception.Data.Add("Line content", sline);
-                    exception.Data.Add("Current section", sec.ToString());
-                    throw exception;
+                    switch (this.section)
+                    {
+                    case Section.FileHeader:
+                        ((IDeserializeInfo)this.result).AddException(new InvalidOperationException("Content found without a section header."));
+                        goto case Section.ScriptInfo;
+                    case Section.ScriptInfo:
+                        this.initScriptInfo();
+                        break;
+                    case Section.Styles:
+                        this.initStyle();
+                        break;
+                    case Section.Events:
+                        this.initEvent();
+                        break;
+                    }
                 }
-            }
-
-            public Task<Subtitle<T>> GetResultAsync()
-            {
-                return Task.Run(() => this.GetResult());
             }
 
             private enum Section
             {
-                Unknown = 0,
+                Unknown = -1,
+                FileHeader = 0,
                 ScriptInfo,
                 Styles,
-                Events
+                Events,
             }
 
-            private readonly TextReader reader;
+            private Section section;
+
+            private ReadOnlySpan<char> remainData;
+
+            private ReadOnlySpan<char> currentData;
 
             private readonly Subtitle<T> subtitle;
 
-            private readonly bool isExact;
+            private readonly ParseResult<T> result;
 
             private FieldSerializeHelper[] styleFormat, eventFormat;
 
-            private void initScriptInfo(ReadOnlySpan<char> scriptInfoLine)
+            private void initScriptInfo()
             {
-                if (this.isExact)
-                    this.subtitle.ScriptInfo.ParseLineExact(scriptInfoLine);
+                this.subtitle.ScriptInfo.ParseLine(this.currentData, this.result);
+            }
+
+            private void initStyle()
+            {
+                if (!FormatHelper.TryPraseLine(out var key, out var value, this.currentData))
+                {
+                    ((IDeserializeInfo)this.result).AddException(new FormatException("Wrong line format."));
+                    return;
+                }
+
+                if (key.Equals("format".AsSpan(), StringComparison.OrdinalIgnoreCase))
+                {
+                    this.styleFormat = EntryParser.ParseHeader(value).Select(h => Style.FieldInfo[h]).ToArray();
+                }
+                else if (key.Equals("style".AsSpan(), StringComparison.OrdinalIgnoreCase))
+                {
+                    if (this.styleFormat == null)
+                        this.styleFormat = DefaultStyleDef;
+                    var s = new Style();
+
+                    s.Parse(value, this.styleFormat, this.result);
+                    if (this.subtitle.StyleSet.ContainsName(s.Name))
+                        ((IDeserializeInfo)this.result).AddException(
+                            new ArgumentException($"Style with the name \"{s.Name}\" is already in the StyleSet."));
+                    this.subtitle.StyleSet.Add(s);
+                }
+            }
+
+            private void initEvent()
+            {
+                if (!FormatHelper.TryPraseLine(out var key, out var value, this.currentData))
+                {
+                    ((IDeserializeInfo)this.result).AddException(new FormatException("Wrong line format."));
+                    return;
+                }
+
+                if (key.Equals("format".AsSpan(), StringComparison.OrdinalIgnoreCase))
+                {
+                    this.eventFormat = EntryParser.ParseHeader(value).Select(h => SubEvent.FieldInfo[h]).ToArray();
+                }
                 else
-                    this.subtitle.ScriptInfo.ParseLine(scriptInfoLine);
-            }
-
-            private void initStyle(ReadOnlySpan<char> styleLine)
-            {
-                if (FormatHelper.TryPraseLine(out var key, out var value, styleLine))
                 {
-                    if (key.Equals("format".AsSpan(), StringComparison.OrdinalIgnoreCase))
+                    if (this.eventFormat == null)
+                        this.eventFormat = DefaultEventDef;
+                    var isCom = key.Equals("Comment".AsSpan(), StringComparison.OrdinalIgnoreCase);
+                    if (!isCom && !key.Equals("Dialogue".AsSpan(), StringComparison.OrdinalIgnoreCase))
                     {
-                        this.styleFormat = EntryParser.ParseHeader(value).Select(h => Style.FieldInfo[h]).ToArray();
+                        ((IDeserializeInfo)this.result).AddException(
+                            new FormatException($"Unsupported event type \"{key.ToString()}\", assuming as \"Dialogue\"."));
                     }
-                    else if (key.Equals("style".AsSpan(), StringComparison.OrdinalIgnoreCase))
-                    {
-                        if (this.styleFormat == null)
-                            this.styleFormat = DefaultStyleDef;
-                        var s = new Style();
-                        if (this.isExact)
-                        {
-                            s.ParseExact(value, this.styleFormat);
-                            if (this.subtitle.StyleSet.ContainsName(s.Name))
-                                throw new ArgumentException($"Style with the name \"{s.Name}\" is already in the StyleSet.");
-                        }
-                        else
-                        {
-                            s.Parse(value, this.styleFormat);
-                        }
-                        this.subtitle.StyleSet.Add(s);
-                    }
+                    var sub = new SubEvent { IsComment = isCom };
+                    sub.Parse(value, this.eventFormat, this.result);
+                    this.subtitle.EventCollection.Add(sub);
                 }
             }
-
-            private void initEvent(ReadOnlySpan<char> eventLine)
-            {
-                if (FormatHelper.TryPraseLine(out var key, out var value, eventLine))
-                {
-                    if (key.Equals("format".AsSpan(), StringComparison.OrdinalIgnoreCase))
-                    {
-                        this.eventFormat = EntryParser.ParseHeader(value).Select(h => SubEvent.FieldInfo[h]).ToArray();
-                    }
-                    else
-                    {
-                        if (this.eventFormat == null)
-                            this.eventFormat = DefaultEventDef;
-                        var isCom = key.Equals("Comment".AsSpan(), StringComparison.OrdinalIgnoreCase);
-                        if (!isCom && !key.Equals("Dialogue".AsSpan(), StringComparison.OrdinalIgnoreCase))
-                        {
-                            if (this.isExact)
-                                throw new FormatException($"Unsupported event type \"{key.ToString()}\", only \"Dialogue\" is supported.");
-                            else
-                                return;
-                        }
-                        var sub = new SubEvent { IsComment = isCom };
-                        if (this.isExact)
-                            sub.ParseExact(value, this.eventFormat);
-                        else
-                            sub.Parse(value, this.eventFormat);
-                        this.subtitle.EventCollection.Add(sub);
-                    }
-                }
-            }
-
         }
     }
 }

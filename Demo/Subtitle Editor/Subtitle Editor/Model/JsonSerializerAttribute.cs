@@ -34,9 +34,9 @@ namespace SubtitleEditor.Model
             }
         }
 
-        public override object Deserialize(string value)
+        public override object Deserialize(ReadOnlySpan<char> value)
         {
-            using (var reader = new StringReader(value))
+            using (var reader = new StringReader(value.ToString()))
             {
                 return serializer.Deserialize(reader, this.ObjectType);
             }

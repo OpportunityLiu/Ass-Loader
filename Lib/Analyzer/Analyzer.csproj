@@ -51,14 +51,9 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Opportunity.AssLoader\Opportunity.AssLoader.csproj">
-      <Project>{06D590DE-E62A-439E-B583-1D6EC5DCA9C1}</Project>
+      <Project>{06d590de-e62a-439e-b583-1d6ec5dca9c1}</Project>
       <Name>Opportunity.AssLoader</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <PackageReference Include="System.Memory">
-      <Version>4.5.1</Version>
-    </PackageReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

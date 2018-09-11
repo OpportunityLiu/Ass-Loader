@@ -32,8 +32,10 @@ namespace Opportunity.AssLoader
                 var du = 0;
                 foreach (var item in d.Values)
                 {
-                    if (item.Serialize(this) != null)
-                        du++;
+                    var value = item.GetValue(this);
+                    if (value is null || Equals(value, item.Info.DefaultValue))
+                        continue;
+                    du++;
                 }
                 return $"Defined = {du}/{d.Count}, Undefined = {ud.Count}";
             }
@@ -49,48 +51,45 @@ namespace Opportunity.AssLoader
             this.UndefinedFields = new ReadOnlyDictionary<string, string>(this.undefinedFields);
         }
 
-        internal void ParseLine(ReadOnlySpan<char> value)
+        internal void ParseLine(ReadOnlySpan<char> value, IDeserializeInfo deserializeInfo)
         {
             if (FormatHelper.TryPraseLine(out var k, out var v, value))
             {
                 var key = k.ToString();
                 if (this.Parent.ScriptInfoFields.TryGetValue(key, out var helper))
-                    helper.Deserialize(this, v);
+                    helper.Deserialize(v, this, deserializeInfo);
                 else
+                {
+                    deserializeInfo.AddException(new ArgumentException($"Undefined property `{key}`."));
                     this.undefinedFields[key] = v.ToString();
+                }
             }
-        }
-
-        internal void ParseLineExact(ReadOnlySpan<char> value)
-        {
-            if (FormatHelper.TryPraseLine(out var k, out var v, value))
-            {
-                var key = k.ToString();
-                if (this.Parent.ScriptInfoFields.TryGetValue(key, out var helper))
-                    helper.DeserializeExact(this, v);
-                else
-                    this.undefinedFields[key] = v.ToString();
-            }
+            else
+                deserializeInfo.AddException(new ArgumentException("Wrong line format."));
         }
 
         /// <summary>
         /// Write info of this <see cref="ScriptInfoCollection"/> to <paramref name="writer"/>.
         /// </summary>
         /// <param name="writer">A <see cref="TextWriter"/> to write into.</param>
+        /// <param name="serializeInfo">Helper interface for serializing.</param>
         /// <exception cref="ArgumentNullException"><paramref name="writer"/> is null.</exception>
-        public virtual void Serialize(TextWriter writer)
+        public virtual void Serialize(TextWriter writer, ISerializeInfo serializeInfo)
         {
             if (writer is null)
                 throw new ArgumentNullException(nameof(writer));
 
+            var sb = new StringBuilder();
+            var bfw = new StringWriter(sb);
             foreach (var item in this.Parent.ScriptInfoFields.Values)
             {
-                var str = item.Serialize(this);
-                if (str is null)
+                item.Serialize(bfw, this, serializeInfo);
+                if (sb.Length == 0)
                     continue;
                 writer.Write(item.Info.FieldName);
                 writer.Write(": ");
-                writer.WriteLine(str);
+                writer.WriteLine(sb.ToString());
+                sb.Clear();
             }
             if (this.undefinedFields.Count == 0)
                 return;
@@ -159,7 +158,9 @@ namespace Opportunity.AssLoader
             }
             if (this.Parent.ScriptInfoFields.TryGetValue(key, out var ssi))
             {
-                value = ssi.Serialize(this);
+                var w = new StringWriter();
+                ssi.Serialize(w, this, null);
+                value = w.ToString();
                 return true;
             }
             value = null;
@@ -270,7 +271,7 @@ namespace Opportunity.AssLoader
                         .ToArray().CopyTo(array, arrayIndex);
                 else
                     f.Values
-                        .Select(item => item.Serialize(this.collection))
+                        .Select(item => { var w = new StringWriter(); item.Serialize(w, this.collection, null); return w.ToString(); })
                         .Concat(this.collection.undefinedFields.Values)
                         .ToArray().CopyTo(array, arrayIndex);
             }
@@ -296,7 +297,7 @@ namespace Opportunity.AssLoader
                         .Concat(this.collection.undefinedFields.Keys).GetEnumerator();
                 else
                     return f.Values
-                        .Select(item => item.Serialize(this.collection))
+                        .Select(item => { var w = new StringWriter(); item.Serialize(w, this.collection, null); return w.ToString(); })
                         .Concat(this.collection.undefinedFields.Values).GetEnumerator();
             }
 
@@ -329,8 +330,8 @@ namespace Opportunity.AssLoader
         void ICollection<KeyValuePair<string, string>>.CopyTo(KeyValuePair<string, string>[] array, int arrayIndex)
         {
             this.Parent.ScriptInfoFields
-                .Select(item => new KeyValuePair<string, string>(item.Key, item.Value.Serialize(this)))
-                .Concat(this.undefinedFields).ToArray().CopyTo(array, arrayIndex);
+                .Select(item => { var w = new StringWriter(); item.Value.Serialize(w, this, null); return new KeyValuePair<string, string>(item.Key, w.ToString()); })
+                .Concat(this.undefinedFields).CopyTo(array, arrayIndex);
         }
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
@@ -353,8 +354,8 @@ namespace Opportunity.AssLoader
         IEnumerator<KeyValuePair<string, string>> IEnumerable<KeyValuePair<string, string>>.GetEnumerator()
         {
             return this.Parent.ScriptInfoFields
-                 .Select(item => new KeyValuePair<string, string>(item.Key, item.Value.Serialize(this)))
-                 .Concat(this.undefinedFields).GetEnumerator();
+                .Select(item => { var w = new StringWriter(); item.Value.Serialize(w, this, null); return new KeyValuePair<string, string>(item.Key, w.ToString()); })
+                .Concat(this.undefinedFields).GetEnumerator();
         }
 
         #endregion
