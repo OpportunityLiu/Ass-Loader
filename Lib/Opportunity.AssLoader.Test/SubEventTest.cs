@@ -8,58 +8,34 @@ namespace Opportunity.AssLoader.Test
 {
     public class SubEventTest : TestBase
     {
-
-        [TestMethod]
-        public void CommentAll()
+        [SubTestMethod]
+        public void CommentAll(ParseResult<AssScriptInfo> file)
         {
-            foreach (var file in this.TestHelper.LoadTestFiles())
-            {
-                var t = Subtitle.Parse<AssScriptInfo>(file.Value).Result;
-                foreach (var item in t.EventCollection)
-                    item.IsComment = true;
-                var x = Subtitle.Parse<AssScriptInfo>(t.Serialize()).Result;
-                var c = from ev in x.EventCollection
-                        select ev.IsComment;
-                CollectionAssert.DoesNotContain(c.ToList(), false);
-            }
+            var t = file.Result;
+            foreach (var item in t.EventCollection)
+                item.IsComment = true;
+            var x = Subtitle.Parse<AssScriptInfo>(t.Serialize()).Result;
+            var c = from ev in x.EventCollection
+                    select ev.IsComment;
+            CollectionAssert.DoesNotContain(c.ToList(), false);
         }
 
-        [TestMethod]
-        public void CommentAllParallel()
+        [SubTestMethod]
+        public void DecommentAll(ParseResult<AssScriptInfo> file)
         {
-            this.TestHelper.LoadTestFiles().AsParallel().Select(item =>
-            {
-                var r = item.Value;
-                return Subtitle.Parse<AssScriptInfo>(r).Result;
-            }).ForAll(t =>
-            {
-                t.EventCollection.AsParallel().ForAll(ev => ev.IsComment = true);
-                var x = Subtitle.Parse<AssScriptInfo>(t.Serialize()).Result;
-                var c = from ev in x.EventCollection
-                        select ev.IsComment;
-                CollectionAssert.DoesNotContain(c.ToList(), false);
-            });
+            var t = file.Result;
+            foreach (var item in t.EventCollection)
+                item.IsComment = false;
+            var x = Subtitle.Parse<AssScriptInfo>(t.Serialize()).Result;
+            var c = from ev in x.EventCollection
+                    select ev.IsComment;
+            CollectionAssert.DoesNotContain(c.ToList(), true);
         }
 
-        [TestMethod]
-        public void DecommentAll()
+        [SubTestMethod]
+        public void Clone(ParseResult<AssScriptInfo> file)
         {
-            foreach (var file in this.TestHelper.LoadTestFiles())
-            {
-                var t = Subtitle.Parse<AssScriptInfo>(file.Value).Result;
-                foreach (var item in t.EventCollection)
-                    item.IsComment = false;
-                var x = Subtitle.Parse<AssScriptInfo>(t.Serialize()).Result;
-                var c = from ev in x.EventCollection
-                        select ev.IsComment;
-                CollectionAssert.DoesNotContain(c.ToList(), true);
-            }
-        }
-
-        [TestMethod]
-        public void Clone()
-        {
-            var sub = Subtitle.Parse<AssScriptInfo>(this.TestHelper.TestFile).Result;
+            var sub = file.Result;
             foreach (var subeve in sub.EventCollection)
             {
                 var clone = subeve.Clone();

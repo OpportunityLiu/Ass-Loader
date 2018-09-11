@@ -11,19 +11,19 @@ namespace Opportunity.AssLoader.Test
     [TestClass]
     public class PerformenceTest : TestBase
     {
-        [TestMethod]
-        public void Read()
+        [FileTestMethod(Limit = 1)]
+        public void Read(string file)
         {
             this.TestHelper.StartTimer();
             for (var i = 0; i < 0xff; i++)
-                Subtitle.Parse<AssScriptInfo>(this.TestHelper.TestFile);
+                Subtitle.Parse<AssScriptInfo>(file);
             this.TestHelper.EndTimer();
         }
 
-        [TestMethod]
-        public void Write()
+        [SubTestMethod(Limit = 1)]
+        public void Write(ParseResult<AssScriptInfo> file)
         {
-            var sub = Subtitle.Parse<AssScriptInfo>(this.TestHelper.TestFile).Result;
+            var sub = file.Result;
             this.TestHelper.StartTimer();
             for (var i = 0; i < 0xff; i++)
                 sub.Serialize();
