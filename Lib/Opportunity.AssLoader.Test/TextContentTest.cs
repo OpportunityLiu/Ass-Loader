@@ -1,5 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Opportunity.AssLoader;
+using Opportunity.AssLoader.Text;
 using System;
 using System.Linq;
 

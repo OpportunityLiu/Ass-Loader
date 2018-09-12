@@ -60,7 +60,7 @@ K?3ZH_;8I/;PF/G8KOC!A!J%;7&M<W>V:4IA-#QQ/D!Q/D%W,D-V,$![-$![-4EO/$%M4V!N3F!M,$!M
             var bytes = Encoding.UTF8.GetBytes(utf8in.Replace("\r\n", "\n"));
             var writer = new StringWriter();
             UUEncoder.Encode(bytes, writer);
-            Assert.AreEqual(expect, writer.ToString());
+            Assert.That.AreMultiLineStringEquals(expect, writer.ToString());
         }
 
         [DataRow(DATA, BasicTest.DATA)]

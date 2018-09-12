@@ -1,4 +1,5 @@
 ﻿using Opportunity.AssLoader.Serializer;
+using Opportunity.AssLoader.Text;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;

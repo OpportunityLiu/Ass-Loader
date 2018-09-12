@@ -1,4 +1,5 @@
 ﻿using Opportunity.AssLoader.Effects;
+using Opportunity.AssLoader.Text;
 using System;
 using System.Collections.Generic;
 using System.IO;

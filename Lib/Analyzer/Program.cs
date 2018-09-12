@@ -1,4 +1,6 @@
 ﻿using Opportunity.AssLoader;
+using Opportunity.AssLoader.Serializer;
+using Opportunity.AssLoader.Text;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -10,9 +12,13 @@ namespace Analyzer
 {
     internal class Program
     {
-        private enum a
+        private class a : IDeserializeInfo
         {
-            a
+            public void AddException(Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+
         }
         private static int Foo<TEnum>(TEnum value)
             where TEnum : struct, IConvertible  // C# does not allow enum constraint
@@ -27,7 +33,7 @@ namespace Analyzer
             //    var t = Subtitle.Parse<AssScriptInfo>(f);
             //    t.Result.Serialize();
             //}
-
+            TagParser.Parse(@"as".AsSpan(), new a());
             var ssa = Subtitle.Parse(@"[Script Info]
 ; This is a Sub Station Alpha v4 script.
 ; For Sub Station Alpha info and downloads,

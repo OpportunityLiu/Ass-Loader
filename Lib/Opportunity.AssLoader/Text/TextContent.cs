@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Opportunity.AssLoader
+namespace Opportunity.AssLoader.Text
 {
 
     /// <summary>
@@ -28,6 +28,7 @@ namespace Opportunity.AssLoader
         public TextContent(string value)
         {
             value = value ?? "";
+            value.Replace("\\h", "\x00A0");
             if (value.IndexOf('\n') >= 0 || value.IndexOf('\r') >= 0)
             {
                 var s = value.Split(sep, StringSplitOptions.None);
