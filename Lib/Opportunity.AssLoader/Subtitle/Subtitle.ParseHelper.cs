@@ -103,38 +103,45 @@ namespace Opportunity.AssLoader
                     this.handleCurrentLine();
                     this.result.LineNumber++;
                 }
+                endFile();
                 this.result.Freeeze(this.subtitle);
                 return this.result;
             }
 
             private void handleCurrentLine()
             {
-                // Skip empty lines and comment lines.
-                if (this.currentData.IsEmpty || this.currentData[0] == ';')
+                // Skip empty lines
+                if (this.currentData.IsEmpty)
                     return;
 
                 if (this.currentData[0] == '[' && this.currentData[this.currentData.Length - 1] == ']') // Section header
                 {
+                    endFile();
+
                     var secHeader = this.currentData.Slice(1, this.currentData.Length - 2).Trim();
 
-                    if (secHeader.Equals("script info".AsSpan(), StringComparison.OrdinalIgnoreCase)
-                        || secHeader.Equals("scriptinfo".AsSpan(), StringComparison.OrdinalIgnoreCase))
+                    if (secHeader.Equals("Script Info".AsSpan(), StringComparison.OrdinalIgnoreCase)
+                        || secHeader.Equals("ScriptInfo".AsSpan(), StringComparison.OrdinalIgnoreCase))
                         this.section = Section.ScriptInfo;
-                    else if (secHeader.Equals("v4+ styles".AsSpan(), StringComparison.OrdinalIgnoreCase))
+                    else if (secHeader.Equals("V4+ Styles".AsSpan(), StringComparison.OrdinalIgnoreCase))
                         this.section = Section.Styles;
                     else if (false
-                        || secHeader.Equals("v4 styles".AsSpan(), StringComparison.OrdinalIgnoreCase)
-                        || secHeader.Equals("v4styles".AsSpan(), StringComparison.OrdinalIgnoreCase)
-                        || secHeader.Equals("v4 styles+".AsSpan(), StringComparison.OrdinalIgnoreCase)
-                        || secHeader.Equals("v4+styles".AsSpan(), StringComparison.OrdinalIgnoreCase)
-                        || secHeader.Equals("v4styles+".AsSpan(), StringComparison.OrdinalIgnoreCase))
+                        || secHeader.Equals("V4 styles".AsSpan(), StringComparison.OrdinalIgnoreCase)
+                        || secHeader.Equals("V4styles".AsSpan(), StringComparison.OrdinalIgnoreCase)
+                        || secHeader.Equals("V4 styles+".AsSpan(), StringComparison.OrdinalIgnoreCase)
+                        || secHeader.Equals("V4+styles".AsSpan(), StringComparison.OrdinalIgnoreCase)
+                        || secHeader.Equals("V4styles+".AsSpan(), StringComparison.OrdinalIgnoreCase))
                     {
                         this.section = Section.Styles;
                         ((IDeserializeInfo)this.result).AddException(
                             new InvalidOperationException($"Unknown section [{secHeader.ToString()}] found, assume [V4+ Styles]."));
                     }
-                    else if (secHeader.Equals("events".AsSpan(), StringComparison.OrdinalIgnoreCase))
+                    else if (secHeader.Equals("Events".AsSpan(), StringComparison.OrdinalIgnoreCase))
                         this.section = Section.Events;
+                    else if (secHeader.Equals("Fonts".AsSpan(), StringComparison.OrdinalIgnoreCase))
+                        this.section = Section.Fonts;
+                    else if (secHeader.Equals("Graphics".AsSpan(), StringComparison.OrdinalIgnoreCase))
+                        this.section = Section.Graphics;
                     else
                     {
                         this.section = Section.Unknown;
@@ -147,7 +154,7 @@ namespace Opportunity.AssLoader
                     switch (this.section)
                     {
                     case Section.FileHeader:
-                        ((IDeserializeInfo)this.result).AddException(new InvalidOperationException("Content found without a section header."));
+                        ((IDeserializeInfo)this.result).AddException(new InvalidOperationException("Content found without a section header, assume [Script Info]."));
                         goto case Section.ScriptInfo;
                     case Section.ScriptInfo:
                         this.initScriptInfo();
@@ -157,6 +164,10 @@ namespace Opportunity.AssLoader
                         break;
                     case Section.Events:
                         this.initEvent();
+                        break;
+                    case Section.Graphics:
+                    case Section.Fonts:
+                        this.initFile();
                         break;
                     }
                 }
@@ -169,6 +180,8 @@ namespace Opportunity.AssLoader
                 ScriptInfo,
                 Styles,
                 Events,
+                Graphics,
+                Fonts,
             }
 
             private Section section;
@@ -204,6 +217,8 @@ namespace Opportunity.AssLoader
 
             private void initScriptInfo()
             {
+                if (this.currentData[0] == ';')
+                    return;
                 this.subtitle.ScriptInfo.ParseLine(this.currentData, this.result);
             }
 
@@ -229,10 +244,10 @@ namespace Opportunity.AssLoader
 
                     var s = new Style();
                     s.Parse(value, this.styleFormat, this.result);
-                    if (this.subtitle.StyleSet.ContainsName(s.Name))
+                    if (this.subtitle.Styles.ContainsName(s.Name))
                         ((IDeserializeInfo)this.result).AddException(
                             new ArgumentException($"Style with the name \"{s.Name}\" is already in the StyleSet."));
-                    this.subtitle.StyleSet.Add(s);
+                    this.subtitle.Styles.Add(s);
                 }
             }
 
@@ -264,7 +279,85 @@ namespace Opportunity.AssLoader
                     }
                     var sub = new SubEvent { IsComment = isCom };
                     sub.Parse(value, this.eventFormat, this.result);
-                    this.subtitle.EventCollection.Add(sub);
+                    this.subtitle.Events.Add(sub);
+                }
+            }
+
+            private EmbeddedFile currentFile;
+            private UUDecoder currentFileData;
+
+            private void endFile()
+            {
+                if (this.currentFile != null)
+                {
+                    this.currentFile.Data = this.currentFileData.ToArray();
+                    this.currentFile = null;
+                    this.currentFileData = null;
+                }
+            }
+
+            private void initFile()
+            {
+                IDeserializeInfo di = this.result;
+                if (this.currentData[0] <= '`' && this.currentData[0] > ' ')
+                {
+                    // data line
+                    if (this.currentFile is null)
+                    {
+                        di.AddException(new FormatException("Wrong line format."));
+                        return;
+                    }
+                    this.currentFileData.ReadLine(this.currentData);
+                    return;
+                }
+
+                if (!FormatHelper.TryPraseLine(out var key, out var value, this.currentData))
+                {
+                    di.AddException(new FormatException("Wrong line format."));
+                    return;
+                }
+                endFile();
+
+                this.currentFileData = new UUDecoder();
+                if (this.section == Section.Fonts)
+                {
+                    var file = new EmbeddedFont(toValidName(value));
+                    this.currentFile = file;
+                    this.subtitle.Fonts.Add(file);
+                    if (!key.Equals("fontname".AsSpan(), StringComparison.Ordinal))
+                        di.AddException(new FormatException($"Wrong file header `{key.ToString()}` in [Fonts]."));
+                }
+                else // Section.Graphics
+                {
+                    var file = new EmbeddedGraphic(toValidName(value));
+                    this.currentFile = file;
+                    this.subtitle.Graphics.Add(file);
+                    if (!key.Equals("filename".AsSpan(), StringComparison.Ordinal))
+                        di.AddException(new FormatException($"Wrong file header `{key.ToString()}` in [Graphics]."));
+                }
+
+                string toValidName(ReadOnlySpan<char> filename)
+                {
+                    if (filename.IsEmpty)
+                    {
+                        di.AddException(new FormatException($"No file name, use `no name`."));
+                        return "no name";
+                    }
+                    var invch = Path.GetInvalidFileNameChars().AsSpan();
+                    Span<char> fn = stackalloc char[filename.Length];
+                    filename.CopyTo(fn);
+                    var invid = -1;
+                    var setex = false;
+                    while ((invid = fn.IndexOfAny(invch)) >= 0)
+                    {
+                        fn[invid] = '_';
+                        if (!setex)
+                        {
+                            di.AddException(new FormatException($"Invalid file name `{filename.ToString()}`."));
+                            setex = true;
+                        }
+                    }
+                    return fn.ToString();
                 }
             }
         }

@@ -61,7 +61,7 @@ namespace Opportunity.AssLoader.Test
         public void Clone()
         {
             var sub = Subtitle.Parse<AssScriptInfo>(this.TestHelper.TestFile).Result;
-            foreach (var style in sub.StyleSet)
+            foreach (var style in sub.Styles)
             {
                 var clone = style.Clone("Default");
                 Assert.AreEqual("Default", clone.Name);

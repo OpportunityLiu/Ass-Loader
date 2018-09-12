@@ -1,4 +1,5 @@
 ﻿using Opportunity.AssLoader.Collections;
+using Opportunity.AssLoader.Serializer;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -72,5 +73,70 @@ namespace Opportunity.AssLoader
             = DefaultStyleFormat.Select(h => Style.FieldInfo[h]).ToArray();
         internal static readonly FieldSerializeHelper[] DefaultEventDef
             = DefaultEventFormat.Select(h => SubEvent.FieldInfo[h]).ToArray();
+
+        /// <summary>
+        /// Container of information of the "style" section.
+        /// </summary>
+        public StyleSet Styles { get; } = new StyleSet();
+
+        /// <summary>
+        /// Container of information of the "event" section.
+        /// </summary>
+        public EventCollection Events { get; } = new EventCollection();
+
+        /// <summary>
+        /// Container of information of the "event" section.
+        /// </summary>
+        public IList<EmbeddedFont> Fonts { get; } = new List<EmbeddedFont>();
+
+        /// <summary>
+        /// Container of information of the "event" section.
+        /// </summary>
+        public IList<EmbeddedGraphic> Graphics { get; } = new List<EmbeddedGraphic>();
+
+        /// <summary>
+        /// Used to customize serialization. Will be called by <see cref="Serialize(TextWriter)"/> and <see cref="Serialize()"/>.
+        /// </summary>
+        /// <param name="writer">The <see cref="TextWriter"/> to write result to.</param>
+        /// <param name="serializeInfo">Helper interface for serializing.</param>
+        protected abstract void SerializeImplement(TextWriter writer, ISerializeInfo serializeInfo);
+
+        private sealed class SerializeInfo : ISerializeInfo
+        {
+
+        }
+
+        /// <summary>
+        /// Write the ass file to <paramref name="writer"/>.
+        /// </summary>
+        /// <param name="writer">A <see cref="TextWriter"/> to write into.</param>
+        /// <exception cref="ArgumentNullException"><paramref name="writer"/> is null.</exception>
+        public void Serialize(TextWriter writer)
+        {
+            if (writer is null)
+                throw new ArgumentNullException(nameof(writer));
+
+            SerializeImplement(writer, new SerializeInfo());
+            writer.Flush();
+        }
+
+        /// <summary>
+        /// Write the ass file to <see cref="string"/>.
+        /// </summary>
+        /// <returns>A <see cref="string"/> presents the ass file.</returns>
+        public string Serialize()
+        {
+            var predictsize = 500
+                + Styles.Count * 100
+                + Events.Count * 70
+                + Fonts.Sum(f => f?.Data?.Length ?? 0) / 3 * 4
+                + Graphics.Sum(f => f?.Data?.Length ?? 0) / 3 * 4;
+
+            using (var writer = new StringWriter(new StringBuilder(predictsize), FormatHelper.DefaultFormat))
+            {
+                this.Serialize(writer);
+                return writer.ToString();
+            }
+        }
     }
 }

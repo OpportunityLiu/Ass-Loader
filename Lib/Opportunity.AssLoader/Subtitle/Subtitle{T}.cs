@@ -1,4 +1,5 @@
 ﻿using Opportunity.AssLoader.Collections;
+using Opportunity.AssLoader.Serializer;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -42,35 +43,11 @@ namespace Opportunity.AssLoader
             scriptInfo.Parent = this;
         }
 
-        /// <summary>
-        /// Write the ass file to <paramref name="writer"/>.
-        /// </summary>
-        /// <param name="writer">A <see cref="TextWriter"/> to write into.</param>
-        /// <exception cref="ArgumentNullException"><paramref name="writer"/> is null.</exception>
-        public void Serialize(TextWriter writer)
-        {
-            if (writer is null)
-                throw new ArgumentNullException(nameof(writer));
-
-            writer.WriteLine("[Script Info]");
-            this.ScriptInfo.Serialize(writer, null);
-            writer.WriteLine();
-
-            writer.WriteLine("[V4+ Styles]");
-            this.saveStyle(writer);
-            writer.WriteLine();
-
-            writer.WriteLine("[Events]");
-            this.saveEvent(writer);
-
-            writer.Flush();
-        }
-
         private void saveStyle(TextWriter writer)
         {
             EntryHeader.Serialize(DefaultStyleFormat, writer);
             writer.WriteLine();
-            foreach (var item in this.StyleSet)
+            foreach (var item in this.Styles)
             {
                 item.Serialize(writer, DefaultStyleDef, null);
                 writer.WriteLine();
@@ -81,7 +58,7 @@ namespace Opportunity.AssLoader
         {
             EntryHeader.Serialize(DefaultEventFormat, writer);
             writer.WriteLine();
-            foreach (var item in this.EventCollection)
+            foreach (var item in this.Events)
             {
                 item.Serialize(writer, DefaultEventDef, null);
                 writer.WriteLine();
@@ -89,15 +66,42 @@ namespace Opportunity.AssLoader
         }
 
         /// <summary>
-        /// Write the ass file to <see cref="string"/>.
+        /// Default implementation.
         /// </summary>
-        /// <returns>A <see cref="string"/> presents the ass file.</returns>
-        public string Serialize()
+        /// <param name="writer">The <see cref="TextWriter"/> to write result to.</param>
+        /// <param name="serializeInfo">Helper interface for serializing.</param>
+        protected override void SerializeImplement(TextWriter writer, ISerializeInfo serializeInfo)
         {
-            using (var writer = new StringWriter(new StringBuilder((StyleSet.Count + EventCollection.Count) * 50), FormatHelper.DefaultFormat))
+            writer.WriteLine("[Script Info]");
+            this.ScriptInfo.Serialize(writer, null);
+            writer.WriteLine();
+
+            writer.WriteLine("[V4+ Styles]");
+            this.saveStyle(writer);
+            writer.WriteLine();
+
+            writer.WriteLine("[Events]");
+            this.saveEvent(writer);
+            writer.WriteLine();
+
+            if (!Fonts.IsEmpty())
             {
-                this.Serialize(writer);
-                return writer.ToString();
+                writer.WriteLine("[Fonts]");
+                foreach (var item in Fonts)
+                {
+                    item.Serialize(writer, serializeInfo);
+                }
+                writer.WriteLine();
+            }
+
+            if (!Graphics.IsEmpty())
+            {
+                writer.WriteLine("[Graphics]");
+                foreach (var item in Graphics)
+                {
+                    item.Serialize(writer, serializeInfo);
+                }
+                writer.WriteLine();
             }
         }
 
@@ -105,15 +109,5 @@ namespace Opportunity.AssLoader
         /// Container of information of the "script info" section.
         /// </summary>
         public TScriptInfo ScriptInfo { get; }
-
-        /// <summary>
-        /// Container of information of the "style" section.
-        /// </summary>
-        public StyleSet StyleSet { get; } = new StyleSet();
-
-        /// <summary>
-        /// Container of information of the "event" section.
-        /// </summary>
-        public EventCollection EventCollection { get; } = new EventCollection();
     }
 }

@@ -22,10 +22,10 @@ namespace Opportunity.AssLoader.Test
         public void Parse(string data)
         {
             var file = Parse<AssScriptInfo>(data);
-            Assert.AreEqual(file.Result.ScriptInfo.UndefinedFields.Count + file.Result.EventCollection.Count(e => e.Effect is UnknownEffect), file.Exceptions.Where(ex => ex.Message != "Unknown section [Aegisub Project Garbage] found.").Count());
+            Assert.AreEqual(file.Result.ScriptInfo.UndefinedFields.Count + file.Result.Events.Count(e => e.Effect is UnknownEffect), file.Exceptions.Where(ex => ex.Message != "Unknown section [Aegisub Project Garbage] found.").Count());
             var str = file.Result.Serialize();
             var file2 = Parse<AssScriptInfo>(str);
-            Assert.AreEqual(file2.Result.ScriptInfo.UndefinedFields.Count + file2.Result.EventCollection.Count(e => e.Effect is UnknownEffect), file2.Exceptions.Count);
+            Assert.AreEqual(file2.Result.ScriptInfo.UndefinedFields.Count + file2.Result.Events.Count(e => e.Effect is UnknownEffect), file2.Exceptions.Count);
             var str2 = file2.Result.Serialize();
             Assert.AreEqual(str, str2);
         }

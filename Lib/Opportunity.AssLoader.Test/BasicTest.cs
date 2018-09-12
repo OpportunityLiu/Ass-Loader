@@ -50,6 +50,23 @@ Dialogue: 0,0:00:00.43,0:00:15.85,OP-JP,,0,0,0,aaa;bbb;ccc,{\be5\blur2\fad(150,2
 Dialogue: 0,0:00:00.43,0:00:15.85,OP-CH,,0,0,0,Banner;12.7;1;-1.7,{\be5\blur2\fad(150,200)}仰望天空的太阳, 今天也无比闪耀
 Dialogue: 0,0:00:16.35,0:00:19.81,OP-JP,,0,0,0,,{\be5\blur2\fad(150,200)}だから Go my way
 Dialogue: 0,0:00:16.35,0:00:19.81,OP-CH,,0,0,0,,{\be5\blur2\fad(150,200)}来吧 Go my way
+
+[Fonts]
+fontname: name.bmp
+97*D:!
+fontname: name (2).bmp
+97*D:'5
+fontname: 中日韩.bmp
+97*D:'6G
+
+[Graphics]
+filename: No Extenion
+97*D:!
+filename: spac   es.png
+97*D:'5
+filename: dd.f.ff.jpg
+97*D:'6G
+
 ";
 
         [TestMethod]
@@ -58,16 +75,16 @@ Dialogue: 0,0:00:16.35,0:00:19.81,OP-CH,,0,0,0,,{\be5\blur2\fad(150,200)}来吧 
             var r = Subtitle.Parse(DATA);
             var t = r.Result;
             Assert.AreEqual(5, r.Exceptions.Count);
-            Assert.AreEqual(7, t.StyleSet.Count);
+            Assert.AreEqual(7, t.Styles.Count);
 
-            var e = t.EventCollection.Select(ef => ef.Effect).ToArray();
+            var e = t.Events.Select(ef => ef.Effect).ToArray();
             Assert.IsNull(e[2]);
             Assert.AreEqual("aaa", ((UnknownEffect)e[0]).Name);
             Assert.AreEqual(12.7, ((BannerEffect)e[1]).Delay);
             Assert.IsTrue(((BannerEffect)e[1]).IsLeftToRight);
             Assert.AreEqual(-1.7, ((BannerEffect)e[1]).FadeAwayMargin);
             Assert.AreEqual(4, t.ScriptInfo.UndefinedFields.Count);
-            Assert.AreEqual(4, t.EventCollection.Count);
+            Assert.AreEqual(4, t.Events.Count);
         }
 
         private sealed class CustomScriptInfo : AssScriptInfo

@@ -11,10 +11,10 @@ namespace Opportunity.AssLoader.Test
         [FileTestMethod]
         public void CommentAll(Subtitle<AssScriptInfo> sub)
         {
-            foreach (var item in sub.EventCollection)
+            foreach (var item in sub.Events)
                 item.IsComment = true;
             var x = Subtitle.Parse<AssScriptInfo>(sub.Serialize()).Result;
-            var c = from ev in x.EventCollection
+            var c = from ev in x.Events
                     select ev.IsComment;
             CollectionAssert.DoesNotContain(c.ToList(), false);
         }
@@ -22,10 +22,10 @@ namespace Opportunity.AssLoader.Test
         [FileTestMethod]
         public void DecommentAll(Subtitle<AssScriptInfo> sub)
         {
-            foreach (var item in sub.EventCollection)
+            foreach (var item in sub.Events)
                 item.IsComment = false;
             var x = Subtitle.Parse<AssScriptInfo>(sub.Serialize()).Result;
-            var c = from ev in x.EventCollection
+            var c = from ev in x.Events
                     select ev.IsComment;
             CollectionAssert.DoesNotContain(c.ToList(), true);
         }
@@ -33,7 +33,7 @@ namespace Opportunity.AssLoader.Test
         [FileTestMethod]
         public void Clone(Subtitle<AssScriptInfo> sub)
         {
-            foreach (var subeve in sub.EventCollection)
+            foreach (var subeve in sub.Events)
             {
                 var clone = subeve.Clone();
                 Assert.AreEqual(subeve.StartTime, clone.StartTime);
