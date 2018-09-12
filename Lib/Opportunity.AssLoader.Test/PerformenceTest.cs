@@ -20,10 +20,9 @@ namespace Opportunity.AssLoader.Test
             this.TestHelper.EndTimer();
         }
 
-        [SubTestMethod(Limit = 1)]
-        public void Write(ParseResult<AssScriptInfo> file)
+        [FileTestMethod(Limit = 1)]
+        public void Write(Subtitle<AssScriptInfo> sub)
         {
-            var sub = file.Result;
             this.TestHelper.StartTimer();
             for (var i = 0; i < 0xff; i++)
                 sub.Serialize();

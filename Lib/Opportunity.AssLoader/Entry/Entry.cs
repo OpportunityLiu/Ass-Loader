@@ -35,19 +35,26 @@ namespace Opportunity.AssLoader
             {
                 if (i != 0)
                     writer.Write(',');
-                fieldInfo[i].Serialize(writer, this, serializeInfo);
+                var fi = fieldInfo[i];
+                if (fi != null)
+                    fi.Serialize(writer, this, serializeInfo);
             }
         }
 
         internal void Parse(ReadOnlySpan<char> fields, FieldSerializeHelper[] fieldInfo, IDeserializeInfo deserializeInfo)
         {
-            var data = EntryParser.Parse(fields, fieldInfo.Length);
-            if (data.Length < fieldInfo.Length)
-                deserializeInfo.AddException(new FormatException($"Not enough fields, need {fieldInfo.Length}, provided {data.Length}"));
-            for (var i = 0; i < data.Length; i++)
+            var i = 0;
+            foreach (var item in fields.Split(',', fieldInfo.Length))
             {
-                fieldInfo[i].Deserialize(data[i].AsSpan(), this, deserializeInfo);
+                var field = item.Trim();
+                var fi = fieldInfo[i];
+                if (fi != null)
+                    fi.Deserialize(field, this, deserializeInfo);
+                i++;
             }
+
+            if (i < fieldInfo.Length)
+                deserializeInfo.AddException(new FormatException($"Not enough fields, need {fieldInfo.Length}, provided {i}"));
         }
     }
 }

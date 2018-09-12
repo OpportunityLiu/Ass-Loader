@@ -1,34 +1,4 @@
-Ôªøusing Opportunity.AssLoader;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Analyzer
-{
-    internal class Program
-    {
-        private enum a
-        {
-            a
-        }
-        private static int Foo<TEnum>(TEnum value)
-            where TEnum : struct, IConvertible  // C# does not allow enum constraint
-        {
-            return value.ToInt32(null);
-        }
-        private static void Main(string[] args)
-        {
-            //var f = File.ReadAllText(@"..\..\..\TestFiles\Upotte[02].ass");
-            //for (var i = 0; i < 0xffff; i++)
-            //{
-            //    var t = Subtitle.Parse<AssScriptInfo>(f);
-            //    t.Result.Serialize();
-            //}
-
-            var ssa = Subtitle.Parse(@"[Script Info]
+[Script Info]
 ; This is a Sub Station Alpha v4 script.
 ; For Sub Station Alpha info and downloads,
 ; go to http://www.eswat.demon.co.uk/
@@ -109,13 +79,9 @@ Dialogue: Marked=0,0:01:38.00,0:01:48.00,MainB,,0000,0000,0000,!Effect,{\q1}Kara
 Dialogue: Marked=0,0:01:40.00,0:01:45.00,Karaoke,,0000,0000,0000,Karaoke,{\fs18\k100}one {\k100}two {\k50}three-{\k50}and {\k100}four
 Dialogue: Marked=0,0:01:40.00,0:01:45.00,Karaoke,,0000,0000,0030,Karaoke,{\fs18\K100}one {\K100}two {\K50}three-{\K50}and {\K100}four
 Dialogue: Marked=0,0:01:50.00,0:02:00.00,MainB,,0000,0000,0000,!Effect,{\q1}DBCS (double-byte character set) support\N\NIf you have the appropriate language support installed, you can display far-east text in your subtitles. (By the way, I don't really know Japanese, so I'm kind of winged it above with the JWPce dictionary.)
-Dialogue: Marked=0,0:01:50.00,0:02:00.00,ShiftJIS,,0000,0000,0000,!Effect,{\q1}{\fe0}[Keitarou]{\fe128}„Å†„ÄÇ„ÄÇ„ÄÇÂ§ß‰∏àÂ§´Ôºü
-Dialogue: Marked=0,0:01:52.00,0:02:00.00,ShiftJIS,,0000,0000,0000,!Effect,{\a7\q1\c&HFFFF00&\fe0}[Naru]{\fe128}‰Ωï„ÇàÔºÅ
+Dialogue: Marked=0,0:01:50.00,0:02:00.00,ShiftJIS,,0000,0000,0000,!Effect,{\q1}{\fe0}[Keitarou]{\fe128}ÇæÅBÅBÅBëÂè‰ïvÅH
+Dialogue: Marked=0,0:01:52.00,0:02:00.00,ShiftJIS,,0000,0000,0000,!Effect,{\a7\q1\c&HFFFF00&\fe0}[Naru]{\fe128}âΩÇÊÅI
 Dialogue: Marked=0,0:02:02.00,0:02:17.00,MainB,,0000,0000,0000,!Effect,{\q1}Motion effects\N\NYou can scroll text in like a banner, or up the screen.
 Dialogue: Marked=0,0:02:02.00,0:02:17.00,MainT,,0000,0000,0000,Banner;30,Text is fun.  We like scrolling text.
 Dialogue: Marked=0,0:02:02.00,0:02:17.00,MainT,,0000,0000,0000,Scroll Up;40;50;120,{\q1}You can scroll lots of text up this way. Personally, I find it a little annoying to have a lot of text coming up very slowly on screen, but it's a useful technique to have for credits and other long lists in tabular form.
 Dialogue: Marked=0,0:02:19.00,0:02:50.00,MainB,,0000,0000,0000,!Effect,{\q1}Conclusion\N\NThat concludes the demo. I hope you've enjoyed the brief glimpse I've given you here, and encourage you to read the {\fnCourier New\b1}readme.txt{\r} file for more information on the effects you've seen here. Also, if you're bored, try loading this script into Kotus' Sub Station Alpha V4 program. Not all effects will render correctly, but most of the file will. Have fun, and keep on subtitling!\N\N{\fnCourier New}--{\r}Avery Lee <phaeron@virtualdub.org>\N{\fnCourier New}\h\h{\r}Author of VirtualDub and the 'subtitler' filter
-");
-        }
-    }
-}

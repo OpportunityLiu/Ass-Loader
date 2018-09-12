@@ -18,25 +18,16 @@ namespace Opportunity.AssLoader.Test
             var t = Parse<AssScriptInfo>("");
         }
 
-        [TestMethod]
-        public void Parse()
+        [FileTestMethod]
+        public void Parse(string data)
         {
-            foreach (var item in this.TestHelper.LoadTestFiles())
-            {
-                try
-                {
-                    var file = Parse<AssScriptInfo>(item.Value).Result;
-                    var str = file.Serialize();
-                    var file2 = Parse<AssScriptInfo>(str);
-                    Assert.AreEqual(file2.Result.ScriptInfo.UndefinedFields.Count + file2.Result.EventCollection.Count(e => e.Effect is UnknownEffect), file2.Exceptions.Count);
-                    var str2 = file2.Result.Serialize();
-                    Assert.AreEqual(str, str2);
-                }
-                catch (Exception ex)
-                {
-                    throw new Exception(item.Key, ex);
-                }
-            }
+            var file = Parse<AssScriptInfo>(data);
+            Assert.AreEqual(file.Result.ScriptInfo.UndefinedFields.Count + file.Result.EventCollection.Count(e => e.Effect is UnknownEffect), file.Exceptions.Where(ex => ex.Message != "Unknown section [Aegisub Project Garbage] found.").Count());
+            var str = file.Result.Serialize();
+            var file2 = Parse<AssScriptInfo>(str);
+            Assert.AreEqual(file2.Result.ScriptInfo.UndefinedFields.Count + file2.Result.EventCollection.Count(e => e.Effect is UnknownEffect), file2.Exceptions.Count);
+            var str2 = file2.Result.Serialize();
+            Assert.AreEqual(str, str2);
         }
     }
 }

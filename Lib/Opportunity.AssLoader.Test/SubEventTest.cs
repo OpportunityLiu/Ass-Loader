@@ -8,34 +8,31 @@ namespace Opportunity.AssLoader.Test
 {
     public class SubEventTest : TestBase
     {
-        [SubTestMethod]
-        public void CommentAll(ParseResult<AssScriptInfo> file)
+        [FileTestMethod]
+        public void CommentAll(Subtitle<AssScriptInfo> sub)
         {
-            var t = file.Result;
-            foreach (var item in t.EventCollection)
+            foreach (var item in sub.EventCollection)
                 item.IsComment = true;
-            var x = Subtitle.Parse<AssScriptInfo>(t.Serialize()).Result;
+            var x = Subtitle.Parse<AssScriptInfo>(sub.Serialize()).Result;
             var c = from ev in x.EventCollection
                     select ev.IsComment;
             CollectionAssert.DoesNotContain(c.ToList(), false);
         }
 
-        [SubTestMethod]
-        public void DecommentAll(ParseResult<AssScriptInfo> file)
+        [FileTestMethod]
+        public void DecommentAll(Subtitle<AssScriptInfo> sub)
         {
-            var t = file.Result;
-            foreach (var item in t.EventCollection)
+            foreach (var item in sub.EventCollection)
                 item.IsComment = false;
-            var x = Subtitle.Parse<AssScriptInfo>(t.Serialize()).Result;
+            var x = Subtitle.Parse<AssScriptInfo>(sub.Serialize()).Result;
             var c = from ev in x.EventCollection
                     select ev.IsComment;
             CollectionAssert.DoesNotContain(c.ToList(), true);
         }
 
-        [SubTestMethod]
-        public void Clone(ParseResult<AssScriptInfo> file)
+        [FileTestMethod]
+        public void Clone(Subtitle<AssScriptInfo> sub)
         {
-            var sub = file.Result;
             foreach (var subeve in sub.EventCollection)
             {
                 var clone = subeve.Clone();

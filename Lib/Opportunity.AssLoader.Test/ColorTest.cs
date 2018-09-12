@@ -56,7 +56,7 @@ namespace Opportunity.AssLoader.Test
                 var va = (byte)i;
                 var c = raCo();
                 byte r = c.Red, g = c.Green, b = c.Blue, t = c.Transparency;
-                c.Red = va;
+                c = c.With(red: va);
                 Assert.AreEqual(va, c.Red);
                 Assert.AreEqual(g, c.Green);
                 Assert.AreEqual(b, c.Blue);
@@ -68,7 +68,7 @@ namespace Opportunity.AssLoader.Test
                 var va = (byte)i;
                 var c = raCo();
                 byte r = c.Red, g = c.Green, b = c.Blue, t = c.Transparency;
-                c.Green = va;
+                c = c.With(green: va);
                 Assert.AreEqual(r, c.Red);
                 Assert.AreEqual(va, c.Green);
                 Assert.AreEqual(b, c.Blue);
@@ -80,7 +80,7 @@ namespace Opportunity.AssLoader.Test
                 var va = (byte)i;
                 var c = raCo();
                 byte r = c.Red, g = c.Green, b = c.Blue, t = c.Transparency;
-                c.Blue = va;
+                c = c.With(blue: va);
                 Assert.AreEqual(r, c.Red);
                 Assert.AreEqual(g, c.Green);
                 Assert.AreEqual(va, c.Blue);
@@ -92,23 +92,11 @@ namespace Opportunity.AssLoader.Test
                 var va = (byte)i;
                 var c = raCo();
                 byte r = c.Red, g = c.Green, b = c.Blue, t = c.Transparency;
-                c.Transparency = va;
+                c = c.With(transparency: va);
                 Assert.AreEqual(r, c.Red);
                 Assert.AreEqual(g, c.Green);
                 Assert.AreEqual(b, c.Blue);
                 Assert.AreEqual(va, c.Transparency);
-                Assert.AreEqual(255, c.Transparency + c.Alpha);
-            }
-            for (var i = 0; i < 256; i++)
-            {
-                var va = (byte)i;
-                var c = raCo();
-                byte r = c.Red, g = c.Green, b = c.Blue, t = c.Transparency;
-                c.Alpha = va;
-                Assert.AreEqual(r, c.Red);
-                Assert.AreEqual(g, c.Green);
-                Assert.AreEqual(b, c.Blue);
-                Assert.AreEqual(va, c.Alpha);
                 Assert.AreEqual(255, c.Transparency + c.Alpha);
             }
         }

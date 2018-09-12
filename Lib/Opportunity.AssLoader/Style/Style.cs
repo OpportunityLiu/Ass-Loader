@@ -136,7 +136,7 @@ namespace Opportunity.AssLoader
         }
 
         [ColorSerialize]
-        [EntryField("OutlineColour")]
+        [EntryField("OutlineColour", Alias = "TertiaryColour")]
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         private Color outlineColor;
 
@@ -172,7 +172,7 @@ namespace Opportunity.AssLoader
         /// </summary>
         public bool Bold
         {
-            get => this.bold == -1;
+            get => this.bold != 0;
             set => this.bold = value ? -1 : 0;
         }
 
@@ -185,7 +185,7 @@ namespace Opportunity.AssLoader
         /// </summary>
         public bool Italic
         {
-            get => this.italic == -1;
+            get => this.italic != 0;
             set => this.italic = value ? -1 : 0;
         }
 
@@ -198,7 +198,7 @@ namespace Opportunity.AssLoader
         /// </summary>
         public bool Underline
         {
-            get => this.underline == -1;
+            get => this.underline != 0;
             set => this.underline = value ? -1 : 0;
         }
 
@@ -211,7 +211,7 @@ namespace Opportunity.AssLoader
         /// </summary>
         public bool StrikeOut
         {
-            get => this.strikeOut == -1;
+            get => this.strikeOut != 0;
             set => this.strikeOut = value ? -1 : 0;
         }
 

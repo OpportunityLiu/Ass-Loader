@@ -10,19 +10,24 @@ using ScriptInfoSerializeHelper
 
 namespace Opportunity.AssLoader
 {
+    public partial class Subtitle
+    {
+        internal abstract Dictionary<string, ScriptInfoSerializeHelper> ScriptInfoFields { get; }
+    }
+
     /// <summary>
     /// Subtitle file.
     /// </summary>
     /// <typeparam name="TScriptInfo">
     /// Type of the container of the "script info" section of the ass file.
     /// </typeparam>
-    public class Subtitle<TScriptInfo> : ISubtitle
+    public class Subtitle<TScriptInfo> : Subtitle
         where TScriptInfo : ScriptInfoCollection
     {
         private static readonly Dictionary<string, ScriptInfoSerializeHelper> ScriptInfoFieldsStatic
             = ScriptInfoSerializeHelper.GetScriptInfoFields(typeof(TScriptInfo));
 
-        Dictionary<string, ScriptInfoSerializeHelper> ISubtitle.ScriptInfoFields => ScriptInfoFieldsStatic;
+        internal sealed override Dictionary<string, ScriptInfoSerializeHelper> ScriptInfoFields => ScriptInfoFieldsStatic;
 
         /// <summary>
         /// Create a new instance of <see cref="Subtitle{TScriptInfo}"/>.
@@ -63,22 +68,22 @@ namespace Opportunity.AssLoader
 
         private void saveStyle(TextWriter writer)
         {
-            EntryParser.Serialize(Subtitle.DefaultStyleFormat, writer);
+            EntryHeader.Serialize(DefaultStyleFormat, writer);
             writer.WriteLine();
             foreach (var item in this.StyleSet)
             {
-                item.Serialize(writer, Subtitle.DefaultStyleDef, null);
+                item.Serialize(writer, DefaultStyleDef, null);
                 writer.WriteLine();
             }
         }
 
         private void saveEvent(TextWriter writer)
         {
-            EntryParser.Serialize(Subtitle.DefaultEventFormat, writer);
+            EntryHeader.Serialize(DefaultEventFormat, writer);
             writer.WriteLine();
             foreach (var item in this.EventCollection)
             {
-                item.Serialize(writer, Subtitle.DefaultEventDef, null);
+                item.Serialize(writer, DefaultEventDef, null);
                 writer.WriteLine();
             }
         }

@@ -110,6 +110,7 @@ namespace Opportunity.AssLoader
 
                     this.current = this.remain.Slice(0, brindex);
                     this.remain = this.remain.Slice(brindex + 1);
+                    this.state++;
                     return true;
                 }
 

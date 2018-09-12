@@ -41,7 +41,7 @@ namespace Opportunity.AssLoader
             }
         }
 
-        internal ISubtitle Parent;
+        internal Subtitle Parent;
 
         /// <summary>
         /// Create new instance of <see cref="ScriptInfoCollection"/>.

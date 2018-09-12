@@ -9,107 +9,73 @@ namespace Opportunity.AssLoader
     /// <summary>
     /// Presents a certain color with red, green, blue and transparency channel.
     /// </summary>
-    public struct Color : IEquatable<Color>
+    public readonly struct Color : IEquatable<Color>
     {
-        internal static Color FromUInt32(uint color) => new Color { data = color };
+        internal static Color FromUInt32(uint color) => new Color(color);
+        private Color(uint data) => this.data = data;
+
+        /// <summary>
+        /// Modify the <see cref="Color"/> with given values of channels.
+        /// </summary>
+        /// <param name="transparency"><see cref="Transparency"/> of the <see cref="Color"/>, <see langword="null"/> for current value.</param>
+        /// <param name="red"><see cref="Red"/> of the <see cref="Color"/>, <see langword="null"/> for current value.</param>
+        /// <param name="green"><see cref="Green"/> of the <see cref="Color"/>, <see langword="null"/> for current value.</param>
+        /// <param name="blue"><see cref="Blue"/> of the <see cref="Color"/>, <see langword="null"/> for current value.</param>
+        /// <returns>The <see cref="Color"/> with given values of channels modified.</returns>
+        public Color With(byte? red = default, byte? green = default, byte? blue = default, byte? transparency = default)
+        {
+            unchecked
+            {
+                var data = this.data;
+                if (red.HasValue)
+                {
+                    data &= rFliter;
+                    data |= ((uint)red << rOffset);
+                }
+                if (green.HasValue)
+                {
+                    data &= gFliter;
+                    data |= ((uint)green << gOffset);
+                }
+                if (blue.HasValue)
+                {
+                    data &= bFliter;
+                    data |= ((uint)blue << bOffset);
+                }
+                if (transparency.HasValue)
+                {
+                    data &= tFliter;
+                    data |= ((uint)transparency << tOffset);
+                }
+                return new Color(data);
+            }
+        }
 
         /// <summary>
         /// Red channel of the <see cref="Color"/>.
         /// </summary>
-        public byte Red
-        {
-            get
-            {
-                unchecked
-                {
-                    return (byte)((this.data & rMask) >> rOffset);
-                }
-            }
-            set
-            {
-                unchecked
-                {
-                    this.data &= rFliter;
-                    this.data |= ((uint)value << rOffset);
-                }
-            }
-        }
+        public byte Red => unchecked((byte)((this.data & rMask) >> rOffset));
 
         /// <summary>
         /// Green channel of the <see cref="Color"/>.
         /// </summary>
-        public byte Green
-        {
-            get
-            {
-                unchecked
-                {
-                    return (byte)((this.data & gMask) >> gOffset);
-                }
-            }
-            set
-            {
-                unchecked
-                {
-                    this.data &= gFliter;
-                    this.data |= ((uint)value << gOffset);
-                }
-            }
-        }
+        public byte Green => unchecked((byte)((this.data & gMask) >> gOffset));
 
         /// <summary>
         /// Blue channel of the <see cref="Color"/>.
         /// </summary>
-        public byte Blue
-        {
-            get
-            {
-                unchecked
-                {
-                    return (byte)((this.data & bMask) >> bOffset);
-                }
-            }
-            set
-            {
-                unchecked
-                {
-                    this.data &= bFliter;
-                    this.data |= ((uint)value << bOffset);
-                }
-            }
-        }
+        public byte Blue => unchecked((byte)((this.data & bMask) >> bOffset));
 
         /// <summary>
         /// Transparency channel of the <see cref="Color"/>, 255 for fully-transparent and 0 for non-transparent.
         /// </summary>
-        public byte Transparency
-        {
-            get
-            {
-                unchecked
-                {
-                    return (byte)((this.data & tMask) >> tOffset);
-                }
-            }
-            set
-            {
-                unchecked
-                {
-                    this.data &= tFliter;
-                    this.data |= ((uint)value << tOffset);
-                }
-            }
-        }
+        public byte Transparency => unchecked((byte)((this.data & tMask) >> tOffset));
 
         /// <summary>
         /// Alpha channel of the <see cref="Color"/>, 0 for fully-transparent and 255 for non-transparent.
         /// </summary>
         /// <seealso cref="Transparency"/>
-        public byte Alpha
-        {
-            get => (byte)~this.Transparency;
-            set => this.Transparency = (byte)~value;
-        }
+        public byte Alpha => (byte)~this.Transparency;
 
         private const uint tFliter = 0x00FFFFFF;
         private const uint bFliter = 0xFF00FFFF;
@@ -126,7 +92,7 @@ namespace Opportunity.AssLoader
         private const int gOffset = 8;
         private const int rOffset = 0;
 
-        private uint data;
+        private readonly uint data;
 
         /// <summary>
         /// Returns the string form of the <see cref="Color"/> in the ass file.
@@ -225,10 +191,7 @@ namespace Opportunity.AssLoader
         {
             unchecked
             {
-                return new Color()
-                {
-                    data = (((uint)(~alpha) << tOffset) | ((uint)red << rOffset) | ((uint)green << gOffset) | ((uint)blue << bOffset))
-                };
+                return new Color(((uint)(~alpha) << tOffset) | ((uint)red << rOffset) | ((uint)green << gOffset) | ((uint)blue << bOffset));
             }
         }
     }

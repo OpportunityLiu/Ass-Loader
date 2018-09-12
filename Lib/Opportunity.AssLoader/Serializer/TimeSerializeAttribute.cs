@@ -12,7 +12,7 @@ namespace Opportunity.AssLoader.Serializer
     /// <summary>
     /// Custom serializer for <see cref="TimeSpan"/>.
     /// </summary>
-    [AttributeUsage(AttributeTargets.Field, AllowMultiple = false, Inherited = true)]
+    [AttributeUsage(AttributeTargets.Field | AttributeTargets.Property, AllowMultiple = false, Inherited = true)]
     public sealed class TimeSerializeAttribute : SerializeAttribute
     {
         private const long TICKS_PER_HS = 100000;
@@ -78,35 +78,42 @@ namespace Opportunity.AssLoader.Serializer
         /// <exception cref="FormatException"><paramref name="value"/> is not a valid time string which is of an "h:mm:ss.ff" format.</exception>
         public override object Deserialize(ReadOnlySpan<char> value, IDeserializeInfo deserializeInfo)
         {
-            long h = 0, ths = 0;
-            int m = 0, s = 0;
+            long ths = 0, h = 0, m = 0, s = 0;
 
             var s1 = value.IndexOf(':');
             if (s1 < 0)
-                goto Error;
+                goto ParseSec;
             var t1 = value.Slice(0, s1);
-            if (!long.TryParse(t1.ToString(), NumberStyles.Any, FormatHelper.DefaultFormat, out h))
+            if (!tryParse(t1, out h))
                 goto Error;
-
             value = value.Slice(s1 + 1);
+
             var s2 = value.IndexOf(':');
             if (s2 < 0)
-                goto Error;
+            {
+                m = h;
+                h = 0;
+                goto ParseSec;
+            }
             var t2 = value.Slice(0, s2);
-            if (!int.TryParse(t2.ToString(), NumberStyles.Any, FormatHelper.DefaultFormat, out m))
+            if (!tryParse(t2, out m))
                 goto Error;
 
             value = value.Slice(s2 + 1);
+
+            ParseSec:
             var s3 = value.IndexOfAny(':', '.');
             var t3 = (s3 >= 0) ? value.Slice(0, s3) : value;
 
-            if (!int.TryParse(t3.ToString(), NumberStyles.Any, FormatHelper.DefaultFormat, out s))
+            if (!tryParse(t3, out s))
                 goto Error;
 
             if (s3 < 0)
                 goto Success;
 
             value = value.Slice(s3 + 1);
+            if (value.IsEmpty)
+                goto Success;
             var ee = TICKS_PER_SEC;
             foreach (var ch in value)
             {
@@ -117,14 +124,30 @@ namespace Opportunity.AssLoader.Serializer
 
                 ee /= 10;
                 ths += (ch - '0') * ee;
-
             }
 
             goto Success;
+
             Error:
             deserializeInfo.AddException(new FormatException("wrong time format"));
             Success:
             return new TimeSpan(ths + s * TICKS_PER_SEC + m * TICKS_PER_MIN + h * TICKS_PER_HR);
+        }
+
+        private static bool tryParse(ReadOnlySpan<char> str, out long var)
+        {
+            var = 0;
+            foreach (var ch in str)
+            {
+                if (char.IsWhiteSpace(ch))
+                    continue;
+                if ('0' > ch || ch > '9')
+                    return false;
+
+                var *= 10;
+                var += (ch - '0');
+            }
+            return true;
         }
     }
 }

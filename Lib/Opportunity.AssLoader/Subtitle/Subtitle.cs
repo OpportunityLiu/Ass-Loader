@@ -11,10 +11,12 @@ using FieldSerializeHelper
 namespace Opportunity.AssLoader
 {
     /// <summary>
-    /// The static class contains methods to get instances of <see cref="Subtitle{TScriptInfo}"/> from ass files.
+    /// The abstract class contains methods to get instances of <see cref="Subtitle{TScriptInfo}"/> from ass files.
     /// </summary>
-    public static partial class Subtitle
+    public abstract partial class Subtitle
     {
+        internal Subtitle() { }
+
         /// <summary>
         /// Parse the <see cref="string"/> of ass file.
         /// </summary>
@@ -61,10 +63,10 @@ namespace Opportunity.AssLoader
         }
 
         internal static readonly string[] DefaultStyleFormat
-            = EntryParser.ParseHeader("Name,Fontname,Fontsize,PrimaryColour,SecondaryColour,OutlineColour,BackColour,Bold,Italic,Underline,StrikeOut,ScaleX,ScaleY,Spacing,Angle,BorderStyle,Outline,Shadow,Alignment,MarginL,MarginR,MarginV,Encoding".AsSpan());
+            = EntryHeader.Parse("Name,Fontname,Fontsize,PrimaryColour,SecondaryColour,OutlineColour,BackColour,Bold,Italic,Underline,StrikeOut,ScaleX,ScaleY,Spacing,Angle,BorderStyle,Outline,Shadow,Alignment,MarginL,MarginR,MarginV,Encoding");
 
         internal static readonly string[] DefaultEventFormat
-            = EntryParser.ParseHeader("Layer,Start,End,Style,Name,MarginL,MarginR,MarginV,Effect,Text".AsSpan());
+            = EntryHeader.Parse("Layer,Start,End,Style,Name,MarginL,MarginR,MarginV,Effect,Text");
 
         internal static readonly FieldSerializeHelper[] DefaultStyleDef
             = DefaultStyleFormat.Select(h => Style.FieldInfo[h]).ToArray();
