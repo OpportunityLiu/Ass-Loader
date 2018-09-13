@@ -11,29 +11,29 @@ namespace Opportunity.AssLoader.Test
     [TestClass]
     public class EffectTest : TestBase
     {
+        [EffectDefination("TestName")]
         public class E : Effect
         {
-            public override string Name => "TestName";
         }
 
+        [EffectDefination("TestName")]
         public class E2 : Effect
         {
-            public override string Name => "TestName";
         }
 
+        [EffectDefination("  ss  ")]
         public class WN1 : Effect
         {
-            public override string Name => "  ss  ";
         }
 
+        [EffectDefination("1221;3")]
         public class WN2 : Effect
         {
-            public override string Name => "1221;3";
         }
 
+        [EffectDefination("1221,3")]
         public class WN3 : Effect
         {
-            public override string Name => "1221,3";
         }
 
         [TestMethod]
@@ -44,6 +44,7 @@ namespace Opportunity.AssLoader.Test
             CollectionAssert.Contains(Effect.RegisteredNames.ToList(), "TestName");
             Effect.Register<E>();
             Effect.Register<E>();
+            Effect.Register<WN1>();
             new UnknownEffect("as");
             CollectionAssert.DoesNotContain(Effect.RegisteredNames.ToList(), "as");
 
@@ -53,16 +54,13 @@ namespace Opportunity.AssLoader.Test
             Assert.ThrowsException<ArgumentException>(() => new UnknownEffect(""));
             Assert.ThrowsException<InvalidOperationException>(() => Effect.Register<E2>());
             Assert.ThrowsException<InvalidOperationException>(() => new E2());
-            Assert.ThrowsException<InvalidOperationException>(() => Effect.Register<WN1>());
-            Assert.ThrowsException<InvalidOperationException>(() => new WN1());
             Assert.ThrowsException<InvalidOperationException>(() => Effect.Register<WN2>());
             Assert.ThrowsException<InvalidOperationException>(() => Effect.Register<WN3>());
         }
 
+        [EffectDefination("Custom Effect")]
         public class ME : Effect
         {
-            public override string Name => "Custom Effect";
-
             [EffectField(0)]
             public double F1;
             [EffectField(1)]

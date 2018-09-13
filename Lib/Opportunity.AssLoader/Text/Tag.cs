@@ -1,7 +1,10 @@
 ﻿using Opportunity.AssLoader.Serializer;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 
 namespace Opportunity.AssLoader.Text
 {
@@ -27,6 +30,11 @@ namespace Opportunity.AssLoader.Text
         private void addTag(ReadOnlySpan<char> tagname)
         {
             Console.WriteLine($"Tag {tagname.ToString()}");
+        }
+
+        private void addComment(ReadOnlySpan<char> comment)
+        {
+            Console.WriteLine($"Comment {comment.ToString()}");
         }
 
         private void addTag(ReadOnlySpan<char> tagname, ReadOnlySpan<char> param)
@@ -79,17 +87,20 @@ namespace Opportunity.AssLoader.Text
                 {
                     if (start < 0)
                     {
-                        this.di.AddException(new FormatException($"Tag must start with `\\`, ignore `{this.data.ToString()}`."));
+                        addComment(this.data);
                         return;
                     }
                     else
-                        this.di.AddException(new FormatException($"Tag must start with `\\`, ignore `{this.data.Slice(0, start).ToString()}`."));
+                        addComment(this.data.Slice(0, start).TrimEnd());
                 }
                 this.data = this.data.Slice(start + 1);
                 skipWhiteSpace();
                 var tname = parseTagname();
                 if (tname.IsEmpty)
+                {
+                    this.di.AddException(new FormatException($"Missing tag name after `\\`."));
                     continue;
+                }
                 if (this.data.IsEmpty || this.data[0] == '\\')
                 {
                     addTag(tname);
@@ -180,38 +191,74 @@ namespace Opportunity.AssLoader.Text
 
     public abstract class Tag
     {
-        internal static Tag[] Parse(ReadOnlySpan<char> value, IDeserializeInfo deserializeInfo)
+        public static void Register<T>()
         {
-            value = value.Trim();
-            if (value.IsEmpty)
-                return Array.Empty<Tag>();
-            var result = default(List<Tag>);
-            var state = 0;
-
-            for (var i = 0; i < value.Length; i++)
-            {
-                if (char.IsWhiteSpace(value[i]))
-                    continue;
-            }
-
-            while (!value.IsEmpty)
-            {
-                var start = value.IndexOf('\\');
-                if (start < 0)
-                {
-                    deserializeInfo.AddException(new FormatException("Tag must start with `\\`"));
-                    break;
-                }
-            }
-
-            if (result is null)
-                return Array.Empty<Tag>();
-            return result.ToArray();
         }
     }
 
+    /// <summary>
+    /// Tag that is not registered via <see cref="Tag.Register{T}()"/>.
+    /// </summary>
     public sealed class UnknownTag : Tag
     {
+        /// <summary>
+        /// Create new instance of <see cref="UnknownTag"/>.
+        /// </summary>
+        /// <param name="name">Name of the tag.</param>
+        /// <exception cref="ArgumentException"><paramref name="name"/> is not a valid tag name.</exception>
+        public UnknownTag(string name)
+            : this(name, new List<string>())
+        {
+            TagDefinationAttribute.TagNameCheck(ref name);
+        }
 
+        internal UnknownTag(string name, IList<string> args)
+        {
+            this.Name = name;
+            this.Arguments = args;
+        }
+
+        /// <summary>
+        /// Name of the tag.
+        /// </summary>
+        public string Name { get; }
+
+        /// <summary>
+        /// Arguments of the tag.
+        /// </summary>
+        public IList<string> Arguments { get; }
+    }
+
+    /// <summary>
+    /// Inline comments in braces.
+    /// </summary>
+    [DebuggerDisplay(@"\{{Content,nq}\}")]
+    public sealed class CommentTag : Tag
+    {
+        private static readonly Regex commentRegex = new Regex(@"^[^\\}]*$", RegexOptions.Compiled | RegexOptions.Singleline);
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string content;
+
+        /// <summary>
+        /// Content of comments.
+        /// </summary>
+        /// <exception cref="ArgumentException"><paramref name="value" /> contains invalid chars.</exception>
+        public string Content
+        {
+            get => this.content;
+            set
+            {
+                if (value is null)
+                {
+                    this.content = "";
+                    return;
+                }
+                value = value.Trim();
+                if (!commentRegex.IsMatch(value))
+                    throw new ArgumentException("value contains invalid chars.");
+                this.content = value;
+            }
+        }
     }
 }

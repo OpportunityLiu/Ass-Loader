@@ -33,7 +33,7 @@ namespace Analyzer
             //    var t = Subtitle.Parse<AssScriptInfo>(f);
             //    t.Result.Serialize();
             //}
-            TagParser.Parse(@"as".AsSpan(), new a());
+            TagParser.Parse(@"a\a --sc".AsSpan(), new a());
             var ssa = Subtitle.Parse(@"[Script Info]
 ; This is a Sub Station Alpha v4 script.
 ; For Sub Station Alpha info and downloads,

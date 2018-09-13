@@ -42,6 +42,24 @@ namespace Opportunity.AssLoader
                 return false;
         }
 
+        private static readonly char[] invalidInlineChar = new[] { ';', ',' };
+
+        /// <summary>
+        /// Trim input string, returns <see langword="false"/> if it's <see langword="null"/> or whitespace, throw if contains crlf, ',' and ,';'.
+        /// </summary>
+        /// <exception cref="ArgumentException"><paramref name="value"/> contains line breaks.</exception>
+        public static bool InlineDataValueValid(ref string value)
+        {
+            if (SingleLineStringValueValid(ref value))
+            {
+                if (value.IndexOfAny(invalidInlineChar) >= 0)
+                    throw new ArgumentException("Value contains invalid char.");
+                return true;
+            }
+            else
+                return false;
+        }
+
         public static IFormatProvider DefaultFormat { get; } = System.Globalization.CultureInfo.InvariantCulture;
 
         private static readonly char[] split = new char[] { ':' };

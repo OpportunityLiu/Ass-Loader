@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Diagnostics;
 using System.Text;
 
 namespace Opportunity.AssLoader.Effects
@@ -8,17 +9,40 @@ namespace Opportunity.AssLoader.Effects
     /// </summary>
     public abstract class TranslateEffect : Effect
     {
+        private int delay;
         /// <summary>
         /// When delay is greater than 0, moving one pixel will take (1000/delay) second. 
         /// Otherwise, the speed will be caculated by move distance and duration.
         /// </summary>
+        /// <exception cref="ArgumentOutOfRangeException"><paramref name="value"/> is less than 0.</exception>
         [EffectField(20000)]
-        public double Delay { get; set; }
+        public int Delay
+        {
+            get => this.delay;
+            set
+            {
+                if (value < 0)
+                    throw new ArgumentOutOfRangeException(nameof(value));
+                this.delay = value;
+            }
+        }
+
+        private int fadeAwayMargin;
         /// <summary>
         /// The margin to make the scrolling text at the sides transparent.
         /// </summary>
+        /// <exception cref="ArgumentOutOfRangeException"><paramref name="value"/> is less than 0.</exception>
         [EffectField(40000)]
-        public double FadeAwayMargin { get; set; }
+        public int FadeAwayMargin
+        {
+            get => this.fadeAwayMargin;
+            set
+            {
+                if (value < 0)
+                    throw new ArgumentOutOfRangeException(nameof(value));
+                this.fadeAwayMargin = value;
+            }
+        }
     }
 
     /// <summary>
@@ -30,50 +54,41 @@ namespace Opportunity.AssLoader.Effects
         /// The <see cref="Y1"/> and <see cref="Y2"/> values define a vertical region on the screen in which the text will scroll.
         /// </summary>
         [EffectField(5000)]
-        public double Y1 { get; set; }
+        public int Y1 { get; set; }
 
         /// <summary>
         /// The <see cref="Y1"/> and <see cref="Y2"/> values define a vertical region on the screen in which the text will scroll.
         /// </summary>
         [EffectField(10000)]
-        public double Y2 { get; set; }
+        public int Y2 { get; set; }
     }
 
     /// <summary>
     /// Effect that the text will scroll up the screen. 
     /// </summary>
+    [EffectDefination(NAME)]
     public class ScrollUpEffect : ScrollEffectBase
     {
         internal const string NAME = "Scroll Up";
-        /// <summary>
-        /// Name of the effect.
-        /// </summary>
-        public override string Name => NAME;
     }
 
     /// <summary>
     /// Effect that the text will scroll down the screen. 
     /// </summary>
+    [EffectDefination(NAME)]
     public class ScrollDownEffect : ScrollEffectBase
     {
         internal const string NAME = "Scroll Down";
-        /// <summary>
-        /// Name of the effect.
-        /// </summary>
-        public override string Name => NAME;
     }
 
     /// <summary>
     /// Effect that text will be forced into a single line, regardless of length,
     /// and scrolled from horizontally accross the screen.
     /// </summary>
+    [EffectDefination(NAME)]
     public class BannerEffect : TranslateEffect
     {
         internal const string NAME = "Banner";
-        /// <summary>
-        /// Name of the effect.
-        /// </summary>
-        public override string Name => NAME;
 
         [EffectField(30000)]
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
