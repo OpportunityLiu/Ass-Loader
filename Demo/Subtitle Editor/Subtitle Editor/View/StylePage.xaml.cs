@@ -9,6 +9,7 @@ using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.UI;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -184,6 +185,12 @@ namespace SubtitleEditor.View
         {
             if (this.ViewModel.SelectedStyle == null)
                 this.gridDetail.Visibility = Visibility.Collapsed;
+        }
+
+        private void slColor_ValueChanged(object sender, RangeBaseValueChangedEventArgs e)
+        {
+            var v = (byte)e.NewValue;
+            scbSamplePresenter.Color = Color.FromArgb(255, v, v, v);
         }
 
         public void GoBack()

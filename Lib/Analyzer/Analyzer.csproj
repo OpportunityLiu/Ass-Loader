@@ -55,5 +55,13 @@
       <Name>Opportunity.AssLoader</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="ColorCode.Core">
+      <Version>2.0.5</Version>
+    </PackageReference>
+    <PackageReference Include="ColorCode.HTML">
+      <Version>2.0.5</Version>
+    </PackageReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

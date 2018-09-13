@@ -24,18 +24,7 @@ namespace SubtitleEditor.Model
             this.reset();
         }
 
-        private void updateTitle()
-        {
-            this.Title = this.SubtitleFile?.Name ?? this.Subtitle?.ScriptInfo.Title;
-        }
-
-        private string title;
-
-        public string Title
-        {
-            get => this.title;
-            private set => this.Set(ref this.title, value);
-        }
+        public string Title => this.SubtitleFile?.Name;
 
         private readonly LinkedList<IDocumentAction> actionList = new LinkedList<IDocumentAction>();
         private LinkedListNode<IDocumentAction> currentAction, savedAction;
@@ -94,7 +83,6 @@ namespace SubtitleEditor.Model
         private void modified()
         {
             OnPropertyChanged(nameof(CanSave), nameof(UndoAction), nameof(RedoAction), nameof(IsModified));
-            this.updateTitle();
         }
 
         public IDocumentAction UndoAction => this.currentAction.Value;
@@ -111,11 +99,7 @@ namespace SubtitleEditor.Model
             {
                 if (value is null)
                     throw new ArgumentNullException();
-                if (this.Set(nameof(this.CanSave), ref this.subtitle, value) && value.ScriptInfo.SubtitleEditorConfig is null)
-                {
-                    value.ScriptInfo.SubtitleEditorConfig = new ProjectConfig();
-                    this.updateTitle();
-                }
+                this.Set(nameof(this.CanSave), ref this.subtitle, value);
             }
         }
 
@@ -126,10 +110,9 @@ namespace SubtitleEditor.Model
             get => this.subtitleFile;
             private set
             {
-                if (this.Set(nameof(this.CanSave), ref this.subtitleFile, value) && value != null)
+                if (this.Set(nameof(this.CanSave), nameof(Title), ref this.subtitleFile, value) && value != null)
                 {
                     StorageApplicationPermissions.MostRecentlyUsedList.Add(value, value.Name, RecentStorageItemVisibility.AppAndSystem);
-                    this.updateTitle();
                 }
             }
         }
@@ -155,9 +138,8 @@ namespace SubtitleEditor.Model
         public async Task OpenFileAsync(StorageFile file)
         {
             this.SubtitleFile = file ?? throw new ArgumentNullException(nameof(file));
-            using (var stream = await this.SubtitleFile.OpenStreamForReadAsync())
-            using (var reader = new StreamReader(stream))
-                this.Subtitle = Opportunity.AssLoader.Subtitle.Parse<ScriptInfo>(reader);
+            var data = await FileIO.ReadTextAsync(file);
+            this.Subtitle = Opportunity.AssLoader.Subtitle.Parse<ScriptInfo>(data).Result;
             this.reset();
             this.modified();
         }

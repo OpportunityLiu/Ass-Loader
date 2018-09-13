@@ -7,9 +7,9 @@
                 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
                 xmlns:local="using:SubtitleEditor.View"
                 xmlns:vm="using:SubtitleEditor.ViewModel"
-                xmlns:con="using:SubtitleEditor.Converters"
                 xmlns:ctr="using:SubtitleEditor.Controls"
                 xmlns:ass="using:Opportunity.AssLoader"
+                xmlns:assc="using:Opportunity.AssLoader.Extension"
                 mc:Ignorable="d"
                 NavigationCacheMode="Enabled"
                 SizeChanged="Page_SizeChanged">
@@ -147,12 +147,21 @@
               <Button Grid.Column="1"
                       x:Name="buttonRename"
                       Content="Rename"
+                      CommandParameter="{x:Bind textBoxStyleName.Text, Mode=OneWay}"
                       Command="{x:Bind ViewModel.SelectedStyleEditor.Rename}" />
               <Button Grid.Column="2"
                       Content="Delete"
                       CommandParameter="{x:Bind ViewModel.SelectedStyle, Mode=OneWay}"
                       Command="{x:Bind ViewModel.Remove}" />
             </Grid>
+            <ListView ItemsSource="{x:Bind ViewModel.FontList}">
+              <ListView.ItemTemplate>
+                <DataTemplate x:DataType="FontFamily">
+                  <TextBlock FontFamily="{x:Bind}"
+                             Text="{x:Bind Source}" />
+                </DataTemplate>
+              </ListView.ItemTemplate>
+            </ListView>
           </StackPanel>
         </ScrollViewer>
         <ctr:SamplePresenter Margin="0"
@@ -160,11 +169,9 @@
                              ImageSource="ms-appx:///Resources/massgrid.png">
           <TextBlock HorizontalAlignment="Center"
                      VerticalAlignment="Center"
+                     Foreground="{x:Bind ViewModel.SelectedStyleEditor.PrimaryColor, Converter={StaticResource BrushConverter}, Mode=OneWay}"
                      FontSize="{x:Bind ViewModel.SelectedStyleEditor.FontSize, Mode=OneWay}"
-                     FontFamily="{x:Bind ViewModel.SelectedStyleEditor.FontName, Mode=OneWay}">
-            <TextBlock.Foreground>
-              <SolidColorBrush Color="{x:Bind ViewModel.SelectedStyleEditor.PrimaryColor, Converter={StaticResource ColorConverter}, Mode=OneWay}" />
-            </TextBlock.Foreground>
+                     FontFamily="{x:Bind ViewModel.FontList.GetFamily(ViewModel.SelectedStyleEditor.FontName), Mode=OneWay}">
                         <Run Language="en-us">Sample</Run> 
                         <Run Text="  " />
                         <Run Language="ja-jp">サンプル</Run>
@@ -175,7 +182,20 @@
                         <Run Text="  " />
                         <Run Language="ko-kr">견본</Run>
           </TextBlock>
+          <ctr:SamplePresenter.Background>
+            <SolidColorBrush x:Name="scbSamplePresenter"
+                             Color="White" />
+          </ctr:SamplePresenter.Background>
         </ctr:SamplePresenter>
+        <Slider x:Name="slColor"
+                Orientation="Vertical"
+                HorizontalAlignment="Right"
+                Margin="0"
+                Grid.Row="1"
+                ValueChanged="slColor_ValueChanged"
+                Minimum="0"
+                Value="255"
+                Maximum="255" />
       </Grid>
     </Border>
   </Grid>

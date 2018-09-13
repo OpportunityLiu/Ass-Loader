@@ -29,8 +29,6 @@ namespace SubtitleEditor.Controls
         {
             base.OnApplyTemplate();
             this.BackgroundImage = (ImageBrush)this.GetTemplateChild("BackgroundImage");
-            if(this.BackgroundImage != null)
-                this.BackgroundImage.Stretch = Windows.UI.Xaml.Media.Stretch.None;
         }
 
         public static readonly DependencyProperty ImageSourceProperty = DependencyProperty.Register("ImageSource", typeof(string), typeof(SamplePresenter), new PropertyMetadata(null, new PropertyChangedCallback(OnImageSourceUriChanged)));
@@ -43,7 +41,7 @@ namespace SubtitleEditor.Controls
 
         private static async void OnImageSourceUriChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            if(DesignMode.DesignModeEnabled)
+            if (DesignMode.DesignModeEnabled)
                 return;
             var sender = ((SamplePresenter)d);
             await sender.UpdateImageSource();
@@ -62,11 +60,11 @@ namespace SubtitleEditor.Controls
 
         private async Task UpdateImageSource()
         {
-            StorageFile file = await StorageFile.GetFileFromApplicationUriAsync(new Uri(this.ImageSource));
-            using(IRandomAccessStream fileStream = await file.OpenAsync(FileAccessMode.Read))
+            var file = await StorageFile.GetFileFromApplicationUriAsync(new Uri(this.ImageSource));
+            using (var fileStream = await file.OpenAsync(FileAccessMode.Read))
             {
-                BitmapDecoder decoder = await BitmapDecoder.CreateAsync(fileStream);
-                PixelDataProvider framePixelProvider = await decoder.GetPixelDataAsync(BitmapPixelFormat.Bgra8, BitmapAlphaMode.Premultiplied, new BitmapTransform(), ExifOrientationMode.RespectExifOrientation, ColorManagementMode.DoNotColorManage);
+                var decoder = await BitmapDecoder.CreateAsync(fileStream);
+                var framePixelProvider = await decoder.GetPixelDataAsync(BitmapPixelFormat.Bgra8, BitmapAlphaMode.Premultiplied, new BitmapTransform(), ExifOrientationMode.RespectExifOrientation, ColorManagementMode.DoNotColorManage);
 
                 this._sourcePixelWidth = (int)decoder.PixelWidth;
                 this._sourcePixelHeight = (int)decoder.PixelHeight;
@@ -78,29 +76,29 @@ namespace SubtitleEditor.Controls
 
         private async Task UpdateBackground(bool forcedRedraw)
         {
-            if(this.BackgroundImage == null)
+            if (this.BackgroundImage == null)
                 return;
             var width = Convert.ToInt32(Math.Ceiling(this.ActualWidth / this._sourcePixelWidth));
             var height = Convert.ToInt32(Math.Ceiling(this.ActualHeight / this._sourcePixelHeight));
-            if(width <= 0 || height <= 0)
+            if (width <= 0 || height <= 0)
             {
                 this.BackgroundImage.ImageSource = null;
                 return;
             }
             var drawHeight = height * this._sourcePixelHeight;
             var drawWidth = width * this._sourcePixelWidth;
-            if(!forcedRedraw && this.bitmap != null && this.bitmap.PixelHeight >= drawHeight && this.bitmap.PixelWidth >= drawWidth)
+            if (!forcedRedraw && this.bitmap != null && this.bitmap.PixelHeight >= drawHeight && this.bitmap.PixelWidth >= drawWidth)
                 return;
-            if(this._sourceFramePixels == null)
+            if (this._sourceFramePixels == null)
                 await this.UpdateImageSource();
             this.bitmap = new WriteableBitmap(drawWidth, drawHeight);
-            using(var targetStream = this.bitmap.PixelBuffer.AsStream())
+            using (var targetStream = this.bitmap.PixelBuffer.AsStream())
             {
-                int currentSourceY = 0;
-                for(int targetY = 0; targetY < drawHeight; targetY++)
+                var currentSourceY = 0;
+                for (var targetY = 0; targetY < drawHeight; targetY++)
                 {
                     var offset = currentSourceY * this._sourcePixelWidth * 4;
-                    for(int targetX = 0; targetX < width; targetX++)
+                    for (var targetX = 0; targetX < width; targetX++)
                     {
                         targetStream.Write(this._sourceFramePixels, offset, this._sourcePixelWidth * 4);
                     }

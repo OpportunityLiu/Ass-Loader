@@ -130,14 +130,23 @@ namespace Opportunity.AssLoader
                 throw new ArgumentNullException(nameof(value));
             try
             {
+                var b = 0;
+                var l = value.Length;
                 if (value.StartsWith("&H".AsSpan(), StringComparison.OrdinalIgnoreCase))
-                    return FromUInt32(Convert.ToUInt32(value.Slice(2).ToString(), 16));
+                {
+                    b += 2;
+                    l -= 2;
+                }
+                if (value.EndsWith("&".AsSpan(), StringComparison.OrdinalIgnoreCase))
+                {
+                    l -= 1;
+                }
+                return FromUInt32(Convert.ToUInt32(value.Slice(b, l).ToString(), 16));
             }
             catch (Exception ex)
             {
                 throw new FormatException($"\"{value.ToString()}\" is not a valid color string.", ex);
             }
-            throw new FormatException($"\"{value.ToString()}\" is not a valid color string.");
         }
 
         /// <summary>

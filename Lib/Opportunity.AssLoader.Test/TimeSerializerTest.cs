@@ -8,13 +8,25 @@ namespace Opportunity.AssLoader.Test
     [TestClass]
     public class TimeSerializerTest : TestBase
     {
-        [RandomTestMethod]
-        public void Random(byte range1, ushort range2, uint range3, ulong range4)
+        [TestMethod]
+        public void Random()
         {
             var t = new TimeSerializeAttribute();
-            test(range1);
-            test(range2);
-            test(range3);
+            for (var i = 0; i < 0xffff; i++)
+            {
+                var range1 = TestHelper.RandomReader.ReadByte();
+                test(range1);
+            }
+            for (var i = 0; i < 0xffff; i++)
+            {
+                var range1 = TestHelper.RandomReader.ReadUInt16();
+                test(range1);
+            }
+            for (var i = 0; i < 0xffff; i++)
+            {
+                var range1 = TestHelper.RandomReader.ReadUInt32();
+                test(range1);
+            }
 
             void test(long value)
             {

@@ -5,5 +5,6 @@
                     xmlns:assCon="using:Opportunity.AssLoader.Extension">
   <con:EmptyConverter x:Key="EmptyConverter" />
   <assCon:ColorConverter x:Key="ColorConverter" />
+  <assCon:SolidColorBrushConverter x:Key="BrushConverter" />
   <tcon:EnumToStringConverter x:Key="EnumToStringConverter" />
 </ResourceDictionary>

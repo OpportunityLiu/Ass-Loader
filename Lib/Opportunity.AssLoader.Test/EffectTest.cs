@@ -50,8 +50,8 @@ namespace Opportunity.AssLoader.Test
 
             Assert.ThrowsException<ArgumentException>(() => new UnknownEffect("a;s"));
             Assert.ThrowsException<ArgumentException>(() => new UnknownEffect("  a,s"));
-            Assert.ThrowsException<ArgumentException>(() => new UnknownEffect(" "));
-            Assert.ThrowsException<ArgumentException>(() => new UnknownEffect(""));
+            Assert.ThrowsException<ArgumentNullException>(() => new UnknownEffect(" "));
+            Assert.ThrowsException<ArgumentNullException>(() => new UnknownEffect(""));
             Assert.ThrowsException<InvalidOperationException>(() => Effect.Register<E2>());
             Assert.ThrowsException<InvalidOperationException>(() => new E2());
             Assert.ThrowsException<InvalidOperationException>(() => Effect.Register<WN2>());

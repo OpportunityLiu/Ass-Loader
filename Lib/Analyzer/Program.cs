@@ -1,4 +1,5 @@
-﻿using Opportunity.AssLoader;
+﻿using ColorCode;
+using Opportunity.AssLoader;
 using Opportunity.AssLoader.Serializer;
 using Opportunity.AssLoader.Text;
 using System;
@@ -33,7 +34,11 @@ namespace Analyzer
             //    var t = Subtitle.Parse<AssScriptInfo>(f);
             //    t.Result.Serialize();
             //}
-            TagParser.Parse(@"a\a --sc".AsSpan(), new a());
+            var csharpstring = @"娘司法那孔代\N农家那 开发 男 {扫俩仨asd\s1\1c1\t(a,b,c)asd}";
+            var formatter = new HtmlFormatter();
+            //var html = formatter.GetHtmlString(csharpstring, new AssText());
+            //var a = new AssText();
+            //TagParser.Parse(@"a\a --sc".AsSpan(), new a());
             var ssa = Subtitle.Parse(@"[Script Info]
 ; This is a Sub Station Alpha v4 script.
 ; For Sub Station Alpha info and downloads,

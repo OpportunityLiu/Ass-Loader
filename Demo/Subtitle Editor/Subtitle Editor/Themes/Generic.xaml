@@ -186,19 +186,20 @@
     <Setter Property="Template">
       <Setter.Value>
         <ControlTemplate TargetType="controls:SamplePresenter">
-          <Border BorderBrush="{TemplateBinding BorderBrush}"
-                  Background="{TemplateBinding Background}"
-                  BorderThickness="{TemplateBinding BorderThickness}">
+          <Grid BorderBrush="{TemplateBinding BorderBrush}"
+                Background="{TemplateBinding Background}"
+                BorderThickness="{TemplateBinding BorderThickness}">
+            <Rectangle>
+              <Rectangle.Fill>
+                <ImageBrush x:Name="BackgroundImage" Stretch="None"/>
+              </Rectangle.Fill>
+            </Rectangle>
             <ContentPresenter VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
                               HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
-                              Padding="{TemplateBinding Padding}"
+                              Margin="{TemplateBinding Padding}"
                               Content="{TemplateBinding Content}"
-                              Foreground="{TemplateBinding Foreground}">
-              <ContentPresenter.Background>
-                <ImageBrush x:Name="BackgroundImage" />
-              </ContentPresenter.Background>
-            </ContentPresenter>
-          </Border>
+                              Foreground="{TemplateBinding Foreground}"/>
+          </Grid>
         </ControlTemplate>
       </Setter.Value>
     </Setter>

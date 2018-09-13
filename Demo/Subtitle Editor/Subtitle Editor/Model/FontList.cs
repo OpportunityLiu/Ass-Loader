@@ -26,21 +26,40 @@ namespace SubtitleEditor.Model
             this.Refresh();
         }
 
+        public Windows.UI.Xaml.Media.FontFamily GetFamily(string facename)
+        {
+            using (var factory = new Factory().QueryInterface<Factory5>())
+            using (var introp = factory.GdiInterop)
+            {
+                try
+                {
+                    var font = introp.FromLogFont(new GdiInterop.LogFont
+                    {
+                        lfCharSet = 1,
+                        lfFaceName = facename
+                    });
+                    return new Windows.UI.Xaml.Media.FontFamily(font.FontFamily.FamilyNames.GetString(0));
+                }
+                catch (Exception)
+                {
+                    return new Windows.UI.Xaml.Media.FontFamily(facename);
+                }
+            }
+        }
+
         public void Refresh()
         {
             var localNames = new List<string>();
+            foreach (var langCode in ApplicationLanguages.Languages)
             {
-                var culture = CultureInfo.CurrentUICulture;
+                var culture = CultureInfo.GetCultureInfo(langCode);
                 while (!string.IsNullOrEmpty(culture?.Name))
                 {
                     localNames.Add(culture.Name);
                     culture = culture.Parent;
                 }
             }
-            localNames.AddRange(ApplicationLanguages.Languages);
-            this.gdiFontFaces = new List<GdiInterop.LogFont>();
             using (var factory = new Factory())
-            using (var gdiInterop = factory.GdiInterop)
             using (var fontCollection = factory.GetSystemFontCollection(true))
             {
                 var fonts = new List<string>();
@@ -49,47 +68,27 @@ namespace SubtitleEditor.Model
                 {
                     using (var font = fontCollection.GetFontFamily(i))
                     {
-                        var faceCount = font.FontCount;
-                        for (var j = 0; j < faceCount; j++)
+                        using (var names = font.FamilyNames)
                         {
-                            try
+                            var lcc = names.Count;
+                            var lnames = Enumerable.Range(0, lcc).Select(ii => names.GetString(ii)).ToArray();
+                            var lloccals = Enumerable.Range(0, lcc).Select(ii => names.GetLocaleName(ii)).ToArray();
+                            var index = 0;
+                            foreach (var localName in localNames)
                             {
-                                using (var face = font.GetFont(j))
-                                {
-                                    var logF = new GdiInterop.LogFont();
-                                    if (gdiInterop.ToLogFont(face, logF))
-                                    {
-                                        fonts.Add(logF.lfFaceName);
-                                        this.gdiFontFaces.Add(logF);
-                                    }
-                                }
-
+                                if (names.FindLocaleName(localName, out index))
+                                    break;
                             }
-                            catch (Exception)
-                            {
-                            }
+                            if (index <= 0)
+                                fonts.Add(names.GetString(0));
+                            else
+                                fonts.Add(names.GetString(index));
                         }
-                        //string familyName;
-                        //using(var names = font.FamilyNames)
-                        //{
-                        //    var index = 0;
-                        //    foreach(var localName in localNames)
-                        //    {
-                        //        if(names.FindLocaleName(localName, out index))
-                        //            break;
-                        //    }
-                        //    if(index <= 0)
-                        //        familyName = names.GetString(0);
-                        //    else
-                        //        familyName = names.GetString(index);
-                        //}
                     }
                 }
                 this.fonts = fonts.OrderBy(s => s).Distinct().Select(name => new Windows.UI.Xaml.Media.FontFamily(name)).ToList();
             }
         }
-
-        private List<GdiInterop.LogFont> gdiFontFaces;
 
         private List<Windows.UI.Xaml.Media.FontFamily> fonts;
 

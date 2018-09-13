@@ -3,6 +3,7 @@ using Opportunity.AssLoader.Serializer;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -57,6 +58,7 @@ namespace Opportunity.AssLoader
         /// The <see cref="Subtitle{TScriptInfo}"/> presents the ass file.
         /// </summary>
         public Subtitle<TScriptInfo> Result { get; private set; }
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         Subtitle IParseResult.Result => Result;
 
         /// <summary>
