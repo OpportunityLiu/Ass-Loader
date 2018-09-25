@@ -49,19 +49,17 @@ namespace Opportunity.AssLoader.Effects
     [DebuggerDisplay(@"[{Name,nq}]")]
     public abstract class Effect
     {
-        internal static readonly Dictionary<string, SerializeDataStore> Names = new Dictionary<string, SerializeDataStore>(StringComparer.OrdinalIgnoreCase)
+        static Effect()
         {
-            [ScrollUpEffect.NAME] = new SerializeDataStore(typeof(ScrollUpEffect), ScrollUpEffect.NAME),
-            [ScrollDownEffect.NAME] = new SerializeDataStore(typeof(ScrollDownEffect), ScrollDownEffect.NAME),
-            [BannerEffect.NAME] = new SerializeDataStore(typeof(BannerEffect), BannerEffect.NAME),
-        };
+            Register<ScrollUpEffect>();
+            Register<ScrollDownEffect>();
+            Register<BannerEffect>();
+        }
 
-        internal static readonly Dictionary<Type, string> Types = new Dictionary<Type, string>()
-        {
-            [typeof(ScrollUpEffect)] = ScrollUpEffect.NAME,
-            [typeof(ScrollDownEffect)] = ScrollDownEffect.NAME,
-            [typeof(BannerEffect)] = BannerEffect.NAME,
-        };
+
+        internal static readonly Dictionary<string, SerializeDataStore> Names = new Dictionary<string, SerializeDataStore>(StringComparer.OrdinalIgnoreCase);
+
+        internal static readonly Dictionary<Type, string> Types = new Dictionary<Type, string>();
 
         internal static SerializeDataStore Register(Type type)
         {

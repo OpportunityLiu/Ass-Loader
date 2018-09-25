@@ -2,72 +2,39 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Text.RegularExpressions;
+using FieldSerializeHelper
+    = Opportunity.AssLoader.SerializeHelper<Opportunity.AssLoader.Text.Tag, Opportunity.AssLoader.Text.TagFieldAttribute>;
 
 namespace Opportunity.AssLoader.Text
 {
     internal ref struct TagParser
     {
+        private readonly int length;
         private ReadOnlySpan<char> data;
-        private List<Tag> result;
+        private readonly List<Tag> result;
         private readonly IDeserializeInfo di;
 
         public TagParser(ReadOnlySpan<char> value, IDeserializeInfo deserializeInfo) : this()
         {
+            this.length = value.Length;
             this.data = value;
             this.di = deserializeInfo;
+            this.result = new List<Tag>();
         }
 
         private void addTag(Tag tag)
         {
-            if (this.result is null)
-                this.result = new List<Tag>();
             this.result.Add(tag);
-        }
-
-        private void addTag(ReadOnlySpan<char> tagname)
-        {
-            Console.WriteLine($"Tag {tagname.ToString()}");
         }
 
         private void addComment(ReadOnlySpan<char> comment)
         {
-            Console.WriteLine($"Comment {comment.ToString()}");
-        }
-
-        private void addTag(ReadOnlySpan<char> tagname, ReadOnlySpan<char> param)
-        {
-            Console.WriteLine($"Tag {tagname.ToString()}, param: {param.ToString()}");
-        }
-
-        private void addAdvTag(ReadOnlySpan<char> tagname, ReadOnlySpan<char> param)
-        {
-            Span<int> commas = stackalloc int[param.Length];
-            commas.Fill(-1);
-            var p = 0;
-            var br = 0;
-            var pc = 0;
-            for (var i = 0; i < param.Length; i++)
-            {
-                if (param[i] == '(')
-                    br++;
-                else if (param[i] == ')')
-                    br--;
-                if (br == 0 && param[i] == ',')
-                    commas[p++] = i;
-            }
-            Console.WriteLine($"AdvTag {tagname.ToString()}, param: ");
-            foreach (var index in commas)
-            {
-                if (index < 0)
-                    break;
-                var par = param.Slice(0, index).Trim();
-                param = param.Slice(index + 1);
-                Console.WriteLine($"[{pc++}]: {par.ToString()}");
-            }
-            Console.WriteLine($"[{pc}]: {param.ToString()}");
+            addTag(new CommentTag { Content = comment.TrimEnd().ToString() });
         }
 
         private void skipWhiteSpace()
@@ -87,118 +54,349 @@ namespace Opportunity.AssLoader.Text
                 {
                     if (start < 0)
                     {
-                        addComment(this.data);
+                        var data = this.data;
+                        this.data = default;
+                        addComment(data);
                         return;
                     }
                     else
-                        addComment(this.data.Slice(0, start).TrimEnd());
+                    {
+                        var data = this.data.Slice(0, start);
+                        this.data = this.data.Slice(start + 1);
+                        addComment(data);
+                    }
                 }
-                this.data = this.data.Slice(start + 1);
+                else
+                    this.data = this.data.Slice(1);
                 skipWhiteSpace();
-                var tname = parseTagname();
-                if (tname.IsEmpty)
+                addTag();
+            }
+        }
+
+        private void addTag()
+        {
+            var i = 0;
+            var br = 0;
+            var hasbr = false;
+            Span<int> commapos = stackalloc int[20];
+            var commacnt = -1;
+            var tagname = default(ReadOnlySpan<char>);
+            var lb = -1;
+            var rb = -1;
+            for (; i < this.data.Length; i++)
+            {
+                if (this.data[i] == '(')
                 {
-                    this.di.AddException(new FormatException($"Missing tag name after `\\`."));
-                    continue;
+                    commacnt = 0;
+                    hasbr = true;
+                    br++;
+                    if (br == 1)
+                    {
+                        tagname = this.data.Slice(0, i).TrimEnd();
+                        lb = i;
+                    }
                 }
-                if (this.data.IsEmpty || this.data[0] == '\\')
+                else if (this.data[i] == ')')
                 {
-                    addTag(tname);
-                    continue;
+                    if (br == 1)
+                        rb = i;
+                    br--;
+                }
+                else if (this.data[i] == '\\' && br <= 0)
+                    break;
+                else if (this.data[i] == ',' && br == 1)
+                {
+                    if (commacnt == 20)
+                        this.di.AddException(new FormatException($"Too mant arguments."));
+                    else
+                    {
+                        commapos[commacnt] = i;
+                        commacnt++;
+                    }
+                }
+                if (hasbr && br == 0)
+                {
+                    i++;
+                    break;
                 }
 
-                if (this.data[0] != '(')
+                if (br < 0)
+                    break;
+            }
+            if (i == 0)
+            {
+                this.di.AddException(new FormatException($"Missing tag name after `\\`."));
+                return;
+            }
+            var tag = this.data.Slice(0, i);
+            this.data = this.data.Slice(i);
+            if (hasbr)
+            {
+                if (br > 0)
                 {
-                    var param = parseParam();
-                    addTag(tname, param);
-                    continue;
+                    this.di.AddException(new FormatException($"Missing `)` in tag `{tag.ToString()}`."));
+                    Span<char> tag2 = stackalloc char[tag.Length + br];
+                    tag2.Fill(')');
+                    tag.CopyTo(tag2);
+                    tag = tag2.ToString().AsSpan();
+                    rb = tag.Length - 1;
+                }
+            }
+            else
+            {
+                var hasname = false;
+                foreach (var item in Tag.Names.Keys)
+                {
+                    if (!tag.StartsWith(item.AsSpan(), StringComparison.OrdinalIgnoreCase))
+                        continue;
+
+                    var param = tag.Slice(item.Length);
+                    tagname = tag.Slice(0, item.Length);
+                    if (item.Length != tag.Length)
+                    {
+                        lb = item.Length - 1;
+                        rb = tag.Length;
+                        commacnt = 0;
+                    }
+                    hasname = true;
+                    break;
+                }
+                if (!hasname)
+                {
+                    var state = 0;
+                    var j = 0;
+                    for (; j < tag.Length; j++)
+                    {
+                        var ch = tag[j];
+                        switch (state)
+                        {
+                        case 0:
+                            if (ch >= '0' && ch <= '9')
+                                break;
+                            else if (ch >= 'a' && ch <= 'z' || ch >= 'A' && ch <= 'Z')
+                            {
+                                state = 1;
+                                break;
+                            }
+                            else
+                            {
+                                state = 2;
+                                break;
+                            }
+                        case 1:
+                            if (ch >= 'a' && ch <= 'z' || ch >= 'A' && ch <= 'Z')
+                                break;
+                            else
+                            {
+                                state = 2;
+                                break;
+                            }
+                        }
+                        if (state == 2)
+                            break;
+                    }
+                    tagname = tag.Slice(0, j);
+                    if (j != tag.Length)
+                    {
+                        lb = tagname.Length - 1;
+                        rb = tag.Length;
+                        commacnt = 0;
+                    }
+                }
+            }
+
+
+            {
+                var tagins = default(Tag);
+                var tagnamestr = tagname.ToString();
+                if (!Tag.Names.TryGetValue(tagnamestr, out var fi))
+                {
+                    var fields = new List<string>(commacnt + 1);
+                    for (var k = 0; k <= commacnt; k++)
+                    {
+                        var s = k == 0 ? lb : commapos[k - 1];
+                        s++;
+                        var p = k == commacnt ? rb : commapos[k];
+                        fields.Add(tag.Slice(s, p - s).Trim().ToString());
+                    }
+                    tagins = new UnknownTag(tagnamestr, fields);
                 }
                 else
                 {
-                    var end = 1;
-                    var br = 1;
-                    for (; end < this.data.Length && br > 0; end++)
+                    tagins = (Tag)Activator.CreateInstance(fi.TagType);
+                    var fields = fi.FieldInfo[commacnt + 1];
+                    for (var k = 0; k <= commacnt; k++)
                     {
-                        if (this.data[end] == '(')
-                            br++;
-                        else if (this.data[end] == ')')
-                            br--;
+                        var s = k == 0 ? lb : commapos[k - 1];
+                        s++;
+                        var p = k == commacnt ? rb : commapos[k];
+                        fields[k].Deserialize(tag.Slice(s, p - s).Trim(), tagins, this.di);
                     }
-                    var param = this.data.Slice(1, end - 2);
-                    this.data = this.data.Slice(end);
-                    if (br != 0)
-                    {
-                        this.di.AddException(new FormatException($"Missing `)` in tag `{tname.ToString()}`."));
-                        Span<char> param2 = stackalloc char[param.Length + br];
-                        param2.Fill(')');
-                        param.CopyTo(param2);
-                        param = param2.ToString().AsSpan();
-                    }
-                    addAdvTag(tname, param);
-                    continue;
                 }
+                addTag(tagins);
             }
         }
 
-        private ReadOnlySpan<char> parseParam()
-        {
-            skipWhiteSpace();
-            var end = this.data.IndexOf('\\');
-            if (end < 0)
-            {
-                var c2 = this.data;
-                this.data = default;
-                return c2;
-            }
-            var c = this.data.Slice(0, end).TrimEnd();
-            this.data = this.data.Slice(end);
-            return c;
-        }
 
-        private ReadOnlySpan<char> parseTagname()
-        {
-            var data = this.data;
-            var i = 0;
-            for (; i < this.data.Length; i++)
-            {
-                if ('0' <= this.data[i] && this.data[i] <= '9')
-                    continue;
-                break;
-            }
-            for (; i < this.data.Length; i++)
-            {
-                if (('a' <= this.data[i] && this.data[i] <= 'z') || ('A' <= this.data[i] && this.data[i] <= 'Z'))
-                    continue;
-                break;
-            }
-            var r = this.data.Slice(0, i);
-            this.data = this.data.Slice(i);
-            skipWhiteSpace();
-            return r;
-        }
-
-        public static Tag[] Parse(ReadOnlySpan<char> value, IDeserializeInfo deserializeInfo)
+        public static List<Tag> Parse(ReadOnlySpan<char> value, IDeserializeInfo deserializeInfo)
         {
             if (value.IsWhiteSpace())
-                return Array.Empty<Tag>();
+                return new List<Tag>();
             var p = new TagParser(value, deserializeInfo);
             p.parse();
-            if (p.result is null)
-                return Array.Empty<Tag>();
-            return p.result.ToArray();
+            return p.result;
         }
     }
 
+    /// <summary>
+    /// Tag of ass text.
+    /// </summary>
+    [DebuggerDisplay(@"[{SerializeData.Name,nq}]")]
     public abstract class Tag
     {
-        public static void Register<T>()
+        static Tag()
         {
+            Register<FontStyleTag>();
+            Register<FontWeightTag>();
+            Register<UnderlineTag>();
+            Register<StrikeOutTag>();
+            Register<TransformTag>();
+        }
+
+        internal static readonly Dictionary<string, SerializeDataStore> Names = new Dictionary<string, SerializeDataStore>(StringComparer.OrdinalIgnoreCase)
+        {
+            //[ScrollUpEffect.NAME] = new SerializeDataStore(typeof(ScrollUpEffect), ScrollUpEffect.NAME),
+            //[ScrollDownEffect.NAME] = new SerializeDataStore(typeof(ScrollDownEffect), ScrollDownEffect.NAME),
+            //[BannerEffect.NAME] = new SerializeDataStore(typeof(BannerEffect), BannerEffect.NAME),
+        };
+
+        internal static readonly Dictionary<Type, string> Types = new Dictionary<Type, string>()
+        {
+            //[typeof(ScrollUpEffect)] = ScrollUpEffect.NAME,
+            //[typeof(ScrollDownEffect)] = ScrollDownEffect.NAME,
+            //[typeof(BannerEffect)] = BannerEffect.NAME,
+        };
+
+        internal static SerializeDataStore Register(Type type)
+        {
+            TagDefinationAttribute attr;
+            try
+            {
+                attr = type.GetCustomAttribute<TagDefinationAttribute>(true);
+            }
+            catch (Exception ex)
+            {
+                throw new InvalidOperationException($"Invalid TagDefinationAttribute.", ex);
+            }
+            if (attr is null)
+                throw new InvalidOperationException($"Tag must have TagDefinationAttribute.");
+            var name = attr.Name;
+            if (Names.TryGetValue(name, out var oldvalue))
+            {
+                if (oldvalue.TagType == type)
+                    return oldvalue;
+                else
+                    throw new InvalidOperationException($"Tag with same name({name}) has been regeistered by another type({oldvalue.TagType}).");
+            }
+
+            Types[type] = name;
+            return Names[name] = new SerializeDataStore(type, name);
+        }
+
+        /// <summary>
+        /// Register effects for parsing.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        public static void Register<T>()
+            where T : Tag, new()
+        {
+            var type = typeof(T);
+            if (type == typeof(UnknownTag) || type == typeof(CommentTag))
+                return;
+            Register(type);
+        }
+
+        /// <summary>
+        /// A read only collection of registered effect names.
+        /// </summary>
+        public static IReadOnlyCollection<string> RegisteredNames => Names.Keys;
+
+        /// <summary>
+        /// Create new instance of <see cref="Tag"/>.
+        /// </summary>
+        protected Tag()
+        {
+            var t = GetType();
+            if (t == typeof(UnknownTag) || t == typeof(CommentTag))
+                return;
+            this.SerializeData = Types.TryGetValue(t, out var name) ? Names[name] : Register(t);
+        }
+
+        internal sealed class SerializeDataStore
+        {
+            public SerializeDataStore(Type tagType, string name)
+            {
+                this.Name = name;
+                this.TagType = tagType;
+                var fi = FieldSerializeHelper.GetScriptInfoFields(tagType).Values.Distinct().ToArray();
+                var gfi = fi.GroupBy(f => f.Info.Priority).ToDictionary(g => g.Key, g => g);
+                var po = gfi.Keys.OrderBy(k => k).ToArray();
+                this.FieldInfo = new FieldSerializeHelper[fi.Length + 1][];
+                this.FieldInfo[0] = Array.Empty<FieldSerializeHelper>();
+                for (var i = 0; i < 1 << po.Length; i++)
+                {
+                    var lfi = new List<FieldSerializeHelper>();
+                    for (var j = po.Length - 1; j >= 0; j--)
+                    {
+                        if ((i & (1 << j)) != 0)
+                        {
+                            lfi.AddRange(gfi[po[po.Length - j - 1]]);
+                        }
+                    }
+                    this.FieldInfo[lfi.Count] = lfi.OrderBy(f => f.Info.Order).ToArray();
+                }
+            }
+
+            public readonly string Name;
+
+            public readonly Type TagType;
+
+            public readonly FieldSerializeHelper[][] FieldInfo;
+        }
+
+        internal readonly SerializeDataStore SerializeData;
+
+        internal void Serialize(TextWriter writer, ISerializeInfo serializeInfo)
+        {
+            writer.Write(this.SerializeData.Name);
+            //SerializeParams(writer, serializeInfo);
+            //var f = this.SerializeData?.FieldInfo;
+            //if (f is null)
+            //{
+            //    var d = ((UnknownTag)this).Arguments;
+            //    foreach (var item in d)
+            //    {
+            //        writer.Write(';');
+            //        var v = item;
+            //        FormatHelper.FieldStringValueValid(ref v);
+            //        writer.Write(v);
+            //    }
+            //}
+            //else
+            //{
+            //    for (var i = 0; i < f.Length; i++)
+            //    {
+            //        writer.Write(';');
+            //        f[i].Serialize(writer, this, serializeInfo);
+            //    }
+            //}
         }
     }
 
     /// <summary>
     /// Tag that is not registered via <see cref="Tag.Register{T}()"/>.
     /// </summary>
+    [DebuggerDisplay(@"[{Name,nq}]")]
     public sealed class UnknownTag : Tag
     {
         /// <summary>

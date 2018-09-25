@@ -38,7 +38,7 @@ namespace Analyzer
             var formatter = new HtmlFormatter();
             //var html = formatter.GetHtmlString(csharpstring, new AssText());
             //var a = new AssText();
-            //TagParser.Parse(@"a\a --sc".AsSpan(), new a());
+            var tags = TagParser.Parse(@"\t1\t(\b1)\t(1,\b1)\t(1,2,\b1)\t(1,2,3,\b1)".AsSpan(), new a());
             var ssa = Subtitle.Parse(@"[Script Info]
 ; This is a Sub Station Alpha v4 script.
 ; For Sub Station Alpha info and downloads,

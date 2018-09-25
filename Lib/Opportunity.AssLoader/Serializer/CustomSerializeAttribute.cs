@@ -12,7 +12,7 @@ namespace Opportunity.AssLoader.Serializer
     /// <summary>
     /// Custom serializer for <see cref="TextContent"/>.
     /// </summary>
-    [AttributeUsage(AttributeTargets.Field, AllowMultiple = false, Inherited = true)]
+    [AttributeUsage(AttributeTargets.Field | AttributeTargets.Property, AllowMultiple = false, Inherited = true)]
     public sealed class TextSerializeAttribute : SerializeAttribute
     {
         /// <summary>
@@ -26,9 +26,25 @@ namespace Opportunity.AssLoader.Serializer
     }
 
     /// <summary>
+    /// Custom serializer for <see cref="TextContent"/>.
+    /// </summary>
+    [AttributeUsage(AttributeTargets.Field | AttributeTargets.Property, AllowMultiple = false, Inherited = true)]
+    public sealed class TagSerializeAttribute : SerializeAttribute
+    {
+        /// <summary>
+        /// Convert <see cref="ReadOnlySpan{T}"/> to <see cref="Tag"/>.
+        /// </summary>
+        /// <param name="value">The value to convert.</param>
+        /// <param name="deserializeInfo">Helper interface for deserializing.</param>
+        /// <returns>The result of convertion.</returns>   
+        public override object Deserialize(ReadOnlySpan<char> value, IDeserializeInfo deserializeInfo)
+            => TagParser.Parse(value, deserializeInfo);
+    }
+
+    /// <summary>
     /// Custom serializer for <see cref="Color"/>.
     /// </summary>
-    [AttributeUsage(AttributeTargets.Field, AllowMultiple = false, Inherited = true)]
+    [AttributeUsage(AttributeTargets.Field | AttributeTargets.Property, AllowMultiple = false, Inherited = true)]
     public sealed class ColorSerializeAttribute : SerializeAttribute
     {
         /// <summary>
@@ -54,7 +70,7 @@ namespace Opportunity.AssLoader.Serializer
     /// <summary>
     /// Custom serializer for <see cref="Effects.Effect"/>.
     /// </summary>
-    [AttributeUsage(AttributeTargets.Field, AllowMultiple = false, Inherited = true)]
+    [AttributeUsage(AttributeTargets.Field | AttributeTargets.Property, AllowMultiple = false, Inherited = true)]
     public sealed class EffectSerializeAttribute : SerializeAttribute
     {
         /// <summary>

@@ -20,15 +20,15 @@ namespace Opportunity.AssLoader.Text
         }
 
         /// <summary>
-        /// Order of the field, value less than zero means cound backwards.
+        /// Order of the field, value less than zero means count backwards.
         /// </summary>
         public int Order { get; }
 
         /// <summary>
         /// An index to help handling optional parameters.
-        /// TagFieldAttribute with same <see cref="SelctionGroup"/> will be regarded as an overload.
+        /// <see cref="TagFieldAttribute"/> with smaller <see cref="Priority"/> will be handled first.
         /// </summary>
-        public int SelctionGroup { get; set; }
+        public int Priority { get; set; }
     }
 
     /// <summary>

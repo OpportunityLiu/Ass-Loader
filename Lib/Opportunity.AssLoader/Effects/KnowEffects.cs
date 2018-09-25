@@ -66,30 +66,26 @@ namespace Opportunity.AssLoader.Effects
     /// <summary>
     /// Effect that the text will scroll up the screen. 
     /// </summary>
-    [EffectDefination(NAME)]
+    [EffectDefination("Scroll Up")]
     public class ScrollUpEffect : ScrollEffectBase
     {
-        internal const string NAME = "Scroll Up";
     }
 
     /// <summary>
     /// Effect that the text will scroll down the screen. 
     /// </summary>
-    [EffectDefination(NAME)]
+    [EffectDefination("Scroll Down")]
     public class ScrollDownEffect : ScrollEffectBase
     {
-        internal const string NAME = "Scroll Down";
     }
 
     /// <summary>
     /// Effect that text will be forced into a single line, regardless of length,
     /// and scrolled from horizontally accross the screen.
     /// </summary>
-    [EffectDefination(NAME)]
+    [EffectDefination("Banner")]
     public class BannerEffect : TranslateEffect
     {
-        internal const string NAME = "Banner";
-
         [EffectField(30000)]
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         private int l2r;

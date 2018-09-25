@@ -2,6 +2,7 @@
 using Opportunity.Helpers;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -10,6 +11,7 @@ using System.Threading.Tasks;
 
 namespace Opportunity.AssLoader
 {
+    [DebuggerDisplay(@"{((global::System.Reflection.MemberInfo)GetValue.Target).Name,nq}")]
     internal sealed class SerializeHelper<TObj, TFieldInfo>
         where TFieldInfo : SerializableFieldAttribute
     {
