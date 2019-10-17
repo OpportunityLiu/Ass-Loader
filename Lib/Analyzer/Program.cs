@@ -13,32 +13,8 @@ namespace Analyzer
 {
     internal class Program
     {
-        private class a : IDeserializeInfo
-        {
-            public void AddException(Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-            }
-
-        }
-        private static int Foo<TEnum>(TEnum value)
-            where TEnum : struct, IConvertible  // C# does not allow enum constraint
-        {
-            return value.ToInt32(null);
-        }
         private static void Main(string[] args)
         {
-            //var f = File.ReadAllText(@"..\..\..\TestFiles\Upotte[02].ass");
-            //for (var i = 0; i < 0xffff; i++)
-            //{
-            //    var t = Subtitle.Parse<AssScriptInfo>(f);
-            //    t.Result.Serialize();
-            //}
-            var csharpstring = @"娘司法那孔代\N农家那 开发 男 {扫俩仨asd\s1\1c1\t(a,b,c)asd}";
-            var formatter = new HtmlFormatter();
-            //var html = formatter.GetHtmlString(csharpstring, new AssText());
-            //var a = new AssText();
-            var tags = TagParser.Parse(@"\t1\t(\b1)\t(1,\b1)\t(1,2,\b1)\t(1,2,3,\b1)".AsSpan(), new a());
             var ssa = Subtitle.Parse(@"[Script Info]
 ; This is a Sub Station Alpha v4 script.
 ; For Sub Station Alpha info and downloads,
