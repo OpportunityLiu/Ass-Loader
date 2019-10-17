@@ -74,15 +74,15 @@ filename: dd.f.ff.jpg
         {
             var r = Subtitle.Parse(DATA);
             var t = r.Result;
-            Assert.AreEqual(5, r.Exceptions.Count);
+            Assert.AreEqual(6, r.Exceptions.Count);
             Assert.AreEqual(7, t.Styles.Count);
 
             var e = t.Events.Select(ef => ef.Effect).ToArray();
             Assert.IsNull(e[2]);
             Assert.AreEqual("aaa", ((UnknownEffect)e[0]).Name);
-            Assert.AreEqual(12.7, ((BannerEffect)e[1]).Delay);
+            Assert.AreEqual(13, ((BannerEffect)e[1]).Delay);
             Assert.IsTrue(((BannerEffect)e[1]).IsLeftToRight);
-            Assert.AreEqual(-1.7, ((BannerEffect)e[1]).FadeAwayMargin);
+            Assert.AreEqual(0, ((BannerEffect)e[1]).FadeAwayMargin);
             Assert.AreEqual(4, t.ScriptInfo.UndefinedFields.Count);
             Assert.AreEqual(4, t.Events.Count);
         }

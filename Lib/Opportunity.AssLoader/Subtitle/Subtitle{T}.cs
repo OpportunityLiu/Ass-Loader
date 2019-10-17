@@ -43,24 +43,24 @@ namespace Opportunity.AssLoader
             scriptInfo.Parent = this;
         }
 
-        private void saveStyle(TextWriter writer)
+        private void saveStyle(TextWriter writer, ISerializeInfo serializeInfo)
         {
             EntryHeader.Serialize(DefaultStyleFormat, writer);
             writer.WriteLine();
             foreach (var item in this.Styles)
             {
-                item.Serialize(writer, DefaultStyleDef, null);
+                item.Serialize(writer, DefaultStyleDef, serializeInfo);
                 writer.WriteLine();
             }
         }
 
-        private void saveEvent(TextWriter writer)
+        private void saveEvent(TextWriter writer, ISerializeInfo serializeInfo)
         {
             EntryHeader.Serialize(DefaultEventFormat, writer);
             writer.WriteLine();
             foreach (var item in this.Events)
             {
-                item.Serialize(writer, DefaultEventDef, null);
+                item.Serialize(writer, DefaultEventDef, serializeInfo);
                 writer.WriteLine();
             }
         }
@@ -73,15 +73,15 @@ namespace Opportunity.AssLoader
         protected override void SerializeImplement(TextWriter writer, ISerializeInfo serializeInfo)
         {
             writer.WriteLine("[Script Info]");
-            this.ScriptInfo.Serialize(writer, null);
+            this.ScriptInfo.Serialize(writer, serializeInfo);
             writer.WriteLine();
 
             writer.WriteLine("[V4+ Styles]");
-            this.saveStyle(writer);
+            this.saveStyle(writer, serializeInfo);
             writer.WriteLine();
 
             writer.WriteLine("[Events]");
-            this.saveEvent(writer);
+            this.saveEvent(writer, serializeInfo);
             writer.WriteLine();
 
             if (!Fonts.IsEmpty())

@@ -67,6 +67,7 @@ namespace Opportunity.AssLoader
 
         public void Deserialize(ReadOnlySpan<char> value, TObj obj, IDeserializeInfo deserializeInfo)
         {
+            var error = default(Exception);
             try
             {
                 var va = default(object);
@@ -77,6 +78,8 @@ namespace Opportunity.AssLoader
                         va = null;
                     else if (FieldType.IsEnum)
                         va = Enum.Parse(FieldType.AsType(), value.ToString(), true);
+                    else if (FieldType == typeof(int) || FieldType == typeof(long) || FieldType == typeof(short) || FieldType == typeof(byte))
+                        va = Convert.ChangeType(double.Parse(value.ToString(), FormatHelper.DefaultFormat), FieldType.AsType(), FormatHelper.DefaultFormat);
                     else
                         va = Convert.ChangeType(value.ToString(), FieldType.AsType(), FormatHelper.DefaultFormat);
                 }
@@ -84,9 +87,17 @@ namespace Opportunity.AssLoader
                     va = Serializer.Deserialize(value, deserializeInfo);
                 SetValue(obj, va);
             }
+            catch(TargetInvocationException ex)
+            {
+                error = ex.InnerException ?? ex;
+            }
             catch (Exception ex)
             {
-                deserializeInfo.AddException(ex);
+                error = ex;
+            }
+            if (error != null)
+            {
+                deserializeInfo.AddException(error);
                 SetValue(obj, Info.DefaultValue);
             }
         }

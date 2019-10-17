@@ -13,6 +13,7 @@ namespace Opportunity.AssLoader.Effects
     /// <summary>
     /// Effect that is not registered via <see cref="Effect.Register{T}()"/>.
     /// </summary>
+    [DebuggerDisplay(@"[{Name,nq}]")]
     public sealed class UnknownEffect : Effect
     {
         /// <summary>
@@ -41,12 +42,21 @@ namespace Opportunity.AssLoader.Effects
         /// Arguments of the effect.
         /// </summary>
         public IList<string> Arguments { get; }
+
+        protected internal override void Serialize(TextWriter writer, ISerializeInfo serializeInfo)
+        {
+            writer.Write(Name);
+            foreach (var item in Arguments)
+            {
+                writer.Write(';');
+                writer.Write(item);
+            }
+        }
     }
 
     /// <summary>
     /// Base class for all effects. All implemetation should have <see cref="EffectDefinationAttribute"/>.
     /// </summary>
-    [DebuggerDisplay(@"[{Name,nq}]")]
     public abstract class Effect
     {
         static Effect()
@@ -176,7 +186,7 @@ namespace Opportunity.AssLoader.Effects
 
         internal readonly SerializeDataStore SerializeData;
 
-        internal void Serialize(TextWriter writer, ISerializeInfo serializeInfo)
+        protected internal virtual void Serialize(TextWriter writer, ISerializeInfo serializeInfo)
         {
             writer.Write(this.SerializeData.Name);
             var f = this.SerializeData?.FieldInfo;
